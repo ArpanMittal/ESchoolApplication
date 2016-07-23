@@ -97,14 +97,13 @@ CREATE TABLE IF NOT EXISTS tblquestiontype(questionTypeId char(100) NOT NULL, qu
 
 CREATE TABLE IF NOT EXISTS tblquestion(
  questionId int(10) unsigned NOT NULL,
- subtopicId char(100) NOT NULL,
- FOREIGN KEY (subtopicId) REFERENCES tblsubtopic(subtopicId) ON DELETE CASCADE,
+ contentpath char(100) NOT NULL,
  question TEXT NOT NULL,
  imagepath varchar(255),
  questionTypeId char(100) NOT NULL,
  FOREIGN KEY (questionTypeId) REFERENCES tblquestiontype(questionTypeId) ON DELETE CASCADE,
- time_Created DATETIME NOT NULL,
- time_Modified timestamp,
+ timeCreated DATETIME NOT NULL,
+ timeModified timestamp,
  createdBy char(100) NOT NULL,
  modifiedBy char(100) NOT NULL,
  solutionPath TEXT NOT NULL,
@@ -127,3 +126,49 @@ FOREIGN KEY(questionId) REFERENCES tblquestion(questionId) ON DELETE CASCADE,
 answer TEXT NOT NULL,
 timestamp timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
 )ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+CREATE TABLE IF NOT EXISTS tbluser(
+  userId int(10) unsigned NOT NULL,
+  name TEXT NOT NULL,
+  email varchar(254) NOT NULL,
+  verified BOOLEAN DEFAULT NULL,
+  phno bigint,
+  country varchar(100),
+  state varchar(100),
+  city varchar(100),
+  timestamp timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY(userId)
+)ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+CREATE TABLE IF NOT EXISTS tblcontent(
+  contentId int(10),
+  contentPath char(100) NOT NULL,
+  filepath varchar(256) UNIQUE,
+  createdBy char(100) NOT NULL,
+  timeCreated DATETIME NOT NULL,
+  timestamp timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (contentId)
+)ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+
+CREATE TABLE IF NOT EXISTS tblsubscriptiontype(
+  subType TEXT NOT NULL,
+  subTypeId int(10),
+  timestamp timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY(subTypeId)
+)ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+CREATE TABLE IF NOT EXISTS tblsubscription(
+   subId int(10),
+   subBy int(10) unsigned NOT NULL,
+   FOREIGN KEY(subBy) REFERENCES tbluser(userId) ON DELETE CASCADE,
+   subTypeId int(10) NOT NULL,
+   FOREIGN KEY(subTypeId) REFERENCES tblsubscriptiontype(subTypeId) ON DELETE CASCADE,
+   subTo int(10) NOT NULL,
+   subdate DATETIME NOT NULL,
+   subexpirydate DATETIME NOT NULL,
+   timestamp timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+   PRIMARY KEY(subId)
+)ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+

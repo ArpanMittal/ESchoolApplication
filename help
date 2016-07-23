@@ -1,0 +1,14 @@
+INSERT INTO  `stjoseph_e_learn`.`tblrole` (
+`roleId` ,
+`role` ,
+`timestamp`
+)
+VALUES (
+'1',  'operator', 
+CURRENT_TIMESTAMP
+), (
+'2',  'supervisor', 
+CURRENT_TIMESTAMP
+);
+
+
