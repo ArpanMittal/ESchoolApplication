@@ -15,193 +15,193 @@ class CreateSubject extends Migration
 
         Schema::create('class',function(Blueprint$table){
             $table->engine='InnoDB';
-            $table->string('Id',3);
-            $table->string('ClassName');
+            $table->string('id',3);
+            $table->string('class_name');
             $table->timestamps('timestamp');
-            $table->primary('Id');
+            $table->primary('id');
         });
         Schema::create('stream',function(Blueprint$table){
             $table->engine='InnoDB';
-            $table->string('Id',3);
-            $table->string('StreamName');
+            $table->string('id',3);
+            $table->string('stream_name');
             $table->timestamps('timestamp');
-            $table->primary('Id');
+            $table->primary('id');
         });
          Schema::create('subject',function(Blueprint$table){
             $table->engine='InnoDB';
-            $table->string('Id',3);
-            $table->string('SubjectName');
+            $table->string('id',3);
+            $table->string('subject_name');
             $table->timestamps('timestamp');
-            $table->primary('Id');
+            $table->primary('id');
         });
 
 
         Schema::create('chapter',function(Blueprint$table){
             $table->engine='InnoDB';
-            $table->string('Id',3);
-            $table->string('ChapterName');
+            $table->string('id',3);
+            $table->string('chapter_name');
             $table->timestamps('timestamp');
-            $table->primary('Id');
+            $table->primary('id');
         });
         Schema::create('topic',function(Blueprint$table){
             $table->engine='InnoDB';
-            $table->string('Id',3);
-            $table->string('TopicName');
+            $table->string('id',3);
+            $table->string('topic_name');
             $table->timestamps('timestamp');
-            $table->primary('Id');
+            $table->primary('id');
         });
        
         Schema::create('classsubjectmap',function(Blueprint$table){
             $table->engine='InnoDB';
-            $table->string('ClassId',3);
-            $table->string('SubjectId',3);
-            $table->string('ClSuId',6)->primary();
+            $table->string('class_id',3);
+            $table->string('subject_id',3);
+            $table->string('cl_su_id',6)->primary();
             $table->timestamps('timestamp');
-            $table->foreign('ClassId')->references('Id')->on('class')->onDelete('cascade');
-            $table->foreign('SubjectId')->references('Id')->on('subject')->onDelete('cascade');
+            $table->foreign('class_id')->references('id')->on('class')->onDelete('cascade');
+            $table->foreign('subject_id')->references('id')->on('subject')->onDelete('cascade');
 
         });
         Schema::create('subjectstreammap',function(Blueprint$table){
             $table->engine='InnoDB';
-            $table->string('ClSuId',6);
-            $table->string('StreamId',3);
-            $table->string('ClSuStId',9)->primary();
+            $table->string('cl_su_id',6);
+            $table->string('stream_id',3);
+            $table->string('cl_su_st_id',9)->primary();
             $table->timestamps('timestamp');
-            $table->foreign('ClSuId')->references('ClSuId')->on('classsubjectmap')->onDelete('cascade');
-            $table->foreign('StreamId')->references('Id')->on('stream')->onDelete('cascade');
+            $table->foreign('cl_su_id')->references('cl_su_id')->on('classsubjectmap')->onDelete('cascade');
+            $table->foreign('stream_id')->references('id')->on('stream')->onDelete('cascade');
 
         });
 
          Schema::create('streamchaptermap',function(Blueprint$table){
             $table->engine='InnoDB';
-            $table->string('ClSuStId',9);
+            $table->string('cl_su_st_id',9);
 
-            $table->string('ChapterId',3);
-            $table->string('ClSuStChId',12)->primary();
+            $table->string('chapter_id',3);
+            $table->string('cl_su_st_ch_id',12)->primary();
             $table->timestamps('timestamp');
-            $table->foreign('ChapterId')->references('Id')->on('chapter')->onDelete('cascade');
-            $table->foreign('ClSuStId')->references('ClSuStId')->on('subjectstreammap')->onDelete('cascade');
+            $table->foreign('chapter_id')->references('id')->on('chapter')->onDelete('cascade');
+            $table->foreign('cl_su_st_id')->references('cl_su_st_id')->on('subjectstreammap')->onDelete('cascade');
 
         });
          Schema::create('chaptertopicmap',function(Blueprint$table){
             $table->engine='InnoDB';
-            $table->string('ClSuStChId',12);
-            $table->string('TopicId',3);
-            $table->String('Order',3);
-            $table->string('Hash',15)->primary();
+            $table->string('cl_su_st_ch_id',12);
+            $table->string('topic_id',3);
+            $table->String('order',3);
+            $table->string('hash',15)->primary();
 
             $table->timestamps('timestamp');
-            $table->foreign('ClSuStChId')->references('ClSuStChId')->on('streamchaptermap')->onDelete('cascade');
-            $table->foreign('TopicId')->references('Id')->on('topic')->onDelete('cascade');
+            $table->foreign('cl_su_st_ch_id')->references('cl_su_st_ch_id')->on('streamchaptermap')->onDelete('cascade');
+            $table->foreign('topic_id')->references('id')->on('topic')->onDelete('cascade');
 
         });
        
          Schema::create('role',function(Blueprint$table){
             $table->engine='InnoDB';
-            $table->increments('Id');
-            $table->enum('Role',array('Admin','Student','Operator','Supervisor'));
+            $table->increments('id');
+            $table->enum('role',array('admin','student','operator','supervisor'));
             $table->timestamps();
         });
          Schema::create('user',function(Blueprint $table){
             $table->engine='InnoDB';
-            $table->increments('Id');
-             $table->string('Email');
-             $table->string('Password');
-             $table->boolean('IsActive');
-             $table->integer('RoleId')->unsigned();
-              $table->foreign('RoleId')->references('Id')->on('role')->onDelete('cascade');
+            $table->increments('id');
+             $table->string('email');
+             $table->string('password');
+             $table->boolean('is_active');
+             $table->integer('role_id')->unsigned();
+              $table->foreign('role_id')->references('id')->on('role')->onDelete('cascade');
          });
         Schema::create('userdetail', function (Blueprint $table) {
             $table->engine='InnoDB';
-            $table->increments('Id');
+            $table->increments('id');
             //$table->string('Email');
-            $table->string('Name');
-            $table->boolean('Verified');
-            $table->string('PhotoPath');
-            $table->date('DOB');
-            $table->string('Country')->nullable();
-            $table->string('State')->nullable();
-            $table->string('City')->nullable();
-            $table->integer('Phno')->nullable()->unsigned();
+            $table->string('name');
+            $table->boolean('verified');
+            $table->string('photo_path');
+            $table->date('date_of_birth');
+            $table->string('country')->nullable();
+            $table->string('state')->nullable();
+            $table->string('city')->nullable();
+            $table->integer('phone_number')->nullable()->unsigned();
             $table->timestamps();
             
         });
        
         Schema::create('questiontype',function(Blueprint$table){
             $table->engine='InnoDB';
-            $table->increments('Id');
-            $table->string('QuestionType');
+            $table->increments('id');
+            $table->string('question_type');
             $table->timestamps();
         });
         Schema::create('question', function (Blueprint $table) {
             $table->engine='InnoDB';
-            $table->increments('Id');
-            $table->string('Hash',100)->nullable();
-            $table->longtext('Question');
-            $table->string('ImagePath')->nullable();
-            $table->integer('QuestionTypeId')->unsigned();
+            $table->increments('id');
+            $table->string('hash',100)->nullable();
+            $table->longtext('question');
+            $table->string('image_path')->nullable();
+            $table->integer('question_type_id')->unsigned();
             //$table->dateTime('TimeCreated');
             //$table->timestamps('TimeModified');
-            $table->integer('CreatedBy')->nullable()->unsigned();
-            $table->integer('ModifiedBy')->nullable()->unsigned();
-            $table->string('SolutionPath');
-            $table->integer('Difficulty');
-            $table->time('IdealAttemptTime');
-            $table->foreign('QuestionTypeId')->references('Id')->on('questiontype')->onDelete('cascade');
-            $table->foreign('CreatedBy')->references('Id')->on('User')->onDelete('set null');
-            $table->foreign('ModifiedBy')->references('Id')->on('User')->onDelete('set  null');
-            $table->foreign('Hash')->references('Hash')->on('chaptertopicmap')->onDelete('set null');
+            $table->integer('created_by')->nullable()->unsigned();
+            $table->integer('modified_by')->nullable()->unsigned();
+            $table->string('solution_path');
+            $table->integer('difficulty');
+            $table->time('ideal_attempt_time');
+            $table->foreign('question_type_id')->references('id')->on('questiontype')->onDelete('cascade');
+            $table->foreign('created_by')->references('id')->on('user')->onDelete('set null');
+            $table->foreign('modified_by')->references('id')->on('user')->onDelete('set  null');
+            $table->foreign('hash')->references('hash')->on('chaptertopicmap')->onDelete('set null');
 
         });
         Schema::create('examtag',function(Blueprint $table)
         {
             $table->engine='InnoDB';
-            $table->increments('Id');
-            $table->string('ExamName');
+            $table->increments('id');
+            $table->string('exam_name');
             $table->timestamps();
         });
 
         Schema::create('questiontags',function(Blueprint $table)
         {
             $table->engine='InnoDB';
-            $table->integer('QuestionId')->unsigned();
-            $table->integer('TagId')->unsigned();
-            $table->foreign('QuestionId')->references('Id')->on('question')->onDelete('cascade');
-            $table->foreign('TagId')->references('Id')->on('examtag')->onDelete('cascade');
+            $table->integer('question_id')->unsigned();
+            $table->integer('tag_id')->unsigned();
+            $table->foreign('question_id')->references('id')->on('question')->onDelete('cascade');
+            $table->foreign('tag_id')->references('id')->on('examtag')->onDelete('cascade');
         });
 
        Schema::create('option', function (Blueprint $table) {
             $table->engine='InnoDB';
-            $table->increments('Id');
-            $table->integer('QuestionId')->unsigned();
-            $table->longtext('Opt');
-            $table->boolean('IsLeft')->nullable();
+            $table->increments('id');
+            $table->integer('question_id')->unsigned();
+            $table->longtext('opt');
+            $table->boolean('is_left')->nullable();
             $table->timestamps();
-            $table->foreign('QuestionId')->references('Id')->on('question')->onDelete('cascade');
+            $table->foreign('question_id')->references('id')->on('question')->onDelete('cascade');
 
         });
          Schema::create('answer', function (Blueprint $table) {
             $table->engine='InnoDB';
-            $table->integer('QuestionId')->unsigned();
-            $table->longtext('Answer');
+            $table->integer('question_id')->unsigned();
+            $table->longtext('answer');
             $table->timestamps();
-            $table->foreign('QuestionId')->references('Id')->on('question')->onDelete('cascade');
+            $table->foreign('question_id')->references('id')->on('question')->onDelete('cascade');
 
         });
 
          Schema::create('content', function (Blueprint $table) {
             $table->engine='InnoDB';
-            $table->increments('Id');
-            $table->string('Hash',100)->nullable();
-            $table->string('VideoPath')->nullable();
-            $table->string('PdfPath')->nullable();
-            $table->integer('CreatedBy')->unsigned()->nullable();
-            $table->integer('ModifiedBy')->unsigned()->nullable();
+            $table->increments('id');
+            $table->string('hash',100)->nullable();
+            $table->string('video_path')->nullable();
+            $table->string('pdf_path')->nullable();
+            $table->integer('created_by')->unsigned()->nullable();
+            $table->integer('modified_by')->unsigned()->nullable();
             //$table->dateTime('CreatedTime');
             $table->timestamps();
-            $table->foreign('Hash')->references('Hash')->on('chaptertopicmap')->onDelete('set null');
-            $table->foreign('CreatedBy')->references('Id')->on('User')->onDelete('set null');
-            $table->foreign('ModifiedBy')->references('Id')->on('User')->onDelete('set  null');
+            $table->foreign('hash')->references('hash')->on('chaptertopicmap')->onDelete('set null');
+            $table->foreign('created_by')->references('id')->on('user')->onDelete('set null');
+            $table->foreign('modified_by')->references('id')->on('user')->onDelete('set  null');
 
         });
 
@@ -210,36 +210,36 @@ class CreateSubject extends Migration
 
          Schema::create('subscriptiontype', function (Blueprint $table) {
             $table->engine='InnoDB';
-            $table->increments('Id');
-            $table->string('SubType');
-            $table->boolean('Active');
+            $table->increments('id');
+            $table->string('sub_type');
+            $table->boolean('active');
             $table->timestamps();
         });
          Schema::create('order',function(Blueprint $table)
          {
              $table->engine='InnoDB';
-             $table->increments('Id');
-             $table->integer('UserId');
+             $table->increments('id');
+             $table->integer('user_id');
              $table->timestamps();
             // $table->integer('PaymentType');
-             $table->decimal('Amount',10,2);
+             $table->decimal('amount',10,2);
 
          });
 
         Schema::create('subscription', function (Blueprint $table) {
             $table->engine='InnoDB';
-            $table->increments('Id');
+            $table->increments('id');
 
            // $table->integer('By')->unsigned();
-            $table->integer('TypeId')->unsigned();
-            $table->integer('Duration')->default(12);
-            $table->integer('ItemId');
-            $table->foreign('TypeId')->references('Id')->on('subscriptiontype')->onDelete('cascade');
+            $table->integer('type_id')->unsigned();
+            $table->integer('duration')->default(12);
+            $table->integer('item_id');
+            $table->foreign('type_id')->references('id')->on('subscriptiontype')->onDelete('cascade');
         }); 
          Schema::create('ordersubscriptionmap',function(Blueprint $table){
             $table->engine='InnoDB';
-            $table->integer('OrderId')->unsigned();
-            $table->integer('SubId')->unsigned();
+            $table->integer('order_id')->unsigned();
+            $table->integer('sub_id')->unsigned();
          });
 
        
