@@ -12,5 +12,22 @@
 */
 
 Route::get('/', function () {
+
     return view('welcome');
+    
 });
+Route::get('dropdown/{userdata}',function(){
+	//echo $userdata;
+	//return view('dropdown');
+});
+Route::get('login', 'login@showLogin');
+Route::post('login','login@doLogin');
+Route::get('insert','insert@doinsert');
+Route::auth();
+
+Route::get('/home', 'HomeController@index');
+
+Route::auth();
+
+Route::get('/home', 'HomeController@index');
+

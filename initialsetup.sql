@@ -84,13 +84,7 @@ CREATE TABLE IF NOT EXISTS `tbloperator` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1 ;
 
 
-CREATE TABLE IF NOT EXISTS tblusersubjectmap(
-userId int(10) unsigned NOT NULL,
- FOREIGN KEY (userId) REFERENCES tbloperator(operatorId) ON DELETE CASCADE,
-subjectId char(255) NOT NULL,
-FOREIGN KEY (subjectId) REFERENCES tblsubject(subjectId) ON DELETE CASCADE,
- timestamp timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
-)ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
 
 
 CREATE TABLE IF NOT EXISTS tblquestiontype(questionTypeId char(100) NOT NULL, questionType varchar(255) NOT NULL, PRIMARY KEY (questionTypeId))ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
@@ -168,7 +162,35 @@ CREATE TABLE IF NOT EXISTS tblsubscription(
    subdate DATETIME NOT NULL,
    subexpirydate DATETIME NOT NULL,
    timestamp timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-   PRIMARY KEY(subId)
+   PRIMARY KEY(subId),
 )ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 
+CREATE TABLE IF NOT EXISTS `tblop` (
+  `UserId` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `UserName` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
+  `Pwd` varchar(50) COLLATE utf8_unicode_ci NOT NULL,
+  `RoleId`  int  NOT NULL,
+   Blocked int(1),
+   DoC date,
+   Name TEXT,
+   Email varchar(150),
+   DoB date,
+   DoJ date,
+   ContactNo varchar(20),
+   Address TEXT,
+   Photo Text,
+   MAC varchar(255),
+   SchoolId int(11),
+  `Timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY(UserId),
+  FOREIGN KEY (RoleId) REFERENCES tblrole(roleId) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1 ;
+
+CREATE TABLE IF NOT EXISTS tblusersubjectmap(
+userId int(10) unsigned NOT NULL,
+ FOREIGN KEY (userId) REFERENCES tblop(UserId) ON DELETE CASCADE,
+subjectId char(255) NOT NULL,
+FOREIGN KEY (subjectId) REFERENCES tblsubject(subjectId) ON DELETE CASCADE,
+ timestamp timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
+)ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
