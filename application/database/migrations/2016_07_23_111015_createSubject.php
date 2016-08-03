@@ -17,21 +17,21 @@ class CreateSubject extends Migration
             $table->engine='InnoDB';
             $table->string('id',3);
             $table->string('class_name');
-            $table->timestamps('timestamp');
+            $table->timestamps('created_at');
             $table->primary('id');
         });
         Schema::create('stream',function(Blueprint$table){
             $table->engine='InnoDB';
             $table->string('id',3);
             $table->string('stream_name');
-            $table->timestamps('timestamp');
+            $table->timestamps('created_at');
             $table->primary('id');
         });
          Schema::create('subject',function(Blueprint$table){
             $table->engine='InnoDB';
             $table->string('id',3);
             $table->string('subject_name');
-            $table->timestamps('timestamp');
+            $table->timestamps('created_at');
             $table->primary('id');
         });
 
@@ -40,14 +40,14 @@ class CreateSubject extends Migration
             $table->engine='InnoDB';
             $table->string('id',3);
             $table->string('chapter_name');
-            $table->timestamps('timestamp');
+            $table->timestamps('created_at');
             $table->primary('id');
         });
         Schema::create('topic',function(Blueprint$table){
             $table->engine='InnoDB';
             $table->string('id',3);
             $table->string('topic_name');
-            $table->timestamps('timestamp');
+            $table->timestamps('created_at');
             $table->primary('id');
         });
        
@@ -56,7 +56,7 @@ class CreateSubject extends Migration
             $table->string('class_id',3);
             $table->string('subject_id',3);
             $table->string('cl_su_id',6)->primary();
-            $table->timestamps('timestamp');
+            $table->timestamps('created_at');
             $table->foreign('class_id')->references('id')->on('class')->onDelete('cascade');
             $table->foreign('subject_id')->references('id')->on('subject')->onDelete('cascade');
 
@@ -66,7 +66,7 @@ class CreateSubject extends Migration
             $table->string('cl_su_id',6);
             $table->string('stream_id',3);
             $table->string('cl_su_st_id',9)->primary();
-            $table->timestamps('timestamp');
+            $table->timestamps('created_at');
             $table->foreign('cl_su_id')->references('cl_su_id')->on('classsubjectmap')->onDelete('cascade');
             $table->foreign('stream_id')->references('id')->on('stream')->onDelete('cascade');
 
@@ -78,7 +78,7 @@ class CreateSubject extends Migration
 
             $table->string('chapter_id',3);
             $table->string('cl_su_st_ch_id',12)->primary();
-            $table->timestamps('timestamp');
+            $table->timestamps('created_at');
             $table->foreign('chapter_id')->references('id')->on('chapter')->onDelete('cascade');
             $table->foreign('cl_su_st_id')->references('cl_su_st_id')->on('subjectstreammap')->onDelete('cascade');
 
@@ -90,7 +90,7 @@ class CreateSubject extends Migration
             $table->String('order',3);
             $table->string('hash',15)->primary();
 
-            $table->timestamps('timestamp');
+            $table->timestamps('created_at');
             $table->foreign('cl_su_st_ch_id')->references('cl_su_st_ch_id')->on('streamchaptermap')->onDelete('cascade');
             $table->foreign('topic_id')->references('id')->on('topic')->onDelete('cascade');
 
@@ -100,7 +100,7 @@ class CreateSubject extends Migration
             $table->engine='InnoDB';
             $table->increments('id');
             $table->enum('role',array('admin','student','operator','supervisor'));
-            $table->timestamps();
+            $table->timestamps('created_at');
         });
          Schema::create('user',function(Blueprint $table){
             $table->engine='InnoDB';
@@ -109,6 +109,7 @@ class CreateSubject extends Migration
              $table->string('password');
              $table->boolean('is_active');
              $table->integer('role_id')->unsigned();
+             $table->string(token_id)->unique();
               $table->foreign('role_id')->references('id')->on('role')->onDelete('cascade');
          });
         Schema::create('userdetail', function (Blueprint $table) {
@@ -123,7 +124,7 @@ class CreateSubject extends Migration
             $table->string('state')->nullable();
             $table->string('city')->nullable();
             $table->integer('phone_number')->nullable()->unsigned();
-            $table->timestamps();
+            $table->timestamps('created_at');
             
         });
        
@@ -131,7 +132,7 @@ class CreateSubject extends Migration
             $table->engine='InnoDB';
             $table->increments('id');
             $table->string('question_type');
-            $table->timestamps();
+            $table->timestamps('created_at');
         });
         Schema::create('question', function (Blueprint $table) {
             $table->engine='InnoDB';
@@ -142,6 +143,7 @@ class CreateSubject extends Migration
             $table->integer('question_type_id')->unsigned();
             //$table->dateTime('TimeCreated');
             //$table->timestamps('TimeModified');
+            $table->timestamps('created_at');
             $table->integer('created_by')->nullable()->unsigned();
             $table->integer('modified_by')->nullable()->unsigned();
             $table->string('solution_path');
@@ -158,7 +160,7 @@ class CreateSubject extends Migration
             $table->engine='InnoDB';
             $table->increments('id');
             $table->string('exam_name');
-            $table->timestamps();
+            $table->timestamps('created_at');
         });
 
         Schema::create('questiontags',function(Blueprint $table)
@@ -176,7 +178,7 @@ class CreateSubject extends Migration
             $table->integer('question_id')->unsigned();
             $table->longtext('opt');
             $table->boolean('is_left')->nullable();
-            $table->timestamps();
+            $table->timestamps('created_at');
             $table->foreign('question_id')->references('id')->on('question')->onDelete('cascade');
 
         });
@@ -184,7 +186,7 @@ class CreateSubject extends Migration
             $table->engine='InnoDB';
             $table->integer('question_id')->unsigned();
             $table->longtext('answer');
-            $table->timestamps();
+            $table->timestamps('created_at');
             $table->foreign('question_id')->references('id')->on('question')->onDelete('cascade');
 
         });
@@ -198,7 +200,7 @@ class CreateSubject extends Migration
             $table->integer('created_by')->unsigned()->nullable();
             $table->integer('modified_by')->unsigned()->nullable();
             //$table->dateTime('CreatedTime');
-            $table->timestamps();
+            $table->timestamps('created_at');
             $table->foreign('hash')->references('hash')->on('chaptertopicmap')->onDelete('set null');
             $table->foreign('created_by')->references('id')->on('user')->onDelete('set null');
             $table->foreign('modified_by')->references('id')->on('user')->onDelete('set  null');
@@ -213,14 +215,14 @@ class CreateSubject extends Migration
             $table->increments('id');
             $table->string('sub_type');
             $table->boolean('active');
-            $table->timestamps();
+            $table->timestamps('created_at');
         });
          Schema::create('order',function(Blueprint $table)
          {
              $table->engine='InnoDB';
              $table->increments('id');
              $table->integer('user_id');
-             $table->timestamps();
+             $table->timestamps('created_at');
             // $table->integer('PaymentType');
              $table->decimal('amount',10,2);
 
@@ -229,7 +231,7 @@ class CreateSubject extends Migration
         Schema::create('subscription', function (Blueprint $table) {
             $table->engine='InnoDB';
             $table->increments('id');
-
+            $table->timestamps('created_at');
            // $table->integer('By')->unsigned();
             $table->integer('type_id')->unsigned();
             $table->integer('duration')->default(12);
@@ -240,6 +242,7 @@ class CreateSubject extends Migration
             $table->engine='InnoDB';
             $table->integer('order_id')->unsigned();
             $table->integer('sub_id')->unsigned();
+             $table->timestamps('created_at');
          });
 
        
