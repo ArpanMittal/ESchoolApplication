@@ -109,7 +109,7 @@ class CreateSubject extends Migration
              $table->string('password');
              $table->boolean('is_active');
              $table->integer('role_id')->unsigned();
-             $table->string(token_id)->unique();
+             $table->string('token_id')->unique();
               $table->foreign('role_id')->references('id')->on('role')->onDelete('cascade');
          });
         Schema::create('userdetail', function (Blueprint $table) {
