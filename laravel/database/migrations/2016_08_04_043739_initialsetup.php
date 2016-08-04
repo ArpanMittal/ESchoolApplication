@@ -111,7 +111,7 @@ class Initialsetup extends Migration
             $table->enum('role',array('admin','student','operator','supervisor'));
             $table->timestamp('created_at')->default(DB::raw('CURRENT_TIMESTAMP'));
             $table->timestamp('updated_at')->default(DB::raw('CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP'));
-            $table->timestamp('updated_at')->default(DB::raw('CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP'));
+            
         });
         Schema::create('user',function(Blueprint $table){
             $table->engine='InnoDB';
