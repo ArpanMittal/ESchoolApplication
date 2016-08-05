@@ -11,6 +11,26 @@ use Illuminate\Support\Facades\Input;
 class QuestionController extends Controller
 {
     //
+    public function getNewQuestion(Request $request)
+    {
+        $id = $request->session()->get('id');
+        $user = DB::table('user')->whereId($id)->first();
+        $data['user'] = $user;
+
+        $data['subjects'] = DB::table('classsubjectmap')
+            ->join('class', 'classsubjectmap.class_id', '=', 'class.id')
+            ->join('subject', 'classsubjectmap.subject_id', '=', 'subject.id')
+            ->get();
+
+        $data['types'] = DB::table('questiontype')->get();
+
+        return view('question.new',$data);
+    }
+
+    public function addQuestion(Request $request)
+    {
+        return "";
+    }
 
     public function getAllQuestionList(Request $request)
     {
@@ -69,4 +89,6 @@ class QuestionController extends Controller
             ->get();
         return view('question.list',$data);
     }
+    
+    
 }
