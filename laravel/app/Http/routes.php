@@ -30,4 +30,5 @@ Route::get('logout', array('uses' => 'HomeController@doLogout'));
 Route::group(['prefix' => 'question','middleware' => ['check.session']], function () {
      //list of all question
      Route::get('/list',array('uses' => 'QuestionController@getAllQuestionList'));
+    Route::post('/search',array('uses' => 'QuestionController@getAllQuestionList'));
 });

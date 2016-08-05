@@ -23,6 +23,7 @@
                 <div class="panel-heading">Question<a href="{{ url('/question') }}" > <button  type="button" style="float:right">Add</button></a></div>
                 <div class="panel-body">
                     <form class="form-horizontal" name="questionlistform" action="{{ url('/question/search') }}" method="POST" enctype="multipart/form-data" id="frmqueslist">
+                        {{ csrf_field() }}
                         <table style="margin-top:20px">
                             <tr>
                                 <td>
@@ -41,10 +42,10 @@
                                                 <option value="">-- Select Subject --</option>
                                                 @if(isset($subjects))
                                                     @foreach($subjects as $subject)
-                                                        @if(isset($selected_subject)&& $subject == $selected_subject)
-                                                            <option value="{{ $subject->id }}" selected = "Selected"> {{$subject->classname ." - ". $subject->subjectname}}</option>
+                                                        @if(isset($selected_subject)&& strcmp($subject->cl_su_id , $selected_subject))
+                                                            <option value="{{ $subject->cl_su_id }}" selected = "Selected"> {{$subject->classname ." - ". $subject->subjectname}}</option>
                                                         @else
-                                                            <option value="{{ $subject->id }}"> {{$subject->class_name ." - ". $subject->subject_name}}</option>
+                                                            <option value="{{ $subject->cl_su_id }}"> {{$subject->class_name ." - ". $subject->subject_name}}</option>
                                                         @endif
                                                     @endforeach
                                                 @endif
