@@ -6,7 +6,12 @@
     "type": "project",
     "require": {
         "php": ">=5.5.9",
-        "laravel/framework": "5.2.*"
+        "laravel/framework": "5.2.*",
+        "bshaffer/oauth2-server-php":"~1.7",
+        "bshaffer/oauth2-server-httpfoundation-bridge":"~1.1",
+        "unisharp/laravel-ckeditor": "^4.5"
+
+
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",
@@ -15,6 +20,8 @@
         "symfony/css-selector": "2.8.*|3.0.*",
         "symfony/dom-crawler": "2.8.*|3.0.*"
     },
+
+    
     "autoload": {
         "classmap": [
             "database"
@@ -30,22 +37,22 @@
     },
     "scripts": {
         "post-root-package-install": [
-            "/opt/alt/php56/usr/bin/php -r \"copy('.env.example', '.env');\""
+            "php -r \"copy('.env.example', '.env');\""
         ],
         "post-create-project-cmd": [
-            "/opt/alt/php56/usr/bin/php artisan key:generate"
+            "php artisan key:generate"
         ],
         "post-install-cmd": [
             "Illuminate\\Foundation\\ComposerScripts::postInstall",
-            "/opt/alt/php56/usr/bin/php artisan optimize"
+            "php artisan optimize"
         ],
         "post-update-cmd": [
             "Illuminate\\Foundation\\ComposerScripts::postUpdate",
-            "/opt/alt/php56/usr/bin/php artisan optimize"
+            "php artisan optimize"
         ]
     },
     "config": {
-        "preferred-install": "dist",
-	"cache-dir": "/home/stjoseph/public_html/celearn/laravel/cache"
+        "preferred-install": "dist"
+	
     }
 }

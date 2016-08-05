@@ -23,11 +23,12 @@ Route::get('dropdown/{userdata}',function(){
 Route::get('login', 'login@showLogin');
 Route::post('login','login@doLogin');
 Route::get('insert','insert@doinsert');
+
+
+
+
+
+
 Route::auth();
 
 Route::get('/home', 'HomeController@index');
-
-Route::auth();
-
-Route::get('/home', 'HomeController@index');
-
