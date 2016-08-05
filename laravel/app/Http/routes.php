@@ -1,6 +1,5 @@
 <?php
 
-use \App\Http\Controllers\HomeController;
 /*
 |--------------------------------------------------------------------------
 | Application Routes
@@ -12,20 +11,31 @@ use \App\Http\Controllers\HomeController;
 |
 */
 
+App::singleton('oauth2', function() {
+
+    $storage = new OAuth2\Storage\Pdo(array('dsn' => 'mysql:dbname=laravel;host=localhost', 'username' => 'root', 'password' => ''));
+    $server = new OAuth2\Server($storage);
+
+    $server->addGrantType(new OAuth2\GrantType\ClientCredentials($storage));
+    $server->addGrantType(new OAuth2\GrantType\UserCredentials($storage));
+
+    return $server;
+});
+
+Route::get('insert','insert@doinsert');
 Route::get('/', function () {
     return view('welcome');
-})->middleware('check.session');
+});
 
-Route::get('home', array('uses' => 'HomeController@goHome'))->middleware('check.session');
+Route::post('oauth/token', function()
+{
+    $bridgedRequest  = OAuth2\HttpFoundationBridge\Request::createFromRequest(Request::instance());
+    $bridgedResponse = new OAuth2\HttpFoundationBridge\Response();
 
-// route to show the login form
-Route::get('login', array('uses' => 'HomeController@showLogin'));
+    $bridgedResponse = App::make('oauth2')->handleTokenRequest($bridgedRequest, $bridgedResponse);
 
-// route to process the form
-Route::post('login', array('uses' => 'HomeController@doLogin'));
-
-// route to process the form
-Route::get('logout', array('uses' => 'HomeController@doLogout'));
+    return $bridgedResponse;
+});
 
 Route::group(['prefix' => 'question','middleware' => ['check.session']], function () {
      //list of all question
