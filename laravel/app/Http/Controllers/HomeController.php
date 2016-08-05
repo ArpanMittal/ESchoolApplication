@@ -58,16 +58,17 @@ class HomeController extends Controller
         }
     }
 
-    public function hasSession(Request $request)
+    public function goHome(Request $request)
     {
-        if($request->session()->has('id'))
-            echo $request->session()->get('id');
-        else
-            echo 'No data in the session';
+        $id = $request->session()->get('id');
+        $user = DB::table('user')->whereId($id)->first();
+        $data['user'] = $user;
+        return view('home',$data);
     }
 
     public function doLogout(Request $request)
     {
         $request->session()->forget('id');
+        return Redirect::to('login');
     }
 }

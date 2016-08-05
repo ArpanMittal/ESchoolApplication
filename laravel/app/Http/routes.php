@@ -16,7 +16,7 @@ Route::get('/', function () {
     return view('welcome');
 })->middleware('check.session');
 
-Route::get('home', array('uses' => 'HomeController@hasSession'))->middleware('check.session');
+Route::get('home', array('uses' => 'HomeController@goHome'))->middleware('check.session');
 
 // route to show the login form
 Route::get('login', array('uses' => 'HomeController@showLogin'));
@@ -26,3 +26,8 @@ Route::post('login', array('uses' => 'HomeController@doLogin'));
 
 // route to process the form
 Route::get('logout', array('uses' => 'HomeController@doLogout'));
+
+Route::group(['prefix' => 'question','middleware' => ['check.session']], function () {
+     //list of all question
+     Route::get('/list',array('uses' => 'QuestionController@getAllQuestionList'));
+});

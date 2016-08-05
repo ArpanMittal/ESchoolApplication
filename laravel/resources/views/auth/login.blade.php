@@ -66,14 +66,14 @@
 @endsection
 
 @section('script')
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/blueimp-md5/2.3.0/js/md5.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jsSHA/2.2.0/sha1.js"></script>
 
     <script >
         $( "#login_form" ).submit(function( event ) {
             var password = $('#password').val();
-            password = md5(password);
-            $('#password').val(password);
+            var shaObj = new jsSHA("SHA-1", "TEXT");
+            shaObj.update(password);
+            $('#password').val(shaObj.getHash("HEX"));
         });
     </script>
 @endsection
