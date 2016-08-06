@@ -19,12 +19,16 @@ App::singleton('oauth2', function() {
 
     //return $storage;
     //return $storage;
+    //file_put_contents("a.txt","dfbhfvbj");
    $storage = new App\Http\Controllers\MyPdo(array('dsn' => 'mysql:dbname=laravel;host=localhost', 'username' => 'root', 'password' => ''));
     //file_put_contents("a.txt",$storage);
     $server = new OAuth2\Server($storage);
 
     $server->addGrantType(new OAuth2\GrantType\ClientCredentials($storage));
     $server->addGrantType(new OAuth2\GrantType\UserCredentials($storage));
+    $server->addGrantType(new OAuth2\GrantType\RefreshToken($storage));
+    //$server->addGrantType(new \App\Http\OAuth\RefreshTokenGrantType($storage));
+
     
     return $server;
 });
@@ -74,6 +78,7 @@ Route::post('oauth/token','OAuthcontroller@getOAuthToken');
 Route::group(['prefix'=>'post','middleware'=>['oauth']],function(){
 
     Route::post('getEmail','postController@getAllPost');
+    
 });
 
 
