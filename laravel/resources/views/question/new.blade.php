@@ -19,7 +19,7 @@
                                             <div class="control-group">
                                                 <label class="control-label">Class & Subject</label>
                                                 <div class="controls">
-                                                    <select name="SubjectId" id="SubjectId"  class="span6"   style="width:250px;" onchange="loadTopics()">
+                                                    <select name="SubjectId" id="SubjectId"  class="span6"   style="width:250px;" onchange="loadChapters()">
                                                         <option value="">-- Select --</option>
                                                         @if(isset($subjects))
                                                             @foreach($subjects as $subject)
@@ -33,9 +33,19 @@
                                                     </select>
                                                 </div>
                                             </div>
-                                            <div class="control-group" id='displayTopic'>
-                                                <label class="control-label">Topics</label>
-                                                <div class="controls" id='loadtopic' ></div>
+                                            <div class="control-group">
+                                                <label class="control-label">Chapter</label>
+                                                <div class="controls">
+                                                    <select name="ChapterId" id="ChapterId"  class="span6"   style="width:250px;" onchange="loadTopics()">
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="control-group">
+                                                <label class="control-label">Topic</label>
+                                                <div class="controls">
+                                                    <select name="TopicId" id="TopicId"  class="span6"   style="width:250px;">
+                                                    </select>
+                                                </div>
                                             </div>
                                             <div class="control-group">
                                                 <label class="control-label">Question Type</label>
@@ -104,6 +114,13 @@
                                             </div>
 
                                             <div class="control-group">
+                                                <label class="control-label">Ideal Time</label>
+                                                <div class="controls" >
+                                                    <input class="" type="time" name="ideal_time" id="iteal_time" />
+                                                </div>
+                                            </div>
+
+                                            <div class="control-group">
                                                 <label class="control-label">Level</label>
                                                 <div class="controls" >
                                                     <select name="Level" id="Level" style="width:220px;">
@@ -136,7 +153,7 @@
 @endsection
 
 @section('script')
-    <script src="//cdn.ckeditor.com/4.5.7/standard/ckeditor.js"></script>
+    <script src="/vendor/unisharp/laravel-ckeditor/ckeditor.js"></script>
     <script src="http://malsup.github.com/jquery.form.js"></script>
     <script src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.9/jquery.validate.min.js"></script>
     <script type="text/javascript">
@@ -155,31 +172,11 @@
                 width :   '500px',
                 height: '50px' });
 
-            var options = {
-                target:        '#output',   // target element(s) to be updated with server response
-                beforeSubmit:  showRequest,  // pre-submit callback
-                success:       showResponse  // post-submit callback
-
-                // other available options:
-                //url:       url         // override for form's 'action' attribute
-                //type:      type        // 'get' or 'post', override for form's 'method' attribute
-                //dataType:  null        // 'xml', 'script', or 'json' (expected server response type)
-                //clearForm: true        // clear all form fields after successful submit
-                //resetForm: true        // reset the form after successful submit
-
-                // $.ajax options can be used here too, for example:
-                //timeout:   3000
-            };
-
-            // bind form using 'ajaxForm'
-            $('#frmquestion').ajaxForm(options);
-
         });
-
-        function showRequest(formData, jqForm, options) {
+        $("#frmquestion").submit(function(){
             var question = CKEDITOR.instances.question.getData();
             if (question=="") {
-                alert("Please insert question");
+                alert("Please fill question");
                 return false;
             }
 
@@ -188,17 +185,47 @@
             var opt3 = CKEDITOR.instances.Option3.getData();
             var opt4 = CKEDITOR.instances.Option4.getData();
             if (opt1=='' || opt2=='' || opt3=='' || opt4=='') {
-                alert("Please all all options");
+                alert("Please fill all options");
                 return false;
             }
-            // here we could return false to prevent the form from being submitted;
-            // returning anything other than false will allow the form submit to continue
-            return true;
-        }
+            $("#question").val(question);
+            $("#Option1").val(opt1);
+            $("#Option2").val(opt2);
+            $("#Option3").val(opt3);
+            $("#Option4").val(opt4);
+            var formData = new FormData($(this)[0]);
 
-        // post-submit callback
-        function showResponse(responseText, statusText, xhr, $form)  {
-            alert(responseText);
+            $.ajax({
+                url: '{{ url('/question/add') }}',
+                type: 'POST',
+                data: formData,
+                async: false,
+                success: function (data) {
+                    if(data.success=='false'){
+                        alert(data.error);
+                    }else {
+                        alert('saved');
+                        clearFields();
+                    }
+                },
+                cache: false,
+                contentType: false,
+                processData: false
+            });
+
+            return false;
+        });
+
+        function clearFields() {
+            CKEDITOR.instances.question.setData('');
+            CKEDITOR.instances.Option1.setData('');
+            CKEDITOR.instances.Option2.setData('');
+            CKEDITOR.instances.Option3.setData('');
+            CKEDITOR.instances.Option4.setData('');
+
+            $('#question_diagram').val('');
+            $('#solution').val('');
+            $('#ideal_time').val('00:00');
         }
 
         $("#cancleForm").click(function() {
@@ -211,35 +238,75 @@
             rules: {
                 "TeacherId":{ required: true},
                 "SubjectId":{ required: true},
+                "ChapterId":{ required: true},
+                "TopicId":{ required: true},
                 "QuesType":{required: true},
                 "question":{required: true},
                 "Opt":{required: true},
                 "optionsRadioG":{required: true},
-                "Level":{required: true},
+                "ideal_time":{required: true},
+                "Level":{required: true}
             },
 
             messages: {
                 "TeacherId":{ required: "Please reload cannot get your id"},
                 "SubjectId":{ required: "Please select Class and Subject"},
+                "ChapterId":{ required: "Please select a chapter"},
+                "TopicId":{ required: "Please select a topic"},
                 "QuesType":{required: "Please select Question Type"},
                 "question":{required: "Please insert question"},
-                "Opt":{required: "Please insert all options"},
+                "Opt":{required: "Please fill all options"},
+                "ideal_time":{required: "Please fill ideal time"},
                 "optionsRadioG":{required: "Please select the correct answer to this question"},
-                "Level":{required: "Please select question level"},
+                "Level":{required: "Please select question level"}
             }
         });
 
         function loadTopics()
         {
+            var chapterId=$("#ChapterId").val();
+            $('#TopicId')
+                    .find('option')
+                    .remove()
+                    .end();
+            if(chapterId!=""){
+                var dataToSend="ChapterId="+chapterId;
+                $.ajax({
+                    url:'{{ url('/question/topic/list') }}',
+                    type:'GET',
+                    data: dataToSend,
+                    success:function(response) {
+                        $('#TopicId').append('<option value="">-- Select --</option>');
+                        response.forEach(function (item, index) {
+                            $('#TopicId').append('<option value="'+item.hash+'">'+item.topic_name+'</option>');
+                        });
+                    }
+                });
+            }
+        }
+
+        function loadChapters()
+        {
             var subjectId=$("#SubjectId").val();
+            $('#ChapterId')
+                    .find('option')
+                    .remove()
+                    .end();
+            $('#TopicId')
+                    .find('option')
+                    .remove()
+                    .end();
             if(subjectId!=""){
                 var dataToSend="SubjectId="+subjectId;
                 $.ajax({
-                    url:'{{ url('/api/topic/list') }}',
-                    type:'POST',
+                    url:'{{ url('/question/chapter/list') }}',
+                    type:'GET',
                     data: dataToSend,
                     success:function(response) {
-                        $('#loadtopic').html(response);
+                        $('#ChapterId').append('<option value="">-- Select --</option>');
+                        response.forEach(function (item, index) {
+                            $('#ChapterId').append('<option value="'+item.cl_su_st_ch_id+'">'+item.chapter_name+'</option>');
+                        });
                     }
                 });
             }
