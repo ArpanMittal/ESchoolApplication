@@ -75,3 +75,11 @@ Route::post('oauth/token','OAuthcontroller@getOAuthToken');
 
 
 
+Route::group(['prefix' => 'question','middleware' => ['check.session']], function () {
+     //list of all question
+     Route::get('/list',array('uses' => 'QuestionController@getAllQuestionList'));
+    Route::post('/search',array('uses' => 'QuestionController@getAllQuestionList'));
+    Route::get('/',array('uses' => 'QuestionController@getNewQuestion'));
+    Route::post('/add',array('uses' => 'QuestionController@addQuestion'));
+    Route::get('/{id}',array('uses' => 'QuestionController@editQuestion{$id}'));
+});
