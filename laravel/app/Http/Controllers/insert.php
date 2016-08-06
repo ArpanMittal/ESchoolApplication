@@ -96,6 +96,7 @@ class insert extends Controller
         $csv1=$path.$filename1;
         $query = sprintf("LOAD DATA local INFILE '%s' INTO TABLE chaptertopicmap FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '\"' ESCAPED BY '\"' LINES TERMINATED BY '\\n' IGNORE 1 LINES (`cl_su_st_ch_id`,`topic_id`,`order`,`hash`)", addslashes($csv1));
         \DB::connection()->getpdo()->exec($query);
+        
         return $this->chaptertopic($path);
     }
 

@@ -12,6 +12,7 @@ class OAuthUsersSeeder extends Seeder
     public function run()
     {
         //
+        DB::table('oauth_users')->truncate();
         DB::table('oauth_users')->insert(array(
             'username' => "bshaffer",
             'password' => sha1("brent123"),
