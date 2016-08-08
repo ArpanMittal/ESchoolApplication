@@ -23,11 +23,7 @@
                                                         <option value="">-- Select --</option>
                                                         @if(isset($subjects))
                                                             @foreach($subjects as $subject)
-                                                                @if(isset($selected_subject)&& strcmp($subject->cl_su_id , $selected_subject))
-                                                                    <option value="{{ $subject->cl_su_id }}" selected = "Selected"> {{$subject->classname ." - ". $subject->subjectname}}</option>
-                                                                @else
                                                                     <option value="{{ $subject->cl_su_id }}"> {{$subject->class_name ." - ". $subject->subject_name}}</option>
-                                                                @endif
                                                             @endforeach
                                                         @endif
                                                     </select>
@@ -37,6 +33,11 @@
                                                 <label class="control-label">Chapter</label>
                                                 <div class="controls">
                                                     <select name="ChapterId" id="ChapterId"  class="span6"   style="width:250px;" onchange="loadTopics()">
+                                                        @if(isset($chapters))
+                                                            @foreach($chapters as $chapter)
+                                                                <option value="{{ $chapter->cl_su_st_ch_id }}"> {{$chapter->chapter_name}}</option>
+                                                            @endforeach
+                                                        @endif
                                                     </select>
                                                 </div>
                                             </div>
@@ -44,6 +45,11 @@
                                                 <label class="control-label">Topic</label>
                                                 <div class="controls">
                                                     <select name="TopicId" id="TopicId"  class="span6"   style="width:250px;">
+                                                        @if(isset($topics))
+                                                            @foreach($topics as $topic)
+                                                                <option value="{{ $topic->hash }}"> {{$topic->topic_name}}</option>
+                                                            @endforeach
+                                                        @endif
                                                     </select>
                                                 </div>
                                             </div>
@@ -62,18 +68,31 @@
                                             <div class="control-group">
                                                 <label class="control-label">Question</label>
                                                 <div class="controls" id="ckeditor">
+                                                    @if(isset($question))
+                                                        <input name="QuestionId" type="hidden" value="{{$question->id}}"/>
+                                                    @endif
                                                     <textarea id="question" name="question"></textarea>
                                                 </div>
                                                 <div class="control-group">
                                                     <label class="control-label">Question Diagram</label>
                                                     <div class="controls" >
                                                         <input class="" type="file" name="question_diagram" id="question_diagram" />
+                                                        @if(isset($question))
+                                                            <img src="{!! asset($question->image_path) !!}" />
+                                                        @endif
                                                     </div>
                                                 </div>
                                             </div>
                                             <div id="optionsObj">
                                                 <div class="control-group">
                                                     <label class="control-label">Options</label>
+                                                    @if(isset($question) && $options)
+                                                        <div class="controls">
+                                                            @foreach($options as $option)
+                                                                <input name="OptId[]"  type="hidden"  value="{{$option->id}}">
+                                                            @endforeach
+                                                        </div>
+                                                    @endif
                                                     <div class="controls" id="opt1">
                                                         <input name="Opt[]" id="Option1" type="text" placeholder="Option 1" value="">
                                                         <label class="radio inline">
@@ -110,6 +129,9 @@
                                                 <label class="control-label">Solution</label>
                                                 <div class="controls" >
                                                     <input class="" type="file" name="solution" id="solution" />
+                                                    @if(isset($question))
+                                                        <img src="{!! asset($question->solution_path) !!}" />
+                                                    @endif
                                                 </div>
                                             </div>
 
@@ -173,6 +195,14 @@
                 height: '50px' });
 
         });
+
+        @if(isset($question))
+        function selectQuestion(){
+            $('#SubjectId').val('{{$selected_subject}}');
+            $('#ChapterId').val('{{$selected_chapter}}');
+            $('#TopicId').val('{{$question->hash}}');
+        }
+        @endif
         $("#frmquestion").submit(function(){
             var question = CKEDITOR.instances.question.getData();
             if (question=="") {
@@ -196,7 +226,11 @@
             var formData = new FormData($(this)[0]);
 
             $.ajax({
-                url: '{{ url('/question/add') }}',
+                @if(isset($question))
+                    url: '{{ url('/question/update') }}',
+                @else
+                    url: '{{ url('/question/add') }}',
+                @endif
                 type: 'POST',
                 data: formData,
                 async: false,

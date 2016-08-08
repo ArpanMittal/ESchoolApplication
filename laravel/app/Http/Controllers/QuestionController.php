@@ -31,6 +31,40 @@ class QuestionController extends Controller
         return view('question.new',$data);
     }
 
+    public function editQuestion(Request $request,$id){
+        $userId = $request->session()->get('id');
+        $user = DB::table('user')->whereId($userId)->first();
+        $data['user'] = $user;
+
+        $data['question'] = DB::table('question')->where('id',$id)->first();
+        $data['options'] = DB::table('option')->where('question_id',$id)->get();
+        $data['answer'] = DB::table('answer')->where('question_id',$id)->get();
+
+        $data['subjects'] = DB::table('classsubjectmap')
+            ->join('class', 'classsubjectmap.class_id', '=', 'class.id')
+            ->join('subject', 'classsubjectmap.subject_id', '=', 'subject.id')
+            ->get();
+
+        $hash = $data['question']->hash;
+
+        $subject_id = substr($hash,0,5);
+        $chapter_id = substr($hash,0,10);
+
+        $data['chapters'] = DB::table('streamchaptermap')
+            ->join('chapter', 'streamchaptermap.chapter_id', '=', 'chapter.id')
+            ->where('streamchaptermap.cl_su_st_id','LIKE' ,$subject_id.'%')
+            ->get();
+
+        $data['topics'] = DB::table('chaptertopicmap')
+            ->join('topic', 'chaptertopicmap.topic_id', '=', 'topic.id')
+            ->where('chaptertopicmap.cl_su_st_ch_id' ,'LIKE',$chapter_id.'%')
+            ->get();
+        $data['selected_subject'] = $subject_id;
+        $data['selected_chapter'] = $chapter_id;
+        $data['types'] = DB::table('questiontype')->get();
+        return view('question.new',$data);
+    }
+
     public function addQuestion(Request $request)
     {
         $teacherId = Input::get('TeacherId');
@@ -43,6 +77,7 @@ class QuestionController extends Controller
         $level = Input::get("Level");
         $question_image = "";
         $solution_image = "";
+
         try{
             DB::beginTransaction();
             $questionId = DB::table('question')->insertGetId(
