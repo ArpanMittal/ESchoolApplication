@@ -1,8 +1,13 @@
-StreamCode,StreamName
-AL,Algebra
-CG,Coordinate Geometry
-GE,Geometry 
-ME,Mensuration
-NS,Number System
-ST,Statistics
-TR,Trigonometry
+StreamCode,StreamName,NULL,NULL
+EM,Electricity and Magnetism,NULL,NULL
+ME,Mechanics,NULL,NULL
+HE,Heat and Energy,NULL,NULL
+LT,Light,NULL,NULL
+UN,Universe,NULL,NULL
+AL,Algebra,NULL,NULL
+CG,Coordinate Geometry,NULL,NULL
+GE,Geometry ,NULL,NULL
+ME,Mensuration,NULL,NULL
+NS,Number System,NULL,NULL
+ST,Statistics,NULL,NULL
+TR,Trigonometry,NULL,NULL

@@ -1,53 +1,80 @@
-Algebraic Expressions,AEX
-Algebraic Expressions and Identities,AEI
-Area of Triangles and Parallelograms,ATP
-Area related to Circle,ARC
-Arithmetic Progressions,APR
-Basic Geometrical Ideas,BGI
-Circle,CIR
-Comparing Quantities,COM
-Congruence of Triangle,COT
-Construction,CTR
-Coordinate geometry ,CGE
-Cubes and Cube Roots,CCR
-Data Handling,DHA
-Decimals,DEC
-Direct and Inverse Proportions,DIP
-Euclid's Geometry,EGE
-Exponents and Powers,EAP
-Factorisation,FAC
-Fractions,FRA
-Fractions and Decimals,FAD
-Heron's Formula,HFO
-Integers,INT
-Introduction to Algebra,ITA
-Introduction to Graphs,ITG
-Introduction to Trigonometry,ITT
-Knowing the Numbers,KTM
-Linear Equations in One Variable,LEO
-Linear Equations in Two Variables,LET
-Lines and Angles,LAA
-Mensuration ,MEN
-Number System,NSY
-Pair of Linear Equation in Two Variables,PLE
-Perimeter and Area,PAA
-Playing with Numbers,PWN
-Polynomials,POL
-Practical Geometry,PGE
-Probability,PBT
-Quadratic Equation,QEQ
-Quadrilaterals,QUA
-Ratio and Proportion,RAP
-Rational Numbers,RNU
-Real Numbers,RNB
-Similarity of Triangles,SIM
-Simple Equations,SEQ
-Squares and Square Roots,SSR
-Statistics,STA
-Surface Area and Volume,SAV
-Symmetry,SYM
-Triangle ,TRI
-Understanding Elementary Shapes,UES
-Understanding Quadrilateral,UQU
-Visualising Solid Shapes,VSS
-Whole Numbers,WHN
+hola,hola,NULL,NULL
+CEC,Chemical Effect of Electric Current,NULL,NULL
+ECI,Electric Current and Its Effects,NULL,NULL
+ELC,Electricity,NULL,NULL
+EAC,Electricity and Circuits,NULL,NULL
+FOR,Force and Laws of Motion,NULL,NULL
+FRP,Force and Pressure,NULL,NULL
+FRN,Friction,NULL,NULL
+FWM,Fun with Magnets,NULL,NULL
+GRV,Gravitation,NULL,NULL
+HET,Heat,NULL,NULL
+HEY,Human Eye,NULL,NULL
+LIT,Light,NULL,NULL
+LRR,Light - Reflection and Refraction,NULL,NULL
+LSR,"Light, Shadows and Refelction",NULL,NULL
+MEC,Magnetic Effect of Electric Current,NULL,NULL
+MOT,Motion,NULL,NULL
+MMD,Motion and Measurements of Distance,NULL,NULL
+REM,Rectilinear Motion,NULL,NULL
+SNP,Some Natural Phenomenon,NULL,NULL
+SND,Sound,NULL,NULL
+SOU,Sound,NULL,NULL
+SOE,Sources of Energy,NULL,NULL
+SAS,Stars and the Solar System,NULL,NULL
+WPE,Work Energy & Power,NULL,NULL
+AEX,Algebraic Expressions,NULL,NULL
+AEI,Algebraic Expressions and Identities,NULL,NULL
+ATP,Area of Triangles and Parallelograms,NULL,NULL
+ARC,Area related to Circle,NULL,NULL
+APR,Arithmetic Progressions,NULL,NULL
+BGI,Basic Geometrical Ideas,NULL,NULL
+CIR,Circle,NULL,NULL
+COM,Comparing Quantities,NULL,NULL
+COT,Congruence of Triangle,NULL,NULL
+CTR,Construction,NULL,NULL
+CGE,Coordinate geometry ,NULL,NULL
+CCR,Cubes and Cube Roots,NULL,NULL
+DHA,Data Handling,NULL,NULL
+DEC,Decimals,NULL,NULL
+DIP,Direct and Inverse Proportions,NULL,NULL
+EGE,Euclid's Geometry,NULL,NULL
+EAP,Exponents and Powers,NULL,NULL
+FAC,Factorisation,NULL,NULL
+FRA,Fractions,NULL,NULL
+FAD,Fractions and Decimals,NULL,NULL
+HFO,Heron's Formula,NULL,NULL
+INT,Integers,NULL,NULL
+ITA,Introduction to Algebra,NULL,NULL
+ITG,Introduction to Graphs,NULL,NULL
+ITT,Introduction to Trigonometry,NULL,NULL
+KTM,Knowing the Numbers,NULL,NULL
+LEO,Linear Equations in One Variable,NULL,NULL
+LET,Linear Equations in Two Variables,NULL,NULL
+LAA,Lines and Angles,NULL,NULL
+MEN,Mensuration ,NULL,NULL
+NSY,Number System,NULL,NULL
+PLE,Pair of Linear Equation in Two Variables,NULL,NULL
+PAA,Perimeter and Area,NULL,NULL
+PWN,Playing with Numbers,NULL,NULL
+POL,Polynomials,NULL,NULL
+PGE,Practical Geometry,NULL,NULL
+PBT,Probability,NULL,NULL
+QEQ,Quadratic Equation,NULL,NULL
+QUA,Quadrilaterals,NULL,NULL
+RAP,Ratio and Proportion,NULL,NULL
+RNU,Rational Numbers,NULL,NULL
+RNB,Real Numbers,NULL,NULL
+SIM,Similarity of Triangles,NULL,NULL
+SEQ,Simple Equations,NULL,NULL
+SSR,Squares and Square Roots,NULL,NULL
+STA,Statistics,NULL,NULL
+SAV,Surface Area and Volume,NULL,NULL
+SYM,Symmetry,NULL,NULL
+TRI,Triangle ,NULL,NULL
+UES,Understanding Elementary Shapes,NULL,NULL
+UQU,Understanding Quadrilateral,NULL,NULL
+VSS,Visualising Solid Shapes,NULL,NULL
+WHN,Whole Numbers,NULL,NULL
+MAT,Motion and Time,NULL,NULL
+LTE,Light,NULL,NULL
