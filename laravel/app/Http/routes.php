@@ -12,18 +12,27 @@
 */
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers;
 
 App::singleton('oauth2', function() {
     //$storage = new OAuth2\Storage\Pdo(array('dsn' => 'mysql:dbname=laravel;host=localhost', 'username' => 'root', 'password' => ''));
 
     //return $storage;
     //return $storage;
-   $storage = new App\Http\Controllers\MyPdo(array('dsn' => 'mysql:dbname=laravel;host=localhost', 'username' => 'root', 'password' => ''));
+
+    //$array=array('dsn' => 'mysql:dbname=laravel;host=127.0.0.1', 'username' => 'root', 'password' => '');
+    $array2=array('dsn'=>'mysql:dbname='.env('DB_DATABASE', 'forge').';host='.env('DB_HOST', 'localhost'),'username'  =>env('DB_USERNAME', 'forge'),'password'=>env('DB_PASSWORD', ''));
+    //file_put_contents("a.txt",$array2);
+   //$storage = new App\Http\Controllers\MyPdo(array('dsn' => 'mysql:dbname=laravel;host=127.0.0.1', 'username' => 'root', 'password' => ''));
+   $storage=new App\Http\Controllers\MyPdo($array2);
     //file_put_contents("a.txt",$storage);
     $server = new OAuth2\Server($storage);
 
     $server->addGrantType(new OAuth2\GrantType\ClientCredentials($storage));
     $server->addGrantType(new OAuth2\GrantType\UserCredentials($storage));
+    $server->addGrantType(new OAuth2\GrantType\RefreshToken($storage));
+    //$server->addGrantType(new \App\Http\OAuth\RefreshTokenGrantType($storage));
+
     
     return $server;
 });
@@ -63,14 +72,18 @@ Route::post('oauth/token','OAuthcontroller@getOAuthToken');
             'expires' => $token['expires'],
         ));
     }
-    else {
+    else 
         return Response::json(array(
             'error' => 'Unauthorized'
         ), $bridgedResponse->getStatusCode());
     }
 });*/
 
+Route::group(['prefix'=>'post','middleware'=>['oauth']],function(){
 
+    Route::post('getEmail','postController@getAllPost');
+    
+});
 
 
 

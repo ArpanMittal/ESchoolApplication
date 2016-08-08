@@ -34,7 +34,6 @@ class MyPdo extends Pdo{
     public function getUser($username)
     {
 
-
         $stmt = $this->db->prepare($sql = sprintf("SELECT * from %s where email=:username", $this->config['user_table']));
         $stmt->execute(array('username' => $username));
 
@@ -42,9 +41,7 @@ class MyPdo extends Pdo{
 
             return false;
         }
-       file_put_contents("a.txt",array_merge(array(
-            'user_id' => $username
-        ), $userInfo));
+
         // the default behavior is to use "username" as the user_id
         return array_merge(array(
             'user_id' => $username
