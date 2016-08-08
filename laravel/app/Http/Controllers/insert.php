@@ -12,7 +12,7 @@ class insert extends Controller
     {
         //$path="C:/Users/arpan/Desktop/";
         // C:\Users\arpan\Downloads\Compressed\Code Sheets_2\Code Sheets
-        $path="C:/Users/arpan/Downloads/Compressed/Code Sheets_2/Code Sheets/";
+        $path="../csv files/";
         //return "inserted";
         $filename="chaptertopicmap.csv";
         $filename1="insert_class.csv";
