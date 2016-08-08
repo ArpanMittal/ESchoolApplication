@@ -19,8 +19,12 @@ App::singleton('oauth2', function() {
 
     //return $storage;
     //return $storage;
-    //file_put_contents("a.txt","dfbhfvbj");
-   $storage = new App\Http\Controllers\MyPdo(array('dsn' => 'mysql:dbname=laravel;host=localhost', 'username' => 'root', 'password' => ''));
+
+    //$array=array('dsn' => 'mysql:dbname=laravel;host=127.0.0.1', 'username' => 'root', 'password' => '');
+    $array2=array('dsn'=>'mysql:dbname='.env('DB_DATABASE', 'forge').';host='.env('DB_HOST', 'localhost'),'username'  =>env('DB_USERNAME', 'forge'),'password'=>env('DB_PASSWORD', ''));
+    //file_put_contents("a.txt",$array2);
+   //$storage = new App\Http\Controllers\MyPdo(array('dsn' => 'mysql:dbname=laravel;host=127.0.0.1', 'username' => 'root', 'password' => ''));
+   $storage=new App\Http\Controllers\MyPdo($array2);
     //file_put_contents("a.txt",$storage);
     $server = new OAuth2\Server($storage);
 
