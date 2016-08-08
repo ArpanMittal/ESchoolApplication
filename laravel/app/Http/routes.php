@@ -84,11 +84,33 @@ Route::group(['prefix'=>'post','middleware'=>['oauth']],function(){
 
 
 
+
+
 Route::group(['prefix' => 'question','middleware' => ['check.session']], function () {
      //list of all question
      Route::get('/list',array('uses' => 'QuestionController@getAllQuestionList'));
     Route::post('/search',array('uses' => 'QuestionController@getAllQuestionList'));
     Route::get('/',array('uses' => 'QuestionController@getNewQuestion'));
+    Route::get('/add',array('uses' => 'QuestionController@addQuestion'));
     Route::post('/add',array('uses' => 'QuestionController@addQuestion'));
+    Route::get('/topic/list',array('uses' => 'QuestionController@getTopics'));
+    Route::get('/chapter/list',array('uses' => 'QuestionController@getChapters'));
     Route::get('/{id}',array('uses' => 'QuestionController@editQuestion{$id}'));
 });
+
+
+
+Route::get('/', function () {
+    return view('welcome');
+})->middleware('check.session');
+
+Route::get('home', array('uses' => 'HomeController@goHome'))->middleware('check.session');
+
+// route to show the login form
+Route::get('login', array('uses' => 'HomeController@showLogin'));
+
+// route to process the form
+Route::post('login', array('uses' => 'HomeController@doLogin'));
+
+// route to process the form
+Route::get('logout', array('uses' => 'HomeController@doLogout'));
