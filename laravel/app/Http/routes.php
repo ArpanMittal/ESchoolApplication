@@ -68,11 +68,12 @@ Route::group(['prefix' => 'question','middleware' => ['check.session']], functio
      Route::get('/list',array('uses' => 'QuestionController@getAllQuestionList'));
     Route::post('/search',array('uses' => 'QuestionController@getAllQuestionList'));
     Route::get('/',array('uses' => 'QuestionController@getNewQuestion'));
-    Route::get('/add',array('uses' => 'QuestionController@addQuestion'));
+    Route::get('/next',array('uses' => 'QuestionController@nextQuestion'));
     Route::post('/add',array('uses' => 'QuestionController@addQuestion'));
+    Route::post('/update',array('uses' => 'QuestionController@updateQuestion'));
     Route::get('/topic/list',array('uses' => 'QuestionController@getTopics'));
     Route::get('/chapter/list',array('uses' => 'QuestionController@getChapters'));
-    Route::get('/{id}',array('uses' => 'QuestionController@editQuestion{$id}'));
+    Route::get('/{id}',array('uses' => 'QuestionController@editQuestion'));
 });
 
 
