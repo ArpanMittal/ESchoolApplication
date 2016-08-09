@@ -1,0 +1,483 @@
+TopicId,TopicNAme,NULL,NULL
+1LM,1st Law of Motion,NULL,NULL
+2LM,2nd Law of Motion,NULL,NULL
+3LM,Third Law of Motion,NULL,NULL
+ACC,Acceleration,NULL,NULL
+AIS,Audible and Inaudible Sounds,NULL,NULL
+ALE,Algebraic Identities ,NULL,NULL
+ALF,Algebraic Methods of solving a pair of linear equation,NULL,NULL
+ANG,Angles and its characteristic ,NULL,NULL
+ANH,Angles sum property,NULL,NULL
+ANI,Angles Sum property of Triangle,NULL,NULL
+ANJ,Angle sum property of a Quadrilaterals,NULL,NULL
+ANL,Angle subtends by Arc of a Circle,NULL,NULL
+AOU,Applications of Ultrasound,NULL,NULL
+APM,Application of Bar Graphs,NULL,NULL
+APN,Applications of Simple Equations,NULL,NULL
+APO,Application of Area and Perimeter,NULL,NULL
+APP,Application of Compound Interest,NULL,NULL
+APQ,Application of Graphs,NULL,NULL
+ARA,Area of Triangle,NULL,NULL
+ARB,Area of segment of a Circle,NULL,NULL
+ARC,Area of segment of a Circle,NULL,NULL
+ARD,Area of combination of Plane Figures,NULL,NULL
+ARE,Area and Volume,NULL,NULL
+ARF,Arithmetic Mean,NULL,NULL
+ARG,Area of Quadrilateral,NULL,NULL
+ARH,Area of Triangle,NULL,NULL
+ARM,Attraction and Replusion by Magnet,NULL,NULL
+ARP,Archimede's Principle,NULL,NULL
+ARR,Area of Square and Rectangle ,NULL,NULL
+ARS,Area of Triangle using Parts of Rectangle,NULL,NULL
+ART,Area of Parallelogram,NULL,NULL
+ARU,Area of Triangle ,NULL,NULL
+ARV,Areas of standard Figures,NULL,NULL
+ARW,Area of trapezium,NULL,NULL
+ARX,Area of General Quadrilateral,NULL,NULL
+ARY,Area of  Standard  Solid Shapes,NULL,NULL
+ARZ,Area of Similar Triangle,NULL,NULL
+ASA,Addition and Subtraction On Number Line,NULL,NULL
+ASB,Addition and Subtraction of Fractions,NULL,NULL
+ASC,Addition and Subtraction of Decimals,NULL,NULL
+ASD,Addition and Subtraction of Algebraic Expressions,NULL,NULL
+ASK,Angle subtends by Chord of circle,NULL,NULL
+ATF,"Amplitude, Time Period and Frequency",NULL,NULL
+ATP,Atmpospheric Pressure,NULL,NULL
+BAC,Bulb and Electric Cell,NULL,NULL
+BAI,Bar Graph,NULL,NULL
+BRS,Braille System,NULL,NULL
+BUF,Balanced & Unbalanced Forces,NULL,NULL
+BUY,Buoyancy,NULL,NULL
+CAJ,Cartesian System,NULL,NULL
+CBM,Celestial Body and the Moon,NULL,NULL
+CBR,Charging by Rubbing,NULL,NULL
+CEL,Conduction of Electicity in Liquids,NULL,NULL
+CEU,Chemical Effect of Current and Use,NULL,NULL
+CHK,Chances,NULL,NULL
+CHL,Chances and Probability,NULL,NULL
+CHM,Change in Percent,NULL,NULL
+CHN,Chords of A Circle,NULL,NULL
+CHT,Types of Charges and interaction,NULL,NULL
+CIO,Circumference and Area of Circle,NULL,NULL
+CIP,Circle related Terminology,NULL,NULL
+CIQ,Circle Through 3 Points,NULL,NULL
+CKD,Circuit Diagram,NULL,NULL
+CLR,Classification of Triangles,NULL,NULL
+CLS,Classification of Quadrilaterals,NULL,NULL
+CLT,Classification of Triangles,NULL,NULL
+CME,Magentic Effect of Current,NULL,NULL
+COA,Construction of Line segment,NULL,NULL
+COB,Construction of Given Angle and Its Bisector ,NULL,NULL
+COC,Conditions a Three sided figure to be a Triangle,NULL,NULL
+COD,Congruency of Line segments and Angles,NULL,NULL
+COE,Congruent of Right angle Triangle,NULL,NULL
+COF,Construction of A Line Parallel to Given Line,NULL,NULL
+COG,Construction of Triangle,NULL,NULL
+COH,Construction Of Quadrilaterals,NULL,NULL
+COI,Congruence of Triangle,NULL,NULL
+COJ,Conditions for a Quadrilaterals to be Parallelogram,NULL,NULL
+COM,Conservation of Momentum,NULL,NULL
+CON,Constellations,NULL,NULL
+COU,Comparing Numbers,NULL,NULL
+COV,Common Factor and Multiple,NULL,NULL
+COW,Comparison of Rational Number,NULL,NULL
+COX,Compound Interest,NULL,NULL
+COY,Combination of Solids,NULL,NULL
+COZ,Construction of Circle of Given Radius,NULL,NULL
+CRK,Criteria for Congruency of Triangle,NULL,NULL
+CRL,Criteria for Congruency of Triangle,NULL,NULL
+CRM,Criteria of Similarity,NULL,NULL
+CSC,Components with Symbols of a Circuit,NULL,NULL
+CSE,Conventional Sources of Energy,NULL,NULL
+CSW,Characteristics of Sound Wave,NULL,NULL
+CTI,Types of Charges and interaction,NULL,NULL
+CUE,Commercial Unit of Energy,NULL,NULL
+CUN,Cubes,NULL,NULL
+CUO,Cube Roots,NULL,NULL
+CUP,Cube and Cuboid,NULL,NULL
+CYQ,Cyclic Quadrilaterals,NULL,NULL
+CYR,Cylinder and Cone,NULL,NULL
+DBP,Dispersion by Prism,NULL,NULL
+DEC,Domestic Electric Circuits,NULL,NULL
+DES,Decimal Number System,NULL,NULL
+DET,"Definition of Curves, Polygons And Angles",NULL,NULL
+DEU,Define Area,NULL,NULL
+DEV,Defining Lines and Angles,NULL,NULL
+DIA,Divisibility Rules,NULL,NULL
+DIB,Division of Integers,NULL,NULL
+DIC,Division of fractions,NULL,NULL
+DID,Division of Decimals,NULL,NULL
+DIE,Division of Algebraic Expression,NULL,NULL
+DIF,Division Algorithm for polynomials,NULL,NULL
+DIG,Division of Line Segment,NULL,NULL
+DII,Direction Inversion,NULL,NULL
+DIS,Dispersion ,NULL,NULL
+DIW,Different Polygons and Angle sum property,NULL,NULL
+DIX,Direct Proportion,NULL,NULL
+DIY,Discounts,NULL,NULL
+DIZ,Distance Formula,NULL,NULL
+DMN,Describing Motion,NULL,NULL
+DOM,Discovery of Magnets,NULL,NULL
+DOV,Defects of Vision,NULL,NULL
+DTG,Distance Time Graph,NULL,NULL
+ECC,Electric Current and Circuit,NULL,NULL
+ECI,Electric Conductors and Insulators,NULL,NULL
+ECK,Electric Circuit,NULL,NULL
+ECL,Electric Cell,NULL,NULL
+ECO,Echo,NULL,NULL
+ECR,Care of Eyes,NULL,NULL
+EFC,Interconversion of different forms of Energy,NULL,NULL
+EGM,Equation of Motion by graphical methods,NULL,NULL
+EIL,Enviromental Issues and Life of Energy Sources,NULL,NULL
+ELG,Electric Generator,NULL,NULL
+ELM,Electric Motor,NULL,NULL
+EMB,Electromagnet and Electric Bell,NULL,NULL
+EMI,Electromagnetic Induction,NULL,NULL
+ENG,Energy,NULL,NULL
+EOR,Effects of Refraction,NULL,NULL
+EPD,Electric Potential and Difference,NULL,NULL
+EPW,Electric Power,NULL,NULL
+EQH,Equivalent Fractions,NULL,NULL
+EQI,Equivalent Ratio,NULL,NULL
+EQJ,Equation of lines parallel to x and y axis,NULL,NULL
+EQK,Equation Reducible to pair of ,NULL,NULL
+EQU,Earthquakes,NULL,NULL
+ESL,Estimating Square Root,NULL,NULL
+ESW,Electric Switch,NULL,NULL
+EUM,"Euclid's Definitions, Axioms and Postulates",NULL,NULL
+EUN,Euclid's Division Lemma,NULL,NULL
+EXO,Exponents,NULL,NULL
+EXP,Experimental Approach,NULL,NULL
+EXQ,Exterior angle,NULL,NULL
+EYE,The Human Eye,NULL,NULL
+F2L,Formulation of 2nd Law,NULL,NULL
+FAF,Factors affecting friction,NULL,NULL
+FAR,Factors and Multiples,NULL,NULL
+FAS,"Faces, Edge and Vertices",NULL,NULL
+FAT,"Faces, Edge and Vertices",NULL,NULL
+FAU,Factorisation of Polynomials,NULL,NULL
+FCM,Force on Current Carrying Conductor in a Magnetic Field,NULL,NULL
+FEQ,1st equation,NULL,NULL
+FFL,Free Fall,NULL,NULL
+FIV,Figures on the same base and  between same parallel Lines ,NULL,NULL
+FIW,Find Value of Expression,NULL,NULL
+FIX,Finding Square of Number,NULL,NULL
+FIY,Finding Errors in Equations,NULL,NULL
+FLF,Fluid Friction,NULL,NULL
+FOA,Formulation,NULL,NULL
+FOB,Forming A Line and Striking at an Angle,NULL,NULL
+FOC,Contact Forces,NULL,NULL
+FOE,Forms of Energy,NULL,NULL
+FOF,Force of Friction,NULL,NULL
+FOZ,Formulas,NULL,NULL
+FRC,Fraction on Number Line,NULL,NULL
+FRD,From Solution to Equation,NULL,NULL
+FUE,Fundamental Theorem of Arithmetic,NULL,NULL
+GDT,Distance Time Graph,NULL,NULL
+GEF,Geometrical Meaning Of the Zeroes of a Polynomial,NULL,NULL
+GIG,Given Base and Base Angles,NULL,NULL
+GRH,Graphical method of solution of a pair of linear Equations,NULL,NULL
+GRI,Graphical Presentation of Cumulative data,NULL,NULL
+GRJ,Grouping of Data,NULL,NULL
+GRV,Gravitation,NULL,NULL
+GSE,What is good source of Energy?,NULL,NULL
+HAC,Hot and Cold,NULL,NULL
+HEC,Heating Effect of Current,NULL,NULL
+HEK,Heights and Distances,NULL,NULL
+HES,How we hear Sound?,NULL,NULL
+HEU,Heating Effect of Current and its use,NULL,NULL
+HIL,Highest Common Factor and Lowest Common multiple,NULL,NULL
+HOM,How are Expressions Formed?,NULL,NULL
+HRA,Range Hearing,NULL,NULL
+HUE,Human Ear,NULL,NULL
+IAM,Inertia and Mass,NULL,NULL
+IBL,Images by Lens,NULL,NULL
+IDF,Increasing & decreasing friction,NULL,NULL
+IFL,Image Formation by Lenses,NULL,NULL
+INA,Introduction,NULL,NULL
+INB,Introduction,NULL,NULL
+INC,Introduction,NULL,NULL
+IND,Introduction,NULL,NULL
+INE,Introduction,NULL,NULL
+INF,Introduction,NULL,NULL
+ING,Introduction to Congruency using Plane figures,NULL,NULL
+INH,Introduction,NULL,NULL
+INI,Inverse Proportion,NULL,NULL
+INJ,Introduction,NULL,NULL
+INK,Introduction ,NULL,NULL
+INL,Introduction,NULL,NULL
+INM,Interesting Patterns,NULL,NULL
+INN,Introduction,NULL,NULL
+INO,Introduction,NULL,NULL
+INP,Introduction,NULL,NULL
+INQ,Introduction of Ray,NULL,NULL
+INR,"Introduction of Triangle, Quadrilateral and Circle",NULL,NULL
+INS,Introduction,NULL,NULL
+INT,Introduction,NULL,NULL
+INU,Introduction,NULL,NULL
+INV,Interconversion between Decimals and Fractions,NULL,NULL
+INW,Introduction,NULL,NULL
+INX,Introduction,NULL,NULL
+INY,Introduction to Variables ,NULL,NULL
+INZ,Introduction,NULL,NULL
+IOE,Inside our Eyes,NULL,NULL
+IRJ,Irrational numbers,NULL,NULL
+IXI,Introduction,NULL,NULL
+IYA,Introduction,NULL,NULL
+IYB,Introduction,NULL,NULL
+IYC,Introduction,NULL,NULL
+IYD,Introduction,NULL,NULL
+IYE,Introduction,NULL,NULL
+IYF,Introduction,NULL,NULL
+IYG,Introduction,NULL,NULL
+IYH,Interconversion,NULL,NULL
+IYN,Introduction,NULL,NULL
+IYO,Introduction to identities,NULL,NULL
+IYP,Introduction,NULL,NULL
+IYQ,Introduction,NULL,NULL
+IYR,Introduction,NULL,NULL
+IYS,Introduction,NULL,NULL
+IYT,Introduction,NULL,NULL
+IYU,Introduction,NULL,NULL
+IYV,Introduction,NULL,NULL
+IYW,"Introduction, Formulation and Solution",NULL,NULL
+IYX,Introduction,NULL,NULL
+IYY,Introduction,NULL,NULL
+IYZ,Introduction,NULL,NULL
+KDS,Kaleidoscope,NULL,NULL
+KIE,Kinetic Energy,NULL,NULL
+KIK,Kinds of Quadrilateral,NULL,NULL
+KIL,Kinds of Parallelograms,NULL,NULL
+LAM,Large Numbers in Practice,NULL,NULL
+LAN,Laws of Exponents,NULL,NULL
+LAO,Laws of Exponents For Real Number,NULL,NULL
+LAP,Loudness and Pitch,NULL,NULL
+LAS,Cause of Lightning and Safety,NULL,NULL
+LBT,Laboratory Thermometer,NULL,NULL
+LCE,Law of Conservation of Energy,NULL,NULL
+LEP,Letter for Digits,NULL,NULL
+LIQ,Like and Unlike Fractions and Their Comparison,NULL,NULL
+LIR,Like and Unlike Terms,NULL,NULL
+LIS,"Lines, line segment And parallel lines",NULL,NULL
+LIT,Line of Symmetry ,NULL,NULL
+LIU,Line of Symmetry  for Polygons,NULL,NULL
+LIV,Line of Symmetry and Rotational Symmetry,NULL,NULL
+LIW,Linear Graphs,NULL,NULL
+LMF,Lens Formula and Magnification,NULL,NULL
+LNG,Lightning,NULL,NULL
+LNL,Luminous and non-luminous Objects,NULL,NULL
+LOG,Law of Gravitation,NULL,NULL
+LSC,Sign Convention for Lenses,NULL,NULL
+LTS,Light travels along straight line,NULL,NULL
+LWR,Laws of Reflection,NULL,NULL
+MAR,Mirrors & Reflection,NULL,NULL
+MAS,Mass,NULL,NULL
+MAX,Making Multiplication easier ,NULL,NULL
+MAY,Mapping of Space around us,NULL,NULL
+MCL,Measurement of curved lines,NULL,NULL
+MCY,Measuring correctly,NULL,NULL
+MDI,Measuring Distance,NULL,NULL
+MEA,Measure of central Tendency,NULL,NULL
+MEB,Mean of  Grouped Data,NULL,NULL
+MEC,"Medians, Altitudes of Triangle",NULL,NULL
+MED,Median of Grouped Data,NULL,NULL
+MET,Measurement Techniques,NULL,NULL
+MEZ,Measuring the line segment,NULL,NULL
+MFC,Magnetic Field by Current Carrying Conductor,NULL,NULL
+MIE,Mid Point Theorem,NULL,NULL
+MIF,Image formation by Spherical Mirrors,NULL,NULL
+MIR,Spherical Mirror Image Formation Rules,NULL,NULL
+MLF,Magnetic Field and Lines,NULL,NULL
+MMF,Mirror Formula & Magnification,NULL,NULL
+MNM,Magnetic and Non Magnetic Material,NULL,NULL
+MOF,Mode and Median,NULL,NULL
+MOG,Mode of  Grouped Data,NULL,NULL
+MOT,Motion,NULL,NULL
+MPO,Poles of Magnet,NULL,NULL
+MPS,Sound and medium of Propagation,NULL,NULL
+MRE,Multiple Reflection,NULL,NULL
+MSD,Measuring Speed,NULL,NULL
+MSL,Motion along a straight line,NULL,NULL
+MTI,Measuring Time,NULL,NULL
+MUG,Motion under gravity,NULL,NULL
+MUH,Multiplication of Different Integers,NULL,NULL
+MUI,Multiplication of fractions,NULL,NULL
+MUJ,Multiplication of Decimals,NULL,NULL
+MUK,Multiplying a monomial by a monomial,NULL,NULL
+MUL,Multiplying a monomial by a Polynomial,NULL,NULL
+MUM,Multiplying a polynomial by a Polynomial,NULL,NULL
+NAM,Noise & Music,NULL,NULL
+NAN,Nature of Roots,NULL,NULL
+NCF,Non Contact Forces,NULL,NULL
+NOF,Neccessity of Friction,NULL,NULL
+NOM,Need of measurement,NULL,NULL
+NOO,Notion of Equation,NULL,NULL
+NOP,Noise Pollution,NULL,NULL
+NSE,Non-Conventional Sources of Energy,NULL,NULL
+NTP,Nth Term of AP,NULL,NULL
+NUM,Non-Uniform Motion,NULL,NULL
+NUQ,Number Line,NULL,NULL
+NUR,Numbers in General Form,NULL,NULL
+NUS,Number of Tangent from a point on a Circle,NULL,NULL
+OML,Ohm's Law,NULL,NULL
+OPT,Operation on rational Number,NULL,NULL
+OPU,Operation on Real Number,NULL,NULL
+ORV,Ordering in Integers,NULL,NULL
+ORW,Organisation of  Data,NULL,NULL
+PAA,Parallelograms on the Same base and between the Parallel Lines,NULL,NULL
+PAB,Patterns In Whole Numbers,NULL,NULL
+PAX,Pair of lines,NULL,NULL
+PAY,Pair of linear Equation in Two Variables,NULL,NULL
+PAZ,Parallelogram and Its Properties,NULL,NULL
+PEC,Perimeter of Closed Figures,NULL,NULL
+PED,Perimeter of Regular Shapes,NULL,NULL
+PEE,Perpendiculars and Lines through any point,NULL,NULL
+PEF,Perpendiculars Bisector of a Line Segment,NULL,NULL
+PEG,Percentage,NULL,NULL
+PEH,Perpendicular bisector of line and Angle Bisector,NULL,NULL
+PEI,Perpendicular to Radius and From an outside point,NULL,NULL
+PIC,Pinhole Camera,NULL,NULL
+PIF,Pressure in Fluids,NULL,NULL
+PIJ,Pictograph,NULL,NULL
+PIK,Pie chart OR Circle Graph,NULL,NULL
+PIL,Power,NULL,NULL
+PLG,Pressure by Liquids and Gases,NULL,NULL
+PLL,Plotting a Point in the Plane,NULL,NULL
+POF,Production of Sound,NULL,NULL
+POM,Polynomials,NULL,NULL
+PON,Polynomials in One Variable,NULL,NULL
+POO,Powers with Negative Exponents,NULL,NULL
+POS,How Sound is Produced,NULL,NULL
+POW,Power,NULL,NULL
+PRA,Profit and Loss,NULL,NULL
+PRB,Properties of Triangle,NULL,NULL
+PRC,Properties of Chords of Circle,NULL,NULL
+PRD,Proof of Pythagoras Theorem,NULL,NULL
+PRE,Pressure,NULL,NULL
+PRP,Presentation of Data,NULL,NULL
+PRQ,Prime and Composite Numbers,NULL,NULL
+PRR,Prime Factorisation ,NULL,NULL
+PRS,Prices Related to an Item or Buying and Selling,NULL,NULL
+PRT,Properties of Whole Number,NULL,NULL
+PRU,Proper and Improper fraction OR Mixed Fraction,NULL,NULL
+PRV,Proportion,NULL,NULL
+PRW,Properties of Integers,NULL,NULL
+PRX,Properties of Parallel lines,NULL,NULL
+PRY,Properties of Rational Numbers,NULL,NULL
+PRZ,Properties of Square Numbers,NULL,NULL
+PSM,Playing with Spherical Mirror,NULL,NULL
+PTE,Potential Energy,NULL,NULL
+QUE,Quadratic Equation,NULL,NULL
+RAF,Ratio,NULL,NULL
+RAG,Rational Number on Number Line,NULL,NULL
+RAH,Rational Number on Number Line,NULL,NULL
+RAI,Ratio and Percentage,NULL,NULL
+RAJ,Rational Number and Their Decimal Expansion,NULL,NULL
+RBC,Charging by Rubbing,NULL,NULL
+RED,Relative Density,NULL,NULL
+REK,Real Numbers and Their Decimal Expansion,NULL,NULL
+REL,Real Numbers on Number Line,NULL,NULL
+REM,Reciprocal of Rational Number,NULL,NULL
+REN,Reducing Equations to Simpler Form,NULL,NULL
+REO,Reflection and Symmetry,NULL,NULL
+REP,Related Angles,NULL,NULL
+REQ,Relationship between Zeroes and Coefficient of a Polynomial,NULL,NULL
+RER,Remainder Theorem,NULL,NULL
+RES,Representing Small Numbers,NULL,NULL
+RET,Representation on Graph,NULL,NULL
+RFR,Resistance and factors affecting Resistance,NULL,NULL
+RGP,Refraction through Glass Prism,NULL,NULL
+RGS,Refraction through Glass Slab,NULL,NULL
+RIL,Reflection of Light,NULL,NULL
+RIU,Right angle Triangle & Pythagoras Property,NULL,NULL
+ROF,Refelction of Sound,NULL,NULL
+ROL,Reflection of Light,NULL,NULL
+ROM,Rate of Motion,NULL,NULL
+ROV,Roman Numerals,NULL,NULL
+ROW,Rotational Symmetry,NULL,NULL
+RRL,Refraction of Light,NULL,NULL
+RRR,Laws of Refraction,NULL,NULL
+RSL,Refraction by Spherical Lenses,NULL,NULL
+RUX,Rules of Variables,NULL,NULL
+RVN,Reverberation,NULL,NULL
+SAM,Medium and Sound,NULL,NULL
+SAY,Sales Tax and Value Added Tax,NULL,NULL
+SBH,Sound by Humans,NULL,NULL
+SCL,Season and Clothes,NULL,NULL
+SCM,Sign Convention for Spherical Mirrors,NULL,NULL
+SEA,Setting up an Equation,NULL,NULL
+SEQ,2nd equation,NULL,NULL
+SEZ,Section Formula,NULL,NULL
+SHA,What is a Shadow,NULL,NULL
+SIB,Simple Interest,NULL,NULL
+SIC,Similar Figures,NULL,NULL
+SID,Similarity of Triangle,NULL,NULL
+SLW,Sound as Longitudnal Waves,NULL,NULL
+SOE,Solution of Equation,NULL,NULL
+SOF,Solving an Equation,NULL,NULL
+SOG,Solid figure on a plan surface,NULL,NULL
+SOH,Solving LE having variable on one side and numbers on other side,NULL,NULL
+SOI,Solving LE having variable on both sides,NULL,NULL
+SOJ,Solution of a Quadratic Equation by Factorisation,NULL,NULL
+SOK,Solution of a Quadratic Equation by Completing the Square,NULL,NULL
+SOL,Scattering of Light,NULL,NULL
+SON,Sonar,NULL,NULL
+SPL,Sphere and Hemisphere,NULL,NULL
+SPM,Spherical Mirrors,NULL,NULL
+SPN,Propagation of Sound,NULL,NULL
+SPR,Series parallel Combination of Resistance,NULL,NULL
+SQM,Square Roots,NULL,NULL
+SQN,Square Roots of Decimals,NULL,NULL
+SSM,Speed of Sound in Different Mediums,NULL,NULL
+SSQ,The Solar System and its members,NULL,NULL
+STO,Standard Identities,NULL,NULL
+SUM,Standard Units of measurement,NULL,NULL
+SUN,Sunlight,NULL,NULL
+SUP,"Substitution, Elimination, Cross-Multiplication",NULL,NULL
+SUQ,Sum of First n Terms of AP,NULL,NULL
+TAP,Thrust and Pressure,NULL,NULL
+TAR,Tangent to a circle,NULL,NULL
+TEM,Measuring Temperature,NULL,NULL
+TEQ,3rd equation,NULL,NULL
+TES,Tenth and Hundredth,NULL,NULL
+TET,Terms of an Expression,NULL,NULL
+TEU,Test of Divisibility ,NULL,NULL
+THV,Theorems of lines and Angles,NULL,NULL
+THW,Theoretical Approach,NULL,NULL
+THX,Three Dimensional Shapes,NULL,NULL
+TOH,Transfer of Heat,NULL,NULL
+TOM,Types of Motion,NULL,NULL
+TOO,Types of Objects,NULL,NULL
+TRA,Triangles on the Same base and between the Parallel Lines,NULL,NULL
+TRB,Trigonometric Identities,NULL,NULL
+TRC,Trigonometric Ratios,NULL,NULL
+TRE,Types of Reflection,NULL,NULL
+TRY,Trigonometric Ratios of Some Specific Angles,NULL,NULL
+TRZ,Triangle Inequalities,NULL,NULL
+TST,The Stars,NULL,NULL
+TYD,Types of Graphs,NULL,NULL
+UMN,Uniform Motion,NULL,NULL
+UNE,Unitary Method,NULL,NULL
+UOM,Use of Magnet,NULL,NULL
+USF,Use of Percentage,NULL,NULL
+USG,Using Brackets,NULL,NULL
+USH,Using Expressions Practically ,NULL,NULL
+USM,Use of Spherical Mirrors,NULL,NULL
+VEL,Velocity,NULL,NULL
+VII,Viewing Different Section of a Solid,NULL,NULL
+VIJ,Views of 3D shapes,NULL,NULL
+VIK,Visualising Solid Object,NULL,NULL
+VOG,Value of g,NULL,NULL
+VOL,Volume of Solid Shape,NULL,NULL
+VOT,How things become visible,NULL,NULL
+VTG,Velocity Time Graph,NULL,NULL
+WAF,Wheels and Friction,NULL,NULL
+WCF,Work Done by Constant Force,NULL,NULL
+WGT,Weight,NULL,NULL
+WHM,What is an Equation,NULL,NULL
+WHN,What is Rational Number,NULL,NULL
+WIM,What is Measurement,NULL,NULL
+WIS,What is Sound?,NULL,NULL
+WOC,Concept of Work,NULL,NULL
+WRK,Work,NULL,NULL
+ZEO,Zeroes of Polynomial,NULL,NULL
