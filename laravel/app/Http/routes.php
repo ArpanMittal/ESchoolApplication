@@ -15,70 +15,43 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers;
 
 App::singleton('oauth2', function() {
-    //$storage = new OAuth2\Storage\Pdo(array('dsn' => 'mysql:dbname=laravel;host=localhost', 'username' => 'root', 'password' => ''));
-
-    //return $storage;
-    //return $storage;
-
-    //$array=array('dsn' => 'mysql:dbname=laravel;host=127.0.0.1', 'username' => 'root', 'password' => '');
+    /*
+     * create custom pdo class to change validation parameter
+     */
     $array2=array('dsn'=>'mysql:dbname='.env('DB_DATABASE', 'forge').';host='.env('DB_HOST', 'localhost'),'username'  =>env('DB_USERNAME', 'forge'),'password'=>env('DB_PASSWORD', ''));
-    //file_put_contents("a.txt",$array2);
-   //$storage = new App\Http\Controllers\MyPdo(array('dsn' => 'mysql:dbname=laravel;host=127.0.0.1', 'username' => 'root', 'password' => ''));
-   $storage=new App\Http\Controllers\MyPdo($array2);
-    //file_put_contents("a.txt",$storage);
+    $storage=new App\Http\Controllers\MyPdo($array2);
     $server = new OAuth2\Server($storage);
-
+    /*
+     * various grant_type our oath server support and gave response according to them
+     */
     $server->addGrantType(new OAuth2\GrantType\ClientCredentials($storage));
     $server->addGrantType(new OAuth2\GrantType\UserCredentials($storage));
     $server->addGrantType(new OAuth2\GrantType\RefreshToken($storage));
-    //$server->addGrantType(new \App\Http\OAuth\RefreshTokenGrantType($storage));
-
-    
     return $server;
 });
 
 
-
+/*
+ * url to insert values into database 
+ */
 Route::get('insert','insert@doinsert');
+/*
+ * welcome screen
+ */
 Route::get('/', function () {
     return view('welcome');
 });
-
-/*Route::post('oauth/token', function()
-{
-    $bridgedRequest  = OAuth2\HttpFoundationBridge\Request::createFromRequest(Request::instance());
-    $bridgedResponse = new OAuth2\HttpFoundationBridge\Response();
-
-    $bridgedResponse = App::make('oauth2')->handleTokenRequest($bridgedRequest, $bridgedResponse);
-
-    return $bridgedResponse;
-});*/
-
+/*
+ * route path for signup and to refresh token after access_token expires
+ * refreshtoken @input granttype,clientid,clientsecret,refreshtoken
+ * signup @input username,password,clientid,clientsecret,granttype 
+ * trustedclientaccess @input clientid,clientpassword,granttype
+ * 
+ */
 Route::post('oauth/token','OAuthcontroller@getOAuthToken');
-
-/*Route::get('private', function()
-{
-    $bridgedRequest  = OAuth2\HttpFoundationBridge\Request::createFromRequest(Request::instance());
-    $bridgedResponse = new OAuth2\HttpFoundationBridge\Response();
-
-    if (App::make('oauth2')->verifyResourceRequest($bridgedRequest, $bridgedResponse)) {
-
-        $token = App::make('oauth2')->getAccessTokenData($bridgedRequest);
-
-        return Response::json(array(
-            'private' => 'stuff',
-            'user_id' => $token['user_id'],
-            'client'  => $token['client_id'],
-            'expires' => $token['expires'],
-        ));
-    }
-    else 
-        return Response::json(array(
-            'error' => 'Unauthorized'
-        ), $bridgedResponse->getStatusCode());
-    }
-});*/
-
+/*
+ * middleware to check validation of access token and return user_id into request
+ */
 Route::group(['prefix'=>'post','middleware'=>['oauth']],function(){
 
     Route::post('getEmail','postController@getAllPost');
