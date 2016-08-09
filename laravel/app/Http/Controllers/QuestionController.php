@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Input;
+use Illuminate\Support\Facades\Redirect;
 use PDOException;
 
 class QuestionController extends Controller
@@ -21,14 +22,42 @@ class QuestionController extends Controller
         $user = DB::table('user')->whereId($id)->first();
         $data['user'] = $user;
 
-        $data['subjects'] = DB::table('classsubjectmap')
+        $data['subjects'] = DB::table('operatorsubjectmap')
+            ->join('classsubjectmap', 'operatorsubjectmap.subject_id', '=', 'classsubjectmap.subject_id')
+            ->join('subject', 'operatorsubjectmap.subject_id', '=', 'subject.id')
             ->join('class', 'classsubjectmap.class_id', '=', 'class.id')
-            ->join('subject', 'classsubjectmap.subject_id', '=', 'subject.id')
+            ->where('operatorsubjectmap.user_id','=',$id)
             ->get();
 
         $data['types'] = DB::table('questiontype')->get();
-
+        
         return view('question.new',$data);
+    }
+
+    public function nextQuestion(Request $request)
+    {
+        $id = $request->session()->get('id');
+        $user = DB::table('user')->whereId($id)->first();
+        $questionId = Input::get('QuestionId');
+        
+        if ($user->role_id == 1){
+            $query = DB::table('question');
+        }else {
+            $query = DB::table('question');
+            $query->where('created_by','=',$id);
+        }
+        
+        if (isset($questionId)){
+            $query->where('id','>',$questionId);
+        }
+
+        $nextId = $query->select('id')
+            ->orderBy('id', 'asc')
+            ->first();
+        if (isset($nextId)){
+            return Redirect::to('/question/'.$nextId->id);
+        }
+        return Redirect::to('/question/list');
     }
 
     public function editQuestion(Request $request,$id){
@@ -157,6 +186,98 @@ class QuestionController extends Controller
         return json_encode($result);
     }
 
+    public function updateQuestion(Request $request)
+    {
+        $questionId = Input::get('QuestionId');
+        $optionid = Input::get('OptId');
+        $teacherId = Input::get('TeacherId');
+        $hash = Input::get("TopicId");
+        $question_type = Input::get("QuesType");
+        $question= Input::get("question");
+        $options = Input::get("Opt");
+        $correct_option = Input::get("optionsRadioG");
+        $ideal_time = Input::get('ideal_time');
+        $level = Input::get("Level");
+
+        try{
+            DB::beginTransaction();
+            $status = DB::table('question')->where('id',$questionId)
+                ->update([
+                    'hash'              =>  $hash,
+                    'question'          =>  $question,
+                    'question_type_id'  =>  $question_type,
+                    'modified_by'        =>  $teacherId,
+                    'difficulty'        =>  $level,
+                    'ideal_attempt_time'=> $ideal_time
+                ]);
+            if ($status==false){
+                DB::rollback();
+                $result['success'] = 'false';
+                $result['error'] = 'Error in filling question';
+                return json_encode($result);
+            }
+            if(Input::hasFile('question_diagram'))
+            {
+                $image = Input::file('question_diagram');
+                $question_image  = $questionId . '.' . $image->getClientOriginalExtension();
+                $directory = 'content/'.$hash.'/question';
+                $path = public_path($directory);
+
+                Input::file('question_diagram')->move($path,$question_image);
+
+                DB::table('question')->where('id',$questionId)
+                    ->update(['image_path' => $directory."/".$question_image]);
+            }
+            if(Input::hasFile('solution'))
+            {
+
+                $image = Input::file('solution');
+                $solution_image  = $questionId . '.' . $image->getClientOriginalExtension();
+                $directory = 'content/' .$hash.'/solution';
+                $path = public_path($directory);
+
+                Input::file('solution')->move($path,$solution_image);
+                DB::table('question')->whereId($questionId)
+                    ->update(['solution_path' => $directory."/".$solution_image]);
+            }
+            for ($i=0;$i<count($options);$i++){
+                $status = DB::table('option')->where('id',$optionid[$i])
+                    ->update([
+                        'opt' => $options[$i]
+                    ]);
+                if ($status==false){
+                    // Back to form with errors
+                    DB::rollback();
+                    $result['success'] = 'false';
+                    $result['error'] = 'Error in filling options'.$i;
+                    return json_encode($result);
+                }
+            }
+            DB::table('answer')->where('question_id','=', $questionId)->delete();
+            $answerId= DB::table('answer')->insert(
+                ['question_id' => $questionId, 'answer'=> $optionid[$correct_option-1]]
+            );
+            if ($answerId==false){
+                DB::rollback();
+                $result['success'] = 'false';
+                $result['error'] = 'Error in filling correct option';
+                return json_encode($result);
+            }
+            DB::commit();
+        } catch(Exception $e)
+        {
+            // Back to form with errors
+            DB::rollback();
+            $result['success'] = 'false';
+            $result['error'] = $e->getTraceAsString();
+            return json_encode($result);
+        }
+
+
+        $result['success'] = 'true';
+        return json_encode($result);
+    }
+
     public function getChapters(Request $request)
     {
         $subject = Input::get('SubjectId');
@@ -201,6 +322,7 @@ class QuestionController extends Controller
         }
 
         $data['question_list'] = $query->select('id','hash','question','question_type_id')
+                                        ->orderBy('id', 'asc')
                                         ->get();
 
         for($i=0;$i<count($data['question_list']); $i++){

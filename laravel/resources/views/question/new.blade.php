@@ -76,9 +76,12 @@
                                                 <div class="control-group">
                                                     <label class="control-label">Question Diagram</label>
                                                     <div class="controls" >
-                                                        <input class="" type="file" name="question_diagram" id="question_diagram" />
                                                         @if(isset($question))
+                                                            <input class="" type="hidden" name="question_diagram" id="question_diagram" hidden="" />
+                                                            <input class="" type="button" name="question_diagram_button" id="question_diagram_button" value="Change Image" />
                                                             <img src="{!! asset($question->image_path) !!}" />
+                                                        @else
+                                                            <input class="" type="file" name="question_diagram" id="question_diagram"  />
                                                         @endif
                                                     </div>
                                                 </div>
@@ -88,9 +91,9 @@
                                                     <label class="control-label">Options</label>
                                                     @if(isset($question) && $options)
                                                         <div class="controls">
-                                                            @foreach($options as $option)
-                                                                <input name="OptId[]"  type="hidden"  value="{{$option->id}}">
-                                                            @endforeach
+                                                            @for($i=0;$i<count($options);$i++)
+                                                                <input name="OptId[]"  type="hidden"  value="{{$options[$i]->id}}">
+                                                            @endfor
                                                         </div>
                                                     @endif
                                                     <div class="controls" id="opt1">
@@ -128,9 +131,12 @@
                                             <div class="control-group">
                                                 <label class="control-label">Solution</label>
                                                 <div class="controls" >
-                                                    <input class="" type="file" name="solution" id="solution" />
                                                     @if(isset($question))
+                                                        <input class="" type="hidden" name="solution" id="solution" hidden="" />
+                                                        <input class="" type="button" name="solution_button" id="solution_button" value="Change Image" />
                                                         <img src="{!! asset($question->solution_path) !!}" />
+                                                    @else
+                                                        <input class="" type="file" name="solution" id="solution"  />
                                                     @endif
                                                 </div>
                                             </div>
@@ -138,10 +144,10 @@
                                             <div class="control-group">
                                                 <label class="control-label">Ideal Time</label>
                                                 <div class="controls" >
-                                                    <input class="" type="time" name="ideal_time" id="iteal_time" />
+                                                    <input class="" type="time" name="ideal_time" id="ideal_time" />
                                                 </div>
                                             </div>
-
+                                            @if(!isset($question))
                                             <div class="control-group">
                                                 <label class="control-label">Level</label>
                                                 <div class="controls" >
@@ -153,7 +159,7 @@
                                                     </select>
                                                 </div>
                                             </div>
-
+                                            @endif
                                             <div class="form-actions">
                                                 @if(isset($question))
                                                     <button type="button" class="btn btn-info" id="nextButton" name="nextButton" >Next</button>
@@ -193,7 +199,9 @@
             CKEDITOR.replace("Option4", { toolbar : 'OptionVersion',
                 width :   '500px',
                 height: '50px' });
-
+            @if(isset($question))
+                selectQuestion();
+            @endif
         });
 
         @if(isset($question))
@@ -201,8 +209,36 @@
             $('#SubjectId').val('{{$selected_subject}}');
             $('#ChapterId').val('{{$selected_chapter}}');
             $('#TopicId').val('{{$question->hash}}');
+            $('#QuesType').val({{$question->question_type_id}});
+
+            var ques = `{{$question->question}}`;
+            CKEDITOR.instances.question.setData(ques);
+            @for($i=0;$i<count($options);$i++)
+                @foreach($answer as $ans)
+                @if($options[$i]->id == $ans->answer)
+                    $('#rad{{$i+1}}').prop('checked', true);
+                @endif
+                @endforeach
+        CKEDITOR.instances.Option{{$i+1}}.setData('{{$options[$i]->opt}}');
+            @endfor
+            document.getElementById("ideal_time").value = '{{$question->ideal_attempt_time}}';
         }
+
+        $("#question_diagram_button").click(function() {
+            $('#question_diagram').attr({type:"file"});
+            $('#question_diagram').trigger('click');
+            $('#question_diagram_button').attr({type:"hidden"});
+        });
+        $("#solution_button").click(function() {
+            $('#solution').attr({type:"file"});
+            $('#solution').trigger('click');
+            $('#solution_button').attr({type:"hidden"});
+        });
+        $("#nextButton").click(function() {
+            window.location = '{{ url('/question/next?QuestionId='.$question->id) }}';
+        });
         @endif
+
         $("#frmquestion").submit(function(){
             var question = CKEDITOR.instances.question.getData();
             if (question=="") {
@@ -235,11 +271,14 @@
                 data: formData,
                 async: false,
                 success: function (data) {
+                    data = JSON.parse(data);
                     if(data.success=='false'){
-                        alert(data.error);
+                        alert(JSON.stringify(data.error));
                     }else {
                         alert('saved');
+                        @if(!isset($question))
                         clearFields();
+                        @endif
                     }
                 },
                 cache: false,
