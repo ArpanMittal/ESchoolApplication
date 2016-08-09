@@ -15,6 +15,7 @@ class Additionaltables extends Migration
         //
         Schema::create('operatorsubjectmap',function(Blueprint$table){
             $table->engine='InnoDB';
+            
             $table->string('subject_id',3);
             $table->integer('user_id')->unsigned();
             $table->foreign('subject_id')->references('id')->on('subject')->onDelete('cascade');
