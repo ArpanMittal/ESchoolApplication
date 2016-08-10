@@ -174,6 +174,12 @@
         <service android:name=".GCMNotificationIntentService" />
         <service android:name=".TakeNotes.ChatHeadService" />
 
+        <provider
+            android:authorities="com.organization.sjhg.e_school"
+            android:name=".Database.Provider"
+            android:exported="false"
+            android:syncable="true" />
+
     </application>
 
 </manifest>
