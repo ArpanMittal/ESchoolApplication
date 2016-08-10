@@ -5,9 +5,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
-import android.view.View;
 
-import com.organization.sjhg.e_school.Database.DatabaseOperations;
 import com.organization.sjhg.e_school.Helpers.ProtectionHelper;
 import com.organization.sjhg.e_school.HideNavigationBar;
 import com.organization.sjhg.e_school.Remote.ExceptionHandler;

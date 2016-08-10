@@ -6,7 +6,7 @@ import android.os.AsyncTask;
 import android.widget.Toast;
 
 import com.organization.sjhg.e_school.Content.Content_Type;
-import com.organization.sjhg.e_school.Database.DatabaseOperations;
+import com.organization.sjhg.e_school.Database.old.DatabaseOperations;
 import com.organization.sjhg.e_school.MainActivity;
 import com.organization.sjhg.e_school.R;
 import com.organization.sjhg.e_school.Structure.ContentDetailBase;
