@@ -1,6 +1,5 @@
 package com.organization.sjhg.e_school.Content;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -9,7 +8,6 @@ import android.database.DataSetObserver;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.util.Pair;
 import android.view.ContextThemeWrapper;
@@ -24,8 +22,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.organization.sjhg.e_school.Database.DatabaseOperations;
-import com.organization.sjhg.e_school.MainActivity;
+import com.organization.sjhg.e_school.Database.old.DatabaseOperations;
 import com.organization.sjhg.e_school.R;
 import com.organization.sjhg.e_school.Structure.ChapterDetail;
 import com.organization.sjhg.e_school.Structure.ContentDetailBase;

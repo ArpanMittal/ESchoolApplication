@@ -1,44 +1,23 @@
 package com.organization.sjhg.e_school.Content.Laughguru;
 
 
-import android.app.Dialog;
-import android.app.FragmentManager;
-import android.app.FragmentTransaction;
 import android.content.Intent;
-import android.database.Cursor;
-import android.graphics.drawable.AnimationDrawable;
-import android.graphics.drawable.ColorDrawable;
-import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
-import android.os.Parcelable;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
-import android.view.View;
-import android.view.Window;
-import android.widget.ImageView;
 import android.widget.MediaController;
-import android.widget.RelativeLayout;
 import android.widget.VideoView;
 
-import com.organization.sjhg.e_school.CommonFragmentTheme;
-import com.organization.sjhg.e_school.Content.AudioVideoPlayerActivity;
-import com.organization.sjhg.e_school.Content.ContentViewer;
-import com.organization.sjhg.e_school.Database.ContentDetailTable;
-import com.organization.sjhg.e_school.Database.DatabaseOperations;
+import com.organization.sjhg.e_school.Database.old.DatabaseOperations;
 import com.organization.sjhg.e_school.Helpers.ProtectionHelper;
-import com.organization.sjhg.e_school.HideNavigationBar;
 import com.organization.sjhg.e_school.R;
-import com.organization.sjhg.e_school.Remote.ExceptionHandler;
 import com.organization.sjhg.e_school.Structure.LaughguruContentDetailBase;
 
 import org.json.JSONException;
 
 import java.io.IOException;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 
 /**

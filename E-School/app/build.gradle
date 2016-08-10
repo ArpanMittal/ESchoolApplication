@@ -5,13 +5,13 @@ android {
     signingConfigs {
     }
     compileSdkVersion 22
-    buildToolsVersion '21.1.2'
+    buildToolsVersion '22'
     defaultConfig {
         applicationId "com.organization.sjhg.e_school"
         minSdkVersion 19
         targetSdkVersion 22
         versionCode 9
-        versionName "4.0.0c"
+        versionName "0.0.1"
     }
     buildTypes {
         release {

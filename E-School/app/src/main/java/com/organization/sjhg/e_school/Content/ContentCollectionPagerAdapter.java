@@ -7,7 +7,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.util.Pair;
 
-import com.organization.sjhg.e_school.Database.DatabaseOperations;
+import com.organization.sjhg.e_school.Database.old.DatabaseOperations;
 
 import java.sql.SQLException;
 import java.util.List;

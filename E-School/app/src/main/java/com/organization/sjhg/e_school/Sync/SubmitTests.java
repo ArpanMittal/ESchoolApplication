@@ -6,25 +6,19 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.widget.Toast;
 
-import com.organization.sjhg.e_school.Content.Content_Type;
-import com.organization.sjhg.e_school.Database.DatabaseOperations;
+import com.organization.sjhg.e_school.Database.old.DatabaseOperations;
 import com.organization.sjhg.e_school.MainActivity;
 import com.organization.sjhg.e_school.R;
-import com.organization.sjhg.e_school.Remote.ExceptionHandler;
 import com.organization.sjhg.e_school.Remote.HttpHelper;
-import com.organization.sjhg.e_school.Remote.RemoteHelper;
 import com.organization.sjhg.e_school.Remote.ServerAddress;
 import com.organization.sjhg.e_school.Structure.ContentDetailBase;
 import com.organization.sjhg.e_school.Structure.LaughguruContentDetailBase;
-import com.organization.sjhg.e_school.Structure.NotesDetail;
 import com.organization.sjhg.e_school.Structure.TestDetail;
 
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
-import org.json.JSONArray;
 import org.json.JSONException;
 
-import java.io.File;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
