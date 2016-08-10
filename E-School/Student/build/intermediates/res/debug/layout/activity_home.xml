@@ -1,0 +1,72 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/relativeLayout"
+    tools:context=".HomeActivity"
+    android:background="@drawable/background1withlogo">
+
+    <FrameLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_centerVertical="true"
+        android:id="@+id/abc">
+
+        <ImageView
+            android:layout_width="200px"
+            android:layout_height="200px"
+            android:id="@+id/HomeButton"
+            android:src="@drawable/homebutton"
+            android:layout_gravity="right|center_vertical"
+            android:layout_marginRight="75px" />
+
+        <ImageView
+            android:layout_width="200px"
+            android:layout_height="200px"
+            android:id="@+id/SchoolButton"
+            android:src="@drawable/schoolbutton"
+            android:layout_gravity="left|center_vertical"
+            android:layout_marginLeft="75px" />
+
+        <ImageView
+            android:layout_width="150px"
+            android:layout_height="100px"
+            android:src="@drawable/duster"
+            android:paddingRight="40px"
+            android:id="@+id/duster"
+            android:layout_gravity="right|bottom" />
+
+        <ImageView
+            android:layout_width="150px"
+            android:layout_height="100px"
+            android:src="@drawable/chalk"
+            android:paddingLeft="50px"
+            android:id="@+id/chalk"
+            android:layout_gravity="left|bottom" />
+
+        <TextView
+            android:layout_width="611px"
+            android:layout_height="112px"
+            android:layout_marginTop="50px"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="WELCOME"
+            android:gravity="center"
+            android:textSize="100px"
+            android:id="@+id/welcome"
+            android:layout_gravity="center_horizontal|top" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="40px"
+            android:layout_marginLeft="50px"
+            android:textSize="20px"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text=""
+            android:id="@+id/date"
+            android:layout_gravity="left|top" />
+
+    </FrameLayout>
+
+</RelativeLayout>
+<!-- From: file:/F:/TechPartners/Sjhgs/classroom/E-School/Student/src/main/res/layout/activity_home.xml -->

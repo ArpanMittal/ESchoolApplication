@@ -1,0 +1,425 @@
+package com.organization.sjhg.e_school.Remote;
+
+import android.accounts.NetworkErrorException;
+import android.content.Context;
+import android.net.wifi.WifiInfo;
+import android.net.wifi.WifiManager;
+import android.os.AsyncTask;
+import android.provider.Settings;
+import android.util.Log;
+
+import com.organization.sjhg.e_school.Helpers.LogHelper;
+import com.organization.sjhg.e_school.Structure.LaughguruContentDetailBase;
+import com.organization.sjhg.e_school.Sync.FileManager;
+import com.organization.sjhg.e_school.Helpers.StudentApplicationUserData;
+import com.organization.sjhg.e_school.R;
+import com.organization.sjhg.e_school.Structure.ContentDetailBase;
+import com.organization.sjhg.e_school.Structure.GlobalConstants;
+
+
+import org.apache.http.NameValuePair;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.StringEntity;
+import org.apache.http.message.BasicNameValuePair;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+
+/**
+ * Created by Prateek Tulsyan on 10-03-2015.
+ * Email: prateek.tulsyan13@gmail.com
+ * Organization: St. Joseph's Hitech Gurukul.
+ */
+
+public class RemoteHelper {
+    Context context;
+    String LOGIN_PAGE;
+    String FETCH_CONTENT_PAGE;
+    String INSERT_MAC;
+    String ACTIVE_SESSIONS;
+    String UPDATE_STUDENT_STATUS;
+    String UPDATE_SESSION_STATUS;
+    String TEST_AVAILABLE_PAGE;
+    String FETCH_LAUGHGURU_PAGE;
+    String ADAPTIVE_TEST_PAGE;
+    String FETCH_NOTES_PAGE;
+    String GET_SINGLE_TEST;
+    String GET_SINGLEADAPTIVE_TEST;
+    String GET_STUDENT_STATUS;
+    String SUBSCRIPTION_SUBJECTS;
+    String EVENT_DETAILS;
+
+    public RemoteHelper(Context context) {
+        this.context = context;
+        GET_SINGLEADAPTIVE_TEST=this.context.getResources().getString(R.string.get_single_adaptive_test);
+        LOGIN_PAGE = this.context.getResources().getString(R.string.login_page);
+        FETCH_CONTENT_PAGE = this.context.getResources().getString(R.string.fetch_content_page);
+        INSERT_MAC = this.context.getResources().getString(R.string.insert_mac_address);
+        ACTIVE_SESSIONS = this.context.getResources().getString(R.string.active_sessions);
+        UPDATE_STUDENT_STATUS = this.context.getResources().getString(R.string.update_student_status);
+        UPDATE_SESSION_STATUS = this.context.getResources().getString(R.string.update_session_status);
+        TEST_AVAILABLE_PAGE = context.getResources().getString(R.string.test_available_page);
+        FETCH_LAUGHGURU_PAGE=this.context.getResources().getString(R.string.fetch_laughguru_page);
+        FETCH_NOTES_PAGE = this.context.getResources().getString(R.string.fetch_notes_page);
+        GET_SINGLE_TEST = this.context.getResources().getString(R.string.get_single_test);
+        GET_STUDENT_STATUS = this.context.getResources().getString(R.string.get_student_status);
+        SUBSCRIPTION_SUBJECTS = this.context.getResources().getString(R.string.subscription_subjects);
+        EVENT_DETAILS = this.context.getResources().getString(R.string.event_details);
+        ADAPTIVE_TEST_PAGE=this.context.getResources().getString(R.string.adaptive_test_page);
+    }
+
+    public String VerifyLoginAndSetUserData(Map<String, String> params) throws Exception {
+        WifiManager wifiManager = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
+        WifiInfo wInfo = wifiManager.getConnectionInfo();
+        String macAddressDevice = wInfo.getMacAddress();
+
+        String TAG_SUCCESS = this.context.getResources().getString(R.string.TAG_LOGIN_SUCCESS);
+        String TAG_MESSAGE = this.context.getResources().getString(R.string.TAG_LOGIN_FAILURE);
+        String TAG_DATA = this.context.getResources().getString(R.string.TAG_LOGIN_DATA);
+        String TAG_MAC = this.context.getResources().getString(R.string.TAG_DEVICE_MACID);
+        String loginURL = ServerAddress.getServerAddress(context) + "/" + LOGIN_PAGE;
+    //here dend login information to server
+        JSONObject jsonUserDetails = null;//HttpHelper.getInstance().MakeHttpRequestWithRetries(loginURL, params);
+        int success = jsonUserDetails.getInt(TAG_SUCCESS);
+        String macAddressServer = jsonUserDetails.getString(TAG_MAC);
+
+
+        if (success == 1) {
+            if (macAddressServer.equals(macAddressDevice) || GlobalConstants.IS_DEBUG_MODE) {
+                JSONObject jsonObject = jsonUserDetails.getJSONObject(TAG_DATA);
+                StudentApplicationUserData.save(context, jsonObject);
+                return jsonUserDetails.getString(TAG_MESSAGE);
+            } else {
+                throw new Exception("Hey! This device belongs to someone else. Please contact IT admin for more details.");
+            }
+        }
+        throw new Exception("Error Logging in: " + jsonUserDetails.getString(TAG_MESSAGE));
+    }
+
+
+    // Get both test and non test content
+    public List<ContentDetailBase> getServerContentList() throws IOException, JSONException, NetworkErrorException {
+        List<ContentDetailBase> returnValue = new ArrayList<>();
+        returnValue.addAll(getServerContentList(TEST_AVAILABLE_PAGE, "TestAvailable"));
+        returnValue.addAll(getServerContentList(FETCH_CONTENT_PAGE, "FetchFile"));
+        return returnValue;
+    }
+
+    // Get test data
+    public void getServerTestList(RemoteCallHandler caller, RemoteCalls functionCalled) {
+
+        String testDetailUrl = ServerAddress.getServerAddress(context) + "/" + TEST_AVAILABLE_PAGE;
+
+        Map<String, String> params = new HashMap<String, String>();
+
+        new JSONParserAsync(testDetailUrl, params, caller, functionCalled);;
+    }
+    // get live voting test
+    public void getLiveVotingTestList(RemoteCallHandler caller, RemoteCalls functionCalled) {
+
+        String testDetailUrl = ServerAddress.getLocalServerAddress(context) + "/" + TEST_AVAILABLE_PAGE;
+
+        Map<String, String> params = new HashMap<String, String>();
+        params.put("SessionId",
+                StudentApplicationUserData.getInstance(context).getClassSessionId());
+        params.put("SectionId",
+                String.valueOf(StudentApplicationUserData.getInstance(context).getSectionId()));
+
+        new JSONParserAsync(testDetailUrl, params, caller, functionCalled);;
+    }
+    public void uploadAdaptiveTest(RemoteCallHandler caller,RemoteCalls functionCalled,int testID,String response,int questionid)
+    {
+        String TEST_STORE_ANSWER_PAGE = context.getResources().getString(R.string.upload_adaptve_answer);
+        String URL = ServerAddress.getServerAddress(context) + "/" + TEST_STORE_ANSWER_PAGE;
+        final Map<String, String> params = new HashMap<String, String>();
+        params.put("TestId", String.valueOf(testID));
+        params.put("QuestionId", String.valueOf(questionid));
+        params.put("Response",response);
+        new JSONParserAsync(URL, params, caller, functionCalled);
+    }
+
+    public void updateDiary(RemoteCallHandler caller,RemoteCalls functionCalled,String diaryId){
+        String checkurl="updatediary.php";
+        String url=ServerAddress.getServerAddress(context) + "/"+checkurl;
+        final Map<String, String>params=new HashMap<>();
+        params.put("DiaryId",diaryId);
+        new JSONParserAsync(url, params, caller, functionCalled);
+
+    }
+
+    public List<LaughguruContentDetailBase> getLaughguruContentList(
+            int contentId)
+            throws IOException, JSONException, NetworkErrorException {
+        String laughguruContentDetailURL = ServerAddress.getServerAddress(context) + "laughgurudatafetchfile.php";
+        List<LaughguruContentDetailBase> returnValue = new ArrayList<>();
+
+        Map<String, String> params = new HashMap<String, String>();
+        params.put("lgdata", String.valueOf(contentId));
+        JSONObject jsonFetchFile = null;//HttpHelper.getInstance().MakeHttpRequestWithRetries(laughguruContentDetailURL, params);
+        JSONArray arrayOfContentDetails = jsonFetchFile.getJSONArray("LgFile");
+
+        int lengthOfArray = arrayOfContentDetails.length();
+        for (int i = 0; i < lengthOfArray; i++) {
+            JSONObject contentDetailAsJson = arrayOfContentDetails.getJSONObject(i);
+            LaughguruContentDetailBase row = new LaughguruContentDetailBase(contentDetailAsJson.get("ContentFileId").toString(),
+                    contentDetailAsJson.get("Order").toString()   ,
+                    contentDetailAsJson.get("imagePath").toString(),
+                    contentDetailAsJson.get("audioPath").toString(),
+                    contentDetailAsJson.get("LaughguruContentTypeId").toString());
+
+
+            returnValue.add(row);
+        }
+
+        return returnValue;
+    }
+    // To verify login status
+    public void verifyLogin(RemoteCallHandler caller,RemoteCalls functionCalled,String email,String password)
+    {
+        //TODO: change to api page name
+        String verifyLoginurl=ServerAddress.getServerAddress(context)+"/dummyvolley.php";
+        Map<String, String> params = new HashMap<String, String>();
+        params.put("Email", email);
+        params.put("Password", password);
+        new JSONParserAsync(verifyLoginurl,params,caller,functionCalled);
+
+    }
+
+    public void getAdaptiveContent(RemoteCallHandler caller, RemoteCalls functionCalled,int testId)
+    {
+        String adaptiveDetailUrl=ServerAddress.getServerAddress(context)+"/"+GET_SINGLEADAPTIVE_TEST;
+        Map<String, String> params=new HashMap<>();
+        params.put("TestId", String.valueOf(testId));
+
+
+        new JSONParserAsync(adaptiveDetailUrl, params, caller, functionCalled);
+    }
+    // Get Content data
+    public void getServerContent(RemoteCallHandler caller, RemoteCalls functionCalled) {
+
+        String contentDetailUrl = ServerAddress.getServerAddress(context) + "/" + FETCH_CONTENT_PAGE;
+
+        Map<String, String> params = new HashMap<String, String>();
+
+        new JSONParserAsync(contentDetailUrl, params, caller, functionCalled);
+    }
+
+
+    private List<ContentDetailBase> getServerContentList(
+            String contentFetchPage,
+            String jsonArrayTag)
+            throws IOException, JSONException, NetworkErrorException {
+
+        String contentDetailURL = ServerAddress.getServerAddress(context) + "/" + contentFetchPage;
+        List<ContentDetailBase> returnValue = new ArrayList<>();
+
+        Map<String, String> fetchFile = new HashMap<>();
+        JSONObject jsonFetchFile = null;//HttpHelper.getInstance().MakeHttpRequestWithRetries(contentDetailURL, fetchFile);
+
+        if (jsonFetchFile == null)
+            return returnValue;
+
+        JSONArray arrayOfContentDetails = jsonFetchFile.getJSONArray(jsonArrayTag);
+
+        int lengthOfArray = arrayOfContentDetails.length();
+        for (int i = 0; i < lengthOfArray; i++) {
+            JSONObject contentDetailAsJson = arrayOfContentDetails.getJSONObject(i);
+            returnValue.add(ContentDetailBase.getInstance(contentDetailAsJson));
+        }
+        return returnValue;
+    }
+
+    public JSONObject getCompleteTestData(int testId) throws IOException, JSONException, NetworkErrorException {
+
+        String testDataUrl = ServerAddress.getServerAddress(context) + "/" + GET_SINGLE_TEST;
+
+        Map<String, String> params = new HashMap<String, String>();
+        params.put("TestId", String.valueOf(testId));
+
+        return null;//HttpHelper.getInstance().MakeHttpRequestWithRetries(testDataUrl, params);
+    }
+    //Get Live voting data from local server
+    public JSONObject getCompleteLiveVotingData(int testId) throws IOException, JSONException, NetworkErrorException {
+
+        String testDataUrl = ServerAddress.getLocalServerAddress(context) + "/" + GET_SINGLE_TEST;
+
+        Map<String, String> params = new HashMap<String, String>();
+        params.put("TestId", String.valueOf(testId));
+        params.put("StudentId",
+                String.valueOf(StudentApplicationUserData.getInstance(context).getStudentId()));
+        return null;//HttpHelper.getInstance().MakeHttpRequestWithRetries(testDataUrl, params);
+    }
+
+    //send answer for live voting
+    public void uploadAnswer(int testId,String ans,int questionId,RemoteCallHandler caller, RemoteCalls functionCalled) throws JSONException, IOException, NetworkErrorException {
+        String TEST_STORE_ANSWER_PAGE = context.getResources().getString(R.string.test_store_answer_page);
+        String URL = ServerAddress.getLocalServerAddress(context) + "/" + TEST_STORE_ANSWER_PAGE;
+
+        Map<String, String> params = new HashMap<String, String>();
+
+        params.put("StudentId",
+                    String.valueOf(StudentApplicationUserData.getInstance(context).getStudentId()));
+        params.put("TestId", String.valueOf(testId));
+        params.put("QuestionId", String.valueOf(questionId));
+        params.put("AnswerId", ans.split("##")[1]);
+
+        new JSONParserAsync(URL, params, caller, functionCalled);
+    }
+
+    // Get all active sessions
+    public void getActiveSessions(RemoteCallHandler caller, RemoteCalls functionCalled) {
+
+        String listSessionURL = ServerAddress.getLocalServerAddress(context) + "/" + ACTIVE_SESSIONS;
+        Map<String, String> params = new HashMap<String, String>();
+        params.put("SectionId",
+                String.valueOf(StudentApplicationUserData.getInstance(context).getSectionId()));
+        new JSONParserAsync(listSessionURL, params, caller, functionCalled);
+
+    }
+
+
+    // To get student session status.
+    public void getStudentSessionStatus(RemoteCallHandler caller, RemoteCalls functionCalled) {
+
+        String studentStatusURL = ServerAddress.getLocalServerAddress(context) + "/" + GET_STUDENT_STATUS;
+
+        Map<String, String> params = new HashMap<String, String>();
+        params.put("SessionId",
+                StudentApplicationUserData.getInstance(context).getClassSessionId());
+        params.put("StudentId",
+                String.valueOf(StudentApplicationUserData.getInstance(context).getStudentId()));
+        params.put("operation", "GetStudentSessionStatus");
+
+        new JSONParserAsync(studentStatusURL, params, caller, functionCalled);
+    }
+
+
+    public void updateStudentSessionStatus(RemoteCallHandler caller, RemoteCalls functionCalled) {
+        String listSessionURL = ServerAddress.getLocalServerAddress(context) + "/" + UPDATE_STUDENT_STATUS;
+
+        Map<String, String> params = new HashMap<String, String>();
+        params.put("SessionId",
+                StudentApplicationUserData.getInstance(context).getClassSessionId());
+        params.put("StudentId",
+                String.valueOf(StudentApplicationUserData.getInstance(context).getStudentId()));
+        params.put("operation", "UpdateStudentSessionStatus");
+
+        new JSONParserAsync(listSessionURL, params, caller, functionCalled);
+    }
+
+
+    public void updateRaiseHandStatus(RemoteCallHandler caller, RemoteCalls functionCalled, boolean raiseHand) {
+        String listSessionURL = ServerAddress.getLocalServerAddress(context) + "/" + UPDATE_STUDENT_STATUS;
+
+        Map<String, String> params = new HashMap<String, String>();
+        params.put("SessionId",
+                StudentApplicationUserData.getInstance(context).getClassSessionId());
+        params.put("StudentId",
+                String.valueOf(StudentApplicationUserData.getInstance(context).getStudentId()));
+        params.put("operation", "UpdateHandStatus");
+        params.put("HandRaised", raiseHand ? "1" : "0");
+
+        new JSONParserAsync(listSessionURL, params, caller, functionCalled);
+    }
+
+
+    public void sendStudentQuestion(RemoteCallHandler caller, RemoteCalls functionCalled, String question) {
+        String questionToSend = StudentApplicationUserData.getInstance(context).getStudentName() +
+                " : " + question;
+
+        String sendQuestionUrl = ServerAddress.getLocalServerAddress(context) + "/" + UPDATE_SESSION_STATUS;
+
+        Map<String, String> params = new HashMap<String, String>();
+        params.put("SessionId",
+                StudentApplicationUserData.getInstance(context).getClassSessionId());
+        params.put("StudentId",
+                String.valueOf(StudentApplicationUserData.getInstance(context).getStudentId()));
+        params.put("operation", "insertStudentQuestion");
+        params.put("questionAsked", questionToSend);
+
+        new JSONParserAsync(sendQuestionUrl, params, caller, functionCalled);
+    }
+
+    public void SendBatteryStatus(RemoteCallHandler caller, RemoteCalls functionCalled, int batteryLevel) {
+        String batteryStatus = String.valueOf(batteryLevel);
+
+        String sendStatusUrl = ServerAddress.getLocalServerAddress(context) + "/" + UPDATE_STUDENT_STATUS;
+
+        Map<String, String> params = new HashMap<String, String>();
+        params.put("SessionId",
+                StudentApplicationUserData.getInstance(context).getClassSessionId());
+        params.put("StudentId",
+                String.valueOf(StudentApplicationUserData.getInstance(context).getStudentId()));
+        params.put("operation", "UpdateBatteryStatus");
+        params.put("BatteryLevel", batteryStatus);
+
+        new JSONParserAsync(sendStatusUrl, params, caller, functionCalled);
+    }
+
+    public void SendRunningTasks(RemoteCallHandler caller, RemoteCalls functionCalled, String taskList) {
+        String sendStatusUrl = ServerAddress.getLocalServerAddress(context) + "/" + UPDATE_STUDENT_STATUS;
+
+        Map<String, String> params = new HashMap<String, String>();
+        params.put("SessionId",
+                StudentApplicationUserData.getInstance(context).getClassSessionId());
+        params.put("StudentId",
+                String.valueOf(StudentApplicationUserData.getInstance(context).getStudentId()));
+        params.put("operation", "UpdateRunningTasks");
+        params.put("AppList", taskList);
+
+        new JSONParserAsync(sendStatusUrl, params, caller, functionCalled);
+    }
+
+
+
+    //Get remote notes
+    public void getServerNotes(RemoteCallHandler caller, RemoteCalls functionCalled) {
+
+        String notesURL = ServerAddress.getServerAddress(context) + "/" + FETCH_NOTES_PAGE;
+        Map<String, String> params = new HashMap<String, String>();
+        new JSONParserAsync(notesURL, params, caller, functionCalled);
+    }
+
+
+    // Get subscription subject list
+    public void getSubscriptionSubjects(RemoteCallHandler caller, RemoteCalls functionCalled) {
+
+        String subscriptionUrl = ServerAddress.getServerAddress(context) + "/" + SUBSCRIPTION_SUBJECTS;
+
+        Map<String, String> params = new HashMap<String, String>();
+        params.put("operation", "GetSubscriptionSubjectList");
+        params.put("SectionId", String.valueOf(StudentApplicationUserData.getInstance(context).getSectionId()));
+
+        new JSONParserAsync(subscriptionUrl, params, caller, functionCalled);
+    }
+
+
+    // Update student subscription subject list
+    public void updateStudentSubscriptionSubjects(RemoteCallHandler caller, RemoteCalls functionCalled, Object newValues) {
+
+        String subscriptionUrl = ServerAddress.getServerAddress(context) + "/" + SUBSCRIPTION_SUBJECTS;
+
+        Map<String, String> params = new HashMap<String, String>();
+
+        params.put("operation", "UpdateStudentSubscriptionList");
+        params.put("SubscribedSubjects", String.valueOf(newValues));
+
+        new JSONParserAsync(subscriptionUrl, params, caller, functionCalled);
+    }
+
+    public void getEventDetails(RemoteCallHandler caller, RemoteCalls functioncalled) {
+        String calendarURL = ServerAddress.getServerAddress(context) + "/" + EVENT_DETAILS;
+
+        Map<String, String> params = new HashMap<String, String>();
+
+        new JSONParserAsync(calendarURL, params, caller, functioncalled);
+
+    }
+}

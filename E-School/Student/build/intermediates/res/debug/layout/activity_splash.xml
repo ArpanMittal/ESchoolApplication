@@ -1,0 +1,15 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#75ff7b"
+    tools:context="com.organization.sjhg.e_school.SplashActivity">
+
+
+    <WebView
+        android:layout_width="783px"
+        android:layout_height="459px"
+        android:id="@+id/splash"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true" />
+</RelativeLayout>
+<!-- From: file:/F:/TechPartners/Sjhgs/classroom/E-School/Student/src/main/res/layout/activity_splash.xml -->

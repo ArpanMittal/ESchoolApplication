@@ -1,0 +1,88 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#fff"
+    tools:context="com.organization.sjhg.e_school.Sync.FileManager">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:id="@+id/emptystate"
+        android:text="No content to display"
+        android:textSize="30sp"
+        android:textColor="#C0C0C0"
+        android:visibility="gone"
+        />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/contentOption">
+    <CheckBox
+        android:id="@+id/selectAll"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_centerVertical="true"
+        android:text="@string/select_all"
+        android:visibility="invisible" />
+
+        <Button
+            android:id="@+id/uploadTestButton"
+            style="?android:attr/buttonStyleSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawableLeft="@drawable/ic_file_upload_black_48dp"
+            android:layout_marginRight="20dp"
+            android:layout_toLeftOf="@+id/deleteButton"
+            android:text="Upload Test"
+            android:background="@android:color/transparent"
+            android:visibility="invisible"
+            />
+
+        <Button
+            android:id="@+id/deleteButton"
+            style="?android:attr/buttonStyleSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawableLeft="@drawable/ic_delete_black_48dp"
+            android:text="Delete"
+            android:layout_marginRight="20dp"
+            android:layout_toLeftOf="@+id/syncButton"
+            android:background="@android:color/transparent"
+            android:visibility="invisible"
+        />
+
+        <Button
+            android:id="@+id/syncButton"
+            style="?android:attr/buttonStyleSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawableLeft="@drawable/ic_file_download_black_48dp"
+            android:text="Download"
+            android:layout_alignParentRight="true"
+            android:background="@android:color/transparent"
+            android:visibility="invisible" />
+    </RelativeLayout>
+    <ScrollView
+        android:id="@+id/layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/contentOption"
+        android:layout_marginBottom="0dp"
+        android:layout_marginTop="0dp"
+        android:fadeScrollbars="false"
+        android:fillViewport="true"
+        android:scrollbarStyle="outsideInset"
+        android:scrollbars="horizontal|vertical">
+
+        <TableLayout
+            android:id="@+id/contentCheckboxHolderTable"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            ></TableLayout>
+    </ScrollView>
+
+</RelativeLayout>

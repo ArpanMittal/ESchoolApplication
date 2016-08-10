@@ -1,0 +1,9 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    tools:context="com.organization.sjhg.e_school.Content.Test.TestLabelTheDiagramActivity"
+    xsi:schemaLocation="http://schemas.android.com/apk/res/android ">
+    <item android:id="@+id/action_settings" android:orderInCategory="100"
+        android:title="@string/action_settings" app:showAsAction="never" />
+</menu><!-- From: file:/F:/TechPartners/Sjhgs/classroom/E-School/Student/src/main/res/menu/menu_test_label_the_diagram.xml -->

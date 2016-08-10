@@ -1,0 +1,43 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/testMatchLayout"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@drawable/test_page"
+    tools:context="com.organization.sjhg.e_school.TestMatch">
+
+    <TextView
+        android:id="@+id/matchQuestion"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="20dp"
+        android:maxHeight="105dp"
+        android:maxWidth="900dp"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textSize="20sp" />
+
+    <ScrollView
+        android:id="@+id/layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/matchQuestion"
+        android:layout_marginBottom="20dp"
+        android:layout_marginTop="20dp"
+        android:fillViewport="true"
+        android:scrollbarStyle="outsideInset"
+        android:scrollbars="horizontal|vertical">
+
+    <TableLayout
+        android:id="@+id/dataLayout"
+        android:layout_width="fill_parent"
+        android:layout_height="325dp"
+        android:layout_marginBottom="20dp"
+        android:layout_marginTop="20dp"
+        android:orientation="vertical">
+
+    </TableLayout>
+    </ScrollView>
+
+</RelativeLayout>
+

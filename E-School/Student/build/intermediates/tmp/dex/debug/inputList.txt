@@ -1,0 +1,9 @@
+F:\TechPartners\Sjhgs\classroom\E-School\Student\build\intermediates\classes\debug
+F:\TechPartners\Sjhgs\classroom\E-School\Student\build\intermediates\pre-dexed\debug\support-annotations-21.0.3-ff2d7f5022b5a92fc988e7ecf40140c2621ade2e.jar
+F:\TechPartners\Sjhgs\classroom\E-School\Student\build\intermediates\pre-dexed\debug\base64-747b5dd786fda92e62b19d99214053d837f7b318.jar
+F:\TechPartners\Sjhgs\classroom\E-School\Student\build\intermediates\pre-dexed\debug\android-pdfview-1.0.2-c033aebc54550b6c72009c7ee3cca5ac826f7480.jar
+F:\TechPartners\Sjhgs\classroom\E-School\Student\build\intermediates\pre-dexed\debug\internal_impl-21.0.3-9280b750ef308b9a839a9647769b7f7d142a7960.jar
+F:\TechPartners\Sjhgs\classroom\E-School\Student\build\intermediates\pre-dexed\debug\gson-27b790aaa0310d70482df9c83bab3b7c41665c1d.jar
+F:\TechPartners\Sjhgs\classroom\E-School\Student\build\intermediates\pre-dexed\debug\classes-b4e20ef5d9c39127bd6bf51059e2999d6e1c7ba6.jar
+F:\TechPartners\Sjhgs\classroom\E-School\Student\build\intermediates\pre-dexed\debug\classes-32a0c0480d06e47c13874cde8b4eff396e7705b9.jar
+F:\TechPartners\Sjhgs\classroom\E-School\Student\build\intermediates\pre-dexed\debug\PdfViewer-6f2e3f1708f9df04bb083a50a467f099a1052775.jar

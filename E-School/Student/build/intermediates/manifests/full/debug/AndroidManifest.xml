@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.organization.sjhg.e_school" android:versionCode="1" android:versionName="1.0">
+
+    <uses-sdk android:minSdkVersion="16" android:targetSdkVersion="21" />
+
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+
+    <application android:allowBackup="true" android:icon="@drawable/schoollog"
+        android:label="@string/app_name" android:theme="@style/AppTheme">
+        <activity android:name="com.organization.sjhg.e_school.HomeActivity"
+            android:label="@string/app_name" android:screenOrientation="sensorLandscape"
+            android:theme="@android:style/Theme.NoTitleBar.Fullscreen"></activity>
+        <activity android:name="com.organization.sjhg.e_school.LoginActivity"
+            android:label="@string/title_activity_login" android:screenOrientation="sensorLandscape"
+            android:theme="@android:style/Theme.NoTitleBar.Fullscreen"></activity>
+        <activity android:name="com.organization.sjhg.e_school.MainActivity"
+            android:label="@string/title_activity_module1"
+            android:screenOrientation="sensorLandscape"
+            android:theme="@android:style/Theme.NoTitleBar.Fullscreen"></activity>
+        <activity android:name="com.organization.sjhg.e_school.Content.ImageDisplayActivity"
+            android:label="@string/title_activity_display_image"
+            android:screenOrientation="sensorLandscape"
+            android:theme="@android:style/Theme.NoTitleBar.Fullscreen"></activity>
+        <activity android:name="com.organization.sjhg.e_school.Content.PdfDisplayActivity"
+            android:label="@string/title_activity_pdf_view"
+            android:screenOrientation="sensorLandscape"
+            android:theme="@android:style/Theme.NoTitleBar.Fullscreen"></activity>
+        <activity android:name=".Content.Test.TestSubmitted"
+            android:label="@string/title_activity_test_submitted"
+            android:screenOrientation="sensorLandscape"
+            android:theme="@android:style/Theme.NoTitleBar.Fullscreen"></activity>
+        <activity android:name=".Content.Test.TestMatchTheColumn"
+            android:label="@string/title_activity_test_match_the_column"
+            android:screenOrientation="sensorLandscape"
+            android:theme="@android:style/Theme.NoTitleBar.Fullscreen"></activity>
+        <activity android:name="com.organization.sjhg.e_school.Content.SubjectContentActivity"
+            android:label="@string/title_activity_subject_content"
+            android:screenOrientation="sensorLandscape"
+            android:theme="@android:style/Theme.NoTitleBar.Fullscreen"></activity>
+        <activity android:name="com.organization.sjhg.e_school.Content.BooksListingActivity"
+            android:label="@string/title_activity_books" android:screenOrientation="sensorLandscape"
+            android:theme="@android:style/Theme.NoTitleBar.Fullscreen"></activity>
+        <activity android:name="com.organization.sjhg.e_school.Content.VideosListingActivity"
+            android:label="@string/title_activity_videos"
+            android:screenOrientation="sensorLandscape"
+            android:theme="@android:style/Theme.NoTitleBar.Fullscreen"></activity>
+        <activity android:name="com.organization.sjhg.e_school.Content.AudioVideoPlayerActivity"
+            android:label="@string/title_activity_audio_video_player"
+            android:screenOrientation="sensorLandscape"
+            android:theme="@android:style/Theme.NoTitleBar.Fullscreen"></activity>
+        <activity android:name=".Content.Test.ActiveTestActivity"
+            android:label="@string/title_activity_active_test"
+            android:screenOrientation="sensorLandscape"
+            android:theme="@android:style/Theme.NoTitleBar.Fullscreen"></activity>
+        <activity android:name=".Content.Test.TestFillInTheBlanks"
+            android:label="@string/title_activity_test_fillIn_the_blanks"
+            android:screenOrientation="sensorLandscape"
+            android:theme="@android:style/Theme.NoTitleBar.Fullscreen"></activity>
+        <activity android:name=".Content.Test.TestLabelTheDiagramActivity"
+            android:label="@string/title_activity_test_label_the_diagram"
+            android:screenOrientation="sensorLandscape"
+            android:theme="@android:style/Theme.NoTitleBar.Fullscreen"></activity>
+        <activity android:name=".Content.Test.TestMcqAndObjActivity"
+            android:label="@string/title_activity_mcq_and_obj"
+            android:screenOrientation="sensorLandscape"
+            android:theme="@android:style/Theme.NoTitleBar.Fullscreen"></activity>
+        <activity android:name="com.organization.sjhg.e_school.SplashActivity"
+            android:label="@string/app_name" android:screenOrientation="sensorLandscape"
+            android:theme="@android:style/Theme.NoTitleBar.Fullscreen">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity android:name="com.organization.sjhg.e_school.TakeNotes.NoteListingActivity"
+            android:label="@string/title_activity_note_listing"
+            android:screenOrientation="sensorLandscape"
+            android:theme="@android:style/Theme.NoTitleBar.Fullscreen"></activity>
+        <activity android:name="com.organization.sjhg.e_school.TakeNotes.NoteEditActivity"
+            android:label="@string/title_activity_note_edit"
+            android:theme="@android:style/Theme.NoTitleBar.Fullscreen"></activity>
+        <activity android:name="com.organization.sjhg.e_school.Content.LaughGuruActivity"
+            android:label="@string/title_activity_laugh_guru"
+            android:screenOrientation="sensorLandscape"
+            android:theme="@android:style/Theme.NoTitleBar.Fullscreen"></activity>
+
+        <service android:name="com.organization.sjhg.e_school.ClassSession.PollingService"
+            android:enabled="true" android:exported="true"></service>
+    </application>
+
+</manifest>

@@ -1,0 +1,122 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/videosListDisp"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/background1withlogo"
+    tools:context="com.organization.sjhg.e_school.Content.VideosListingActivity">
+
+    <FrameLayout
+        android:id="@+id/frameLayout2"
+        android:layout_width="fill_parent"
+        android:layout_height="125px"
+        android:layout_alignParentRight="true">
+
+        <TextView
+            android:id="@+id/helloUser"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right|top"
+            android:layout_marginRight="50px"
+            android:layout_marginTop="35px"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textSize="20px"
+            android:textStyle="bold"
+            />
+
+        <TextView
+            android:id="@+id/date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left|top"
+            android:layout_marginLeft="50px"
+            android:layout_marginTop="40px"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textSize="20px" />
+
+        <TextView
+            android:id="@+id/videosLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:layout_gravity="center"
+            android:layout_marginTop="20px"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textSize="40px" />
+
+
+
+    </FrameLayout>
+
+    <ScrollView
+        android:id="@+id/scrollView"
+        android:layout_width="fill_parent"
+        android:layout_height="280px"
+        android:layout_below="@+id/frameLayout2">
+
+        <LinearLayout
+            android:id="@+id/linearContentView"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:orientation="vertical" >
+
+        </LinearLayout>
+
+    </ScrollView>
+
+    <ImageView
+        android:id="@+id/connectwithteacher"
+        android:layout_width="80px"
+        android:layout_height="80px"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignTop="@+id/sync"
+        android:layout_gravity="start|bottom"
+        android:layout_marginLeft="200px"
+        android:src="@drawable/unnamed" />
+
+    <ToggleButton
+        android:id="@+id/raisehand"
+        android:layout_width="80px"
+        android:layout_height="80px"
+        android:layout_alignTop="@+id/chat"
+        android:layout_toEndOf="@+id/connectwithteacher"
+        android:layout_toRightOf="@+id/connectwithteacher"
+        android:background="@drawable/toggle_raisehand_name"
+        android:focusable="false"
+        android:focusableInTouchMode="false"
+        android:paddingRight="50px"
+        android:textOff=""
+        android:textOn="" />
+
+    <ImageView
+        android:id="@+id/chat"
+        android:layout_width="80px"
+        android:layout_height="80px"
+        android:layout_alignTop="@+id/writenotes"
+        android:layout_centerHorizontal="true"
+        android:layout_toEndOf="@+id/raisehand"
+        android:layout_toRightOf="@+id/raisehand"
+        />
+
+    <ImageView
+        android:id="@+id/writenotes"
+        android:layout_width="80px"
+        android:layout_height="80px"
+        android:layout_alignTop="@+id/sync"
+        android:layout_toEndOf="@+id/chat"
+        android:layout_toRightOf="@+id/chat"
+        android:src="@drawable/writenoteswithname" />
+
+    <ImageView
+        android:id="@+id/sync"
+        android:layout_width="80px"
+        android:layout_height="80px"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_gravity="left|bottom"
+        android:layout_marginRight="200px"
+        android:src="@drawable/syncwithname" />
+
+</RelativeLayout>

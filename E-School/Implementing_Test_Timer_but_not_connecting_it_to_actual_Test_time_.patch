@@ -1,0 +1,288 @@
+Index: app/src/main/java/com/organization/sjhg/e_school/Test/TestActivity.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/com/organization/sjhg/e_school/Test/TestActivity.java	(revision 403b4ffaa7ed648168ac09fe0026759aced6e895)
++++ app/src/main/java/com/organization/sjhg/e_school/Test/TestActivity.java	(revision )
+@@ -11,7 +11,10 @@
+ import android.graphics.Typeface;
+ import android.os.AsyncTask;
+ import android.os.Bundle;
++import android.provider.CalendarContract;
+ import android.view.View;
++import android.view.animation.AlphaAnimation;
++import android.view.animation.Animation;
+ import android.widget.ImageView;
+ import android.widget.RelativeLayout;
+ import android.widget.TextView;
+@@ -32,6 +35,8 @@
+ import java.text.SimpleDateFormat;
+ import java.util.ArrayList;
+ import java.util.List;
++import java.util.Timer;
++import java.util.TimerTask;
+ import java.util.concurrent.ExecutionException;
+ 
+ /**
+@@ -54,6 +59,9 @@
+     RelativeLayout Screen;
+     Typeface font;
+ 
++    TextView timerDisplay;
++    private Timer timer;
++
+     ImageView btnNext;
+     ImageView btnPrevious;
+     ImageView btnSubmit;
+@@ -108,6 +116,54 @@
+         helloUser.setTextColor(Color.YELLOW);
+         helloUser.setText("Hi, " + studentName);
+ 
++        final Animation anim = new AlphaAnimation(0.0f, 1.0f);
++        anim.setDuration(1000);
++        anim.setStartOffset(40);
++        anim.setRepeatMode(Animation.REVERSE);
++        anim.setRepeatCount(Animation.INFINITE);
++
++        timerDisplay = (TextView) findViewById(R.id.timer);
++        timerDisplay.setTypeface(font);
++        timerDisplay.setTextColor(Color.WHITE);
++
++        timer = new Timer();
++
++        // TODO: Take the value of duration from Test. Currently value is in seconds.
++        final int duration = 3660;
++        final long endTime = System.currentTimeMillis() / 1000 + duration;
++
++        timer.scheduleAtFixedRate(new TimerTask() {
++            @Override
++            public void run() {
++                runOnUiThread(new Runnable() {
++                    int remainingTime;
++                    int seconds;
++                    int minutes;
++                    int hours;
++
++                    public void run() {
++                        remainingTime =  (int) (endTime - System.currentTimeMillis() / 1000);
++                        seconds = remainingTime % 60;
++                        minutes = (remainingTime / 60) % 60;
++                        hours = remainingTime / 3600;
++
++                        if (remainingTime <= 0) {
++                            timerDisplay.setText("00:00:00");
++                            SubmitFunction(true);
++                            timer.cancel();
++                        }
++                        else {
++                            if (remainingTime <= 10) {
++                                timerDisplay.startAnimation(anim);
++                                timerDisplay.setTextColor(Color.RED);
++                            }
++                            timerDisplay.setText(String.format("%02d:%02d:%02d", hours, minutes, seconds));
++                        }
++                    }
++                });
++            }
++        }, 1000, 1000);
++
+         long date = System.currentTimeMillis();
+         SimpleDateFormat sdf = new SimpleDateFormat("MMM dd, yyyy ");
+         String dateString = sdf.format(date);
+@@ -158,65 +214,79 @@
+         btnSubmit.setOnClickListener(new View.OnClickListener() {
+             @Override
+             public void onClick(View v) {
++                SubmitFunction(false);
++            }
++        });
++
++        new AttemptLogin().execute();
++
++    }
++
++    private void SubmitFunction(boolean isSubmittedAfterTimeout) {
+-                if (ServerAddress.isConnectedToInternet(TestActivity.this)) {
+-                    saveAnswer();
+-                    String requiredQuestionId[] = test.QuestionId.split(",");
+-                    int questionIdLen = requiredQuestionId.length;
+-                    int k = 0;
+-                    for (int j = 0; j < questionIdLen; j++) {
+-                        int questionId = Integer.parseInt(requiredQuestionId[j]);
+-                        if (answerAry[questionId] == null || answerAry[questionId] == "") {
+-                            AlertDialog.Builder builder1 = new AlertDialog.Builder(TestActivity.this);
++        if (ServerAddress.isConnectedToInternet(TestActivity.this)) {
++            saveAnswer();
++            String requiredQuestionId[] = test.QuestionId.split(",");
++            int questionIdLen = requiredQuestionId.length;
++            int k = 0;
++            for (int j = 0; j < questionIdLen; j++) {
++                int questionId = Integer.parseInt(requiredQuestionId[j]);
++                if (answerAry[questionId] == null || answerAry[questionId] == "") {
++                    AlertDialog.Builder builder1 = new AlertDialog.Builder(TestActivity.this);
+-                            builder1.setMessage(getResources().getString(R.string.all_questions_not_answered));
++                    String displayMessage;
++                    if (! isSubmittedAfterTimeout) {
++                        displayMessage = getString(R.string.all_questions_not_answered);
++                    }
++                    else {
++                        displayMessage = getString(R.string.message_test_timeout);
++                    }
++                    builder1.setMessage(displayMessage);
+-                            builder1.setCancelable(true);
+-                            builder1.setPositiveButton("Yes",
+-                                    new DialogInterface.OnClickListener() {
+-                                        public void onClick(DialogInterface dialog, int id) {
+-                                            SendToPhp();
+-                                            dialog.cancel();
+-                                        }
+-                                    });
++                    builder1.setCancelable(true);
++                    builder1.setPositiveButton("Yes",
++                            new DialogInterface.OnClickListener() {
++                                public void onClick(DialogInterface dialog, int id) {
++                                    SendToPhp();
++                                    dialog.cancel();
++                                }
++                            });
++                    if (! isSubmittedAfterTimeout) {
+-                            builder1.setNegativeButton("No",
+-                                    new DialogInterface.OnClickListener() {
+-                                        public void onClick(DialogInterface dialog, int id) {
+-                                            dialog.cancel();
+-                                        }
+-                                    });
++                        builder1.setNegativeButton("No",
++                                new DialogInterface.OnClickListener() {
++                                    public void onClick(DialogInterface dialog, int id) {
++                                        dialog.cancel();
++                                    }
++                                });
++                    }
++
+-                            AlertDialog alert11 = builder1.create();
+-                            alert11.show();
+-                            break;
+-                        } else {
+-                            k = j;
+-                        }
+-                    }
+-                    if (k == questionIdLen - 1) {
+-                        AlertDialog.Builder builder1 = new AlertDialog.Builder(TestActivity.this);
+-                        builder1.setMessage(getResources().getString(R.string.submit_test));
+-                        builder1.setCancelable(true);
+-                        builder1.setPositiveButton("Yes",
+-                                new DialogInterface.OnClickListener() {
+-                                    public void onClick(DialogInterface dialog, int id) {
+-                                        SendToPhp();
+-                                        dialog.cancel();
+-                                    }
+-                                });
+-                        builder1.setNegativeButton("No",
+-                                new DialogInterface.OnClickListener() {
+-                                    public void onClick(DialogInterface dialog, int id) {
+-                                        dialog.cancel();
+-                                    }
+-                                });
+-                        AlertDialog alert11 = builder1.create();
+-                        alert11.show();
+-                    }
+-                } else {
+-                    ExceptionHandler.thrownExceptions(TestActivity.this, getResources().getString(R.string.internet_failure), getResources().getString(R.string.error_message_internet));
+-                }
++                    AlertDialog alert11 = builder1.create();
++                    alert11.show();
++                    break;
++                } else {
++                    k = j;
++                }
++            }
++            if (k == questionIdLen - 1) {
++                AlertDialog.Builder builder1 = new AlertDialog.Builder(TestActivity.this);
++                builder1.setMessage(getResources().getString(R.string.submit_test));
++                builder1.setCancelable(true);
++                builder1.setPositiveButton("Yes",
++                        new DialogInterface.OnClickListener() {
++                            public void onClick(DialogInterface dialog, int id) {
++                                SendToPhp();
++                                dialog.cancel();
++                            }
++                        });
++                builder1.setNegativeButton("No",
++                        new DialogInterface.OnClickListener() {
++                            public void onClick(DialogInterface dialog, int id) {
++                                dialog.cancel();
++                            }
++                        });
++                AlertDialog alert11 = builder1.create();
++                alert11.show();
++            }
++        } else {
++            ExceptionHandler.thrownExceptions(TestActivity.this, getResources().getString(R.string.internet_failure), getResources().getString(R.string.error_message_internet));
++        }
+-            }
+-        });
+-
+-        new AttemptLogin().execute();
+-
+     }
+ 
+     class AttemptLogin extends AsyncTask<String, String, String> {
+\ No newline at end of file
+Index: app/src/main/res/values/strings.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/res/values/strings.xml	(revision 403b4ffaa7ed648168ac09fe0026759aced6e895)
++++ app/src/main/res/values/strings.xml	(revision )
+@@ -96,5 +96,6 @@
+     <string name="save_menu_noteedit">Save</string>
+     <string name="delete_menu_noteedit">Delete</string>
+     <string name="title_activity_laugh_guru">LaughGuruActivity</string>
++    <string name="message_test_timeout">Your time is up. Answers will be submitted automatically.</string>
+ 
+ </resources>
+Index: app/src/main/res/layout/activity_test.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/res/layout/activity_test.xml	(revision 403b4ffaa7ed648168ac09fe0026759aced6e895)
++++ app/src/main/res/layout/activity_test.xml	(revision )
+@@ -23,9 +23,23 @@
+             android:textStyle="bold"
+             android:textAppearance="?android:attr/textAppearanceLarge" />
+ 
++        <!-- TODO : Move this to code at later stage while implementing this as fragments.
++        -->
+         <TextView
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
++            android:id="@+id/timer"
++            android:layout_gravity="center|top"
++            android:textSize="20px"
++            android:layout_marginTop="35px"
++            android:layout_marginRight="50px"
++            android:textStyle="bold"
++            android:layout_alignParentTop="true"
++            android:layout_centerHorizontal="true" />
++
++        <TextView
++            android:layout_width="wrap_content"
++            android:layout_height="wrap_content"
+             android:textAppearance="?android:attr/textAppearanceLarge"
+             android:layout_marginLeft="50px"
+             android:layout_marginTop="40px"
+@@ -93,6 +107,8 @@
+         android:layout_width="fill_parent"
+         android:layout_height="fill_parent"
+         android:id="@+id/questionFragment"
+-        android:layout_centerInParent="true" />
++        android:layout_centerInParent="true" >
++
++    </RelativeLayout>
+ 
+ </RelativeLayout>
+\ No newline at end of file

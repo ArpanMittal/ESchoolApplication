@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/test_page"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    >
+
+
+
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:text="Test Details!!!"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textSize="25sp" />
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_centerHorizontal="true"
+        android:weightSum="4"
+        android:layout_below="@+id/textView3"
+        android:id="@+id/testdetail"
+       >
+        <TextView
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textSize="20sp"
+            android:layout_weight="1"
+            android:id="@+id/testtype"
+            android:text="testtype"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textSize="25sp"
+            android:layout_weight="1"
+            android:gravity="right"
+            android:id="@+id/numberofquestionslabel"
+            android:text="No. of questions: "/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textSize="25sp"
+            android:layout_weight="1"
+            android:gravity="left"
+            android:id="@+id/numberofquestions"
+            android:text="N/A"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:gravity="right"
+            android:layout_weight="1"
+            android:textSize="25sp"
+            android:id="@+id/timed"
+            android:text="timed"/>
+    </LinearLayout>
+    <TextView
+        android:id="@+id/textView9"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/maintext"
+        android:layout_marginBottom="10dp"
+        android:layout_centerHorizontal="true"
+
+        android:text="Instructions"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textSize="25sp" />
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:layout_below="@+id/textView9"
+        android:background="#fff"></View>
+    <TextView
+        android:id="@+id/maintext"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_above="@+id/timetext"
+        android:text="* Do not leave the test otherwise it will be submitted automatically."
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textSize="18sp" />
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:id="@+id/timetext"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textSize="18sp"
+        android:text="* Test will be automatically submitted after allotted time."/>
+
+
+    <TextView
+        android:id="@+id/adaptivetextView1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+
+        android:layout_below="@+id/timetext"
+
+        android:text="* Device must be connected to internet at all times."
+
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textSize="18sp" />
+    <Button
+        android:id="@+id/startTest"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="30dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/adaptivetextView1"
+        android:text="Start Test"/>
+
+</RelativeLayout>

@@ -1,0 +1,122 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@drawable/background1withlogo"
+    android:id="@+id/testMatchLayout"
+    tools:context="com.organization.sjhg.e_school.TestMatch">
+
+    <FrameLayout
+        android:layout_width="fill_parent"
+        android:layout_height="125px"
+        android:id="@+id/frameLayout2"
+        android:layout_alignParentRight="true">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/helloUser"
+            android:layout_gravity="right|top"
+            android:textSize="20px"
+            android:layout_marginTop="35px"
+            android:layout_marginRight="50px"
+            android:textStyle="bold"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:layout_marginLeft="50px"
+            android:layout_marginTop="40px"
+            android:textSize="20px"
+            android:id="@+id/date"
+            android:layout_gravity="left|top" />
+
+
+    </FrameLayout>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="40px"
+        android:layout_marginTop="60px"
+        android:maxWidth="900px"
+        android:maxHeight="105px"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:id="@+id/matchQuestion"
+        android:layout_gravity="center"
+        android:layout_centerHorizontal="true" />
+
+
+    <ScrollView
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:id="@+id/scrollView"
+        android:layout_below="@+id/matchQuestion"
+        android:layout_above="@+id/chalk"
+        android:layout_alignParentLeft="true">
+
+    <TableLayout
+        android:layout_width="fill_parent"
+        android:layout_height="325px"
+
+        android:orientation="vertical"
+        android:id="@+id/dataLayout"
+        android:layout_marginBottom="20px"
+        android:layout_marginTop="20px"></TableLayout>
+    </ScrollView>
+
+    <ImageView
+        android:layout_width="150px"
+        android:layout_height="100px"
+        android:src="@drawable/chalk"
+        android:paddingLeft="50px"
+        android:id="@+id/chalk"
+        android:layout_gravity="left|bottom"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true" />
+
+    <ImageView
+        android:layout_width="150px"
+        android:layout_height="100px"
+        android:src="@drawable/duster"
+        android:paddingRight="40px"
+        android:id="@+id/duster"
+        android:layout_gravity="right|bottom"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true" />
+
+    <ImageView
+        android:layout_width="150px"
+        android:layout_height="80px"
+        android:layout_marginBottom="30px"
+        android:src="@drawable/submitbutton"
+        android:id="@+id/submit"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true" />
+    <ImageView
+        android:layout_width="150px"
+        android:layout_height="80px"
+        android:layout_marginBottom="30px"
+        android:src="@drawable/nextbutton"
+        android:layout_toRightOf="@+id/submit"
+        android:layout_marginLeft="60px"
+        android:id="@+id/next"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true" />
+    <ImageView
+        android:layout_width="150px"
+        android:layout_height="80px"
+        android:layout_marginBottom="30px"
+        android:src="@drawable/prevbutton"
+        android:layout_toLeftOf="@+id/submit"
+        android:layout_marginRight="60px"
+        android:layout_marginLeft="60px"
+        android:id="@+id/previous"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true" />
+
+
+</RelativeLayout>
+
+<!-- From: file:/F:/TechPartners/Sjhgs/classroom/E-School/Student/src/main/res/layout/activity_test_match_the_column.xml -->

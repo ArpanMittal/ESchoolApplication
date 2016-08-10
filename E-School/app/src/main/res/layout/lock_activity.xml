@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:tools="http://schemas.android.com/tools"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical"
+              tools:ignore="HardcodedText">
+
+    <FrameLayout
+        style="@style/Widget.SetupMessageTile"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            style="@style/Widget.SetupMessage"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/vertical_page_margin"
+            android:layout_marginLeft="@dimen/horizontal_page_margin"
+            android:layout_marginRight="@dimen/horizontal_page_margin"
+            android:layout_marginTop="@dimen/vertical_page_margin"
+            android:text="The device has been locked by the teacher. "/>
+    </FrameLayout>
+
+    <!-- remove when shipping -->
+    <Button
+        android:id="@+id/lock"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="onClick"
+        android:layout_gravity="center"
+        android:text="Unlock"
+        />
+</LinearLayout>

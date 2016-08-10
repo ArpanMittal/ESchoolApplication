@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.organization.sjhg.e_school">
+
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_SYNC_SETTINGS" />
+    <uses-permission android:name="android.permission.READ_SYNC_STATS" />
+    <uses-permission android:name="android.permission.WRITE_CALENDAR" />
+    <uses-permission android:name="android.permission.READ_CALENDAR" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+
+    <permission
+        android:name="com.organization.sjhg.e_school.permission.C2D_MESSAGE"
+        android:protectionLevel="signature" />
+
+    <uses-permission android:name="com.organization.sjhg.e_school.permission.C2D_MESSAGE" />
+    <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+
+
+
+    <application
+        android:name=".Remote.VolleyController"
+        android:allowBackup="true"
+        android:icon="@drawable/eurovision"
+        android:label="@string/app_name"
+        android:supportsRtl="true"
+        android:screenOrientation="sensorLandscape"
+        android:theme="@style/AppTheme">
+        <activity
+            android:name=".LoginActivity"
+            android:theme="@style/AppTheme"
+            android:label="@string/title_activity_login"
+             />
+        <activity android:name=".SignupActivity"
+            android:label="@string/signup"
+            android:theme="@style/AppTheme"
+            />
+        <activity
+            android:name=".Main_Activity"
+            android:label="@string/title_activity_module1"
+            android:theme="@style/AppTheme.NoActionBar">
+        <meta-data android:name="android.app.default_searchable"
+            android:value=".Main_Activity" />
+        </activity>
+        <activity
+            android:name=".MainActivity"
+            android:label="@string/title_activity_module1"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".Content.ImageDisplayActivity"
+            android:label="@string/title_activity_display_image"
+            android:screenOrientation="sensorLandscape"
+            android:theme="@android:style/Theme.NoTitleBar.Fullscreen" />
+        <activity
+            android:name=".Content.PdfDisplayActivity"
+            android:label="@string/title_activity_pdf_view"
+            android:screenOrientation="sensorLandscape"
+            android:theme="@android:style/Theme.NoTitleBar.Fullscreen" />
+        <activity
+            android:name=".Content.AudioVideoPlayerActivity"
+            android:label="@string/title_activity_audio_video_player"
+            android:screenOrientation="sensorLandscape"
+            android:theme="@android:style/Theme.NoTitleBar.Fullscreen" />
+        <activity
+            android:name=".Content.Test.TestActivity"
+            android:label="@string/title_activity_test_fillIn_the_blanks"
+            android:screenOrientation="sensorLandscape"
+            android:theme="@android:style/Theme.NoTitleBar.Fullscreen"
+            android:windowSoftInputMode="stateHidden" />
+        <activity
+            android:name=".Content.Test.AdaptiveTestActivity"
+            android:label="@string/title_activity_test_fillIn_the_blanks"
+            android:screenOrientation="sensorLandscape"
+            android:theme="@android:style/Theme.NoTitleBar.Fullscreen"
+            android:windowSoftInputMode="stateHidden" />
+        <activity
+            android:name=".SplashActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="sensorLandscape"
+            android:theme="@android:style/Theme.NoTitleBar.Fullscreen">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <activity
+            android:name=".Content.Laughguru.LaughGuruActivity"
+            android:label="@string/title_activity_laugh_guru"
+            android:screenOrientation="sensorLandscape"
+            android:theme="@android:style/Theme.NoTitleBar.Fullscreen" />
+        <activity android:name=".TakeEvents.EventListingActivity"
+            android:label="EventListingActivity"
+            android:launchMode="singleInstance"
+            android:screenOrientation="sensorLandscape"
+            android:theme="@android:style/Theme.NoTitleBar.Fullscreen"/>
+
+        <activity android:name=".TakeEvents.EventDisplayActivity"
+            android:label="EventDisplayActivity"
+            android:screenOrientation="sensorLandscape"
+            android:theme="@android:style/Theme.NoTitleBar.Fullscreen"/>
+        <activity android:name=".Content.Test.TestInstructionActivity"
+            android:label="TestInstructionActivity"
+            android:screenOrientation="sensorLandscape"
+            android:theme="@android:style/Theme.NoTitleBar.Fullscreen"/>
+        <activity android:name=".SettingsFragment"
+            android:label="Application Settings"
+            android:screenOrientation="sensorLandscape"
+            android:theme="@style/SettingTheme"/>
+        <activity android:name=".TakeNotes.AddSmallNotesActivity"
+            android:label="AddSmallNotesActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="sensorLandscape"
+            android:theme="@android:style/Theme.NoTitleBar.Fullscreen"/>
+        <activity android:name=".Helpers.SearchActivity" >
+            <intent-filter>
+                <action android:name="android.intent.action.SEARCH" />
+            </intent-filter>
+            <meta-data android:name="android.app.searchable"
+                android:resource="@xml/searchable"/>
+        </activity>
+
+        <service
+            android:name=".ClassSession.SyncService"
+            android:enabled="true"
+            android:exported="false" />
+        <!-- This is for Device Admin stuff -->
+        <receiver
+            android:name=".deviceadmin.AdminReceiver"
+            android:permission="android.permission.BIND_DEVICE_ADMIN">
+            <meta-data
+                android:name="android.app.device_admin"
+                android:resource="@xml/admin" />
+
+            <intent-filter>
+                <action android:name="android.app.action.DEVICE_ADMIN_ENABLED" />
+            </intent-filter>
+        </receiver>
+
+        <activity android:name=".deviceadmin.AdminPromptActivity" />
+        <activity
+            android:name=".ClassSession.LockActivity"
+            android:exported="false"
+            android:screenOrientation="sensorLandscape" />
+        <activity
+            android:name=".Sync.FileManager"
+            android:label="File Manager"
+            android:screenOrientation="sensorLandscape"
+            android:theme="@style/FileManagerTheme" />
+
+        <activity android:name=".Content.Test.AdaptiveContent" />
+
+        <receiver
+            android:name=".GcmBroadcastReceiver"
+            android:permission="com.google.android.c2dm.permission.SEND" >
+            <intent-filter>
+                <action android:name="com.google.android.c2dm.intent.RECEIVE" />
+                <action android:name="com.google.android.c2dm.intent.REGISTRATION" />
+
+                <category android:name="com.organization.sjhg.e_school" />
+            </intent-filter>
+        </receiver>
+
+        <service android:name=".GCMNotificationIntentService" />
+        <service android:name=".TakeNotes.ChatHeadService" />
+
+    </application>
+
+</manifest>

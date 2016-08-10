@@ -1,0 +1,73 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:id="@+id/testLabelLayout"
+    android:layout_width="match_parent" android:layout_height="match_parent"
+    android:background="@drawable/background1withlogo"
+    tools:context="com.organization.sjhg.e_school.Content.Test.TestLabelTheDiagramActivity">
+
+    <FrameLayout android:id="@+id/frameLayout2" android:layout_width="fill_parent"
+        android:layout_height="125px" android:layout_alignParentRight="true">
+
+        <TextView android:id="@+id/helloUser" android:layout_width="wrap_content"
+            android:layout_height="wrap_content" android:layout_gravity="right|top"
+            android:layout_marginRight="50px" android:layout_marginTop="35px"
+            android:textAppearance="?android:attr/textAppearanceLarge" android:textSize="20px"
+            android:textStyle="bold" />
+
+        <TextView android:id="@+id/date" android:layout_width="wrap_content"
+            android:layout_height="wrap_content" android:layout_gravity="left|top"
+            android:layout_marginLeft="50px" android:layout_marginTop="40px"
+            android:textAppearance="?android:attr/textAppearanceLarge" android:textSize="20px" />
+
+
+    </FrameLayout>
+
+    <TextView android:id="@+id/question" android:layout_width="wrap_content"
+        android:layout_height="wrap_content" android:layout_marginLeft="60px"
+        android:layout_marginTop="60px" android:maxHeight="75px" android:maxWidth="915px"
+        android:textAppearance="?android:attr/textAppearanceMedium" android:textSize="30px"
+
+        />
+
+    <ImageView android:id="@+id/diagram" android:layout_width="445px" android:layout_height="330px"
+        android:layout_above="@+id/chalk" android:layout_below="@+id/question"
+        android:layout_marginLeft="80px" />
+
+    <ScrollView android:id="@+id/scrollView" android:layout_width="435px"
+        android:layout_height="330px" android:layout_above="@+id/chalk"
+        android:layout_alignRight="@+id/matchQuestion" android:layout_below="@+id/question"
+        android:layout_marginRight="40px" android:layout_toRightOf="@+id/diagram"
+        android:fillViewport="false">
+
+        <TableLayout android:id="@+id/dataLayout" android:layout_width="435px"
+            android:layout_height="330px" android:layout_alignRight="@+id/matchQuestion"
+            android:layout_below="@+id/matchQuestion" android:orientation="vertical"></TableLayout>
+
+
+    </ScrollView>
+
+
+    <ImageView android:id="@+id/chalk" android:layout_width="150px" android:layout_height="100px"
+        android:layout_alignParentBottom="true" android:layout_alignParentLeft="true"
+        android:layout_gravity="left|bottom" android:paddingLeft="50px"
+        android:src="@drawable/chalk" />
+
+    <ImageView android:id="@+id/duster" android:layout_width="150px" android:layout_height="100px"
+        android:layout_alignParentBottom="true" android:layout_alignParentRight="true"
+        android:layout_gravity="right|bottom" android:paddingRight="40px"
+        android:src="@drawable/duster" />
+
+    <ImageView android:id="@+id/submit" android:layout_width="150px" android:layout_height="80px"
+        android:layout_alignParentBottom="true" android:layout_centerHorizontal="true"
+        android:layout_marginBottom="30px" android:src="@drawable/submitbutton" />
+    <ImageView android:id="@+id/next" android:layout_width="150px" android:layout_height="80px"
+        android:layout_alignParentBottom="true" android:layout_centerHorizontal="true"
+        android:layout_marginBottom="30px" android:layout_marginLeft="60px"
+        android:layout_toRightOf="@+id/submit" android:src="@drawable/nextbutton" />
+    <ImageView android:id="@+id/previous" android:layout_width="150px" android:layout_height="80px"
+        android:layout_alignParentBottom="true" android:layout_centerHorizontal="true"
+        android:layout_marginBottom="30px" android:layout_marginLeft="60px"
+        android:layout_marginRight="60px" android:layout_toLeftOf="@+id/submit"
+        android:src="@drawable/prevbutton" />
+
+
+</RelativeLayout><!-- From: file:/F:/TechPartners/Sjhgs/classroom/E-School/Student/src/main/res/layout/activity_test_label_the_diagram.xml -->

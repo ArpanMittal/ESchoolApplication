@@ -1,0 +1,121 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".LoginActivity"
+    android:background="@drawable/background1withlogo"
+    android:id="@+id/username">
+
+    <FrameLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_above="@+id/imageView9"
+        android:layout_alignParentLeft="true"
+        android:layout_marginBottom="102px"
+        android:id="@+id/frameLayout4">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:layout_marginLeft="50px"
+            android:textSize="20px"
+            android:layout_marginTop="5px"
+            android:text=""
+            android:id="@+id/date"
+            android:layout_gravity="left|center_vertical" />
+
+    </FrameLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/errorMessage"
+        android:text=""
+        android:layout_centerHorizontal="true"
+        android:textStyle="bold"
+        android:textColor="#ff0000"
+        android:textSize="16px"
+        android:layout_below="@+id/loginView" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/loginButton"
+        android:src="@drawable/loginbutton"
+        android:layout_marginBottom="120px"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true" />
+
+    <ImageView
+        android:layout_width="25px"
+        android:layout_height="25px"
+        android:id="@+id/imageView9"
+        android:src="@drawable/username"
+        android:layout_alignTop="@+id/editUser"
+        android:layout_marginLeft="320px"
+        android:layout_marginTop="5px" />
+
+    <ImageView
+        android:layout_width="25px"
+        android:layout_height="25px"
+        android:id="@+id/imageView10"
+        android:src="@drawable/password"
+        android:layout_marginLeft="320px"
+        android:layout_marginTop="60px"
+        android:layout_below="@+id/editUser" />
+
+    <EditText
+        android:layout_width="350px"
+        android:layout_height="35px"
+        android:id="@+id/editUser"
+        android:singleLine="true"
+        android:maxLines="1"
+        android:paddingBottom="5px"
+        android:hint="Enter username"
+        android:layout_marginTop="200px"
+        android:layout_marginLeft="350px" />
+
+    <EditText
+        android:layout_width="350px"
+        android:layout_height="35px"
+        android:id="@+id/editPass"
+        android:singleLine="true"
+        android:paddingBottom="5px"
+        android:hint="Enter password"
+        android:maxLines="1"
+        android:layout_marginTop="55px"
+        android:layout_below="@+id/editUser"
+        android:layout_alignLeft="@+id/editUser"
+        android:inputType="textPassword"/>
+
+    <ImageView
+        android:layout_width="150px"
+        android:layout_height="100px"
+        android:id="@+id/chalk"
+        android:src="@drawable/chalk"
+        android:paddingLeft="50px"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true" />
+
+    <ImageView
+        android:layout_width="150px"
+        android:layout_height="100px"
+        android:src="@drawable/duster"
+        android:id="@+id/duster"
+        android:paddingRight="40px"
+        android:layout_alignTop="@+id/chalk"
+        android:layout_alignParentRight="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+      android:layout_marginTop="90px"
+        android:textSize="60px"
+        android:id="@+id/loginView"
+        android:layout_centerHorizontal="true"
+        android:text="LOGIN" />
+
+</RelativeLayout>
+<!-- From: file:/F:/TechPartners/Sjhgs/classroom/E-School/Student/src/main/res/layout/activity_login.xml -->

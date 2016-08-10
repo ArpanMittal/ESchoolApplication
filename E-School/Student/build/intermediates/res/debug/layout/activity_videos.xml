@@ -1,0 +1,139 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/background1withlogo"
+    android:id="@+id/videosListDisp"
+    tools:context="com.organization.sjhg.e_school.Content.VideosListingActivity">
+
+    <FrameLayout
+        android:layout_width="fill_parent"
+        android:layout_height="125px"
+        android:id="@+id/frameLayout2"
+        android:layout_alignParentRight="true">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/helloUser"
+            android:layout_gravity="right|top"
+            android:textSize="20px"
+            android:layout_marginTop="35px"
+            android:layout_marginRight="50px"
+            android:textStyle="bold"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:layout_marginLeft="50px"
+            android:layout_marginTop="40px"
+            android:textSize="20px"
+            android:id="@+id/date"
+            android:layout_gravity="left|top" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="40px"
+            android:layout_marginTop="20px"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:id="@+id/videosLabel"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentLeft="true"
+            android:layout_gravity="center" />
+
+
+
+    </FrameLayout>
+
+    <ScrollView
+        android:layout_width="fill_parent"
+        android:layout_height="280px"
+        android:id="@+id/scrollView"
+        android:layout_below="@+id/frameLayout2">
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:id="@+id/linearContentView"
+            android:orientation="vertical" >
+
+        </LinearLayout>
+
+    </ScrollView>
+
+    <ImageView
+        android:layout_width="150px"
+        android:layout_height="100px"
+        android:src="@drawable/chalk"
+        android:paddingLeft="50px"
+        android:id="@+id/chalk"
+        android:layout_gravity="left|bottom"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true" />
+
+    <ImageView
+        android:layout_width="150px"
+        android:layout_height="100px"
+        android:src="@drawable/duster"
+        android:paddingRight="40px"
+        android:id="@+id/duster"
+        android:layout_gravity="right|bottom"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true" />
+
+    <ImageView
+        android:layout_width="80px"
+        android:layout_height="80px"
+        android:src="@drawable/connectwithteacherwithname"
+        android:id="@+id/connectwithteacher"
+        android:layout_marginLeft="110px"
+        android:layout_marginRight="20px"
+        android:layout_marginBottom="35px"
+        android:layout_alignTop="@+id/chalk"
+        android:layout_toRightOf="@+id/chalk" />
+    <ImageView
+        android:layout_width="80px"
+        android:layout_height="80px"
+        android:src="@drawable/raisehandwithname"
+        android:id="@+id/raisehand"
+        android:layout_marginBottom="35px"
+        android:layout_marginRight="20px"
+        android:layout_toRightOf="@+id/connectwithteacher"
+        android:layout_alignTop="@+id/chalk"
+        android:layout_toEndOf="@+id/chalk" />
+    <ImageView
+        android:layout_width="80px"
+        android:layout_height="80px"
+        android:src="@drawable/chatwithname"
+        android:id="@+id/chat"
+        android:layout_marginRight="20px"
+        android:layout_marginBottom="35px"
+        android:layout_toRightOf="@+id/raisehand"
+        android:layout_alignTop="@+id/chalk"
+        android:layout_toEndOf="@+id/chalk" />
+    <ImageView
+        android:layout_width="80px"
+        android:layout_height="80px"
+        android:src="@drawable/writenoteswithname"
+        android:id="@+id/writenotes"
+        android:layout_marginRight="20px"
+        android:layout_marginBottom="35px"
+        android:layout_toRightOf="@+id/chat"
+        android:layout_alignTop="@+id/chalk"
+        android:layout_toEndOf="@+id/chalk" />
+    <ImageView
+        android:layout_width="80px"
+        android:layout_height="80px"
+        android:src="@drawable/syncwithname"
+        android:id="@+id/sync"
+        android:layout_marginBottom="35px"
+        android:layout_toRightOf="@+id/writenotes"
+        android:layout_alignTop="@+id/chalk"
+        android:layout_toEndOf="@+id/chalk" />
+
+
+</RelativeLayout>
+<!-- From: file:/F:/TechPartners/Sjhgs/classroom/E-School/Student/src/main/res/layout/activity_videos.xml -->

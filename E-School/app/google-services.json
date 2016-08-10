@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "43908189178",
+    "project_id": "e-school-c7a3b"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:43908189178:android:1f8851c2c38e6aad",
+        "android_client_info": {
+          "package_name": "com.organization.sjhg.e_school"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "43908189178-e847svu73803sgdsgreevslgen80j1h3.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.organization.sjhg.e_school",
+            "certificate_hash": "10C67C9A9D868EC228A1FEF3EB71B0F1CDD39125"
+          }
+        },
+        {
+          "client_id": "43908189178-6c280uo3gcv3vgouk4v6dsuqeper2qke.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA1gYzdnamLrgtvChFEJcFRme_itrtZUf0"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 1
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

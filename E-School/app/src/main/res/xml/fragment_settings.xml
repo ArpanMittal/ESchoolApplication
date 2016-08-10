@@ -1,0 +1,43 @@
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+
+    android:key="settingsKey"
+    tools:context="com.organization.sjhg.e_school.SettingsFragment">
+
+
+    <MultiSelectListPreference
+        android:defaultValue="@array/empty_array"
+        android:key="@string/pref_key_manage_subjects"
+        android:summary="@string/manage_subjects_summary"
+        android:title="Manage Subjects"
+        android:enabled="false"/>
+    <Preference
+        android:key="@string/pref_key_clear_data"
+        android:summary="Clear all application data"
+        android:title="Clear Data" />
+    <SwitchPreference
+        android:key="@string/chathead"
+        android:summary="Enable/Disable Floating NoteService"
+        android:title="Disable Floating NoteService"
+        />
+
+    <Preference
+        android:key="@string/pref_key_Sync_Calendar"
+        android:summary="Sync all events scheduled to your calendar."
+        android:title="Update Events" />
+
+    <Preference
+        android:defaultValue="true"
+        android:key="@string/pref_key_feedback"
+        android:summary="Send feedback/suggestions to developers."
+        android:title="Feedback" />
+
+    <Preference
+        android:defaultValue="true"
+        android:key="@string/pref_key_logout"
+        android:summary="Logout from your account"
+        android:title="Logout" />
+
+</PreferenceScreen>
