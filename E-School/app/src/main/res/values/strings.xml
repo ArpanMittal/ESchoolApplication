@@ -135,7 +135,7 @@
     <string name="network_error">Network error</string>
     <string name="basic_error">Something went wrong! Please try again</string>
     <string name="alert_error_title_wrong">Something went wrong!</string>
-	
+
     <string name="get_single_adaptive_test" translatable="false">getadaptivequestion.php</string>
     <string name="active_sessions" translatable="false">queryAllClassSessions.php</string>
     <string name="update_student_status" translatable="false">updateClientInfo.php</string>
@@ -147,7 +147,7 @@
     <string name="subscription_subjects" translatable="false">querySubscriptionSubjects.php</string>
     <string name="event_details" translatable="false">fetchcalendardetails.php</string>
     <string name="adaptive_test_page" translatable="false">fetchAdaptiveTestQuestions.php</string>
-	
+
     <string name="submitted_test">Test has already been submitted</string>
     <string name="CylenderEvent">Events added to your Calendar</string>
     <string name="Version">Version v3.2.1</string>
@@ -166,7 +166,8 @@
     <string name="error_field_required">field required</string>
     <string name="error_invalid_email">invalid email</string>
     <string name="error_incorrect_password">incorrect password</string>
-    <string name="error_invalid_passwordlength">Too short password</string>
+    <string name="error_invalid_password_Password">incorrect pattern</string>
+    <string name="error_confirm_password">not matches password</string>
     <string name="newuser">new user?</string>
     <string name="navigation_drawer_open">open navigation drawer</string>
     <string name="navigation_drawer_close">close navigation drawer</string>
@@ -175,5 +176,6 @@
     <string name="menu_search">search</string>
     <string name="app_label">vinci</string>
     <string name="search_hint">search Contents</string>
+    <string name="get_sign_up_page">signup</string>
 
 </resources>

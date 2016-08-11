@@ -26,6 +26,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.security.MessageDigest;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -40,6 +41,7 @@ import java.util.Objects;
 
 public class RemoteHelper {
     Context context;
+    String SIGNUP_PAGE;
     String LOGIN_PAGE;
     String FETCH_CONTENT_PAGE;
     String INSERT_MAC;
@@ -58,6 +60,7 @@ public class RemoteHelper {
 
     public RemoteHelper(Context context) {
         this.context = context;
+        SIGNUP_PAGE=this.context.getResources().getString(R.string.get_sign_up_page);
         GET_SINGLEADAPTIVE_TEST=this.context.getResources().getString(R.string.get_single_adaptive_test);
         LOGIN_PAGE = this.context.getResources().getString(R.string.login_page);
         FETCH_CONTENT_PAGE = this.context.getResources().getString(R.string.fetch_content_page);
@@ -75,6 +78,20 @@ public class RemoteHelper {
         ADAPTIVE_TEST_PAGE=this.context.getResources().getString(R.string.adaptive_test_page);
     }
 
+    public void signUp(RemoteCalls remoteCalls,RemoteCallHandler remoteCallHandler,String email,String password,String name)
+    {
+        // for inserting signup data in database using api
+        final Map<String, String> params = new HashMap<String, String>();
+
+        String URL = ServerAddress.getServerAddress(context) + "/" + SIGNUP_PAGE;
+        params.put("email",email);
+        params.put("password",password);
+        params.put("name",name);
+        new JSONParserAsync(URL, params, remoteCallHandler, remoteCalls);
+    }
+
+    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
     public String VerifyLoginAndSetUserData(Map<String, String> params) throws Exception {
         WifiManager wifiManager = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
         WifiInfo wInfo = wifiManager.getConnectionInfo();
@@ -85,7 +102,7 @@ public class RemoteHelper {
         String TAG_DATA = this.context.getResources().getString(R.string.TAG_LOGIN_DATA);
         String TAG_MAC = this.context.getResources().getString(R.string.TAG_DEVICE_MACID);
         String loginURL = ServerAddress.getServerAddress(context) + "/" + LOGIN_PAGE;
-    //here dend login information to server
+        //here dend login information to server
         JSONObject jsonUserDetails = null;//HttpHelper.getInstance().MakeHttpRequestWithRetries(loginURL, params);
         int success = jsonUserDetails.getInt(TAG_SUCCESS);
         String macAddressServer = jsonUserDetails.getString(TAG_MAC);
@@ -102,6 +119,9 @@ public class RemoteHelper {
         }
         throw new Exception("Error Logging in: " + jsonUserDetails.getString(TAG_MESSAGE));
     }
+
+
+
 
 
     // Get both test and non test content
@@ -265,7 +285,7 @@ public class RemoteHelper {
         Map<String, String> params = new HashMap<String, String>();
 
         params.put("StudentId",
-                    String.valueOf(StudentApplicationUserData.getInstance(context).getStudentId()));
+                String.valueOf(StudentApplicationUserData.getInstance(context).getStudentId()));
         params.put("TestId", String.valueOf(testId));
         params.put("QuestionId", String.valueOf(questionId));
         params.put("AnswerId", ans.split("##")[1]);

@@ -58,6 +58,7 @@ Route::group(['prefix'=>'post','middleware'=>['oauth']],function(){
     
 });
 
+Route::post('signup','SignUpController@doSignUp');
 
 
 
