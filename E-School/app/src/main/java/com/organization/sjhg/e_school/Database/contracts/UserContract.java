@@ -13,7 +13,7 @@ public class UserContract {
     // relationship between a domain name and its website.  A convenient string to use for the
     // content authority is the package name for the app, which is guaranteed to be unique on the
     // device.
-    public static final String CONTENT_AUTHORITY = "";
+    public static final String CONTENT_AUTHORITY = "com.organization.sjhg.e_school";
 
     // Use CONTENT_AUTHORITY to create the base of all URI's which apps will use to contact
     // the content provider.
@@ -41,7 +41,7 @@ public class UserContract {
         public static final String TABLE_NAME = "userdetail";
 
         // user detail column name
-        public static final String _ID = "_id";
+        public static final String COLUMN_ID = "_id";
         public static final String CoLUMN_NAME = "name";
         public static final String CoLUMN_VERIFIED = "verified";
         public static final String CoLUMN_PHOTO_PATH = "photo_path";

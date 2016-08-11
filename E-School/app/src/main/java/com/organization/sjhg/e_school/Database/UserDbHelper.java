@@ -23,7 +23,7 @@ public class UserDbHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
         // Create a table to hold user details.
         final String SQL_CREATE_USER_DETAIL_TABLE = "CREATE TABLE " + UserDetailEntry.TABLE_NAME + " (" +
-                UserDetailEntry._ID + " INTEGER PRIMARY KEY," +
+                UserDetailEntry.COLUMN_ID + " INTEGER PRIMARY KEY," +
                 UserDetailEntry.CoLUMN_NAME + " TEXT, " +
                 UserDetailEntry.CoLUMN_VERIFIED + " INTEGER, " +
                 UserDetailEntry.CoLUMN_PHOTO_PATH + " TEXT, " +
@@ -31,7 +31,7 @@ public class UserDbHelper extends SQLiteOpenHelper {
                 UserDetailEntry.CoLUMN_COUNTRY + " TEXT, " +
                 UserDetailEntry.CoLUMN_STATE + " TEXT, " +
                 UserDetailEntry.CoLUMN_CITY + " TEXT, " +
-                UserDetailEntry.CoLUMN_PHONE_NUMBER + " TEXT, " +
+                UserDetailEntry.CoLUMN_PHONE_NUMBER + " TEXT " +
                 " );";
 
         sqLiteDatabase.execSQL(SQL_CREATE_USER_DETAIL_TABLE);
