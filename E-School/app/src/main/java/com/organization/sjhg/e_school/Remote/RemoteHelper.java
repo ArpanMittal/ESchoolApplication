@@ -87,6 +87,7 @@ public class RemoteHelper {
         params.put("email",email);
         params.put("password",password);
         params.put("name",name);
+        params.put("role_id",GlobalConstants.STUDENT_ROLE_ID);
         new JSONParserAsync(URL, params, remoteCallHandler, remoteCalls);
     }
 

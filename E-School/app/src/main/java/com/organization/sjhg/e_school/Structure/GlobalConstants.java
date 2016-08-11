@@ -14,4 +14,5 @@ public class GlobalConstants {
     final public static String LOG_TAG = "E-School";
 
     final public static boolean IS_DEBUG_MODE = true;
+    final public static String STUDENT_ROLE_ID="3";
 }
