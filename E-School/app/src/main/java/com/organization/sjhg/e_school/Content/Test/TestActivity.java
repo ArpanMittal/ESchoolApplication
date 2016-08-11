@@ -2,39 +2,20 @@ package com.organization.sjhg.e_school.Content.Test;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.SystemClock;
 import android.support.v4.view.ViewPager;
-import android.view.Gravity;
 import android.view.View;
-import android.view.ViewGroup;
-import android.view.animation.AlphaAnimation;
-import android.view.animation.Animation;
 import android.widget.ImageView;
-import android.widget.Switch;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import com.astuetz.PagerSlidingTabStrip;
 import com.organization.sjhg.e_school.ClassSession.LiveVoting;
-import com.organization.sjhg.e_school.CommonFragmentTheme;
-import com.organization.sjhg.e_school.Database.DatabaseOperations;
+import com.organization.sjhg.e_school.Database.old.DatabaseOperations;
 import com.organization.sjhg.e_school.MainActivity;
 import com.organization.sjhg.e_school.R;
-import com.organization.sjhg.e_school.Remote.RemoteCallHandler;
-import com.organization.sjhg.e_school.Remote.RemoteCalls;
-import com.organization.sjhg.e_school.Remote.RemoteHelper;
-import com.organization.sjhg.e_school.Structure.GlobalConstants;
 import com.organization.sjhg.e_school.Structure.Question;
 import com.organization.sjhg.e_school.Structure.TestDetail;
-import com.organization.sjhg.e_school.Content.Test.ParentTestActivity;
-
-import org.json.JSONObject;
 
 import java.io.File;
-import java.io.IOException;
 import java.sql.SQLException;
-import java.util.Timer;
-import java.util.TimerTask;
 
 /**
  * Created by Gaurav Rawat.

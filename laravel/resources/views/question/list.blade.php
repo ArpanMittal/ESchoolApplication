@@ -22,46 +22,48 @@
             <div class="panel panel-default">
                 <div class="panel-heading">Question<a href="{{ url('/question') }}" > <button  type="button" style="float:right">Add</button></a></div>
                 <div class="panel-body">
-                    <form class="form-horizontal" name="questionlistform" action="{{ url('/question/search') }}" method="POST" enctype="multipart/form-data" id="frmqueslist">
-                        {{ csrf_field() }}
-                        <table style="margin-top:20px">
-                            <tr>
-                                <td>
-                                    <div class="control-group">
-                                        <label class="control-label">Question</label>
-                                        <div class="controls">
-                                            <input name="Question" class="span9 input-left-top-margins" type="text" placeholder="Question"  value="<?php echo isset($_POST['Question'])?$_POST['Question']:""?>"  >
+                    <div class="widget-body search">
+                        <form class="form-horizontal" name="questionlistform" action="{{ url('/question/search') }}" method="POST" enctype="multipart/form-data" id="frmqueslist">
+                            {{ csrf_field() }}
+                            <table style="margin-top:20px">
+                                <tr>
+                                    <td>
+                                        <div class="control-group">
+                                            <label class="control-label">Question</label>
+                                            <div class="controls">
+                                                <input name="Question" class="span9 input-left-top-margins" type="text" placeholder="Question" style="width: 65%" value="<?php echo isset($_POST['Question'])?$_POST['Question']:""?>"  >
+                                            </div>
                                         </div>
-                                    </div>
-                                </td>
-                                <td>
-                                    <div class="control-group">
-                                        <label class="control-label">Subject</label>
-                                        <div class="controls">
-                                            <select name="SubjectId" id="SubjectId" >
-                                                <option value="">-- Select Subject --</option>
-                                                @if(isset($subjects))
-                                                    @foreach($subjects as $subject)
-                                                        @if(isset($selected_subject)&& strcmp($subject->cl_su_id , $selected_subject))
-                                                            <option value="{{ $subject->cl_su_id }}" selected = "Selected"> {{$subject->classname ." - ". $subject->subjectname}}</option>
-                                                        @else
-                                                            <option value="{{ $subject->cl_su_id }}"> {{$subject->class_name ." - ". $subject->subject_name}}</option>
-                                                        @endif
-                                                    @endforeach
-                                                @endif
-                                            </select>
+                                    </td>
+                                    <td>
+                                        <div class="control-group">
+                                            <label class="control-label">Subject</label>
+                                            <div class="controls">
+                                                <select name="SubjectId" id="SubjectId" >
+                                                    <option value="">-- Select Subject --</option>
+                                                    @if(isset($subjects))
+                                                        @foreach($subjects as $subject)
+                                                            @if(isset($selected_subject)&& strcmp($subject->cl_su_id , $selected_subject))
+                                                                <option value="{{ $subject->cl_su_id }}" selected = "Selected"> {{$subject->classname ." - ". $subject->subjectname}}</option>
+                                                            @else
+                                                                <option value="{{ $subject->cl_su_id }}"> {{$subject->class_name ." - ". $subject->subject_name}}</option>
+                                                            @endif
+                                                        @endforeach
+                                                    @endif
+                                                </select>
+                                            </div>
                                         </div>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr colspan="3" style="float:right	">
-                                <td align="right" style="padding-right:85px">
-                                    <input name="Search" type="submit" id="Search" class="btn btn-info" value="Search">
-                                    <input name="Search" type="reset" id="resetform" class="btn btn-info" value="Clear">
-                                </td>
-                            </tr>
-                        </table>
-                    </form>
+                                    </td>
+                                </tr>
+                                <tr colspan="3" style="float:right	">
+                                    <td align="right" style="padding-right:85px">
+                                        <input name="Search" type="submit" id="Search" class="btn btn-info" value="Search">
+                                        <input name="Search" type="reset" id="resetform" class="btn btn-info" value="Clear">
+                                    </td>
+                                </tr>
+                            </table>
+                        </form>
+                    </div>
                     <div class="widget-body">
                         <div id="dt_example" class="example_alt_pagination">
                             <table class="table table-condensed table-striped table-hover table-bordered pull-left" id="data-table">

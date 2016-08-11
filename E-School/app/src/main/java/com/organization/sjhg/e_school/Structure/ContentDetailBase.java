@@ -5,7 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 
 import com.organization.sjhg.e_school.Content.Content_Type;
-import com.organization.sjhg.e_school.Database.ContentDetailTable;
+import com.organization.sjhg.e_school.Database.old.ContentDetailTable;
 
 import org.json.JSONException;
 import org.json.JSONObject;

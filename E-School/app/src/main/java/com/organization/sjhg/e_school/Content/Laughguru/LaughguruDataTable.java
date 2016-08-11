@@ -5,7 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
-import com.organization.sjhg.e_school.Database.DatabaseHelper;
+import com.organization.sjhg.e_school.Database.old.DatabaseHelper;
 import com.organization.sjhg.e_school.Structure.LaughguruContentDetailBase;
 
 import java.sql.SQLException;

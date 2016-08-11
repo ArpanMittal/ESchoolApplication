@@ -1,21 +1,16 @@
 package com.organization.sjhg.e_school;
 
 import android.app.AlertDialog;
-import android.app.FragmentManager;
-import android.app.FragmentTransaction;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.view.ContextThemeWrapper;
-import android.view.View;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.astuetz.PagerSlidingTabStrip;
 import com.organization.sjhg.e_school.Content.ContentCollectionPagerAdapter;
-import com.organization.sjhg.e_school.Database.DatabaseOperations;
+import com.organization.sjhg.e_school.Database.old.DatabaseOperations;
 import com.organization.sjhg.e_school.Helpers.StudentApplicationUserData;
 import com.organization.sjhg.e_school.TakeNotes.ChatHeadService;
 
