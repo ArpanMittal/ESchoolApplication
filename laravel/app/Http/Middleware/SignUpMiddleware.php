@@ -21,19 +21,6 @@ class SignUpMiddleware
         }
         else
         {
-            /*try {
-
-                $db=\DB::connection()->getpdo();
-
-                $statement = $db->prepare("select * from :table where client_id = :client_id AND client_secret=:client_secret");
-                $statement->execute(array(':client_id' => $request->input('client_id'), ':table'=>"oauth_clients",':client_secret'=>$request->input('client_secret')));
-                $row=$statement->fetch();
-                return($statement->exec($statement));
-
-            }catch (Exception $e)
-            {
-                return response()->json(['sucess'=>'false','message'=>'pdo exception','code'=>'422']);
-            }*/
 
             $data=\DB::table('oauth_clients')
                 ->where('client_id','=',$request->input('client_id'))
