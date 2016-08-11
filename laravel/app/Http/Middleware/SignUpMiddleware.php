@@ -39,7 +39,7 @@ class SignUpMiddleware
                 ->where('client_id','=',$request->input('client_id'))
                 ->where('client_secret','=',$request->input('client_secret'))->get();
 
-            if(isset($data))
+            if($data!=null)
             {
                 return $next($request);
             }

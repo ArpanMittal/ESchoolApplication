@@ -242,7 +242,7 @@ public class LoginActivity extends AppCompatActivity implements RemoteCallHandle
                 cancel = true;
             }
             else if (!isPasswordValid(password)) {
-                mPasswordView.setError(getString(R.string.error_invalid_passwordlength));
+                mPasswordView.setError(getString(R.string.error_invalid_password));
                 focusView = mPasswordView;
                 cancel = true;
             }
