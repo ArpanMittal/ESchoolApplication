@@ -84,6 +84,7 @@ public class RemoteHelper {
         final Map<String, String> params = new HashMap<String, String>();
 
         String URL = ServerAddress.getServerAddress(context) + "/" + SIGNUP_PAGE;
+        params.put("client_id",GlobalConstants.CLIENT_ID);
         params.put("email",email);
         params.put("password",password);
         params.put("name",name);

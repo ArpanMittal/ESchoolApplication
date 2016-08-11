@@ -92,8 +92,9 @@ public class SignupActivity extends AppCompatActivity implements RemoteCallHandl
                 cancel = true;
             }
         }
+
         //validate confirmpassword
-        else if(!cancel)
+        if(!cancel)
         {
             cancel=validateEmptyField(mConfirmPasswordView,confirmPassword);
             if(!cancel&&!isCnfPasswordValid(confirmPassword,password))
@@ -102,7 +103,7 @@ public class SignupActivity extends AppCompatActivity implements RemoteCallHandl
             }
         }
         //validate name
-        else if(!cancel)
+        if(!cancel)
         {
             cancel=validateEmptyField(mNameView,name);
         }
@@ -147,7 +148,7 @@ public class SignupActivity extends AppCompatActivity implements RemoteCallHandl
     {
         if(TextUtils.isEmpty(toMatch))
         {
-            view.setError(getString(R.string.error_invalid_password));
+            view.setError(getString(R.string.error_field_required));
             focusView=view;
             return true;
         }
@@ -164,7 +165,8 @@ public class SignupActivity extends AppCompatActivity implements RemoteCallHandl
     {
         Pattern pattern;
         Matcher matcher;
-        final String PASSWORD_PATTERN = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\S+$).{4,}$";
+        //final String PASSWORD_PATTERN = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\S+$).{4,}$";
+        final String PASSWORD_PATTERN = "^(?=.*[0-9])(?=.*[a-z])(?=\\S+$).{6,}$";
         pattern = Pattern.compile(PASSWORD_PATTERN);
         matcher = pattern.matcher(password);
         return matcher.matches();
