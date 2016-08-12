@@ -3,6 +3,7 @@ package com.organization.sjhg.e_school.Remote;
 import android.os.AsyncTask;
 import android.util.Log;
 
+import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -60,8 +61,8 @@ public class JSONParserAsync
                         JSONParserAsync.this.listener.HandleRemoteCall(JSONParserAsync.this.isRemoteCallSuccessful, JSONParserAsync.this.callFor, null, JSONParserAsync.this.exception);
                     }
                 });
-
-
+        //setting time out and retries
+        req.setRetryPolicy(new DefaultRetryPolicy(20 * 1000, 3, 1.0f));
         // Adding request to request queue
         VolleyController.getInstance().addToRequestQueue(req, tag_json_obj);
     }
