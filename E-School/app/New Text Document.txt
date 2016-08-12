@@ -1,0 +1,4 @@
+keystorepath: \celearn\E-School\app\celearn.jks
+password: VmH+n8Nz53v!-R-w
+key alias celearn
+key password: !tRQ6%tqC692g&Ec
