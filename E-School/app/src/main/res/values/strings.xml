@@ -177,5 +177,6 @@
     <string name="app_label">vinci</string>
     <string name="search_hint">search Contents</string>
     <string name="get_sign_up_page">signup</string>
+    <string name="server_client_id">360244379717-332okhdtar766ilbptlkgp0d8c3tbb0g.apps.googleusercontent.com</string>
 
 </resources>

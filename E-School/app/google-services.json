@@ -1,33 +1,33 @@
 {
   "project_info": {
-    "project_number": "43908189178",
-    "project_id": "e-school-c7a3b"
+    "project_number": "360244379717",
+    "project_id": "celearn-140106"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:43908189178:android:1f8851c2c38e6aad",
+        "mobilesdk_app_id": "1:360244379717:android:1f8851c2c38e6aad",
         "android_client_info": {
           "package_name": "com.organization.sjhg.e_school"
         }
       },
       "oauth_client": [
         {
-          "client_id": "43908189178-e847svu73803sgdsgreevslgen80j1h3.apps.googleusercontent.com",
+          "client_id": "360244379717-rlnm1q3j7m98gu7ssbi60roojnusbk8u.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.organization.sjhg.e_school",
-            "certificate_hash": "10C67C9A9D868EC228A1FEF3EB71B0F1CDD39125"
+            "certificate_hash": "0E2702D3177146F7394D2661AB14263ACD24E947"
           }
         },
         {
-          "client_id": "43908189178-6c280uo3gcv3vgouk4v6dsuqeper2qke.apps.googleusercontent.com",
+          "client_id": "360244379717-332okhdtar766ilbptlkgp0d8c3tbb0g.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyA1gYzdnamLrgtvChFEJcFRme_itrtZUf0"
+          "current_key": "AIzaSyBJgxSn7-Rren6JrU6NhWKD8LKElzL1OOw"
         }
       ],
       "services": {

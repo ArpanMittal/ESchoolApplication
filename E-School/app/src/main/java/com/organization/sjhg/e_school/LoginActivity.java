@@ -70,6 +70,7 @@ public class LoginActivity extends AppCompatActivity implements RemoteCallHandle
             private static final int REQUEST_READ_CONTACTS = 0;
             private static final String TAG = "SignInActivity";
             private static final int RC_SIGN_IN = 9001;
+            private static final int RC_GET_TOKEN = 9002;
 
             private GoogleApiClient mGoogleApiClient;
 
@@ -132,17 +133,18 @@ public class LoginActivity extends AppCompatActivity implements RemoteCallHandle
         mLoginFormView = findViewById(R.id.login_form);
         mProgressView = findViewById(R.id.login_progress);
 
-        //for google signin
         // [START configure_signin]
-        // Configure sign-in to request the user's ID, email address, and basic
-        // profile. ID and basic profile are included in DEFAULT_SIGN_IN.
+        // Request only the user's ID token, which can be used to identify the
+        // user securely to your backend. This will contain the user's basic
+        // profile (name, profile picture URL, etc) so you should not need to
+        // make an additional call to personalize your application.
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestIdToken(getString(R.string.server_client_id))
                 .requestEmail()
                 .build();
+        // [END configure_signin]
 
-        // [START build_client]
-        // Build a GoogleApiClient with access to the Google Sign-In API and the
-        // options specified by gso.
+        // Build GoogleAPIClient with the Google Sign-In API and the above options.
         mGoogleApiClient = new GoogleApiClient.Builder(this)
                 .enableAutoManage(this /* FragmentActivity */, this /* OnConnectionFailedListener */)
                 .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
@@ -344,6 +346,7 @@ public class LoginActivity extends AppCompatActivity implements RemoteCallHandle
                     String personEmail = acct.getEmail();
                     String personId = acct.getId();
                     Uri personPhoto = acct.getPhotoUrl();
+                    String idToken = acct.getIdToken();
                     Intent intent =new Intent(this,Main_Activity.class);
                     startActivity(intent);
                     Toast.makeText(getApplicationContext(),R.string.TAG_LOGIN_SUCCESS,Toast.LENGTH_LONG).show();
@@ -354,8 +357,8 @@ public class LoginActivity extends AppCompatActivity implements RemoteCallHandle
                 }
                 else {
                     signOut();
-                    Intent intent =new Intent(this,Main_Activity.class);
-                    startActivity(intent);
+//                    Intent intent =new Intent(this,Main_Activity.class);
+//                    startActivity(intent);
                     Toast.makeText(getApplicationContext(),R.string.TAG_LOGIN_FAILURE,Toast.LENGTH_LONG).show();
 
                 }
@@ -364,15 +367,18 @@ public class LoginActivity extends AppCompatActivity implements RemoteCallHandle
 
             // [START signIn]
             private void signIn() {
+                // Show an account picker to let the user choose a Google account from the device.
+                // If the GoogleSignInOptions only asks for IDToken and/or profile and/or email then no
+                // consent screen will be shown here.
                 Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient);
-                startActivityForResult(signInIntent, RC_SIGN_IN);
+                startActivityForResult(signInIntent, RC_GET_TOKEN);
             }
 
             @Override
             protected void onActivityResult(int requestCode, int resultCode, Intent data) {
                 super.onActivityResult(requestCode, resultCode, data);
                 // Result returned from launching the Intent from GoogleSignInApi.getSignInIntent(...);
-                if (requestCode == RC_SIGN_IN) {
+                if (requestCode == RC_GET_TOKEN) {
                     GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
                     handleSignInResult(result);
                 }
