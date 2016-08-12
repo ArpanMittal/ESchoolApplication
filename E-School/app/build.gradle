@@ -12,10 +12,14 @@ keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
 android {
     signingConfigs {
         config {
-            keyAlias keystoreProperties['keyAlias']
+            keyAlias 'celearn'
+            keyPassword '!tRQ6%tqC692g&Ec '
+            storeFile file('celearn.jks')
+            storePassword 'VmH+n8Nz53v!-R-w'
+           /* keyAlias keystoreProperties['keyAlias']
             keyPassword keystoreProperties['keyPassword']
             storeFile file(keystoreProperties['storeFile'])
-            storePassword keystoreProperties['storePassword']
+            storePassword keystoreProperties['storePassword']*/
         }
     }
     compileSdkVersion 22
