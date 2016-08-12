@@ -42,6 +42,7 @@ public class UserContract {
 
         // user detail column name
         public static final String COLUMN_ID = "_id";
+        public static final String CoLUMN_EMAIL = "email";
         public static final String CoLUMN_NAME = "name";
         public static final String CoLUMN_VERIFIED = "verified";
         public static final String CoLUMN_PHOTO_PATH = "photo_path";

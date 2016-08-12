@@ -24,6 +24,7 @@ public class UserDbHelper extends SQLiteOpenHelper {
         // Create a table to hold user details.
         final String SQL_CREATE_USER_DETAIL_TABLE = "CREATE TABLE " + UserDetailEntry.TABLE_NAME + " (" +
                 UserDetailEntry.COLUMN_ID + " INTEGER PRIMARY KEY," +
+                UserDetailEntry.CoLUMN_EMAIL + " TEXT NOT NULL, " +
                 UserDetailEntry.CoLUMN_NAME + " TEXT, " +
                 UserDetailEntry.CoLUMN_VERIFIED + " INTEGER, " +
                 UserDetailEntry.CoLUMN_PHOTO_PATH + " TEXT, " +
