@@ -24,6 +24,7 @@ import com.organization.sjhg.e_school.Remote.RemoteCallHandler;
 import com.organization.sjhg.e_school.Remote.RemoteCalls;
 import com.organization.sjhg.e_school.Remote.RemoteHelper;
 import com.organization.sjhg.e_school.Structure.GlobalConstants;
+import com.organization.sjhg.e_school.Utils.ToastActivity;
 import com.organization.sjhg.e_school.deviceadmin.DeviceAdminUtil;
 
 import org.json.JSONObject;
@@ -221,16 +222,34 @@ public class SignupActivity extends AppCompatActivity implements RemoteCallHandl
     public void HandleRemoteCall(boolean isSuccessful, RemoteCalls callFor, JSONObject response, Exception exception) {
         if(!isSuccessful)
         {
+
             showProgress(false);
+            ToastActivity toastActivity=new ToastActivity();
+            toastActivity.makeUknownErrorMessage(this);
             new LogHelper(exception);
             exception.printStackTrace();
         }
         else
         {
             showProgress(false);
-            Toast.makeText(this,response.toString(),Toast.LENGTH_LONG);
-            Intent intent=new Intent(this,LoginActivity.class);
-            startActivity(intent);
+            try {
+                if (response.get("sucess").toString()=="false")
+                {
+                    ToastActivity toastActivity=new ToastActivity();
+                    toastActivity.makeToastMessage(response,this);
+                }
+                else {
+                    ToastActivity toastActivity=new ToastActivity();
+                    toastActivity.makeToastMessage(response,this);
+                    Intent intent = new Intent(this, LoginActivity.class);
+                    startActivity(intent);
+                }
+            }catch (Exception e)
+            {
+                //showProgress(false);
+                new LogHelper(exception);
+                exception.printStackTrace();
+            }
         }
 
     }

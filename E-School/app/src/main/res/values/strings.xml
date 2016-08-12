@@ -162,9 +162,9 @@
     <string name="prompt_phno">enter phonenumber</string>
     <string name="signup">signup</string>
     <string name="action_sign_in_short">enter password</string>
-    <string name="error_invalid_password">invalid password</string>
+    <string name="error_invalid_password">password should be alphanumeric</string>
     <string name="error_field_required">field required</string>
-    <string name="error_invalid_email">invalid email</string>
+    <string name="error_invalid_email">invalid email format</string>
     <string name="error_incorrect_password">incorrect password</string>
     <string name="error_invalid_password_Password">incorrect pattern</string>
     <string name="error_confirm_password">not matches password</string>
@@ -177,5 +177,8 @@
     <string name="app_label">vinci</string>
     <string name="search_hint">search Contents</string>
     <string name="get_sign_up_page">signup</string>
+    <string name="server_client_id">360244379717-332okhdtar766ilbptlkgp0d8c3tbb0g.apps.googleusercontent.com</string>
+    <!--<string name="server_client_id">360244379717-rlnm1q3j7m98gu7ssbi60roojnusbk8u.apps.googleusercontent.com</string>-->
+    <!--<string name="server_client_id">360244379717-rlnm1q3j7m98gu7ssbi60roojnusbk8u.apps.googleusercontent.com</string>-->
 
 </resources>

@@ -33,7 +33,7 @@ class SignUpMiddleware
             else
             {
 
-                return response()->json(['sucess'=>'false','message'=>'client_id not valid','code'=>'422']);
+                return response()->json(['sucess'=>'false','message'=>'client_id not valid','code'=>'401']);
             }
 
         }
