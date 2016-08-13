@@ -1,1 +1,2 @@
 *.sqlite
+\vendor\phpunit\phpunit\src\Util\PHP
