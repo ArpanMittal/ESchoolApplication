@@ -4,8 +4,10 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "98b1c05b2fe39d08ef111af750d323fb",
-    "content-hash": "ea26ec114bb80b48264694988a2b09a2",
+
+    "hash": "a29eb7294ca2e5068ead0ea71038af20",
+    "content-hash": "e62b4ccbcd51c5bbb0d61d413cc86b11",
+
     "packages": [
         {
             "name": "bshaffer/oauth2-server-httpfoundation-bridge",
@@ -3913,7 +3915,7 @@
             "authors": [
                 {
                     "name": "Bernhard Schussek",
-                    "email": "bschussek@gmail.com"
+                    "email": "bschussek@fakegmail.com"
                 }
             ],
             "description": "Assertions to validate method input/output with nice error messages.",

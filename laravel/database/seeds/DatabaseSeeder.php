@@ -11,9 +11,18 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        // $this->call(UsersTableSeeder::class);
+         $this->call(UsersTableSeeder::class);
         $this->call('OAuthUsersSeeder');
         $this->call('OAuthClientsSeeder');
         $this->call('UserSeeder');
+        $this->call('classs');
+        $this->call('subject');
+        $this->call('stream');
+        $this->call('chapter');
+        $this->call('topic');
+        $this->call('classsubject');
+        $this->call('subjectstream');
+        $this->call('streamchapter');
+        $this->call('chaptertopic');
     }
 }

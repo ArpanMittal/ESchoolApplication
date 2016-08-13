@@ -354,6 +354,65 @@ class QuestionController extends Controller
             ->get();
         return view('question.list',$data);
     }
+
+    public function difference(Request $request)
+    {
+        $pre = microtime(true);
+        $data['topic_list'] = DB::table('chaptertopicmap')
+            ->select('hash')
+//            ->where('chaptertopicmap.hash','=','C02AcHyOhkAfp')
+            ->get();
+
+        for($i=0;$i<count($data['topic_list']); $i++){
+            $hash = $data['topic_list'][$i]->hash;
+            $class_id = substr($hash,0,3);
+            $subject_id = substr($hash,3,2);
+            $stream_id = substr($hash,5,2);
+            $chapter_id = substr($hash,7,3);
+            $topic_id = substr($hash,10,3);
+
+            $class = DB::table('class')->whereId($class_id)->first();
+            $data['topic_list'][$i]->class_name = $class->class_name;
+
+            $subject = DB::table('subject')->whereId($subject_id)->first();
+            $data['topic_list'][$i]->subject_name = $subject->subject_name;
+
+            $stream = DB::table('stream')->whereId($stream_id)->first();
+            $data['topic_list'][$i]->chapter_name = $stream->stream_name;
+
+            $chapter = DB::table('chapter')->whereId($chapter_id)->first();
+            $data['topic_list'][$i]->chapter_name = $chapter->chapter_name;
+
+            $topic = DB::table('topic')->whereId($topic_id)->first();
+            $data['topic_list'][$i]->topic_name = $topic->topic_name;
+
+        }
+        $now = microtime(true);
+        $diff1 = $now - $pre;
+        echo "Hashins time (micro sec)".$diff1.'<br />';
+
+        $pre = microtime(true);
+        $data['topic_list'] = DB::table('chaptertopicmap')
+            ->join('streamchaptermap','chaptertopicmap.cl_su_st_ch_id','=','streamchaptermap.cl_su_st_ch_id')
+            ->join('subjectstreammap','streamchaptermap.cl_su_st_id','=','subjectstreammap.cl_su_st_id')
+            ->join('classsubjectmap','subjectstreammap.cl_su_id','=','classsubjectmap.cl_su_id')
+            ->join('class','classsubjectmap.class_id','=','class.id')
+            ->join('subject','classsubjectmap.subject_id','=','subject.id')
+            ->join('stream','subjectstreammap.stream_id','=','stream.id')
+            ->join('chapter','streamchaptermap.chapter_id','=','chapter.id')
+            ->join('topic','chaptertopicmap.topic_id','=','topic.id')
+            ->select('hash','class.*','subject.*','stream.*','chapter.*','topic.*')
+//            ->where('chaptertopicmap.hash','=','C02AcHyOhkAfp')
+            ->get();
+
+        $now = microtime(true);
+        $diff2 = $now - $pre;
+        echo "Joining time (micro sec)".$diff2.'<br />';
+        
+        $diff = $diff2 - $diff1;
+        echo 'Difference in time taken ::'.$diff.'<br />';
+        return ;
+    }
     
     
 }

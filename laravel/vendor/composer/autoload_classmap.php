@@ -521,4 +521,13 @@ return array(
     'TestCase' => $baseDir . '/tests/TestCase.php',
     'Text_Template' => $vendorDir . '/phpunit/php-text-template/src/Template.php',
     'UserSeeder' => $baseDir . '/database/seeds/UserSeeder.php',
+    'chapter' => $baseDir . '/database/seeds/chapter.php',
+    'chaptertopic' => $baseDir . '/database/seeds/chaptertopic.php',
+    'classs' => $baseDir . '/database/seeds/classs.php',
+    'classsubject' => $baseDir . '/database/seeds/classsubject.php',
+    'stream' => $baseDir . '/database/seeds/stream.php',
+    'streamchapter' => $baseDir . '/database/seeds/streamchapter.php',
+    'subject' => $baseDir . '/database/seeds/subject.php',
+    'subjectstream' => $baseDir . '/database/seeds/subjectstream.php',
+    'topic' => $baseDir . '/database/seeds/topic.php',
 );
