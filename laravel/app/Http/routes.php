@@ -94,4 +94,4 @@ Route::post('login', array('uses' => 'HomeController@doLogin'));
 // route to process the form
 Route::get('logout', array('uses' => 'HomeController@doLogout'));
 Route::get('difference', array('uses' => 'QuestionController@difference'));
-Route::get('search/{key}', array('uses' => 'QuestionController@difference'));
+Route::get('search/{key}', array('uses' => 'SearchController@search'));
