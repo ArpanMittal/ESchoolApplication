@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "9bedd48150dec06e36d7dd96c73e6e32",
-    "content-hash": "4309b30d911dff693a24df30ce664016",
+    "hash": "a29eb7294ca2e5068ead0ea71038af20",
+    "content-hash": "e62b4ccbcd51c5bbb0d61d413cc86b11",
     "packages": [
         {
             "name": "bshaffer/oauth2-server-httpfoundation-bridge",
