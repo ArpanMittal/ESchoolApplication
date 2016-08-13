@@ -18,6 +18,8 @@ class Insertforeignkey extends Migration
 
             $table->foreign('id')->references('id')->on('user');
         });
+
+        
     }
 
     /**

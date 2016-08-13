@@ -83,6 +83,7 @@ return array(
     'IlluminateQueueClosure' => $vendorDir . '/laravel/framework/src/Illuminate/Queue/IlluminateQueueClosure.php',
     'Initialsetup' => $baseDir . '/database/migrations/2016_08_04_043739_initialsetup.php',
     'Insertforeignkey' => $baseDir . '/database/migrations/2016_08_11_084533_insertforeignkey.php',
+    'MakeEmailUnique' => $baseDir . '/database/migrations/2016_08_13_091552_makeEmailUnique.php',
     'OAuthClientsSeeder' => $baseDir . '/database/seeds/OAuthClientsSeeder.php',
     'OAuthUsersSeeder' => $baseDir . '/database/seeds/OAuthUsersSeeder.php',
     'PHPUnit_Exception' => $vendorDir . '/phpunit/phpunit/src/Exception.php',

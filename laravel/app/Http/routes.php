@@ -58,7 +58,11 @@ Route::group(['prefix'=>'post','middleware'=>['oauth']],function(){
     
 });
 
-Route::post('signup','SignUpController@doSignUp');
+Route::group(['prefix'=>'post','middleware'=>['client']],function(){
+   Route::post('doGoogleAuth','AuthGoogleIdToken@doAuth') ;
+    Route::post('signup','SignUpController@doSignUp');
+});
+
 
 
 
