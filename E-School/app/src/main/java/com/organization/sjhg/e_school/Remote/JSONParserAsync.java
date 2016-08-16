@@ -25,24 +25,26 @@ public class JSONParserAsync
     private final RemoteCalls callFor;
     String url;
     Map<String, String> params;
+    Map<String, String> header;
     JSONObject jsonObject;
     boolean isRemoteCallSuccessful = false;
     Exception exception;
     private RemoteCallHandler listener;
     //TODO: Remove list parameter from this call
-    public JSONParserAsync(String url, Map<String, String> params, RemoteCallHandler caller, RemoteCalls callFor) {
+    public JSONParserAsync(String url, Map<String, String> params,Map<String, String> header, RemoteCallHandler caller, RemoteCalls callFor) {
         this.url = url;
         this.listener = caller;
         this.callFor = callFor;
 
         this.params = params;
-
+        this.header = header;
 
         // Tag used to cancel the request
         String tag_json_obj = "json_obj_req";
 
         CustomRequest req = new  CustomRequest(Request.Method.POST, url,
                 this.params,
+                this.header,
                 new Response.Listener<JSONObject>()
                 {
                     @Override

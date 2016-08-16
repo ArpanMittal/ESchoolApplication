@@ -1,5 +1,6 @@
 package com.organization.sjhg.e_school.Remote;
 
+import com.android.volley.AuthFailureError;
 import com.android.volley.NetworkResponse;
 import com.android.volley.ParseError;
 import com.android.volley.Request;
@@ -19,6 +20,7 @@ public class CustomRequest extends Request<JSONObject> {
 
     private Response.Listener<JSONObject> listener;
     private Map<String, String> params;
+    private Map<String, String> header;
 
     public CustomRequest(String url, Map<String, String> params, Response.Listener<JSONObject> responseListener, Response.ErrorListener errorListener) {
         super(Method.GET, url, errorListener);
@@ -26,10 +28,11 @@ public class CustomRequest extends Request<JSONObject> {
         this.params = params;
     }
 
-    public CustomRequest(int method, String url, Map<String, String> params, Response.Listener<JSONObject> reponseListener, Response.ErrorListener errorListener) {
+    public CustomRequest(int method, String url, Map<String, String> params,Map<String, String> header, Response.Listener<JSONObject> reponseListener, Response.ErrorListener errorListener) {
         super(method, url, errorListener);
         this.listener = reponseListener;
         this.params = params;
+        this.header = header;
     }
 
     @Override
@@ -38,6 +41,14 @@ public class CustomRequest extends Request<JSONObject> {
     }
 
     ;
+
+    @Override
+    public Map<String, String> getHeaders() throws AuthFailureError {
+        if (header==null){
+            return super.getHeaders();
+        }
+        return header;
+    }
 
     @Override
     protected Response<JSONObject> parseNetworkResponse(NetworkResponse response) {

@@ -91,7 +91,7 @@ public class RemoteHelper {
         params.put("password",password);
         params.put("name",name);
         params.put("role_id",GlobalConstants.STUDENT_ROLE_ID);
-        new JSONParserAsync(URL, params, remoteCallHandler, remoteCalls);
+        new JSONParserAsync(URL, params, null, remoteCallHandler, remoteCalls);
     }
 
     // To verify login status
@@ -104,7 +104,9 @@ public class RemoteHelper {
         params.put("grant_type",GlobalConstants.PASSWORD_GRANTTYPE);
         params.put("username", email);
         params.put("password", password);
-        new JSONParserAsync(verifyLoginurl,params,caller,functionCalled);
+        Map<String, String> header = new HashMap<String, String>();
+        header.put("Content-Type","application/x-www-form-urlencoded");
+        new JSONParserAsync(verifyLoginurl,params,header,caller,functionCalled);
 
     }
 
@@ -157,7 +159,7 @@ public class RemoteHelper {
 
         Map<String, String> params = new HashMap<String, String>();
 
-        new JSONParserAsync(testDetailUrl, params, caller, functionCalled);;
+        new JSONParserAsync(testDetailUrl, params, null, caller, functionCalled);;
     }
     // get live voting test
     public void getLiveVotingTestList(RemoteCallHandler caller, RemoteCalls functionCalled) {
@@ -170,7 +172,7 @@ public class RemoteHelper {
         params.put("SectionId",
                 String.valueOf(StudentApplicationUserData.getInstance(context).getSectionId()));
 
-        new JSONParserAsync(testDetailUrl, params, caller, functionCalled);;
+        new JSONParserAsync(testDetailUrl, params, null, caller, functionCalled);;
     }
     public void uploadAdaptiveTest(RemoteCallHandler caller,RemoteCalls functionCalled,int testID,String response,int questionid)
     {
@@ -180,7 +182,7 @@ public class RemoteHelper {
         params.put("TestId", String.valueOf(testID));
         params.put("QuestionId", String.valueOf(questionid));
         params.put("Response",response);
-        new JSONParserAsync(URL, params, caller, functionCalled);
+        new JSONParserAsync(URL, params, null, caller, functionCalled);
     }
 
     public void updateDiary(RemoteCallHandler caller,RemoteCalls functionCalled,String diaryId){
@@ -188,7 +190,7 @@ public class RemoteHelper {
         String url=ServerAddress.getServerAddress(context) + "/"+checkurl;
         final Map<String, String>params=new HashMap<>();
         params.put("DiaryId",diaryId);
-        new JSONParserAsync(url, params, caller, functionCalled);
+        new JSONParserAsync(url, params, null, caller, functionCalled);
 
     }
 
@@ -227,7 +229,7 @@ public class RemoteHelper {
         params.put("TestId", String.valueOf(testId));
 
 
-        new JSONParserAsync(adaptiveDetailUrl, params, caller, functionCalled);
+        new JSONParserAsync(adaptiveDetailUrl, params, null, caller, functionCalled);
     }
     // Get Content data
     public void getServerContent(RemoteCallHandler caller, RemoteCalls functionCalled) {
@@ -236,7 +238,7 @@ public class RemoteHelper {
 
         Map<String, String> params = new HashMap<String, String>();
 
-        new JSONParserAsync(contentDetailUrl, params, caller, functionCalled);
+        new JSONParserAsync(contentDetailUrl, params, null, caller, functionCalled);
     }
 
 
@@ -298,7 +300,7 @@ public class RemoteHelper {
         params.put("QuestionId", String.valueOf(questionId));
         params.put("AnswerId", ans.split("##")[1]);
 
-        new JSONParserAsync(URL, params, caller, functionCalled);
+        new JSONParserAsync(URL, params, null, caller, functionCalled);
     }
 
     // Get all active sessions
@@ -308,7 +310,7 @@ public class RemoteHelper {
         Map<String, String> params = new HashMap<String, String>();
         params.put("SectionId",
                 String.valueOf(StudentApplicationUserData.getInstance(context).getSectionId()));
-        new JSONParserAsync(listSessionURL, params, caller, functionCalled);
+        new JSONParserAsync(listSessionURL, params, null, caller, functionCalled);
 
     }
 
@@ -325,7 +327,7 @@ public class RemoteHelper {
                 String.valueOf(StudentApplicationUserData.getInstance(context).getStudentId()));
         params.put("operation", "GetStudentSessionStatus");
 
-        new JSONParserAsync(studentStatusURL, params, caller, functionCalled);
+        new JSONParserAsync(studentStatusURL, params, null, caller, functionCalled);
     }
 
 
@@ -339,7 +341,7 @@ public class RemoteHelper {
                 String.valueOf(StudentApplicationUserData.getInstance(context).getStudentId()));
         params.put("operation", "UpdateStudentSessionStatus");
 
-        new JSONParserAsync(listSessionURL, params, caller, functionCalled);
+        new JSONParserAsync(listSessionURL, params, null, caller, functionCalled);
     }
 
 
@@ -354,7 +356,7 @@ public class RemoteHelper {
         params.put("operation", "UpdateHandStatus");
         params.put("HandRaised", raiseHand ? "1" : "0");
 
-        new JSONParserAsync(listSessionURL, params, caller, functionCalled);
+        new JSONParserAsync(listSessionURL, params, null, caller, functionCalled);
     }
 
 
@@ -372,7 +374,7 @@ public class RemoteHelper {
         params.put("operation", "insertStudentQuestion");
         params.put("questionAsked", questionToSend);
 
-        new JSONParserAsync(sendQuestionUrl, params, caller, functionCalled);
+        new JSONParserAsync(sendQuestionUrl, params, null, caller, functionCalled);
     }
 
     public void SendBatteryStatus(RemoteCallHandler caller, RemoteCalls functionCalled, int batteryLevel) {
@@ -388,7 +390,7 @@ public class RemoteHelper {
         params.put("operation", "UpdateBatteryStatus");
         params.put("BatteryLevel", batteryStatus);
 
-        new JSONParserAsync(sendStatusUrl, params, caller, functionCalled);
+        new JSONParserAsync(sendStatusUrl, params, null, caller, functionCalled);
     }
 
     public void SendRunningTasks(RemoteCallHandler caller, RemoteCalls functionCalled, String taskList) {
@@ -402,7 +404,7 @@ public class RemoteHelper {
         params.put("operation", "UpdateRunningTasks");
         params.put("AppList", taskList);
 
-        new JSONParserAsync(sendStatusUrl, params, caller, functionCalled);
+        new JSONParserAsync(sendStatusUrl, params, null, caller, functionCalled);
     }
 
 
@@ -412,7 +414,7 @@ public class RemoteHelper {
 
         String notesURL = ServerAddress.getServerAddress(context) + "/" + FETCH_NOTES_PAGE;
         Map<String, String> params = new HashMap<String, String>();
-        new JSONParserAsync(notesURL, params, caller, functionCalled);
+        new JSONParserAsync(notesURL, params, null, caller, functionCalled);
     }
 
 
@@ -425,7 +427,7 @@ public class RemoteHelper {
         params.put("operation", "GetSubscriptionSubjectList");
         params.put("SectionId", String.valueOf(StudentApplicationUserData.getInstance(context).getSectionId()));
 
-        new JSONParserAsync(subscriptionUrl, params, caller, functionCalled);
+        new JSONParserAsync(subscriptionUrl, params, null, caller, functionCalled);
     }
 
 
@@ -439,7 +441,7 @@ public class RemoteHelper {
         params.put("operation", "UpdateStudentSubscriptionList");
         params.put("SubscribedSubjects", String.valueOf(newValues));
 
-        new JSONParserAsync(subscriptionUrl, params, caller, functionCalled);
+        new JSONParserAsync(subscriptionUrl, params, null, caller, functionCalled);
     }
 
     public void getEventDetails(RemoteCallHandler caller, RemoteCalls functioncalled) {
@@ -447,7 +449,7 @@ public class RemoteHelper {
 
         Map<String, String> params = new HashMap<String, String>();
 
-        new JSONParserAsync(calendarURL, params, caller, functioncalled);
+        new JSONParserAsync(calendarURL, params, null, caller, functioncalled);
 
     }
 }
