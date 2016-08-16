@@ -12,6 +12,7 @@ keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
 android {
     signingConfigs {
         config {
+            //TODO: implement security here
             keyAlias 'celearn'
             keyPassword '!tRQ6%tqC692g&Ec '
             storeFile file('celearn.jks')
