@@ -52,13 +52,13 @@ Route::post('oauth/token','OAuthcontroller@getOAuthToken');
 /*
  * middleware to check validation of access token and return user_id into request
  */
-Route::group(['prefix'=>'post','middleware'=>['oauth']],function(){
+Route::group(['prefix'=>'api/v1','middleware'=>['oauth']],function(){
 
     Route::post('getEmail','postController@getAllPost');
     
 });
 
-Route::group(['prefix'=>'post','middleware'=>['client']],function(){
+Route::group(['prefix'=>'api/v1','middleware'=>['client']],function(){
    Route::post('doGoogleAuth','AuthGoogleIdToken@doAuth') ;
     Route::post('signup','SignUpController@doSignUp');
 });
