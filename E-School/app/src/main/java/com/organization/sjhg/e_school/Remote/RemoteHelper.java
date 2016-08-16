@@ -84,12 +84,28 @@ public class RemoteHelper {
         final Map<String, String> params = new HashMap<String, String>();
 
         String URL = ServerAddress.getServerAddress(context) + "/" + SIGNUP_PAGE;
+        //String URL=ServerAddress.getLocalServerAddress(context)+"/"+SIGNUP_PAGE;
         params.put("client_id",GlobalConstants.CLIENT_ID);
+        params.put("client_secret",GlobalConstants.CLINET_SECRET);
         params.put("email",email);
         params.put("password",password);
         params.put("name",name);
         params.put("role_id",GlobalConstants.STUDENT_ROLE_ID);
         new JSONParserAsync(URL, params, remoteCallHandler, remoteCalls);
+    }
+
+    // To verify login status
+    public void verifyLogin(RemoteCallHandler caller,RemoteCalls functionCalled,String email,String password)
+    {
+        String verifyLoginurl=ServerAddress.getServerAddress(context)+"oauth/token";
+        Map<String, String> params = new HashMap<String, String>();
+        params.put("client_id",GlobalConstants.CLIENT_ID);
+        params.put("client_secret",GlobalConstants.CLINET_SECRET);
+        params.put("grant_type",GlobalConstants.PASSWORD_GRANTTYPE);
+        params.put("username", email);
+        params.put("password", password);
+        new JSONParserAsync(verifyLoginurl,params,caller,functionCalled);
+
     }
 
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -202,17 +218,7 @@ public class RemoteHelper {
 
         return returnValue;
     }
-    // To verify login status
-    public void verifyLogin(RemoteCallHandler caller,RemoteCalls functionCalled,String email,String password)
-    {
-        //TODO: change to api page name
-        String verifyLoginurl=ServerAddress.getServerAddress(context)+"/dummyvolley.php";
-        Map<String, String> params = new HashMap<String, String>();
-        params.put("Email", email);
-        params.put("Password", password);
-        new JSONParserAsync(verifyLoginurl,params,caller,functionCalled);
 
-    }
 
     public void getAdaptiveContent(RemoteCallHandler caller, RemoteCalls functionCalled,int testId)
     {

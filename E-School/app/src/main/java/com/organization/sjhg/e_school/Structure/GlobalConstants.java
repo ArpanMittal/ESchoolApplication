@@ -17,4 +17,5 @@ public class GlobalConstants {
     final public static String STUDENT_ROLE_ID="3";
     final public static String CLIENT_ID="vinci";
     final public static String CLINET_SECRET="vincipassword";
+    final public static String PASSWORD_GRANTTYPE="password";
 }

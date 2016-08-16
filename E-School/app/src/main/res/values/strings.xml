@@ -93,7 +93,8 @@
     <string name="moved_out_of_test_submit_message">Test has been submitted.</string>
     <string name="moved_out_of_test_message">WARNING! This may lead to auto-submission</string>
     <string name="on_destroy_test_message">You have closed the application. Answers will be submitted automatically.</string>
-    <string name="cloud_base_address">http://laravel.eurovisions.in//</string>
+    <string name="cloud_base_address">http://laravel.eurovisions.in/</string>
+    <string name="local_database_address">http://localhost:8000/</string>
     <string name="cloud_content_relative_path">contentfile/</string>
     <string name="local_base_address">http://192.168.5.5/eschool</string>
     <string name="local_content_relative_path">contentfile/</string>
@@ -162,7 +163,7 @@
     <string name="prompt_phno">enter phonenumber</string>
     <string name="signup">signup</string>
     <string name="action_sign_in_short">enter password</string>
-    <string name="error_invalid_password">password should be alphanumeric</string>
+    <string name="error_invalid_password">password atleast 6 letter long and alphanumeric</string>
     <string name="error_field_required">field required</string>
     <string name="error_invalid_email">invalid email format</string>
     <string name="error_incorrect_password">incorrect password</string>
@@ -176,7 +177,7 @@
     <string name="menu_search">search</string>
     <string name="app_label">vinci</string>
     <string name="search_hint">search Contents</string>
-    <string name="get_sign_up_page">signup</string>
+    <string name="get_sign_up_page">api/v1/signup</string>
     <string name="server_client_id">964686197695-eh8rvm9dp1m4n6kp5p5ueq61pntbo2as.apps.googleusercontent.com</string>
 
 

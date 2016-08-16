@@ -24,6 +24,7 @@ import com.organization.sjhg.e_school.Remote.RemoteCallHandler;
 import com.organization.sjhg.e_school.Remote.RemoteCalls;
 import com.organization.sjhg.e_school.Remote.RemoteHelper;
 import com.organization.sjhg.e_school.Structure.GlobalConstants;
+import com.organization.sjhg.e_school.Utils.ShaGenrate;
 import com.organization.sjhg.e_school.Utils.ToastActivity;
 import com.organization.sjhg.e_school.deviceadmin.DeviceAdminUtil;
 
@@ -117,24 +118,8 @@ public class SignupActivity extends AppCompatActivity implements RemoteCallHandl
         {
             showProgress(true);
             // convert password in SHA1 hash
-            try {
-                MessageDigest md = MessageDigest.getInstance("SHA-256");
-                md.update(password.getBytes());
-                byte byteData[] = md.digest();
-
-                //convert the byte to hex format method 1
-                StringBuffer sb = new StringBuffer();
-                for (int i = 0; i < byteData.length; i++) {
-                    sb.append(Integer.toString((byteData[i] & 0xff) + 0x100, 16).substring(1));
-                }
-                password=sb.toString();
-            }catch (NoSuchAlgorithmException e)
-            {
-                // loghelper class to record all the logs
-                Log.d(GlobalConstants.LOG_TAG,e.getMessage());
-                new LogHelper(e);
-            }
-
+            ShaGenrate shaGenrate=new ShaGenrate();
+            password=shaGenrate.generate(password);
             new RemoteHelper(getApplicationContext()).signUp(RemoteCalls.SIGN_UP,this,email,password,name);
         }
 

@@ -1,5 +1,6 @@
 package com.organization.sjhg.e_school;
 
+import android.accounts.AccountManager;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
@@ -49,6 +50,7 @@ import com.organization.sjhg.e_school.Remote.RemoteCallHandler;
 import com.organization.sjhg.e_school.Remote.RemoteCalls;
 import com.organization.sjhg.e_school.Remote.RemoteHelper;
 import com.organization.sjhg.e_school.Structure.GlobalConstants;
+import com.organization.sjhg.e_school.Utils.ShaGenrate;
 
 import org.json.JSONObject;
 
@@ -215,6 +217,8 @@ public class LoginActivity extends AppCompatActivity implements RemoteCallHandle
             // Show a progress spinner, and kick off a background task to
             // perform the user login attempt.
             showProgress(true);
+            ShaGenrate shaGenrate=new ShaGenrate();
+            password=shaGenrate.generate(password);
             //Do login process
             new RemoteHelper(getApplicationContext()).verifyLogin(this, RemoteCalls.CHECK_LOGIN_CREDENTIALS,email,password);
             //mAuthTask = new UserLoginTask(email, password);
@@ -364,10 +368,20 @@ public class LoginActivity extends AppCompatActivity implements RemoteCallHandle
         }
         else
         {
-            showProgress(false);
-            Toast.makeText(this,response.toString(),Toast.LENGTH_LONG);
-            Intent intent=new Intent(this,MainActivity.class);
-            startActivity(intent);
+            switch (callFor) {
+                case CHECK_LOGIN_CREDENTIALS: {
+                    Log.d(GlobalConstants.LOG_TAG,"Autenticated sucessfully");
+                    Log.d(GlobalConstants.LOG_TAG,response.toString());
+
+                    //new RemoteCallHandler(getApplicationContext(),RemoteCalls.GET_USER_DETAILS,)
+                    //new RemoteCallHandler(getApplicationContext(),RemoteCalls.GET_USER_DETAILS,)
+                    showProgress(false);
+                    Toast.makeText(this, response.toString(), Toast.LENGTH_LONG);
+                    Intent intent = new Intent(this, MainActivity.class);
+                    startActivity(intent);
+                    break;
+                }
+            }
         }
 
     }

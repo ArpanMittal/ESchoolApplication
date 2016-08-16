@@ -87,7 +87,6 @@
                     android:hint="@string/name"
                     android:imeActionId="@+id/login"
                     android:imeOptions="actionUnspecified"
-                    android:inputType="textPassword"
                     android:maxLines="1"
                     android:singleLine="true" />
 

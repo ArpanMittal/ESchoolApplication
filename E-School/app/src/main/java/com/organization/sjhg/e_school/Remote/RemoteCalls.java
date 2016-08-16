@@ -20,6 +20,8 @@ public enum RemoteCalls {
     UPLOAD_ADAPTIVE_TEST,
     UPLOAD_LIVE_VOTING_ANSWER,
     CHECK_REMOTE_CALL,
+    ////////////////////////////////////////////////////////////
     CHECK_LOGIN_CREDENTIALS,
+    GET_USER_DETAILS,
     SIGN_UP
 }
