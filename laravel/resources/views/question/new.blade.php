@@ -144,7 +144,7 @@
                                             <div class="control-group">
                                                 <label class="control-label">Ideal Time</label>
                                                 <div class="controls" >
-                                                    <input class="" type="time" name="ideal_time" id="ideal_time" />
+                                                    <input class="" type="time" name="ideal_time" id="ideal_time" value="00:01:30" step="1"/>
                                                 </div>
                                             </div>
                                             @if(!isset($question))
@@ -154,7 +154,7 @@
                                                     <select name="Level" id="Level" style="width:220px;">
                                                         <option value="">-- Select Level of Question --</option>
                                                         <option value="2">Easy</option>
-                                                        <option value="5">Medium</option>
+                                                        <option value="5" selected="selected">Medium</option>
                                                         <option value="8">Hard</option>
                                                     </select>
                                                 </div>
