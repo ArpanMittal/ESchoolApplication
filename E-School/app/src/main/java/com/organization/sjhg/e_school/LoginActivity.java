@@ -325,9 +325,10 @@ public class LoginActivity extends AppCompatActivity implements RemoteCallHandle
                     String personId = acct.getId();
                     Uri personPhoto = acct.getPhotoUrl();
                     String idToken = acct.getIdToken();
+                    new RemoteHelper(getApplicationContext()).getGoogleAuthDetails(this,RemoteCalls.GET_GOOGLE_USER_DETAILS,idToken);
                     //Intent intent =new Intent(this,Main_Activity.class);
                     //startActivity(intent);
-                    Toast.makeText(getApplicationContext(),R.string.TAG_LOGIN_SUCCESS,Toast.LENGTH_LONG).show();
+                    //Toast.makeText(getApplicationContext(),R.string.TAG_LOGIN_SUCCESS,Toast.LENGTH_LONG).show();
 
 
                     //mStatusTextView.setText(getString(R.string.signed_in_fmt, acct.getDisplayName()));
@@ -375,6 +376,25 @@ public class LoginActivity extends AppCompatActivity implements RemoteCallHandle
             SharedPrefrence sharedPrefrence=new SharedPrefrence();
             ToastActivity toastActivity=new ToastActivity();
             switch (callFor) {
+                case GET_GOOGLE_USER_DETAILS:{
+                    try{
+                        if(response.get("sucess").equals("false"))
+                        {
+                            toastActivity.makeToastMessage(response,this);
+                        }
+                        else
+                        {
+                            String email=response.get("email").toString();
+                            String password=response.get("password").toString();
+                            new RemoteHelper(getApplicationContext()).verifyLogin(this, RemoteCalls.CHECK_LOGIN_CREDENTIALS,email,password);
+                        }
+                    }catch (Exception e)
+                    {
+                        LogHelper logHelper=new LogHelper(e);
+                        e.printStackTrace();
+                    }
+                    break;
+                }
                 case CHECK_LOGIN_CREDENTIALS: {
                     String access_token ="";
                     String refresh_token="";
@@ -448,7 +468,7 @@ public class LoginActivity extends AppCompatActivity implements RemoteCallHandle
                         LogHelper logHelper=new LogHelper(e);
                         e.printStackTrace();
                     }
-
+                    break;
                 }
             }
         }
