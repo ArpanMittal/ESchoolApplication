@@ -178,6 +178,8 @@
     <string name="app_label">vinci</string>
     <string name="search_hint">search Contents</string>
     <string name="get_sign_up_page">api/v1/signup</string>
+    <string name="getaccesstoken">oauth/token</string>
+    <string name="getuserdetail">api/v1/getEmail</string>
     <string name="server_client_id">964686197695-eh8rvm9dp1m4n6kp5p5ueq61pntbo2as.apps.googleusercontent.com</string>
 
 

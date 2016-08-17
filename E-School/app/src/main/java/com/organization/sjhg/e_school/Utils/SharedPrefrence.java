@@ -15,6 +15,7 @@ public class SharedPrefrence
 
     public void saveAccessToken(Context context,String accessToken, String refreshToken)
     {
+        //save access token and refresh token
         SharedPreferences.Editor editor;
         SharedPreferences  settings =context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
         editor=settings.edit();
@@ -22,4 +23,18 @@ public class SharedPrefrence
         editor.putString(REFRESH_TOKEN,refreshToken);
 
     }
+
+    public String getAccessToken(Context context)
+    {
+    // retreive access token
+        SharedPreferences  settings =context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
+        return settings.getString(ACCESS_TOKEN,null);
+    }
+    public String getRefreshToken(Context context)
+    {
+    // retereive refresh token
+        SharedPreferences  settings =context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
+        return settings.getString(REFRESH_TOKEN,null);
+    }
+
 }

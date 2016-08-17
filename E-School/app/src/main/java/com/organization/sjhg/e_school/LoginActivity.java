@@ -46,12 +46,16 @@ import com.google.android.gms.common.api.OptionalPendingResult;
 import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
 import com.organization.sjhg.e_school.R;
+import com.organization.sjhg.e_school.Remote.ExceptionHandler;
 import com.organization.sjhg.e_school.Remote.RemoteCallHandler;
 import com.organization.sjhg.e_school.Remote.RemoteCalls;
 import com.organization.sjhg.e_school.Remote.RemoteHelper;
 import com.organization.sjhg.e_school.Structure.GlobalConstants;
 import com.organization.sjhg.e_school.Utils.ShaGenrate;
+import com.organization.sjhg.e_school.Utils.SharedPrefrence;
+import com.organization.sjhg.e_school.Utils.ToastActivity;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
@@ -321,8 +325,8 @@ public class LoginActivity extends AppCompatActivity implements RemoteCallHandle
                     String personId = acct.getId();
                     Uri personPhoto = acct.getPhotoUrl();
                     String idToken = acct.getIdToken();
-                    Intent intent =new Intent(this,Main_Activity.class);
-                    startActivity(intent);
+                    //Intent intent =new Intent(this,Main_Activity.class);
+                    //startActivity(intent);
                     Toast.makeText(getApplicationContext(),R.string.TAG_LOGIN_SUCCESS,Toast.LENGTH_LONG).show();
 
 
@@ -368,18 +372,83 @@ public class LoginActivity extends AppCompatActivity implements RemoteCallHandle
         }
         else
         {
+            SharedPrefrence sharedPrefrence=new SharedPrefrence();
+            ToastActivity toastActivity=new ToastActivity();
             switch (callFor) {
                 case CHECK_LOGIN_CREDENTIALS: {
+                    String access_token ="";
+                    String refresh_token="";
                     Log.d(GlobalConstants.LOG_TAG,"Autenticated sucessfully");
-                    Log.d(GlobalConstants.LOG_TAG,response.toString());
+                   // Log.d(GlobalConstants.LOG_TAG,response.toString());
+                    //access_token=response.toString();
 
+                    try {
+                        access_token=response.get("access_token").toString();
+                        refresh_token=response.get("refresh_token").toString();
+                    }catch (Exception e)
+                    {
+                        Log.d(GlobalConstants.LOG_TAG,e.getMessage());
+                        LogHelper loghelper=new LogHelper(e);
+                        e.printStackTrace();
+                    }
+
+                    sharedPrefrence.saveAccessToken(getApplicationContext(),access_token,refresh_token);
+                    new RemoteHelper(getApplicationContext()).getUserDetails(this,RemoteCalls.GET_USER_DETAILS,access_token);
                     //new RemoteCallHandler(getApplicationContext(),RemoteCalls.GET_USER_DETAILS,)
-                    //new RemoteCallHandler(getApplicationContext(),RemoteCalls.GET_USER_DETAILS,)
-                    showProgress(false);
-                    Toast.makeText(this, response.toString(), Toast.LENGTH_LONG);
-                    Intent intent = new Intent(this, MainActivity.class);
-                    startActivity(intent);
+                   break;
+                }
+                case GET_USER_DETAILS:
+                {
+                    try {
+                        if (response.get("code").toString().equals(GlobalConstants.EXPIRED_TOKEN))
+                        {
+
+                            if(sharedPrefrence.getRefreshToken(getApplicationContext())==null)
+                            {
+
+                                toastActivity.makeToastMessage(response,this);
+                                break;
+                            }
+                            else
+                            {
+                                new RemoteHelper(getApplicationContext()).getAccessToken(this,RemoteCalls.GET_ACCESS_TOKEN,sharedPrefrence.getRefreshToken(getApplicationContext()));
+                            }
+
+                        }
+                        else
+                        {
+                            showProgress(false);
+                            Toast.makeText(this, response.toString(), Toast.LENGTH_LONG);
+                            Intent intent = new Intent(this, Main_Activity.class);
+                            startActivity(intent);
+                        }
+                    }catch (Exception e)
+                    {
+                        LogHelper logHelper=new LogHelper(e);
+                        e.printStackTrace();
+                    }
+
                     break;
+                }
+                case GET_ACCESS_TOKEN:
+                {
+                    try{
+                        if(response.get("sucess").toString().equals("false"))
+                        {
+                            toastActivity.makeToastMessage(response,this);
+                        }
+                        else
+                        {
+                            sharedPrefrence.saveAccessToken(getApplicationContext(),response.get("access_token").toString(),response.get("refresh_token").toString());
+
+                            new RemoteHelper(getApplicationContext()).getUserDetails(this,RemoteCalls.GET_USER_DETAILS,response.get("access_token").toString());
+                        }
+                    }catch (Exception e)
+                    {
+                        LogHelper logHelper=new LogHelper(e);
+                        e.printStackTrace();
+                    }
+
                 }
             }
         }
