@@ -279,7 +279,7 @@
 
         $("#frmquestion").submit(function(){
             var tags = $("#TagIds :selected").length;
-            if(tags > 0){
+            if(tags <= 0){
                 alert("Please add a tag");
                 return false;
             }
@@ -314,7 +314,6 @@
                 data: formData,
                 async: false,
                 success: function (data) {
-                    alert(data);
                     data = JSON.parse(data);
                     if(data.success=='false'){
                         alert(JSON.stringify(data.error));
