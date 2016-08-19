@@ -24,6 +24,7 @@ import com.organization.sjhg.e_school.Remote.RemoteCallHandler;
 import com.organization.sjhg.e_school.Remote.RemoteCalls;
 import com.organization.sjhg.e_school.Remote.RemoteHelper;
 import com.organization.sjhg.e_school.Structure.GlobalConstants;
+import com.organization.sjhg.e_school.Utils.ProgressBarActivity;
 import com.organization.sjhg.e_school.Utils.ShaGenrate;
 import com.organization.sjhg.e_school.Utils.ToastActivity;
 import com.organization.sjhg.e_school.deviceadmin.DeviceAdminUtil;
@@ -48,6 +49,7 @@ public class SignupActivity extends AppCompatActivity implements RemoteCallHandl
     private View mProgressView;
     private View mSignUpFormView;
     private Button signup;
+    private ProgressBarActivity progressBarActivity=new ProgressBarActivity();
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -116,7 +118,7 @@ public class SignupActivity extends AppCompatActivity implements RemoteCallHandl
         }
         else
         {
-            showProgress(true);
+            progressBarActivity.showProgress(mSignUpFormView,mProgressView,true,getApplicationContext());
             // convert password in SHA1 hash
             ShaGenrate shaGenrate=new ShaGenrate();
             password=shaGenrate.generate(password);
@@ -167,48 +169,14 @@ public class SignupActivity extends AppCompatActivity implements RemoteCallHandl
 
         return false;
     }
-    /**
-     * Shows the progress UI and hides the login form.
-     */
-    @TargetApi(Build.VERSION_CODES.HONEYCOMB_MR2)
-    private void showProgress(final boolean show) {
-        // On Honeycomb MR2 we have the ViewPropertyAnimator APIs, which allow
-        // for very easy animations. If available, use these APIs to fade-in
-        // the progress spinner.
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR2) {
-            int shortAnimTime = getResources().getInteger(android.R.integer.config_shortAnimTime);
 
-            mSignUpFormView.setVisibility(show ? View.GONE : View.VISIBLE);
-            mSignUpFormView.animate().setDuration(shortAnimTime).alpha(
-                    show ? 0 : 1).setListener(new AnimatorListenerAdapter() {
-                @Override
-                public void onAnimationEnd(Animator animation) {
-                    mSignUpFormView.setVisibility(show ? View.GONE : View.VISIBLE);
-                }
-            });
-
-            mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
-            mProgressView.animate().setDuration(shortAnimTime).alpha(
-                    show ? 1 : 0).setListener(new AnimatorListenerAdapter() {
-                @Override
-                public void onAnimationEnd(Animator animation) {
-                    mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
-                }
-            });
-        } else {
-            // The ViewPropertyAnimator APIs are not available, so simply show
-            // and hide the relevant UI components.
-            mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
-            mSignUpFormView.setVisibility(show ? View.GONE : View.VISIBLE);
-        }
-    }
     //response of remote call to server
     @Override
     public void HandleRemoteCall(boolean isSuccessful, RemoteCalls callFor, JSONObject response, Exception exception) {
         if(!isSuccessful)
         {
 
-            showProgress(false);
+            progressBarActivity.showProgress(mSignUpFormView,mProgressView,false,getApplicationContext());
             ToastActivity toastActivity=new ToastActivity();
             toastActivity.makeUknownErrorMessage(this);
             new LogHelper(exception);
@@ -216,7 +184,7 @@ public class SignupActivity extends AppCompatActivity implements RemoteCallHandl
         }
         else
         {
-            showProgress(false);
+            progressBarActivity.showProgress(mSignUpFormView,mProgressView,false,getApplicationContext());
             try {
                 if (response.get("sucess").toString()=="false")
                 {

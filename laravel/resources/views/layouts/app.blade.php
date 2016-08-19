@@ -18,6 +18,7 @@
     <link href="{!! asset('css/select2.css') !!}" rel="stylesheet">
     <link href="{!! asset('css/main.css') !!}" rel="stylesheet">
     @yield('script_header')
+    @yield('style')
     <style>
         body {
             font-family: 'PT Sans';

@@ -42,6 +42,10 @@ import java.util.Objects;
 public class RemoteHelper {
     Context context;
     String SIGNUP_PAGE;
+    String GET_ACESS_TOKEN;
+    String GET_USER_DETAIL;
+    String GET_DASHBOARD_DETAILS;
+    //////////////////////////////////////////////////////////////////////////////////////////////////////////////
     String LOGIN_PAGE;
     String FETCH_CONTENT_PAGE;
     String INSERT_MAC;
@@ -57,10 +61,16 @@ public class RemoteHelper {
     String GET_STUDENT_STATUS;
     String SUBSCRIPTION_SUBJECTS;
     String EVENT_DETAILS;
+    String GET_GOOGLE_AUTH_DETAILS;
 
     public RemoteHelper(Context context) {
         this.context = context;
         SIGNUP_PAGE=this.context.getResources().getString(R.string.get_sign_up_page);
+        GET_ACESS_TOKEN=this.context.getResources().getString(R.string.getaccesstoken);
+        GET_USER_DETAIL=this.context.getResources().getString(R.string.getuserdetail);
+        GET_GOOGLE_AUTH_DETAILS=context.getResources().getString(R.string.getGoogleAccountDetails);
+        GET_DASHBOARD_DETAILS="api/v1/getDashBoardDetails";
+        //////////////////////////////////////////////////////////////////////////////////////
         GET_SINGLEADAPTIVE_TEST=this.context.getResources().getString(R.string.get_single_adaptive_test);
         LOGIN_PAGE = this.context.getResources().getString(R.string.login_page);
         FETCH_CONTENT_PAGE = this.context.getResources().getString(R.string.fetch_content_page);
@@ -97,7 +107,7 @@ public class RemoteHelper {
     // To verify login status
     public void verifyLogin(RemoteCallHandler caller,RemoteCalls functionCalled,String email,String password)
     {
-        String verifyLoginurl=ServerAddress.getServerAddress(context)+"oauth/token";
+        String verifyLoginurl=ServerAddress.getServerAddress(context)+GET_ACESS_TOKEN;
         Map<String, String> params = new HashMap<String, String>();
         params.put("client_id",GlobalConstants.CLIENT_ID);
         params.put("client_secret",GlobalConstants.CLINET_SECRET);
@@ -108,6 +118,59 @@ public class RemoteHelper {
         header.put("Content-Type","application/x-www-form-urlencoded");
         new JSONParserAsync(verifyLoginurl,params,header,caller,functionCalled);
 
+    }
+    //get user details
+    public void getUserDetails(RemoteCallHandler caller,RemoteCalls functionCalled,String access_token)
+    {
+        String url=ServerAddress.getServerAddress(context)+GET_USER_DETAIL;
+        Map<String, String> params = new HashMap<String, String>();
+        params.put("client_id",GlobalConstants.CLIENT_ID);
+        params.put("client_secret",GlobalConstants.CLINET_SECRET);
+        params.put("access_token",access_token);
+        Map<String, String> header = new HashMap<String, String>();
+        header.put("Content-Type","application/x-www-form-urlencoded");
+        new JSONParserAsync(url,params,header,caller,functionCalled);
+    }
+
+    //get refresh token
+    public void getAccessToken(RemoteCallHandler caller,RemoteCalls functionCalled,String refresh_token)
+    {
+        String url=ServerAddress.getServerAddress(context)+GET_ACESS_TOKEN;
+        Map<String, String> params = new HashMap<String, String>();
+        params.put("client_id",GlobalConstants.CLIENT_ID);
+        params.put("grant_type",GlobalConstants.REFRESH_TOKEN_GRANTTYPE);
+        params.put("client_secret",GlobalConstants.CLINET_SECRET);
+        params.put("refresh_token",refresh_token);
+        Map<String, String> header = new HashMap<String, String>();
+        header.put("Content-Type","application/x-www-form-urlencoded");
+        new JSONParserAsync(url,params,header,caller,functionCalled);
+    }
+
+    //get google auth details
+    public void getGoogleAuthDetails(RemoteCallHandler caller,RemoteCalls functionCalled,String code)
+    {
+        String url=ServerAddress.getServerAddress(context)+GET_GOOGLE_AUTH_DETAILS;
+        Map<String, String> params = new HashMap<String, String>();
+        params.put("client_id",GlobalConstants.CLIENT_ID);
+        params.put("client_secret",GlobalConstants.CLINET_SECRET);
+        params.put("code",code);
+        params.put("role_id",GlobalConstants.STUDENT_ROLE_ID);
+        Map<String, String> header = new HashMap<String, String>();
+        header.put("Content-Type","application/x-www-form-urlencoded");
+        new JSONParserAsync(url,params,header,caller,functionCalled);
+    }
+
+    //get dashboard details
+
+    public void getDashBoardDetails(RemoteCallHandler caller,RemoteCalls functionCalled)
+    {
+        String url=ServerAddress.getServerAddress(context)+GET_DASHBOARD_DETAILS;
+        Map<String, String> params = new HashMap<String, String>();
+        params.put("client_id",GlobalConstants.CLIENT_ID);
+        params.put("client_secret",GlobalConstants.CLINET_SECRET);
+        Map<String, String> header = new HashMap<String, String>();
+        header.put("Content-Type","application/x-www-form-urlencoded");
+        new JSONParserAsync(url,params,header,caller,functionCalled);
     }
 
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

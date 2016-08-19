@@ -30,6 +30,8 @@ class QuestionController extends Controller
             ->get();
 
         $data['types'] = DB::table('questiontype')->get();
+
+        $data['tags'] = DB::table('examtag')->get();
         
         return view('question.new',$data);
     }
@@ -68,6 +70,9 @@ class QuestionController extends Controller
         $data['question'] = DB::table('question')->where('id',$id)->first();
         $data['options'] = DB::table('option')->where('question_id',$id)->get();
         $data['answer'] = DB::table('answer')->where('question_id',$id)->get();
+        $data['seleted_tags'] = DB::table('questiontags')->where('question_id',$id)->get();
+        
+        $data['tags'] = DB::table('examtag')->get();
 
         $data['subjects'] = DB::table('classsubjectmap')
             ->join('class', 'classsubjectmap.class_id', '=', 'class.id')
@@ -165,6 +170,7 @@ class QuestionController extends Controller
         $question_type = Input::get("QuesType");
         $question= Input::get("question");
         $options = Input::get("Opt");
+        $tags = Input::get("TagIds");
         $correct_option = Input::get("optionsRadioG");
         $ideal_time = Input::get('ideal_time');
         $level = Input::get("Level");
@@ -218,6 +224,20 @@ class QuestionController extends Controller
                     );
                 }
             }
+            for ($i=0;$i<count($tags);$i++){
+                $status = DB::table('questiontags')
+                    ->insert([
+                        'question_id' => $questionId,
+                        'tag_id' => $tags[$i]
+                    ]);
+                if ($status==false){
+                    // Back to form with errors
+                    DB::rollback();
+                    $result['success'] = 'false';
+                    $result['error'] = 'Error in filling tags'.$i;
+                    return json_encode($result);
+                }
+            }
             if (!$correct_option>0){
                 // Back to form with errors
                 DB::rollback();
@@ -258,6 +278,7 @@ class QuestionController extends Controller
         $hash = Input::get("TopicId");
         $question_type = Input::get("QuesType");
         $question= Input::get("question");
+        $tags = Input::get("TagIds");
         $options = Input::get("Opt");
         $correct_option = Input::get("optionsRadioG");
         $ideal_time = Input::get('ideal_time');
@@ -314,6 +335,21 @@ class QuestionController extends Controller
                     DB::rollback();
                     $result['success'] = 'false';
                     $result['error'] = 'Error in filling options'.$i;
+                    return json_encode($result);
+                }
+            }
+            DB::table('questiontags')->where('question_id','=',$questionId)->delete();
+            for ($i=0;$i<count($tags);$i++){
+                $status = DB::table('questiontags')
+                    ->insert([
+                        'question_id' => $questionId,
+                        'tag_id' => $tags[$i]
+                    ]);
+                if ($status==false){
+                    // Back to form with errors
+                    DB::rollback();
+                    $result['success'] = 'false';
+                    $result['error'] = 'Error in filling tags'.$i;
                     return json_encode($result);
                 }
             }

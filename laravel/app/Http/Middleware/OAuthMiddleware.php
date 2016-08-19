@@ -19,7 +19,7 @@ class OAuthMiddleware
     {
         //file_put_contents("a.txt","hello".$request->input('access_token'));
         if (!$request->input('access_token')) {
-            return response('Token Not Found',422);
+            return response()->json(["sucess"=>false,"message"=>"Token Not Found!! Relogin","code"=>401]);
         }
         
         $req=\Symfony\Component\HttpFoundation\Request::createFromGlobals();
@@ -34,10 +34,10 @@ class OAuthMiddleware
             {
                 if($response->getParameter('error')=='expired_token')
                 {
-                    return response('The access token is expired',401);
+                    return response()->json(["sucess"=>false,"message"=>'The access token is expired',"code"=>755]);
                 }
                 else{
-                    return response('InvalidToken',422);
+                    return response()->json(["sucess"=>false,"message"=>"invalid Token","code"=>422]);
                 }
             }
 

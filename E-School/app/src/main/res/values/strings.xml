@@ -172,13 +172,22 @@
     <string name="newuser">new user?</string>
     <string name="navigation_drawer_open">open navigation drawer</string>
     <string name="navigation_drawer_close">close navigation drawer</string>
-    <string name="expand">Expanded</string>
+    <string name="expand">DashBoard</string>
     <string name="paralax">paralex</string>
     <string name="menu_search">search</string>
     <string name="app_label">vinci</string>
     <string name="search_hint">search Contents</string>
     <string name="get_sign_up_page">api/v1/signup</string>
+    <string name="getaccesstoken">oauth/token</string>
+    <string name="getuserdetail">api/v1/getEmail</string>
+    <string name="getGoogleAccountDetails">api/v1/doGoogleAuth</string>
     <string name="server_client_id">964686197695-eh8rvm9dp1m4n6kp5p5ueq61pntbo2as.apps.googleusercontent.com</string>
+    <string name="data">data</string>
+    <string name="jsontitle">title</string>
+    <string name="jsonlist">list</string>
+    <string name="jsoncount">count</string>
+    <string name="jsonname">name</string>
+    <string name="jsonid">id</string>
 
 
 </resources>

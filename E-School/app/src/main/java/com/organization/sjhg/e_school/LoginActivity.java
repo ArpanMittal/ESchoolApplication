@@ -46,12 +46,17 @@ import com.google.android.gms.common.api.OptionalPendingResult;
 import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
 import com.organization.sjhg.e_school.R;
+import com.organization.sjhg.e_school.Remote.ExceptionHandler;
 import com.organization.sjhg.e_school.Remote.RemoteCallHandler;
 import com.organization.sjhg.e_school.Remote.RemoteCalls;
 import com.organization.sjhg.e_school.Remote.RemoteHelper;
 import com.organization.sjhg.e_school.Structure.GlobalConstants;
+import com.organization.sjhg.e_school.Utils.ProgressBarActivity;
 import com.organization.sjhg.e_school.Utils.ShaGenrate;
+import com.organization.sjhg.e_school.Utils.SharedPrefrence;
+import com.organization.sjhg.e_school.Utils.ToastActivity;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
@@ -71,12 +76,12 @@ public class LoginActivity extends AppCompatActivity implements RemoteCallHandle
     /**
      * Id to identity READ_CONTACTS permission request.
      */
-            private static final int REQUEST_READ_CONTACTS = 0;
-            private static final String TAG = "SignInActivity";
-            private static final int RC_SIGN_IN = 9001;
-            private static final int RC_GET_TOKEN = 9002;
 
+            private static final String TAG = "SignInActivity";
+            private static final int RC_GET_TOKEN = 9002;
             private GoogleApiClient mGoogleApiClient;
+            private SharedPrefrence sharedPrefrence=new SharedPrefrence();
+            private ProgressBarActivity progressBarActivity=new ProgressBarActivity();
 
 
     /**
@@ -216,9 +221,12 @@ public class LoginActivity extends AppCompatActivity implements RemoteCallHandle
         } else {
             // Show a progress spinner, and kick off a background task to
             // perform the user login attempt.
-            showProgress(true);
+            progressBarActivity.showProgress(mLoginFormView,mProgressView,true,getApplicationContext());
             ShaGenrate shaGenrate=new ShaGenrate();
             password=shaGenrate.generate(password);
+            //save user credentials
+
+            sharedPrefrence.saveUserCredentials(getApplicationContext(),email,password);
             //Do login process
             new RemoteHelper(getApplicationContext()).verifyLogin(this, RemoteCalls.CHECK_LOGIN_CREDENTIALS,email,password);
             //mAuthTask = new UserLoginTask(email, password);
@@ -249,64 +257,43 @@ public class LoginActivity extends AppCompatActivity implements RemoteCallHandle
         }
 
 
-    /**
-     * Shows the progress UI and hides the login form.
-     */
-    @TargetApi(Build.VERSION_CODES.HONEYCOMB_MR2)
-    private void showProgress(final boolean show) {
-        // On Honeycomb MR2 we have the ViewPropertyAnimator APIs, which allow
-        // for very easy animations. If available, use these APIs to fade-in
-        // the progress spinner.
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR2) {
-            int shortAnimTime = getResources().getInteger(android.R.integer.config_shortAnimTime);
 
-            mLoginFormView.setVisibility(show ? View.GONE : View.VISIBLE);
-            mLoginFormView.animate().setDuration(shortAnimTime).alpha(
-                    show ? 0 : 1).setListener(new AnimatorListenerAdapter() {
-                @Override
-                public void onAnimationEnd(Animator animation) {
-                    mLoginFormView.setVisibility(show ? View.GONE : View.VISIBLE);
-                }
-            });
-
-            mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
-            mProgressView.animate().setDuration(shortAnimTime).alpha(
-                    show ? 1 : 0).setListener(new AnimatorListenerAdapter() {
-                @Override
-                public void onAnimationEnd(Animator animation) {
-                    mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
-                }
-            });
-        } else {
-            // The ViewPropertyAnimator APIs are not available, so simply show
-            // and hide the relevant UI components.
-            mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
-            mLoginFormView.setVisibility(show ? View.GONE : View.VISIBLE);
-        }
-    }
 
             @Override
             protected void onStart() {
                 super.onStart();
-                OptionalPendingResult<GoogleSignInResult> opr = Auth.GoogleSignInApi.silentSignIn(mGoogleApiClient);
-                if (opr.isDone()) {
-                    // If the user's cached credentials are valid, the OptionalPendingResult will be "done"
-                    // and the GoogleSignInResult will be available instantly.
-                    Log.d(TAG, "Got cached sign-in");
-                    GoogleSignInResult result = opr.get();
-                    handleSignInResult(result);
-                } else {
-                    // If the user has not previously signed in on this device or the sign-in has expired,
-                    // this asynchronous branch will attempt to sign in the user silently.  Cross-device
-                    // single sign-on will occur in this branch.
-                    showProgress(true);
-                    opr.setResultCallback(new ResultCallback<GoogleSignInResult>() {
-                        @Override
-                        public void onResult(GoogleSignInResult googleSignInResult) {
-                            showProgress(false);
-                            handleSignInResult(googleSignInResult);
-                        }
-                    });
+                String email1=sharedPrefrence.getUserEmail(getApplicationContext());
+                String password1=sharedPrefrence.getUserPassword(getApplicationContext());
+                // for automatic login without google signin
+                if(sharedPrefrence.getUserEmail(getApplicationContext())!=null && sharedPrefrence.getUserPassword(getApplicationContext())!=null)
+                {
+                   String email=sharedPrefrence.getUserEmail(getApplicationContext());
+                    String password=sharedPrefrence.getUserPassword(getApplicationContext());
+                    progressBarActivity.showProgress(mLoginFormView,mProgressView,true,getApplicationContext());
+                    new RemoteHelper(getApplicationContext()).verifyLogin(this, RemoteCalls.CHECK_LOGIN_CREDENTIALS,email,password);
+                }
+                else {
+
+                    OptionalPendingResult<GoogleSignInResult> opr = Auth.GoogleSignInApi.silentSignIn(mGoogleApiClient);
+                    if (opr.isDone()) {
+                        // If the user's cached credentials are valid, the OptionalPendingResult will be "done"
+                        // and the GoogleSignInResult will be available instantly.
+                        Log.d(TAG, "Got cached sign-in");
+                        GoogleSignInResult result = opr.get();
+                        handleSignInResult(result);
+                    } else {
+                        // If the user has not previously signed in on this device or the sign-in has expired,
+                        // this asynchronous branch will attempt to sign in the user silently.  Cross-device
+                        // single sign-on will occur in this branch.
+                        progressBarActivity.showProgress(mLoginFormView,mProgressView,true,getApplicationContext());
+                        opr.setResultCallback(new ResultCallback<GoogleSignInResult>() {
+                            @Override
+                            public void onResult(GoogleSignInResult googleSignInResult) {
+                                progressBarActivity.showProgress(mLoginFormView,mProgressView,false,getApplicationContext());
+                                handleSignInResult(googleSignInResult);
+                            }
+                        });
+                    }
                 }
             }
             // [START handleSignInResult]
@@ -321,9 +308,10 @@ public class LoginActivity extends AppCompatActivity implements RemoteCallHandle
                     String personId = acct.getId();
                     Uri personPhoto = acct.getPhotoUrl();
                     String idToken = acct.getIdToken();
-                    Intent intent =new Intent(this,Main_Activity.class);
-                    startActivity(intent);
-                    Toast.makeText(getApplicationContext(),R.string.TAG_LOGIN_SUCCESS,Toast.LENGTH_LONG).show();
+                    new RemoteHelper(getApplicationContext()).getGoogleAuthDetails(this,RemoteCalls.GET_GOOGLE_USER_DETAILS,idToken);
+                    //Intent intent =new Intent(this,Main_Activity.class);
+                    //startActivity(intent);
+                    //Toast.makeText(getApplicationContext(),R.string.TAG_LOGIN_SUCCESS,Toast.LENGTH_LONG).show();
 
 
                     //mStatusTextView.setText(getString(R.string.signed_in_fmt, acct.getDisplayName()));
@@ -362,23 +350,107 @@ public class LoginActivity extends AppCompatActivity implements RemoteCallHandle
     public void HandleRemoteCall(boolean isSuccessful, RemoteCalls callFor, JSONObject response, Exception exception) {
         if(!isSuccessful)
         {
-            showProgress(false);
+            progressBarActivity.showProgress(mLoginFormView,mProgressView,false,getApplicationContext());
             new LogHelper(exception);
             exception.printStackTrace();
         }
         else
         {
-            switch (callFor) {
-                case CHECK_LOGIN_CREDENTIALS: {
-                    Log.d(GlobalConstants.LOG_TAG,"Autenticated sucessfully");
-                    Log.d(GlobalConstants.LOG_TAG,response.toString());
 
+            ToastActivity toastActivity=new ToastActivity();
+            switch (callFor) {
+                case GET_GOOGLE_USER_DETAILS:{
+                    try{
+                        if(response.get("sucess").equals("false"))
+                        {
+                            toastActivity.makeToastMessage(response,this);
+                        }
+                        else
+                        {
+                            String email=response.get("email").toString();
+                            String password=response.get("password").toString();
+                            new RemoteHelper(getApplicationContext()).verifyLogin(this, RemoteCalls.CHECK_LOGIN_CREDENTIALS,email,password);
+                        }
+                    }catch (Exception e)
+                    {
+                        LogHelper logHelper=new LogHelper(e);
+                        e.printStackTrace();
+                    }
+                    break;
+                }
+                case CHECK_LOGIN_CREDENTIALS: {
+                    String access_token ="";
+                    String refresh_token="";
+                    Log.d(GlobalConstants.LOG_TAG,"Autenticated sucessfully");
+                   // Log.d(GlobalConstants.LOG_TAG,response.toString());
+                    //access_token=response.toString();
+
+                    try {
+                        access_token=response.get("access_token").toString();
+                        refresh_token=response.get("refresh_token").toString();
+                    }catch (Exception e)
+                    {
+                        Log.d(GlobalConstants.LOG_TAG,e.getMessage());
+                        LogHelper loghelper=new LogHelper(e);
+                        e.printStackTrace();
+                    }
+
+                    sharedPrefrence.saveAccessToken(getApplicationContext(),access_token,refresh_token);
+                    new RemoteHelper(getApplicationContext()).getUserDetails(this,RemoteCalls.GET_USER_DETAILS,access_token);
                     //new RemoteCallHandler(getApplicationContext(),RemoteCalls.GET_USER_DETAILS,)
-                    //new RemoteCallHandler(getApplicationContext(),RemoteCalls.GET_USER_DETAILS,)
-                    showProgress(false);
-                    Toast.makeText(this, response.toString(), Toast.LENGTH_LONG);
-                    Intent intent = new Intent(this, MainActivity.class);
-                    startActivity(intent);
+                   break;
+                }
+                case GET_USER_DETAILS:
+                {
+                    try {
+                        if (response.get("code").toString().equals(GlobalConstants.EXPIRED_TOKEN))
+                        {
+
+                            if(sharedPrefrence.getRefreshToken(getApplicationContext())==null)
+                            {
+
+                                toastActivity.makeToastMessage(response,this);
+                                break;
+                            }
+                            else
+                            {
+                                new RemoteHelper(getApplicationContext()).getAccessToken(this,RemoteCalls.GET_ACCESS_TOKEN,sharedPrefrence.getRefreshToken(getApplicationContext()));
+                            }
+
+                        }
+                        else
+                        {
+                            progressBarActivity.showProgress(mLoginFormView,mProgressView,false,getApplicationContext());
+                            Toast.makeText(this, response.toString(), Toast.LENGTH_LONG);
+                            Intent intent = new Intent(this, Main_Activity.class);
+                            startActivity(intent);
+                        }
+                    }catch (Exception e)
+                    {
+                        LogHelper logHelper=new LogHelper(e);
+                        e.printStackTrace();
+                    }
+
+                    break;
+                }
+                case GET_ACCESS_TOKEN:
+                {
+                    try{
+                        if(response.get("sucess").toString().equals("false"))
+                        {
+                            toastActivity.makeToastMessage(response,this);
+                        }
+                        else
+                        {
+                            sharedPrefrence.saveAccessToken(getApplicationContext(),response.get("access_token").toString(),response.get("refresh_token").toString());
+
+                            new RemoteHelper(getApplicationContext()).getUserDetails(this,RemoteCalls.GET_USER_DETAILS,response.get("access_token").toString());
+                        }
+                    }catch (Exception e)
+                    {
+                        LogHelper logHelper=new LogHelper(e);
+                        e.printStackTrace();
+                    }
                     break;
                 }
             }

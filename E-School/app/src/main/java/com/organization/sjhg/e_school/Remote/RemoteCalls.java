@@ -22,6 +22,8 @@ public enum RemoteCalls {
     CHECK_REMOTE_CALL,
     ////////////////////////////////////////////////////////////
     CHECK_LOGIN_CREDENTIALS,
+    GET_ACCESS_TOKEN,
     GET_USER_DETAILS,
+    GET_GOOGLE_USER_DETAILS,
     SIGN_UP
 }
