@@ -62,7 +62,18 @@
                                                     <select name="TagIds[]" id="TagIds"  class="span6 chosen-select"   style="width:250px;" multiple="Multiple">
                                                         @if(isset($tags))
                                                             @foreach($tags as $tag)
+                                                                {!! $flag= false !!}}
+                                                                @if(isset($seleted_tags))
+                                                                    @foreach($seleted_tags as $s_tag)
+                                                                        @if($tag->id == $s_tag->tag_id)
+                                                                            <option value="{{ $tag->id }}" selected>{{$tag->exam_name}}</option>
+                                                                            {!! $flag = true !!}
+                                                                        @endif
+                                                                    @endforeach
+                                                                @endif
+                                                            @if($flag==false)
                                                                 <option value="{{ $tag->id }}">{{$tag->exam_name}}</option>
+                                                            @endif
                                                             @endforeach
                                                         @endif
                                                     </select>
@@ -238,15 +249,6 @@
             $('#ChapterId').val('{{$selected_chapter}}');
             $('#TopicId').val('{{$question->hash}}');
             $('#QuesType').val({{$question->question_type_id}});
-            @if(isset($seleted_tags))
-                 @for($i=0;$i<count($tags);$i++)
-                    @foreach($seleted_tags as $tag)
-                        @if($tags[$i]->id == $tag->tag_id)
-                            $('#TagsIds option[value="{{$i}}"]').attr('selected', true);
-                        @endif
-                    @endforeach
-                 @endfor
-            @endif
             var ques = `{{$question->question}}`;
             CKEDITOR.instances.question.setData(ques);
             @for($i=0;$i<count($options);$i++)
