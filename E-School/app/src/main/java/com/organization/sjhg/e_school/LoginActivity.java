@@ -51,6 +51,7 @@ import com.organization.sjhg.e_school.Remote.RemoteCallHandler;
 import com.organization.sjhg.e_school.Remote.RemoteCalls;
 import com.organization.sjhg.e_school.Remote.RemoteHelper;
 import com.organization.sjhg.e_school.Structure.GlobalConstants;
+import com.organization.sjhg.e_school.Utils.ProgressBarActivity;
 import com.organization.sjhg.e_school.Utils.ShaGenrate;
 import com.organization.sjhg.e_school.Utils.SharedPrefrence;
 import com.organization.sjhg.e_school.Utils.ToastActivity;
@@ -80,6 +81,7 @@ public class LoginActivity extends AppCompatActivity implements RemoteCallHandle
             private static final int RC_GET_TOKEN = 9002;
             private GoogleApiClient mGoogleApiClient;
             private SharedPrefrence sharedPrefrence=new SharedPrefrence();
+            private ProgressBarActivity progressBarActivity=new ProgressBarActivity();
 
 
     /**
@@ -219,7 +221,7 @@ public class LoginActivity extends AppCompatActivity implements RemoteCallHandle
         } else {
             // Show a progress spinner, and kick off a background task to
             // perform the user login attempt.
-            showProgress(true);
+            progressBarActivity.showProgress(mLoginFormView,mProgressView,true,getApplicationContext());
             ShaGenrate shaGenrate=new ShaGenrate();
             password=shaGenrate.generate(password);
             //save user credentials
@@ -255,41 +257,7 @@ public class LoginActivity extends AppCompatActivity implements RemoteCallHandle
         }
 
 
-    /**
-     * Shows the progress UI and hides the login form.
-     */
-    @TargetApi(Build.VERSION_CODES.HONEYCOMB_MR2)
-    private void showProgress(final boolean show) {
-        // On Honeycomb MR2 we have the ViewPropertyAnimator APIs, which allow
-        // for very easy animations. If available, use these APIs to fade-in
-        // the progress spinner.
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR2) {
-            int shortAnimTime = getResources().getInteger(android.R.integer.config_shortAnimTime);
 
-            mLoginFormView.setVisibility(show ? View.GONE : View.VISIBLE);
-            mLoginFormView.animate().setDuration(shortAnimTime).alpha(
-                    show ? 0 : 1).setListener(new AnimatorListenerAdapter() {
-                @Override
-                public void onAnimationEnd(Animator animation) {
-                    mLoginFormView.setVisibility(show ? View.GONE : View.VISIBLE);
-                }
-            });
-
-            mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
-            mProgressView.animate().setDuration(shortAnimTime).alpha(
-                    show ? 1 : 0).setListener(new AnimatorListenerAdapter() {
-                @Override
-                public void onAnimationEnd(Animator animation) {
-                    mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
-                }
-            });
-        } else {
-            // The ViewPropertyAnimator APIs are not available, so simply show
-            // and hide the relevant UI components.
-            mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
-            mLoginFormView.setVisibility(show ? View.GONE : View.VISIBLE);
-        }
-    }
 
             @Override
             protected void onStart() {
@@ -301,7 +269,7 @@ public class LoginActivity extends AppCompatActivity implements RemoteCallHandle
                 {
                    String email=sharedPrefrence.getUserEmail(getApplicationContext());
                     String password=sharedPrefrence.getUserPassword(getApplicationContext());
-                    showProgress(true);
+                    progressBarActivity.showProgress(mLoginFormView,mProgressView,true,getApplicationContext());
                     new RemoteHelper(getApplicationContext()).verifyLogin(this, RemoteCalls.CHECK_LOGIN_CREDENTIALS,email,password);
                 }
                 else {
@@ -317,11 +285,11 @@ public class LoginActivity extends AppCompatActivity implements RemoteCallHandle
                         // If the user has not previously signed in on this device or the sign-in has expired,
                         // this asynchronous branch will attempt to sign in the user silently.  Cross-device
                         // single sign-on will occur in this branch.
-                        showProgress(true);
+                        progressBarActivity.showProgress(mLoginFormView,mProgressView,true,getApplicationContext());
                         opr.setResultCallback(new ResultCallback<GoogleSignInResult>() {
                             @Override
                             public void onResult(GoogleSignInResult googleSignInResult) {
-                                showProgress(false);
+                                progressBarActivity.showProgress(mLoginFormView,mProgressView,false,getApplicationContext());
                                 handleSignInResult(googleSignInResult);
                             }
                         });
@@ -382,7 +350,7 @@ public class LoginActivity extends AppCompatActivity implements RemoteCallHandle
     public void HandleRemoteCall(boolean isSuccessful, RemoteCalls callFor, JSONObject response, Exception exception) {
         if(!isSuccessful)
         {
-            showProgress(false);
+            progressBarActivity.showProgress(mLoginFormView,mProgressView,false,getApplicationContext());
             new LogHelper(exception);
             exception.printStackTrace();
         }
@@ -452,7 +420,7 @@ public class LoginActivity extends AppCompatActivity implements RemoteCallHandle
                         }
                         else
                         {
-                            showProgress(false);
+                            progressBarActivity.showProgress(mLoginFormView,mProgressView,false,getApplicationContext());
                             Toast.makeText(this, response.toString(), Toast.LENGTH_LONG);
                             Intent intent = new Intent(this, Main_Activity.class);
                             startActivity(intent);

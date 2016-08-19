@@ -27,4 +27,8 @@ public  class ToastActivity {
     {
         Toast.makeText(activity,"error code:520 unknown error",Toast.LENGTH_LONG).show();
     }
+    public void makeJsonException(Activity activity)
+    {
+        Toast.makeText(activity,"error code:420 retry please",Toast.LENGTH_LONG).show();
+    }
 }

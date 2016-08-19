@@ -12,39 +12,25 @@
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="com.organization.sjhg.e_school.MainActivity"
     tools:showIn="@layout/app_bar_main">
+  <ScrollView
+      android:id="@+id/dashboard_form"
+      android:layout_width="match_parent"
+      android:layout_height="match_parent">
+
+  <ProgressBar
+      android:id="@+id/dashboard_progress"
+      style="?android:attr/progressBarStyleLarge"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_marginBottom="8dp"
+      android:visibility="gone" />
   <android.support.v7.widget.RecyclerView
       android:id="@+id/recycler"
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
       app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+  </ScrollView>
 
 
-
-  <!--  <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/recycler"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/recycler1"
-
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/recycler2"
-
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
-    </LinearLayout>
-    </ScrollView>-->
 
 </RelativeLayout>
