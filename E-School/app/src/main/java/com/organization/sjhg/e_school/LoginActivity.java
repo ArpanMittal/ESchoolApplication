@@ -75,12 +75,11 @@ public class LoginActivity extends AppCompatActivity implements RemoteCallHandle
     /**
      * Id to identity READ_CONTACTS permission request.
      */
-            private static final int REQUEST_READ_CONTACTS = 0;
-            private static final String TAG = "SignInActivity";
-            private static final int RC_SIGN_IN = 9001;
-            private static final int RC_GET_TOKEN = 9002;
 
+            private static final String TAG = "SignInActivity";
+            private static final int RC_GET_TOKEN = 9002;
             private GoogleApiClient mGoogleApiClient;
+            private SharedPrefrence sharedPrefrence=new SharedPrefrence();
 
 
     /**
@@ -223,6 +222,9 @@ public class LoginActivity extends AppCompatActivity implements RemoteCallHandle
             showProgress(true);
             ShaGenrate shaGenrate=new ShaGenrate();
             password=shaGenrate.generate(password);
+            //save user credentials
+
+            sharedPrefrence.saveUserCredentials(getApplicationContext(),email,password);
             //Do login process
             new RemoteHelper(getApplicationContext()).verifyLogin(this, RemoteCalls.CHECK_LOGIN_CREDENTIALS,email,password);
             //mAuthTask = new UserLoginTask(email, password);
@@ -292,25 +294,38 @@ public class LoginActivity extends AppCompatActivity implements RemoteCallHandle
             @Override
             protected void onStart() {
                 super.onStart();
-                OptionalPendingResult<GoogleSignInResult> opr = Auth.GoogleSignInApi.silentSignIn(mGoogleApiClient);
-                if (opr.isDone()) {
-                    // If the user's cached credentials are valid, the OptionalPendingResult will be "done"
-                    // and the GoogleSignInResult will be available instantly.
-                    Log.d(TAG, "Got cached sign-in");
-                    GoogleSignInResult result = opr.get();
-                    handleSignInResult(result);
-                } else {
-                    // If the user has not previously signed in on this device or the sign-in has expired,
-                    // this asynchronous branch will attempt to sign in the user silently.  Cross-device
-                    // single sign-on will occur in this branch.
+                String email1=sharedPrefrence.getUserEmail(getApplicationContext());
+                String password1=sharedPrefrence.getUserPassword(getApplicationContext());
+                // for automatic login without google signin
+                if(sharedPrefrence.getUserEmail(getApplicationContext())!=null && sharedPrefrence.getUserPassword(getApplicationContext())!=null)
+                {
+                   String email=sharedPrefrence.getUserEmail(getApplicationContext());
+                    String password=sharedPrefrence.getUserPassword(getApplicationContext());
                     showProgress(true);
-                    opr.setResultCallback(new ResultCallback<GoogleSignInResult>() {
-                        @Override
-                        public void onResult(GoogleSignInResult googleSignInResult) {
-                            showProgress(false);
-                            handleSignInResult(googleSignInResult);
-                        }
-                    });
+                    new RemoteHelper(getApplicationContext()).verifyLogin(this, RemoteCalls.CHECK_LOGIN_CREDENTIALS,email,password);
+                }
+                else {
+
+                    OptionalPendingResult<GoogleSignInResult> opr = Auth.GoogleSignInApi.silentSignIn(mGoogleApiClient);
+                    if (opr.isDone()) {
+                        // If the user's cached credentials are valid, the OptionalPendingResult will be "done"
+                        // and the GoogleSignInResult will be available instantly.
+                        Log.d(TAG, "Got cached sign-in");
+                        GoogleSignInResult result = opr.get();
+                        handleSignInResult(result);
+                    } else {
+                        // If the user has not previously signed in on this device or the sign-in has expired,
+                        // this asynchronous branch will attempt to sign in the user silently.  Cross-device
+                        // single sign-on will occur in this branch.
+                        showProgress(true);
+                        opr.setResultCallback(new ResultCallback<GoogleSignInResult>() {
+                            @Override
+                            public void onResult(GoogleSignInResult googleSignInResult) {
+                                showProgress(false);
+                                handleSignInResult(googleSignInResult);
+                            }
+                        });
+                    }
                 }
             }
             // [START handleSignInResult]
@@ -373,7 +388,7 @@ public class LoginActivity extends AppCompatActivity implements RemoteCallHandle
         }
         else
         {
-            SharedPrefrence sharedPrefrence=new SharedPrefrence();
+
             ToastActivity toastActivity=new ToastActivity();
             switch (callFor) {
                 case GET_GOOGLE_USER_DETAILS:{

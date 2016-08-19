@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.view.ViewPager;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.SearchView;
@@ -23,6 +24,7 @@ import android.view.MenuItem;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
+import com.organization.sjhg.e_school.Helpers.Custom_Pager_Adapter;
 import com.organization.sjhg.e_school.Helpers.Data;
 import com.organization.sjhg.e_school.Helpers.RecyclerAdapter;
 import com.organization.sjhg.e_school.Helpers.Recycler_View_Adapter;
@@ -30,6 +32,8 @@ import com.organization.sjhg.e_school.R;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import me.relex.circleindicator.CircleIndicator;
 
 public class Main_Activity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -43,13 +47,17 @@ public class Main_Activity extends AppCompatActivity
         setContentView(R.layout.main_activity);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+       // getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        CircleIndicator indicator=(CircleIndicator)findViewById(R.id.indicator);
         CollapsingToolbarLayout collapsingToolbar = (CollapsingToolbarLayout) findViewById(R.id.collapse_toolbar);
         collapsingToolbar.setTitle(getString(R.string.expand));
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recycler);
         recyclerView.setHasFixedSize(true);
-        RecyclerView recyclerViewtoolbar=(RecyclerView)findViewById(R.id.recycler_appbar);
-        recyclerViewtoolbar.setHasFixedSize(true);
+        ViewPager viewPager=(ViewPager)findViewById(R.id.viewpager);
+        viewPager.setAdapter(new Custom_Pager_Adapter(getSupportFragmentManager()));
+        indicator.setViewPager(viewPager);
+        //RecyclerView recyclerViewtoolbar=(RecyclerView)findViewById(R.id.recycler_appbar);
+//        recyclerViewtoolbar.setHasFixedSize(true);
        /* RecyclerView recyclerView1 = (RecyclerView) findViewById(R.id.recycler1);
         recyclerView.setHasFixedSize(true);
         RecyclerView recyclerView2 = (RecyclerView) findViewById(R.id.recycler2);
@@ -61,8 +69,8 @@ public class Main_Activity extends AppCompatActivity
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         RecyclerAdapter adapter1=new RecyclerAdapter(getApplicationContext(),data);
-      recyclerViewtoolbar.setAdapter(adapter1);
-        recyclerViewtoolbar.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.HORIZONTAL,false));
+//      recyclerViewtoolbar.setAdapter(adapter1);
+//        recyclerViewtoolbar.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.HORIZONTAL,false));
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
