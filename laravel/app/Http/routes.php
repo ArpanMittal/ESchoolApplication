@@ -59,6 +59,9 @@ Route::group(['prefix'=>'api/v1','middleware'=>['oauth']],function(){
 });
 
 Route::group(['prefix'=>'api/v1','middleware'=>['client']],function(){
+    /*
+     * @input client_id,client_secret,code,role_id
+     */
    Route::post('doGoogleAuth','AuthGoogleIdToken@doAuth') ;
     Route::post('signup','SignUpController@doSignUp');
 });
