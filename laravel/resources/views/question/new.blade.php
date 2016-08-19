@@ -1,5 +1,8 @@
 @extends('layouts.app')
 @extends('layouts.navigation')
+@section('style')
+    <link rel="stylesheet" href="{!! asset('css/chosen.css')!!}">
+@endsection
 @section('content')
     <div class="container">
         <div class="row">
@@ -48,6 +51,29 @@
                                                         @if(isset($topics))
                                                             @foreach($topics as $topic)
                                                                 <option value="{{ $topic->hash }}"> {{$topic->topic_name}}</option>
+                                                            @endforeach
+                                                        @endif
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="control-group">
+                                                <label class="control-label">Tags</label>
+                                                <div class="controls">
+                                                    <select name="TagIds[]" id="TagIds"  class="span6 chosen-select"   style="width:250px;" multiple="Multiple">
+                                                        @if(isset($tags))
+                                                            @foreach($tags as $tag)
+                                                                {!! $flag= false !!}}
+                                                                @if(isset($seleted_tags))
+                                                                    @foreach($seleted_tags as $s_tag)
+                                                                        @if($tag->id == $s_tag->tag_id)
+                                                                            <option value="{{ $tag->id }}" selected>{{$tag->exam_name}}</option>
+                                                                            {!! $flag = true !!}
+                                                                        @endif
+                                                                    @endforeach
+                                                                @endif
+                                                            @if($flag==false)
+                                                                <option value="{{ $tag->id }}">{{$tag->exam_name}}</option>
+                                                            @endif
                                                             @endforeach
                                                         @endif
                                                     </select>
@@ -182,8 +208,21 @@
 
 @section('script')
     <script src="{!! asset('/vendor/unisharp/laravel-ckeditor/ckeditor.js') !!}"></script>
+    <script src="{!! asset('/js/chosen.jquery.js')!!}"></script>
     <script src="http://malsup.github.com/jquery.form.js"></script>
     <script src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.9/jquery.validate.min.js"></script>
+    <script type="text/javascript">
+        var config = {
+            '.chosen-select'           : {},
+            '.chosen-select-deselect'  : {allow_single_deselect:true},
+            '.chosen-select-no-single' : {disable_search_threshold:10},
+            '.chosen-select-no-results': {no_results_text:'Oops, nothing found!'},
+            '.chosen-select-width'     : {width:"95%"}
+        }
+        for (var selector in config) {
+            $(selector).chosen(config[selector]);
+        }
+    </script>
     <script type="text/javascript">
         $(document).ready(function(){
             CKEDITOR.replace("question");
@@ -210,7 +249,6 @@
             $('#ChapterId').val('{{$selected_chapter}}');
             $('#TopicId').val('{{$question->hash}}');
             $('#QuesType').val({{$question->question_type_id}});
-
             var ques = `{{$question->question}}`;
             CKEDITOR.instances.question.setData(ques);
             @for($i=0;$i<count($options);$i++)
@@ -240,6 +278,11 @@
         @endif
 
         $("#frmquestion").submit(function(){
+            var tags = $("#TagIds :selected").length;
+            if(tags <= 0){
+                alert("Please add a tag");
+                return false;
+            }
             var question = CKEDITOR.instances.question.getData();
             if (question=="") {
                 alert("Please fill question");
@@ -298,7 +341,6 @@
 
             $('#question_diagram').val('');
             $('#solution').val('');
-            $('#ideal_time').val('00:00');
         }
 
         $("#cancleForm").click(function() {
@@ -313,6 +355,7 @@
                 "SubjectId":{ required: true},
                 "ChapterId":{ required: true},
                 "TopicId":{ required: true},
+                "TagIds":{ minlength: 1},
                 "QuesType":{required: true},
                 "question":{required: true},
                 "Opt":{required: true},
@@ -326,13 +369,15 @@
                 "SubjectId":{ required: "Please select Class and Subject"},
                 "ChapterId":{ required: "Please select a chapter"},
                 "TopicId":{ required: "Please select a topic"},
+                "TagIds":{ minlength  : "Please select a Tag"},
                 "QuesType":{required: "Please select Question Type"},
                 "question":{required: "Please insert question"},
                 "Opt":{required: "Please fill all options"},
                 "ideal_time":{required: "Please fill ideal time"},
                 "optionsRadioG":{required: "Please select the correct answer to this question"},
                 "Level":{required: "Please select question level"}
-            }
+            },
+            debug: true
         });
 
         function loadTopics()
