@@ -59,7 +59,7 @@ class DetailsController extends Controller
                 DB::raw('count(DISTINCT subjectstreammap.cl_su_st_id) as count'))
             ->leftjoin('classsubjectmap','subjectstreammap.cl_su_id','=','classsubjectmap.cl_su_id')
             ->leftjoin('subject','classsubjectmap.subject_id','=','subject.id')
-            ->groupBy('subjectstreammap.stream_id')
+            ->groupBy('subject.id')
             ->get();
     }
 
