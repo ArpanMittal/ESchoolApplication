@@ -69,8 +69,8 @@ Route::group(['prefix'=>'api/v1','middleware'=>['client']],function(){
 
 
 Route::group(['prefix' => 'question','middleware' => ['check.session']], function () {
-     //list of all question
-     Route::get('/list',array('uses' => 'QuestionController@getAllQuestionList'));
+    //list of all question
+    Route::get('/list',array('uses' => 'QuestionController@getAllQuestionList'));
     Route::post('/search',array('uses' => 'QuestionController@getAllQuestionList'));
     Route::get('/',array('uses' => 'QuestionController@getNewQuestion'));
     Route::get('/next',array('uses' => 'QuestionController@nextQuestion'));
@@ -79,6 +79,8 @@ Route::group(['prefix' => 'question','middleware' => ['check.session']], functio
     Route::get('/topic/list',array('uses' => 'QuestionController@getTopics'));
     Route::get('/chapter/list',array('uses' => 'QuestionController@getChapters'));
     Route::get('/{id}',array('uses' => 'QuestionController@editQuestion'));
+    Route::get('/view/next',array('uses' => 'QuestionController@viewNextQuestion'));
+    Route::get('/view/{id}',array('uses' => 'QuestionController@viewQuestion'));
 });
 
 
@@ -97,5 +99,17 @@ Route::post('login', array('uses' => 'HomeController@doLogin'));
 
 // route to process the form
 Route::get('logout', array('uses' => 'HomeController@doLogout'));
+
+// route to show test information
+Route::get('test', array('uses' => 'TestController@showTestInfo'));
+
+// route to show test instructions
+Route::get('test/signup', array('uses' => 'TestController@testSignUp'));
+
+// route to show test information
+Route::get('test', array('uses' => 'TestController@showTestInfo'));
+
+// route to show test instructions
+Route::get('test/signup', array('uses' => 'TestController@testSignUp'));
 Route::get('difference', array('uses' => 'QuestionController@difference'));
 Route::get('search/{key}', array('uses' => 'SearchController@search'));
