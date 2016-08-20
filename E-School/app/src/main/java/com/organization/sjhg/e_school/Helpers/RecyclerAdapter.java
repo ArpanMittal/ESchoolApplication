@@ -9,6 +9,8 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.organization.sjhg.e_school.ListStructure.DashBoardList;
+import com.organization.sjhg.e_school.ListStructure.InternalList;
 import com.organization.sjhg.e_school.R;
 
 import java.util.ArrayList;
@@ -16,11 +18,11 @@ import java.util.List;
 
 public class RecyclerAdapter extends RecyclerView.Adapter<View_Holder> {
 
-    private List<Data> list;
+    private List<InternalList> list;
     private Context context;
 
-    public RecyclerAdapter(Context context, List<Data> friends) {
-        this.list = friends;
+    public RecyclerAdapter(Context context, List<InternalList> list) {
+        this.list = list;
         this.context = context;
     }
 
@@ -38,9 +40,9 @@ public class RecyclerAdapter extends RecyclerView.Adapter<View_Holder> {
 
     @Override
     public void onBindViewHolder(View_Holder viewHolder, int position) {
-        viewHolder.title.setText(list.get(position).title);
-        viewHolder.description.setText(list.get(position).description);
-        viewHolder.imageView.setImageResource(list.get(position).imageId);
+        viewHolder.name.setText(list.get(position).name);
+        viewHolder.count.setText(list.get(position).count);
+        viewHolder.imageView.setImageResource(R.drawable.notechathead);
 
     }
 
@@ -53,18 +55,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<View_Holder> {
         super.onAttachedToRecyclerView(recyclerView);
     }
 
-    // Insert a new item to the RecyclerView on a predefined position
-    public void insert(int position, Data data) {
-        list.add(position, data);
-        notifyItemInserted(position);
-    }
 
-    // Remove a RecyclerView item containing a specified Data object
-    public void remove(Data data) {
-        int position = list.indexOf(data);
-        list.remove(position);
-        notifyItemRemoved(position);
-    }
 
 
 

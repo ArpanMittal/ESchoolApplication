@@ -14,15 +14,15 @@ import com.organization.sjhg.e_school.R;
 public class View_Holder extends RecyclerView.ViewHolder {
 
     CardView cv;
-    TextView title;
-    TextView description;
+    TextView name;
+    TextView count;
     ImageView imageView;
 
     View_Holder(View itemView) {
         super(itemView);
         cv = (CardView) itemView.findViewById(R.id.cardView);
-        title = (TextView) itemView.findViewById(R.id.title);
-        description = (TextView) itemView.findViewById(R.id.description);
+        name = (TextView) itemView.findViewById(R.id.name);
+        count = (TextView) itemView.findViewById(R.id.count);
         imageView = (ImageView) itemView.findViewById(R.id.imageView);
     }
 }
