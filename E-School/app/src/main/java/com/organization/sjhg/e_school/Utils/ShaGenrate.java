@@ -16,7 +16,7 @@ public class ShaGenrate {
     public String generate (String password)
     {
         try {
-            MessageDigest md = MessageDigest.getInstance("SHA-256");
+            MessageDigest md = MessageDigest.getInstance("SHA-1");
             md.update(password.getBytes());
             byte byteData[] = md.digest();
 
