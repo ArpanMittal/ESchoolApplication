@@ -222,7 +222,7 @@ public class Main_Activity extends AppCompatActivity
 
 
 
-        Recycler_View_Adapter adapter = new Recycler_View_Adapter(dataList, getApplication());
+        Recycler_View_Adapter adapter = new Recycler_View_Adapter(dataList, getApplication(),this);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
