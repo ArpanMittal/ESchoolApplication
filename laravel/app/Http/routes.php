@@ -66,6 +66,8 @@ Route::group(['prefix'=>'api/v1','middleware'=>['client']],function(){
     Route::post('signup','SignUpController@doSignUp');
     Route::post('getDashBoardDetails','DetailsController@getDashBoard');
     Route::post('getDetails/{tag}/{id}','DetailsController@getDetails');
+    Route::post('search', array('uses' => 'SearchController@search'));
+    Route::post('search/{key}', array('uses' => 'SearchController@search'));
 });
 
 
@@ -117,4 +119,3 @@ Route::get('test', array('uses' => 'TestController@showTestInfo'));
 // route to show test instructions
 Route::get('test/signup', array('uses' => 'TestController@testSignUp'));
 Route::get('difference', array('uses' => 'QuestionController@difference'));
-Route::get('search/{key}', array('uses' => 'SearchController@search'));

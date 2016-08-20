@@ -225,19 +225,31 @@
     </script>
     <script type="text/javascript">
         $(document).ready(function(){
-            CKEDITOR.replace("question");
+            CKEDITOR.replace("question", {
+                enterMode : CKEDITOR.ENTER_BR,
+                shiftEnterMode: CKEDITOR.ENTER_P
+            });
             CKEDITOR.replace("Option1", { toolbar : 'OptionVersion',
                 width :   '500px',
-                height: '50px' });
+                height: '50px',
+                enterMode : CKEDITOR.ENTER_BR,
+                shiftEnterMode: CKEDITOR.ENTER_P
+            });
             CKEDITOR.replace("Option2", { toolbar : 'OptionVersion',
                 width :   '500px',
-                height: '50px' });
+                height: '50px' ,
+                enterMode : CKEDITOR.ENTER_BR,
+                shiftEnterMode: CKEDITOR.ENTER_P});
             CKEDITOR.replace("Option3", { toolbar : 'OptionVersion',
                 width :   '500px',
-                height: '50px' });
+                height: '50px',
+                enterMode : CKEDITOR.ENTER_BR,
+                shiftEnterMode: CKEDITOR.ENTER_P });
             CKEDITOR.replace("Option4", { toolbar : 'OptionVersion',
                 width :   '500px',
-                height: '50px' });
+                height: '50px',
+                enterMode : CKEDITOR.ENTER_BR,
+                shiftEnterMode: CKEDITOR.ENTER_P });
             @if(isset($question))
                 selectQuestion();
             @endif
