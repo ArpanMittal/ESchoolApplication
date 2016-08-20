@@ -86,6 +86,8 @@ class QuestionController extends Controller
 
         $data['chapters'] = DB::table('streamchaptermap')
             ->join('chapter', 'streamchaptermap.chapter_id', '=', 'chapter.id')
+            ->join('subjectstreammap', 'streamchaptermap.cl_su_st_id', '=', 'subjectstreammap.cl_su_st_id')
+            ->join('stream', 'subjectstreammap.stream_id', '=', 'stream.id')
             ->where('streamchaptermap.cl_su_st_id','LIKE' ,$subject_id.'%')
             ->get();
 
@@ -319,6 +321,8 @@ class QuestionController extends Controller
         $subject = Input::get('SubjectId');
         return DB::table('streamchaptermap')
             ->join('chapter', 'streamchaptermap.chapter_id', '=', 'chapter.id')
+            ->join('subjectstreammap', 'streamchaptermap.cl_su_st_id', '=', 'subjectstreammap.cl_su_st_id')
+            ->join('stream', 'subjectstreammap.stream_id', '=', 'stream.id')
             ->where('streamchaptermap.cl_su_st_id','LIKE' ,$subject.'%')
             ->get();
     }
