@@ -71,8 +71,8 @@ class DetailsController extends Controller
     private function getClasses(){
         return DB::table('class')
             ->select('class.id as id',
-                'class.class_name as name',
-                DB::raw('count(DISTINCT classsubjectmap.cl_su_id) as count'))
+                DB::raw('CONCAT(\'class \',class.class_name) as name'),
+                DB::raw('CONCAT(\'No. of subjects \',count(DISTINCT classsubjectmap.cl_su_id)) as count'))
             ->leftjoin('classsubjectmap','class.id','=','classsubjectmap.class_id')
             ->groupBy('class.id')
             ->get();
@@ -83,7 +83,7 @@ class DetailsController extends Controller
         return DB::table('subjectstreammap')
             ->select('subject.id as id',
                 'subject.subject_name as name',
-                DB::raw('count(DISTINCT subjectstreammap.cl_su_st_id) as count'))
+                DB::raw('CONCAT(\'No. of streams \',count(DISTINCT subjectstreammap.cl_su_st_id)) as count'))
             ->leftjoin('classsubjectmap','subjectstreammap.cl_su_id','=','classsubjectmap.cl_su_id')
             ->leftjoin('subject','classsubjectmap.subject_id','=','subject.id')
             ->groupBy('subject.id')
@@ -95,7 +95,7 @@ class DetailsController extends Controller
         return DB::table('examtag')
             ->select('examtag.id as id',
                 'examtag.exam_name as name',
-                DB::raw('"empty" as count'))
+                DB::raw('"" as count'))
             ->where('exam_name', 'NOT LIKE', 'CBSE')
             ->get();
     }
@@ -104,7 +104,7 @@ class DetailsController extends Controller
         return DB::table('streamchaptermap')
             ->select('streamchaptermap.cl_su_st_ch_id as id',
                 'chapter.chapter_name as name',
-                DB::raw('count(DISTINCT chaptertopicmap.hash) as count'))
+                DB::raw('CONCAT(\'No. of topics \',count(DISTINCT chaptertopicmap.hash)) as count'))
             ->join('chapter','streamchaptermap.chapter_id','=','chapter.id')
             ->join('chaptertopicmap','streamchaptermap.cl_su_st_ch_id','=','chaptertopicmap.cl_su_st_ch_id')
             ->where('streamchaptermap.cl_su_st_id',$id)
@@ -115,7 +115,7 @@ class DetailsController extends Controller
         return DB::table('classsubjectmap')
             ->select('classsubjectmap.cl_su_id as id',
                 'subject.subject_name as name',
-                DB::raw('count(DISTINCT streamchaptermap.cl_su_st_ch_id) as count'))
+                DB::raw('CONCAT(\'No. of chapters \',count(DISTINCT streamchaptermap.cl_su_st_ch_id)) as count'))
             ->join('subject','classsubjectmap.subject_id','=','subject.id')
             ->join('subjectstreammap','classsubjectmap.cl_su_id','=','subjectstreammap.cl_su_id')
             ->join('streamchaptermap','subjectstreammap.cl_su_st_id','=','streamchaptermap.cl_su_st_id')
@@ -129,7 +129,7 @@ class DetailsController extends Controller
         return DB::table('subjectstreammap')
             ->select('subjectstreammap.cl_su_st_id as id',
                 'stream.stream_name as name',
-                DB::raw('count(DISTINCT streamchaptermap.cl_su_st_ch_id) as count'))
+                DB::raw('CONCAT(\'No. of chapters \',count(DISTINCT streamchaptermap.cl_su_st_ch_id)) as count'))
             ->join('stream','subjectstreammap.stream_id','=','stream.id')
             ->join('streamchaptermap','subjectstreammap.cl_su_st_id','=','streamchaptermap.cl_su_st_id')
             ->where('subjectstreammap.cl_su_id','LIKE',"%".$id)
