@@ -91,8 +91,11 @@
                                         <td style="text-align:left">{{$question->question_type}}</td>
                                         <td style="text-align:center">
                                             <a href="{{ url('/question/'.$question->id) }}" title='Edit'  data-icon="&#xe005"  data-original-title="Edit">
-
-                                                <span class="fs1" aria-hidden="true"  ></span>  </a>
+                                                <span class="fs1" aria-hidden="true"></span>
+                                            </a>
+                                            <a href="{{ url('/question/view/'.$question->id) }}" title='Preview'  data-icon="&#xe0c6"  data-original-title="Preview">
+                                                <span class="fs1" aria-hidden="true"></span>
+                                            </a>
                                         </td>
                                     </tr>
                                     @endforeach
