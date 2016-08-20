@@ -101,6 +101,70 @@ class QuestionController extends Controller
         return view('question.new',$data);
     }
 
+    public function viewQuestion(Request $request,$id){
+        $userId = $request->session()->get('id');
+        $user = DB::table('user')->whereId($userId)->first();
+        $data['user'] = $user;
+
+        $data['question'] = DB::table('question')->where('id',$id)->first();
+        $data['options'] = DB::table('option')->where('question_id',$id)->get();
+        $data['answer'] = DB::table('answer')->where('question_id',$id)->get();
+
+        $hash = $data['question']->hash;
+
+        $subject_id = substr($hash,3,2);
+        $stream_id = substr($hash,5,2);
+        $chapter_id = substr($hash,7,3);
+        $topic_id = substr($hash,10,3);
+
+        $data['subject'] = DB::table('subject')
+            ->where('id', $subject_id)
+            ->first();
+
+        $data['stream'] = DB::table('stream')
+            ->where('id', $stream_id)
+            ->first();
+
+        $data['chapter'] = DB::table('chapter')
+            ->where('id', '=', $chapter_id)
+            ->first();
+
+        $data['topic'] = DB::table('topic')
+            ->where('id', '=', $topic_id)
+            ->first();
+        $data['questype'] = DB::table('questiontype')
+            ->where('id', $data['question']->question_type_id)
+            ->first();
+
+        return view('question.view',$data);
+    }
+
+    public function viewNextQuestion(Request $request) {
+
+        $id = $request->session()->get('id');
+        $user = DB::table('user')->whereId($id)->first();
+        $questionId = Input::get('QuestionId');
+
+        if ($user->role_id == 1){
+            $query = DB::table('question');
+        }else {
+            $query = DB::table('question');
+            $query->where('created_by','=',$id);
+        }
+
+        if (isset($questionId)){
+            $query->where('id','>',$questionId);
+        }
+
+        $nextId = $query->select('id')
+            ->orderBy('id', 'asc')
+            ->first();
+        if (isset($nextId)){
+            return Redirect::to('/question/view/'.$nextId->id);
+        }
+        return Redirect::to('/question/list');
+    }
+
     public function addQuestion(Request $request)
     {
         $teacherId = Input::get('TeacherId');

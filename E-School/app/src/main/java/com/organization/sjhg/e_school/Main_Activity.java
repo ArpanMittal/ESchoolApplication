@@ -56,67 +56,40 @@ public class Main_Activity extends AppCompatActivity
     private ArrayList<String> stringArrayList;
     private View mDashboardView;
     private View mProgressView;
+    private CircleIndicator indicator;
     private ProgressBarActivity progressBarActivity=new ProgressBarActivity();
     private ToastActivity toastActivity=new ToastActivity();
+    private List<DashBoardList>dataList=new ArrayList<>();
+    private CollapsingToolbarLayout collapsingToolbar;
+    private Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main_activity);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
         mDashboardView=findViewById(R.id.dashboard_form);
         mProgressView=findViewById(R.id.dashboard_progress);
-       // getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        CircleIndicator indicator=(CircleIndicator)findViewById(R.id.indicator);
-        CollapsingToolbarLayout collapsingToolbar = (CollapsingToolbarLayout) findViewById(R.id.collapse_toolbar);
+
+
+
+        collapsingToolbar = (CollapsingToolbarLayout) findViewById(R.id.collapse_toolbar);
         collapsingToolbar.setTitle(getString(R.string.expand));
-        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recycler);
-        recyclerView.setHasFixedSize(true);
+        //remote call to access data from server
+        progressBarActivity.showProgress(mDashboardView,mProgressView,true,getApplicationContext());
         AutoScrollViewPager viewPager=(AutoScrollViewPager) findViewById(R.id.viewpager);
+
         viewPager.setAdapter(new Custom_Pager_Adapter(getSupportFragmentManager()));
         viewPager.setInterval(5000);
         viewPager.startAutoScroll();
+        indicator=(CircleIndicator) findViewById(R.id.indicator);
         indicator.setViewPager(viewPager);
-        //RecyclerView recyclerViewtoolbar=(RecyclerView)findViewById(R.id.recycler_appbar);
-//        recyclerViewtoolbar.setHasFixedSize(true);
-       /* RecyclerView recyclerView1 = (RecyclerView) findViewById(R.id.recycler1);
-        recyclerView.setHasFixedSize(true);
-        RecyclerView recyclerView2 = (RecyclerView) findViewById(R.id.recycler2);
-        recyclerView.setHasFixedSize(true);*/
-        List<Data> data = fill_with_data();
+        new RemoteHelper(getApplicationContext()).getDashBoardDetails(this, RemoteCalls.CHECK_LOGIN_CREDENTIALS);
 
-       // RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recyclerview);
-        Recycler_View_Adapter adapter = new Recycler_View_Adapter(data, getApplication());
-        recyclerView.setAdapter(adapter);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        RecyclerAdapter adapter1=new RecyclerAdapter(getApplicationContext(),data);
-//      recyclerViewtoolbar.setAdapter(adapter1);
-//        recyclerViewtoolbar.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.HORIZONTAL,false));
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
-        // for animation in listview
-        RecyclerView.ItemAnimator itemAnimator = new DefaultItemAnimator();
-        itemAnimator.setAddDuration(1000);
-        itemAnimator.setRemoveDuration(1000);
-        recyclerView.setItemAnimator(itemAnimator);
-
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawer.setDrawerListener(toggle);
-        toggle.syncState();
-
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(this);
     }
 
     /*
@@ -125,38 +98,13 @@ public class Main_Activity extends AppCompatActivity
     @Override
     protected void onStart() {
         super.onStart();
-        progressBarActivity.showProgress(mDashboardView,mProgressView,true,getApplicationContext());
-        new RemoteHelper(getApplicationContext()).getDashBoardDetails(this, RemoteCalls.CHECK_LOGIN_CREDENTIALS);
+
 
 
     }
 
-    /* private void setData() {
-            stringArrayList = new ArrayList<>();
 
-            for (int i = 0; i < 100; i++) {
-                stringArrayList.add("Item " + (i + 1));
-            }
-        }*/
-    public List<Data> fill_with_data() {
 
-        List<Data> data = new ArrayList<>();
-
-        data.add(new Data("Batman vs Superman", "Following the destruction of Metropolis, Batman embarks on a personal vendetta against Superman ", R.drawable.common_google_signin_btn_text_dark_pressed));
-        data.add(new Data("X-Men: Apocalypse", "X-Men: Apocalypse is an upcoming American superhero film based on the X-Men characters that appear in Marvel Comics ", R.drawable.chat_text_disabled));
-        data.add(new Data("Captain America: Civil War", "A feud between Captain America and Iron Man leaves the Avengers in turmoil.  ", R.drawable.common_google_signin_btn_text_dark_pressed));
-        data.add(new Data("Kung Fu Panda 3", "After reuniting with his long-lost father, Po  must train a village of pandas", R.drawable.chat_text_disabled));
-        data.add(new Data("Warcraft", "Fleeing their dying home to colonize another, fearsome orc warriors invade the peaceful realm of Azeroth. ", R.drawable.common_google_signin_btn_text_dark_pressed));
-        data.add(new Data("Alice in Wonderland", "Alice in Wonderland: Through the Looking Glass ", R.drawable.chat_text_disabled));
-        data.add(new Data("Batman vs Superman", "Following the destruction of Metropolis, Batman embarks on a personal vendetta against Superman ", R.drawable.common_google_signin_btn_text_dark_pressed));
-        data.add(new Data("X-Men: Apocalypse", "X-Men: Apocalypse is an upcoming American superhero film based on the X-Men characters that appear in Marvel Comics ", R.drawable.chat_text_disabled));
-        data.add(new Data("Captain America: Civil War", "A feud between Captain America and Iron Man leaves the Avengers in turmoil.  ", R.drawable.common_google_signin_btn_text_dark_pressed));
-        data.add(new Data("Kung Fu Panda 3", "After reuniting with his long-lost father, Po  must train a village of pandas", R.drawable.chat_text_disabled));
-        data.add(new Data("Warcraft", "Fleeing their dying home to colonize another, fearsome orc warriors invade the peaceful realm of Azeroth. ", R.drawable.common_google_signin_btn_text_dark_pressed));
-        data.add(new Data("Alice in Wonderland", "Alice in Wonderland: Through the Looking Glass ", R.drawable.chat_text_disabled));
-
-        return data;
-    }
     /*
         convert json response into desired list format
      */
@@ -167,12 +115,20 @@ public class Main_Activity extends AppCompatActivity
 
 
             JSONArray data = response.getJSONArray(getString(R.string.data));
+            int length=data.length();
             for(int i=0;i<data.length();i++)
             {
                 JSONObject dashBoardObject=data.getJSONObject(i);
                 List<InternalList> internalLists = new ArrayList<>();
                 JSONArray list=dashBoardObject.getJSONArray(getString(R.string.jsonlist));
-                internalLists.add(new InternalList(list.getString(R.string.jsonid),list.getString(R.string.jsonname),list.getString(R.string.jsoncount)));
+                for(int j=0;j<list.length();j++)
+                {
+                    JSONObject internalListObject=list.getJSONObject(j);
+                    internalLists.add(new InternalList(internalListObject.getString(getString(R.string.jsonid)),internalListObject.getString(getString(R.string.jsonname)),internalListObject.getString(getString(R.string.jsoncount))));
+
+                }
+                //internalLists.add(new InternalList(list.getString(R.string.jsonid),list.getString(R.string.jsonname),list.getString(R.string.jsoncount)));
+
                 dashBoardLists.add(new DashBoardList(dashBoardObject.getString(getString(R.string.jsontitle)),internalLists));
             }
 
@@ -254,6 +210,46 @@ public class Main_Activity extends AppCompatActivity
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
+    private void showView(List<DashBoardList> dataList)
+    {
+        /*
+        show recycler view
+         */
+        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recycler);
+        recyclerView.setHasFixedSize(true);
+
+
+
+
+
+        Recycler_View_Adapter adapter = new Recycler_View_Adapter(dataList, getApplication());
+        recyclerView.setAdapter(adapter);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+
+
+        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+                        .setAction("Action", null).show();
+            }
+        });
+        // for animation in listview
+        RecyclerView.ItemAnimator itemAnimator = new DefaultItemAnimator();
+        itemAnimator.setAddDuration(1000);
+        itemAnimator.setRemoveDuration(1000);
+        recyclerView.setItemAnimator(itemAnimator);
+
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        drawer.setDrawerListener(toggle);
+        toggle.syncState();
+
+        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView.setNavigationItemSelectedListener(this);
+    }
 
     @Override
     public void HandleRemoteCall(boolean isSuccessful, RemoteCalls callFor, JSONObject response, Exception exception) {
@@ -265,12 +261,17 @@ public class Main_Activity extends AppCompatActivity
         else
         {
             try {
-                if (response.get("sucess").equals("false")) {
+                progressBarActivity.showProgress(mDashboardView,mProgressView,false,getApplicationContext());
+                if (response.get("success").equals("false")) {
                     toastActivity.makeToastMessage(response,this);
                 }
                 else
                 {
-                    List<DashBoardList>list=fetchData(response);
+                    dataList=fetchData(response);
+                    List<DashBoardList>hell=dataList;
+                    showView(dataList);
+                    //
+
                 }
             }catch (Exception e)
             {
