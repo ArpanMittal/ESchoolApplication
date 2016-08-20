@@ -86,7 +86,7 @@
                                     <tr class="gradeA info">
                                         <td style="text-align:right;width:60px">{{$Sno}}</td>
                                         <td style="width:60px">{{$question->class_name}}</td>
-                                        <td>{{$question->stream_name." - ".$question->subject_name." - ". $question->chapter_name ." - ". $question->topic_name}}</td>
+                                        <td>{{$question->subject_name." - ". $question->stream_name." - ".$question->chapter_name ." - ". $question->topic_name}}</td>
                                         <td style="text-align:left">{{$question->question}}</td>
                                         <td style="text-align:left">{{$question->question_type}}</td>
                                         <td style="text-align:center">
