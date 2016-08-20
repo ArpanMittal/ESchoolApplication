@@ -433,6 +433,7 @@ class QuestionController extends Controller
             $hash = $data['question_list'][$i]->hash;
             $class_id = substr($hash,0,3);
             $subject_id = substr($hash,3,2);
+            $stream_id = substr($hash,5,2);
             $chapter_id = substr($hash,7,3);
             $topic_id = substr($hash,10,3);
             $question_type_id = $data['question_list'][$i]->question_type_id;
@@ -442,6 +443,9 @@ class QuestionController extends Controller
 
             $subject = DB::table('subject')->whereId($subject_id)->first();
             $data['question_list'][$i]->subject_name = $subject->subject_name;
+
+            $stream = DB::table('stream')->whereId($stream_id)->first();
+            $data['question_list'][$i]->stream_name = $stream->stream_name;
 
             $chapter = DB::table('chapter')->whereId($chapter_id)->first();
             $data['question_list'][$i]->chapter_name = $chapter->chapter_name;

@@ -71,7 +71,7 @@
                                 <tr  class="gradeA success">
                                     <th  style="text-align:center" class ="sort">S.No</th>
                                     <th style="text-align:center">Class</th>
-                                    <th style="text-align:center">Subject - Chapter - Topic</th>
+                                    <th style="text-align:center">Stream - Subject - Chapter - Topic</th>
                                     <th  style="text-align:center">Question</th>
                                     <th  style="text-align:center">Question Type</th>
                                     <th  style="text-align:center;width:70px" class ="sort">Action</th>
@@ -86,7 +86,7 @@
                                     <tr class="gradeA info">
                                         <td style="text-align:right;width:60px">{{$Sno}}</td>
                                         <td style="width:60px">{{$question->class_name}}</td>
-                                        <td>{{$question->subject_name."-". $question->chapter_name ."-". $question->topic_name}}</td>
+                                        <td>{{$question->stream_name." - ".$question->subject_name." - ". $question->chapter_name ." - ". $question->topic_name}}</td>
                                         <td style="text-align:left">{{$question->question}}</td>
                                         <td style="text-align:left">{{$question->question_type}}</td>
                                         <td style="text-align:center">
