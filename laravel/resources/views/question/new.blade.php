@@ -33,12 +33,12 @@
                                                 </div>
                                             </div>
                                             <div class="control-group">
-                                                <label class="control-label">Chapter</label>
+                                                <label class="control-label">Stream & Chapter</label>
                                                 <div class="controls">
                                                     <select name="ChapterId" id="ChapterId"  class="span6"   style="width:250px;" onchange="loadTopics()">
                                                         @if(isset($chapters))
                                                             @foreach($chapters as $chapter)
-                                                                <option value="{{ $chapter->cl_su_st_ch_id }}"> {{$chapter->chapter_name}}</option>
+                                                                <option value="{{ $chapter->cl_su_st_ch_id }}"> {{$chapter->stream_name}} - {{$chapter->chapter_name}}</option>
                                                             @endforeach
                                                         @endif
                                                     </select>
@@ -423,7 +423,7 @@
                     success:function(response) {
                         $('#ChapterId').append('<option value="">-- Select --</option>');
                         response.forEach(function (item, index) {
-                            $('#ChapterId').append('<option value="'+item.cl_su_st_ch_id+'">'+item.chapter_name+'</option>');
+                            $('#ChapterId').append('<option value="'+item.cl_su_st_ch_id+'">'+item.stream_name+" - "+item.chapter_name+'</option>');
                         });
                     }
                 });

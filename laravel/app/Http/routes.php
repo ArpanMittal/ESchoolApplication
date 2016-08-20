@@ -65,6 +65,7 @@ Route::group(['prefix'=>'api/v1','middleware'=>['client']],function(){
     Route::post('doGoogleAuth','AuthGoogleIdToken@doAuth') ;
     Route::post('signup','SignUpController@doSignUp');
     Route::post('getDashBoardDetails','DetailsController@getDashBoard');
+    Route::post('getDetails/{tag}/{id}','DetailsController@getDetails');
 });
 
 
