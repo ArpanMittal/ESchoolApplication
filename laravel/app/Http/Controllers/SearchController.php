@@ -7,12 +7,12 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Response;
 
 class SearchController extends Controller
 {
     //
     public function search(Request $request,$key){
-        $pre = microtime(true);
         $res = DB::table('chaptertopicmap')
             ->join('streamchaptermap','chaptertopicmap.cl_su_st_ch_id','=','streamchaptermap.cl_su_st_ch_id')
             ->join('subjectstreammap','streamchaptermap.cl_su_st_id','=','subjectstreammap.cl_su_st_id')
@@ -28,14 +28,21 @@ class SearchController extends Controller
             ->orWhere('subject_name','LIKE','%'.$key."%")
             ->orWhere('class_name','LIKE','%'.$key."%")
             ->get();
-        $now = microtime(true);
-        $diff = $now - $pre;
+        
+        if (!$res){
+            return Response::json([
+                'success' => false,
+                'code' => 401,
+                'message' => 'No content found'
+            ]);
+        }
 
-        $result['success'] = 'true';
-        $result['time'] = $diff;
-        $result['count'] = count($res);
-        $result['data'] = $res;
-        return json_encode($result);
+        return Response::json([
+            'success' => true,
+            'code' => 200,
+            'count' => count($res),
+            'data' => $res
+        ]);
     }
     
     

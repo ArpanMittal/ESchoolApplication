@@ -407,6 +407,7 @@ class QuestionController extends Controller
         $data['user'] = $user;
 
         $question = Input::get('Question');
+        $data['selected_question'] = $question;
         $subject = Input::get('SubjectId');
         $data['selected_subject'] = $subject;
 

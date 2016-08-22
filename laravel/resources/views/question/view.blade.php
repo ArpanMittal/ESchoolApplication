@@ -41,7 +41,7 @@
                                         <div class="control-group">
                                             <div>
                                                 @if(isset($question))
-                                                    <h4 class="controls"><strong>Q:&nbsp;</strong>{{$question->question}}</h4>
+                                                    <h4 class="controls"><strong>Q:&nbsp;</strong>{{strip_tags($question->question)}}</h4>
                                                     @if(isset($question->image_path))
                                                         <img src="{!! asset($question->image_path) !!}">
                                                     @endif
@@ -51,9 +51,9 @@
                                                                 <li>
                                                                     @if(isset($answer))
                                                                         @if($option->id == $answer[0]->answer)
-                                                                            {{$option->opt}} <span class="icon-checkmark"></span>
+                                                                            {{strip_tags($option->opt)}} <span class="icon-checkmark"></span>
                                                                         @else
-                                                                            {{$option->opt}}
+                                                                            {{strip_tags($option->opt)}}
                                                                         @endif
                                                                     @endif
                                                                 </li>

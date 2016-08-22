@@ -31,7 +31,7 @@
                                         <div class="control-group">
                                             <label class="control-label">Question</label>
                                             <div class="controls">
-                                                <input name="Question" class="span9 input-left-top-margins" type="text" placeholder="Question" style="width: 65%" value="<?php echo isset($_POST['Question'])?$_POST['Question']:""?>"  >
+                                                <input name="Question" id="Question" class="span9 input-left-top-margins" type="text" placeholder="Question" style="width: 65%" value=""  >
                                             </div>
                                         </div>
                                     </td>
@@ -43,11 +43,7 @@
                                                     <option value="">-- Select Subject --</option>
                                                     @if(isset($subjects))
                                                         @foreach($subjects as $subject)
-                                                            @if(isset($selected_subject)&& strcmp($subject->cl_su_id , $selected_subject))
-                                                                <option value="{{ $subject->cl_su_id }}" selected = "Selected"> {{$subject->classname ." - ". $subject->subjectname}}</option>
-                                                            @else
                                                                 <option value="{{ $subject->cl_su_id }}"> {{$subject->class_name ." - ". $subject->subject_name}}</option>
-                                                            @endif
                                                         @endforeach
                                                     @endif
                                                 </select>
@@ -118,6 +114,10 @@
                 $('#data-table').dataTable({
                 "sPaginationType": "full_numbers"
             });
+            $("#SubjectId").val('{{$selected_subject}}');
+            @if(isset($selected_question))
+            $("#Question").val('{{$selected_question}}');
+            @endif
         });
     </script>
 @endsection

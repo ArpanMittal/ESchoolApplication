@@ -45,12 +45,15 @@ class DetailsController extends Controller
     public function getDetails(Request $request, $tag, $id){
         switch ($tag){
             case 'Classes':
+                $title = 'Subjects';
                 $data = $this->getSubject($id);
                 break;
             case 'Streams':
+                $title = 'Chapters';
                 $data = $this->getStreams($id);
                 break;
             case 'Exams':
+                $title = 'Chapters';
                 $data = $this->getExamSubjects($id);
         }
 
@@ -64,6 +67,7 @@ class DetailsController extends Controller
         return Response::json([
             'success' => true,
             'code' => 200,
+            'title' => $title,
             'data' => $data
         ]);
     }
