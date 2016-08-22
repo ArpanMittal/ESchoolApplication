@@ -55,6 +55,13 @@
         <meta-data android:name="android.app.default_searchable"
             android:value=".Main_Activity" />
         </activity>
+        <receiver
+            android:name=".Helpers.ConnectivityReceiver"
+            android:enabled="true">
+            <intent-filter>
+                <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
+            </intent-filter>
+        </receiver>
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         <activity
             android:name=".MainActivity"
