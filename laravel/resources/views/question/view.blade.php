@@ -24,6 +24,10 @@
                                                                 </h3>
                                                                 <h3 class="pull-right">
                                                                     {{$stream->stream_name}}
+                                                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                                                    <a href="{{ url('/question/'.$question->id) }}" title='Edit'  data-icon="&#xe005"  data-original-title="Edit">
+                                                                        <span class="fs1" aria-hidden="true"></span>
+                                                                    </a>
                                                                 </h3>
                                                             @endif
                                                         @endif
