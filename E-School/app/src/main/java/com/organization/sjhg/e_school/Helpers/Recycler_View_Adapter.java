@@ -1,5 +1,6 @@
 package com.organization.sjhg.e_school.Helpers;
 
+import android.app.Activity;
 import android.content.Context;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -22,10 +23,14 @@ public class Recycler_View_Adapter extends RecyclerView.Adapter<View_Holder_Pare
 
     List<DashBoardList> list = Collections.emptyList();
     Context context;
+    Activity activity;
+    RecyclerView recyclerChildView;
 
-    public Recycler_View_Adapter(List<DashBoardList> list, Context context) {
+    public Recycler_View_Adapter(List<DashBoardList> list, Context context,Activity activity) {
         this.list = list;
         this.context = context;
+        this.activity=activity;
+        //this.recyclerChildView=(RecyclerView)activity.findViewById(R.id.recycler_child);
     }
 
     @Override
@@ -33,6 +38,7 @@ public class Recycler_View_Adapter extends RecyclerView.Adapter<View_Holder_Pare
         //Inflate the layout, initialize the View Holder
 
         View v=LayoutInflater.from(parent.getContext()).inflate(R.layout.list_view_helper,parent,false);
+        this.recyclerChildView=(RecyclerView)v.findViewById(R.id.recycler_child);
         View_Holder_Parent holder_parent=new View_Holder_Parent(v);
         holder_parent.recyclerView.setHasFixedSize(true);
         holder_parent.recyclerView.setNestedScrollingEnabled(false);
@@ -51,7 +57,7 @@ public class Recycler_View_Adapter extends RecyclerView.Adapter<View_Holder_Pare
 
         holder.title.setText(list.get(position).title);
         List<InternalList> data=list.get(position).internalLists;
-        RecyclerAdapter recyclerAdapter=new RecyclerAdapter(context,data);
+        RecyclerAdapter recyclerAdapter=new RecyclerAdapter(context,data,list.get(position).title,activity,recyclerChildView);
         holder.recyclerView.setAdapter(recyclerAdapter);
 
 

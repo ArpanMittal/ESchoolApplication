@@ -21,7 +21,7 @@
       android:layout_height="wrap_content"
       android:layout_marginBottom="8dp"
       android:visibility="gone" />
-  <ScrollView
+  <LinearLayout
       android:id="@+id/dashboard_form"
       android:layout_width="match_parent"
       android:layout_height="match_parent">
@@ -30,7 +30,7 @@
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
       app:layout_behavior="@string/appbar_scrolling_view_behavior" />
-  </ScrollView>
+  </LinearLayout>
 
 
 
