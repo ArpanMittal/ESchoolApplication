@@ -23,6 +23,7 @@ import android.support.v7.widget.Toolbar;
 import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.ViewStub;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -75,8 +76,11 @@ public class Main_Activity extends AppCompatActivity implements NavigationView.O
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.main_activity);
-        toolbar = (Toolbar) findViewById(R.id.toolbar);
+       setContentView(R.layout.main_activity);
+        ViewStub viewStub=(ViewStub)findViewById(R.id.viewstub);
+        viewStub.setLayoutResource(R.layout.app_bar_main);
+        View inflated = viewStub.inflate();
+        toolbar = (Toolbar)findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         mDashboardView=findViewById(R.id.dashboard_form);
