@@ -25,6 +25,7 @@ import android.view.MenuItem;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
+import com.organization.sjhg.e_school.Animation.RecycleViewAnimation;
 import com.organization.sjhg.e_school.Helpers.Custom_Pager_Adapter;
 import com.organization.sjhg.e_school.Helpers.Data;
 import com.organization.sjhg.e_school.Helpers.LogHelper;
@@ -45,6 +46,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import cn.trinea.android.view.autoscrollviewpager.AutoScrollViewPager;
+
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -52,8 +55,6 @@ import me.relex.circleindicator.CircleIndicator;
 
 public class Main_Activity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener,RemoteCallHandler {
-    private RecyclerAdapter adapter;
-    private ArrayList<String> stringArrayList;
     private View mDashboardView;
     private View mProgressView;
     private CircleIndicator indicator;
@@ -72,7 +73,7 @@ public class Main_Activity extends AppCompatActivity
         setSupportActionBar(toolbar);
 
         mDashboardView=findViewById(R.id.dashboard_form);
-        mProgressView=findViewById(R.id.dashboard_progress);
+        //mProgressView=findViewById(R.id.dashboard_progress);
 
 
 
@@ -87,9 +88,28 @@ public class Main_Activity extends AppCompatActivity
         viewPager.startAutoScroll();
         indicator=(CircleIndicator) findViewById(R.id.indicator);
         indicator.setViewPager(viewPager);
-        new RemoteHelper(getApplicationContext()).getDashBoardDetails(this, RemoteCalls.CHECK_LOGIN_CREDENTIALS);
+        if(savedInstanceState!=null)
+        {
+            dataList=(List<DashBoardList>) savedInstanceState.getSerializable("LIST");
+            showView(dataList);
+        }
+        else {
+            progressBarActivity.showProgress(mDashboardView,mProgressView,true,getApplicationContext());
+            new RemoteHelper(getApplicationContext()).getDashBoardDetails(this, RemoteCalls.GET_DASHBOARD_LIST);
+        }
 
 
+    }
+
+
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+
+       // Bundle args = new Bundle();
+       // args.pu
+        outState.putSerializable("LIST", (Serializable) dataList);
     }
 
     /*
@@ -215,14 +235,15 @@ public class Main_Activity extends AppCompatActivity
         /*
         show recycler view
          */
-        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recycler);
+
+        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recycler_main);
         recyclerView.setHasFixedSize(true);
+        new RecycleViewAnimation(recyclerView);
 
 
 
 
-
-        Recycler_View_Adapter adapter = new Recycler_View_Adapter(dataList, getApplication(),this);
+        Recycler_View_Adapter adapter = new Recycler_View_Adapter(dataList, getApplicationContext(),this);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
@@ -235,11 +256,7 @@ public class Main_Activity extends AppCompatActivity
                         .setAction("Action", null).show();
             }
         });
-        // for animation in listview
-        RecyclerView.ItemAnimator itemAnimator = new DefaultItemAnimator();
-        itemAnimator.setAddDuration(1000);
-        itemAnimator.setRemoveDuration(1000);
-        recyclerView.setItemAnimator(itemAnimator);
+
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
