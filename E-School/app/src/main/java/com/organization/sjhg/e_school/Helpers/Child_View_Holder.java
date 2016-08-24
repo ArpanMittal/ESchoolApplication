@@ -8,6 +8,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.organization.sjhg.e_school.R;
+import com.squareup.picasso.Picasso;
 
 /**
  * Created by arpan on 8/20/2016.
@@ -18,8 +19,7 @@ public class Child_View_Holder extends RecyclerView.ViewHolder{
     TextView count;
     ImageView imageView;
     String title;
-    String id;
-    Activity activity;
+
 
     Child_View_Holder(View itemView)
     {
@@ -28,5 +28,6 @@ public class Child_View_Holder extends RecyclerView.ViewHolder{
         name = (TextView) itemView.findViewById(R.id.name);
         count = (TextView) itemView.findViewById(R.id.count);
         imageView = (ImageView) itemView.findViewById(R.id.imageView);
+
     }
 }

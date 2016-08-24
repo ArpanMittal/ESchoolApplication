@@ -13,11 +13,10 @@ import com.organization.sjhg.e_school.Remote.RemoteCallHandler;
 import com.organization.sjhg.e_school.Remote.RemoteCalls;
 import com.organization.sjhg.e_school.Remote.RemoteHelper;
 import com.organization.sjhg.e_school.Utils.ToastActivity;
+import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
-
-import java.security.PrivateKey;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -52,7 +51,11 @@ public class RecyclerAdapter extends RecyclerView.Adapter<View_Holder> implement
         final InternalList item = itemList.get(position);
         viewHolder.name.setText(item.name);
         viewHolder.count.setText(item.count);
-        viewHolder.imageView.setImageResource(R.drawable.ic_launcher);
+        // to download images
+        Picasso.with((Activity)mContext)
+                .load("https://s9.postimg.io/al1o9ip5r/image.jpg")
+                .resize(50,50)
+                .into(viewHolder.imageView);
         viewHolder.view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -101,8 +104,6 @@ public class RecyclerAdapter extends RecyclerView.Adapter<View_Holder> implement
 
             }
 
-
-            //for (int i = 0; i <)
         }catch (Exception e) {
             e.printStackTrace();
             new ToastActivity().makeJsonException((Activity) mContext);
