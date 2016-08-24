@@ -1,6 +1,7 @@
 package com.organization.sjhg.e_school.Helpers;
 import android.app.Activity;
 import android.content.Context;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,24 +9,31 @@ import android.view.ViewGroup;
 
 import com.organization.sjhg.e_school.ListStructure.InternalList;
 import com.organization.sjhg.e_school.R;
+import com.organization.sjhg.e_school.Remote.RemoteCallHandler;
+import com.organization.sjhg.e_school.Remote.RemoteCalls;
+import com.organization.sjhg.e_school.Remote.RemoteHelper;
+import com.organization.sjhg.e_school.Utils.ToastActivity;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 import java.security.PrivateKey;
+import java.util.ArrayList;
 import java.util.List;
 
-public class RecyclerAdapter extends RecyclerView.Adapter<View_Holder>{
+public class RecyclerAdapter extends RecyclerView.Adapter<View_Holder> implements RemoteCallHandler {
 
-    private List<InternalList> list;
-    private Context context;
-    private String title;
-    private Activity activity;
+    private final Context mContext;
+    private List<InternalList> itemList;
     private RecyclerView recyclerView;
+    private String title;
+    private String pre;
 
 
-    public RecyclerAdapter(Context context, List<InternalList> list,String title,Activity activity,RecyclerView recyclerView) {
-        this.list = list;
-        this.context = context;
+    public RecyclerAdapter(Context mContext, List<InternalList> list, String title, RecyclerView recyclerView) {
+        this.itemList = list;
+        this.mContext = mContext;
         this.title=title;
-        this.activity=activity;
         this.recyclerView=recyclerView;
     }
 
@@ -33,32 +41,38 @@ public class RecyclerAdapter extends RecyclerView.Adapter<View_Holder>{
     public View_Holder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
 
         //inflate your layout and pass it to view holder
-        LayoutInflater inflater = LayoutInflater.from(viewGroup.getContext());
-        View view = inflater.inflate(R.layout.activitycardview, viewGroup, false);
+        View itemView = LayoutInflater.from(viewGroup.getContext())
+                .inflate(R.layout.activitycardview, viewGroup, false);
 
-        View_Holder view_Holder = new View_Holder(view);
-
-
-        return view_Holder;
+        return new View_Holder(itemView);
     }
 
     @Override
     public void onBindViewHolder(View_Holder viewHolder, int position) {
-        viewHolder.name.setText(list.get(position).name);
-        viewHolder.count.setText(list.get(position).count);
-        viewHolder.imageView.setImageResource(R.drawable.notechathead);
-        viewHolder.title=this.title;
-        viewHolder.id=list.get(position).id;
-        viewHolder.recyclerView=recyclerView;
-        viewHolder.activity=activity;
-       // viewHolder.setClickListener(new View.OnClickListener() {
+        final InternalList item = itemList.get(position);
+        viewHolder.name.setText(item.name);
+        viewHolder.count.setText(item.count);
+        viewHolder.imageView.setImageResource(R.drawable.ic_launcher);
+        viewHolder.view.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(item.id.equals(pre))
+                {
+                    recyclerView.setVisibility(View.GONE);
+                    pre=null;
+                }
+                else {
+                    pre=item.id;
+                    new RemoteHelper(mContext).getItemDetails(RecyclerAdapter.this, RemoteCalls.GET_ITEM_DETAILS, title, item.id);
+                }
 
-
+            }
+        });
     }
 
     @Override
     public int getItemCount() {
-        return list.size();
+        return itemList.size();
     }
     @Override
     public void onAttachedToRecyclerView(RecyclerView recyclerView) {
@@ -66,5 +80,68 @@ public class RecyclerAdapter extends RecyclerView.Adapter<View_Holder>{
     }
 
 
+    //put data from json to list
+    private List<InternalList> getList(JSONObject response)
+    {
+        //return dataList;
+        List<InternalList> dataList=new ArrayList<>();
+        try {
+            //title=response.getString(activity.getString(R.string.title));
+            JSONArray data = response.getJSONArray(mContext.getString(R.string.data));
+            int length=data.length();
 
+            for(int i=0;i<data.length();i++)
+            {
+                JSONObject internalListObject=data.getJSONObject(i);
+                String id=internalListObject.getString(mContext.getString(R.string.jsonid));
+                String name=internalListObject.getString(mContext.getString(R.string.jsonname));
+                String count=internalListObject.getString(mContext.getString(R.string.jsoncount));
+                dataList.add(new InternalList(id,name,count));
+
+
+            }
+
+
+            //for (int i = 0; i <)
+        }catch (Exception e) {
+            e.printStackTrace();
+            new ToastActivity().makeJsonException((Activity) mContext);
+            new LogHelper(e);
+
+        }
+        return dataList;
+    }
+
+
+
+    @Override
+    public void HandleRemoteCall(boolean isSuccessful, RemoteCalls callFor, JSONObject response, Exception exception) {
+        if(!isSuccessful)
+        {
+            new ToastActivity().makeUknownErrorMessage((Activity) mContext);
+
+        }
+        else
+        {
+            try {
+                if (response.getString("success").equals("false")) {
+                    new ToastActivity().makeToastMessage(response, (Activity) mContext);
+                }
+                else
+                {
+                    String title=response.getString(mContext.getString(R.string.jsontitle));
+                    List<InternalList> dataList=new ArrayList<>();
+                    dataList=getList(response);
+                    Recycler_Child_Adapter adapter = new Recycler_Child_Adapter(dataList, mContext,title);
+                    recyclerView.setAdapter(adapter);
+                    recyclerView.setVisibility(View.VISIBLE);
+
+                }
+            }catch (Exception e)
+            {
+                LogHelper logHelper=new LogHelper(e);
+                e.printStackTrace();
+            }
+        }
+    }
 }

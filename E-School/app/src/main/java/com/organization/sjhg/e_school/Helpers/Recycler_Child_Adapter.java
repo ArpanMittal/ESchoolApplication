@@ -16,36 +16,32 @@ import java.util.List;
  * Created by arpan on 8/20/2016.
  */
 public class Recycler_Child_Adapter extends RecyclerView.Adapter<Child_View_Holder> {
-    private List<InternalList> list;
-    private Context context;
-    private Activity activity;
+
+    private final Context mContext;
+    private List<InternalList> itemList;
     private String title;
 
-    public Recycler_Child_Adapter(List<InternalList> list,Activity activity,Context context,String title)
-    {
-        this.list=list;
-        this.activity=activity;
-        this.context=context;
+    public Recycler_Child_Adapter(List<InternalList> dataList, Context mContext, String title) {
+        this.itemList=dataList;
+        this.mContext=mContext;
         this.title=title;
     }
 
     @Override
     public Child_View_Holder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
         //inflate your layout and pass it to view holder
-        LayoutInflater inflater = LayoutInflater.from(viewGroup.getContext());
-        View view = inflater.inflate(R.layout.activitycardview, viewGroup, false);
-        Child_View_Holder child_view_holder=new Child_View_Holder(view);
+        View itemView = LayoutInflater.from(viewGroup.getContext())
+                .inflate(R.layout.activitycardview, viewGroup, false);
 
-
-        return child_view_holder;
+        return new Child_View_Holder(itemView);
     }
 
 
     @Override
     public void onBindViewHolder(Child_View_Holder holder, int position) {
-
-        holder.name.setText(list.get(position).name);
-        holder.count.setText(list.get(position).count);
+        final InternalList item = itemList.get(position);
+        holder.name.setText(item.name);
+        holder.count.setText(item.count);
         holder.imageView.setImageResource(R.drawable.notechathead);
         holder.title=this.title;
 
@@ -54,6 +50,6 @@ public class Recycler_Child_Adapter extends RecyclerView.Adapter<Child_View_Hold
     @Override
     public int getItemCount() {
 
-        return list.size();
+        return itemList.size();
     }
 }

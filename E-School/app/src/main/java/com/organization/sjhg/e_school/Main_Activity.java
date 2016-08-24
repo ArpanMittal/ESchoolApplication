@@ -246,7 +246,7 @@ public class Main_Activity extends AppCompatActivity implements NavigationView.O
 
 
 
-        Recycler_View_Adapter adapter = new Recycler_View_Adapter(dataList, getApplication(),this);
+        Recycler_View_Adapter adapter = new Recycler_View_Adapter(dataList, this);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
