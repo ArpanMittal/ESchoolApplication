@@ -2,6 +2,7 @@ package com.organization.sjhg.e_school;
 
 import android.app.SearchManager;
 import android.content.Context;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
@@ -24,8 +25,12 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.organization.sjhg.e_school.Animation.RecycleViewAnimation;
+
+import com.organization.sjhg.e_school.Helpers.ConnectivityReceiver;
+
 import com.organization.sjhg.e_school.Helpers.Custom_Pager_Adapter;
 import com.organization.sjhg.e_school.Helpers.Data;
 import com.organization.sjhg.e_school.Helpers.LogHelper;
@@ -38,6 +43,7 @@ import com.organization.sjhg.e_school.Remote.ExceptionHandler;
 import com.organization.sjhg.e_school.Remote.RemoteCallHandler;
 import com.organization.sjhg.e_school.Remote.RemoteCalls;
 import com.organization.sjhg.e_school.Remote.RemoteHelper;
+import com.organization.sjhg.e_school.Remote.VolleyController;
 import com.organization.sjhg.e_school.Utils.ProgressBarActivity;
 import com.organization.sjhg.e_school.Utils.ToastActivity;
 
@@ -54,7 +60,13 @@ import java.util.List;
 import me.relex.circleindicator.CircleIndicator;
 
 public class Main_Activity extends AppCompatActivity
+
         implements NavigationView.OnNavigationItemSelectedListener,RemoteCallHandler {
+
+        implements NavigationView.OnNavigationItemSelectedListener,RemoteCallHandler,
+        ConnectivityReceiver.ConnectivityReceiverListener {
+    private RecyclerAdapter adapter;
+    private ArrayList<String> stringArrayList;
     private View mDashboardView;
     private View mProgressView;
     private CircleIndicator indicator;
@@ -103,6 +115,7 @@ public class Main_Activity extends AppCompatActivity
 
 
 
+
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
@@ -110,11 +123,17 @@ public class Main_Activity extends AppCompatActivity
        // Bundle args = new Bundle();
        // args.pu
         outState.putSerializable("LIST", (Serializable) dataList);
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        VolleyController.getInstance().setConnectivityListener(this);
+
     }
 
     /*
-        Do server call to fetch data
-     */
+            Do server call to fetch data
+         */
     @Override
     protected void onStart() {
         super.onStart();
@@ -298,4 +317,28 @@ public class Main_Activity extends AppCompatActivity
         }
     }
 
+    private void showSnack(boolean isConnected) {
+        String message;
+        int color;
+        if (isConnected) {
+            message = "Good! Connected to Internet";
+            color = Color.WHITE;
+        } else {
+            message = "Sorry! Not connected to internet";
+            color = Color.RED;
+        }
+
+        Snackbar snackbar = Snackbar
+                .make(findViewById(R.id.fab), message, Snackbar.LENGTH_LONG);
+
+        View sbView = snackbar.getView();
+        TextView textView = (TextView) sbView.findViewById(android.support.design.R.id.snackbar_text);
+        textView.setTextColor(color);
+        snackbar.show();
+    }
+
+    @Override
+    public void onNetworkConnectionChanged(boolean isConnected) {
+        showSnack(isConnected);
+    }
 }
