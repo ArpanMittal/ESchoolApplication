@@ -8,16 +8,16 @@
     android:fitsSystemWindows="true"
     tools:openDrawer="start">
 
-    <ViewStub
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/viewstub"
-        />
-
-    <!--<include-->
-        <!--layout="@layout/app_bar_main"-->
+    <!--<ViewStub-->
         <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="match_parent" />-->
+        <!--android:layout_height="match_parent"-->
+        <!--android:id="@+id/viewstub"-->
+        <!--/>-->
+
+    <include
+        layout="@layout/app_bar_main"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
 
     <android.support.design.widget.NavigationView
         android:id="@+id/nav_view"

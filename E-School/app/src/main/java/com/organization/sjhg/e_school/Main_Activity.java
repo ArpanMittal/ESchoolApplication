@@ -78,7 +78,7 @@ public class Main_Activity extends AppCompatActivity implements NavigationView.O
         super.onCreate(savedInstanceState);
        setContentView(R.layout.main_activity);
         ViewStub viewStub=(ViewStub)findViewById(R.id.viewstub);
-        viewStub.setLayoutResource(R.layout.app_bar_main);
+        viewStub.setLayoutResource(R.layout.content_main);
         View inflated = viewStub.inflate();
         toolbar = (Toolbar)findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
