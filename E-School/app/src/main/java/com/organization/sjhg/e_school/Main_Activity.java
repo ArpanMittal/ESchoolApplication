@@ -26,11 +26,9 @@ import android.view.MenuItem;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
-
-import com.organization.sjhg.e_school.Animation.RecycleViewAnimation;
+//import com.organization.sjhg.e_school.Animation.RecycleViewAnimation;
 
 import com.organization.sjhg.e_school.Helpers.ConnectivityReceiver;
-
 import com.organization.sjhg.e_school.Helpers.Custom_Pager_Adapter;
 import com.organization.sjhg.e_school.Helpers.Data;
 import com.organization.sjhg.e_school.Helpers.LogHelper;
@@ -59,12 +57,9 @@ import java.util.List;
 
 import me.relex.circleindicator.CircleIndicator;
 
-public class Main_Activity extends AppCompatActivity
-
-        implements NavigationView.OnNavigationItemSelectedListener,RemoteCallHandler {
-
-        implements NavigationView.OnNavigationItemSelectedListener,RemoteCallHandler,
+public class Main_Activity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener,RemoteCallHandler,
         ConnectivityReceiver.ConnectivityReceiverListener {
+
     private RecyclerAdapter adapter;
     private ArrayList<String> stringArrayList;
     private View mDashboardView;
@@ -85,7 +80,7 @@ public class Main_Activity extends AppCompatActivity
         setSupportActionBar(toolbar);
 
         mDashboardView=findViewById(R.id.dashboard_form);
-        //mProgressView=findViewById(R.id.dashboard_progress);
+        mProgressView=findViewById(R.id.dashboard_progress);
 
 
 
@@ -100,15 +95,7 @@ public class Main_Activity extends AppCompatActivity
         viewPager.startAutoScroll();
         indicator=(CircleIndicator) findViewById(R.id.indicator);
         indicator.setViewPager(viewPager);
-        if(savedInstanceState!=null)
-        {
-            dataList=(List<DashBoardList>) savedInstanceState.getSerializable("LIST");
-            showView(dataList);
-        }
-        else {
-            progressBarActivity.showProgress(mDashboardView,mProgressView,true,getApplicationContext());
-            new RemoteHelper(getApplicationContext()).getDashBoardDetails(this, RemoteCalls.GET_DASHBOARD_LIST);
-        }
+        new RemoteHelper(getApplicationContext()).getDashBoardDetails(this, RemoteCalls.CHECK_LOGIN_CREDENTIALS);
 
 
     }
@@ -120,12 +107,13 @@ public class Main_Activity extends AppCompatActivity
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
 
-       // Bundle args = new Bundle();
-       // args.pu
+        // Bundle args = new Bundle();
+        // args.pu
         outState.putSerializable("LIST", (Serializable) dataList);
+    }
 
     @Override
-    protected void onResume() {
+    protected void onResume(){
         super.onResume();
         VolleyController.getInstance().setConnectivityListener(this);
 
@@ -137,9 +125,6 @@ public class Main_Activity extends AppCompatActivity
     @Override
     protected void onStart() {
         super.onStart();
-
-
-
     }
 
 
@@ -254,15 +239,14 @@ public class Main_Activity extends AppCompatActivity
         /*
         show recycler view
          */
-
-        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recycler_main);
+        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recycler);
         recyclerView.setHasFixedSize(true);
-        new RecycleViewAnimation(recyclerView);
 
 
 
 
-        Recycler_View_Adapter adapter = new Recycler_View_Adapter(dataList, getApplicationContext(),this);
+
+        Recycler_View_Adapter adapter = new Recycler_View_Adapter(dataList, getApplication(),this);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
@@ -275,7 +259,11 @@ public class Main_Activity extends AppCompatActivity
                         .setAction("Action", null).show();
             }
         });
-
+        // for animation in listview
+        RecyclerView.ItemAnimator itemAnimator = new DefaultItemAnimator();
+        itemAnimator.setAddDuration(1000);
+        itemAnimator.setRemoveDuration(1000);
+        recyclerView.setItemAnimator(itemAnimator);
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
