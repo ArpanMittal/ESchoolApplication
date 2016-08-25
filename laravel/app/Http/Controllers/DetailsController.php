@@ -73,8 +73,20 @@ class DetailsController extends Controller
     }
     
     public function getCharts(Request $request,$id){
-        $data['data'] = $this->getChapter($id);
-        return view('chart',$data);
+        $data  = $this->getChapter($id);
+        if (!$data){
+            return Response::json([
+                'success' => false,
+                'code' => 401,
+                'message' => 'Content is not available'
+            ]);
+        }
+        return Response::json([
+            'success' => true,
+            'code' => 200,
+            'title' => "Subject",
+            'data' => $data
+        ]);
     }
 
     private function getClasses(){
