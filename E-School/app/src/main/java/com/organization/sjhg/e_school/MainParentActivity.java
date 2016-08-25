@@ -126,7 +126,7 @@ public class MainParentActivity extends AppCompatActivity implements NavigationV
         outState.putSerializable("LIST", (Serializable) dataList);
     }
 
-    private void fillNavigationDrawer(List<DashBoardList> dataList,NavigationView navigationView) {
+    private void fillNavigationDrawer(final List<DashBoardList> dataList, NavigationView navigationView) {
 
         expListView=(ExpandableListView)navigationView.findViewById(R.id.navigationmenu);
         // preparing list data
@@ -179,14 +179,14 @@ public class MainParentActivity extends AppCompatActivity implements NavigationV
             @Override
             public boolean onChildClick(ExpandableListView parent, View v,
                                         int groupPosition, int childPosition, long id) {
+                List<InternalList> internalList=dataList.get(groupPosition).internalLists;
+                String childId= internalList.get(childPosition).id;
                 // TODO Auto-generated method stub
                 Toast.makeText(
                         getApplicationContext(),
                         listDataHeader.get(groupPosition)
                                 + " : "
-                                + listDataChild.get(
-                                listDataHeader.get(groupPosition)).get(
-                                childPosition), Toast.LENGTH_SHORT)
+                                +internalList.get(childPosition).id, Toast.LENGTH_SHORT)
                         .show();
                 return false;
             }
