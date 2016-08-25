@@ -36,8 +36,8 @@ public class MainParentActivity extends AppCompatActivity implements NavigationV
     private CircleIndicator indicator;
 
 
-    private CollapsingToolbarLayout collapsingToolbar;
-    private Toolbar toolbar;
+    protected CollapsingToolbarLayout collapsingToolbar;
+    protected Toolbar toolbar;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -147,7 +147,7 @@ public class MainParentActivity extends AppCompatActivity implements NavigationV
         return true;
     }
 
-    private void showSnack(boolean isConnected) {
+    protected void showSnack(boolean isConnected) {
         String message;
         int color;
         if (isConnected) {
