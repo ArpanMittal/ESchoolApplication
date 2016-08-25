@@ -58,6 +58,7 @@ public class MainParentActivity extends AppCompatActivity implements NavigationV
         ConnectivityReceiver.ConnectivityReceiverListener,RemoteCallHandler {
 
     private CircleIndicator indicator;
+
     //protected List<DashBoardList> dataList=new ArrayList<>();
     private ActionBarDrawerToggle toggle;
     private CollapsingToolbarLayout collapsingToolbar;
@@ -70,6 +71,8 @@ public class MainParentActivity extends AppCompatActivity implements NavigationV
     List<String> listDataHeader;
     HashMap<String, List<String>> listDataChild;
     int key=0;
+
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -350,7 +353,7 @@ public class MainParentActivity extends AppCompatActivity implements NavigationV
         return dashBoardLists;
     }
 
-    private void showSnack(boolean isConnected) {
+    protected void showSnack(boolean isConnected) {
         String message;
         int color;
         if (isConnected) {

@@ -55,6 +55,11 @@
         <meta-data android:name="android.app.default_searchable"
             android:value=".Main_Activity" />
         </activity>
+        <activity
+            android:name=".Content.Quest.QuestListActivity"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:label="Quest"
+            />
         <receiver
             android:name=".Helpers.ConnectivityReceiver"
             android:enabled="true">
