@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <FrameLayout
+        android:layout_width="350dp"
+        android:layout_height="300dp"
+        android:orientation="vertical"
+        android:layout_centerInParent="true">
+
+        <!-- android:layout_toRightOf="@+id/notesSidebar"-->
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/notesfragment1"
+            android:background="@drawable/notelisting">
+            <!--android:visibility="invisible"-->
+
+        </RelativeLayout>
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <ImageView
+
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:id="@+id/addnotebutton"
+                android:src="@drawable/newnote"
+                android:layout_margin="10dp"/>
+                <!--android:visibility="invisible"-->
+                />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/notelist_date">
+        </RelativeLayout>
+
+    </FrameLayout>
+
+</LinearLayout>
