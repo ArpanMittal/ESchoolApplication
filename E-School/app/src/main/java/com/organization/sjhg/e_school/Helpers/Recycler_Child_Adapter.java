@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 
 import com.organization.sjhg.e_school.ListStructure.InternalList;
 import com.organization.sjhg.e_school.R;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -42,7 +43,11 @@ public class Recycler_Child_Adapter extends RecyclerView.Adapter<Child_View_Hold
         final InternalList item = itemList.get(position);
         holder.name.setText(item.name);
         holder.count.setText(item.count);
-        holder.imageView.setImageResource(R.drawable.notechathead);
+
+        Picasso.with((Activity)mContext)
+                .load("https://s9.postimg.io/al1o9ip5r/image.jpg")
+                .resize(50,50)
+                .into(holder.imageView);
         holder.title=this.title;
 
     }
