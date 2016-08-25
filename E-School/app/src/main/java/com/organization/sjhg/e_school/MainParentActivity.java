@@ -61,8 +61,8 @@ public class MainParentActivity extends AppCompatActivity implements NavigationV
 
     //protected List<DashBoardList> dataList=new ArrayList<>();
     private ActionBarDrawerToggle toggle;
-    private CollapsingToolbarLayout collapsingToolbar;
-    private Toolbar toolbar;
+    protected CollapsingToolbarLayout collapsingToolbar;
+    protected Toolbar toolbar;
     private NavigationView navigationView;
     protected List<DashBoardList> dataList;
     ExpandableListAdapter listAdapter;
