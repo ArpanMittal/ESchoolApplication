@@ -42,7 +42,7 @@ import java.util.List;
 
 
 
-public class Main_Activity extends MainParentActivity implements RemoteCallHandler{
+public class Main_Activity extends MainParentActivity{
 
 
     private View mDashboardView;
@@ -50,7 +50,8 @@ public class Main_Activity extends MainParentActivity implements RemoteCallHandl
 
     private ProgressBarActivity progressBarActivity=new ProgressBarActivity();
     private ToastActivity toastActivity=new ToastActivity();
-    private List<DashBoardList>dataList=new ArrayList<>();
+
+
 
 
     @Override
@@ -82,7 +83,7 @@ public class Main_Activity extends MainParentActivity implements RemoteCallHandl
         }
         else {
             progressBarActivity.showProgress(mDashboardView,mProgressView,true,getApplicationContext());
-            new RemoteHelper(getApplicationContext()).getDashBoardDetails(this, RemoteCalls.GET_DASHBOARD_LIST);
+            //new RemoteHelper(getApplicationContext()).getDashBoardDetails(this, RemoteCalls.GET_DASHBOARD_LIST);
         }
 
 
@@ -91,11 +92,7 @@ public class Main_Activity extends MainParentActivity implements RemoteCallHandl
 
 
 
-    @Override
-    protected void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-        outState.putSerializable("LIST", (Serializable) dataList);
-    }
+
 
 
 
@@ -103,37 +100,7 @@ public class Main_Activity extends MainParentActivity implements RemoteCallHandl
     /*
         convert json response into desired list format
      */
-    private List<DashBoardList> fetchData(JSONObject response)
-    {
-        List<DashBoardList> dashBoardLists = new ArrayList<>();
-        try {
 
-
-            JSONArray data = response.getJSONArray(getString(R.string.data));
-
-            for(int i=0;i<data.length();i++)
-            {
-                JSONObject dashBoardObject=data.getJSONObject(i);
-                List<InternalList> internalLists = new ArrayList<>();
-                JSONArray list=dashBoardObject.getJSONArray(getString(R.string.jsonlist));
-                for(int j=0;j<list.length();j++)
-                {
-                    JSONObject internalListObject=list.getJSONObject(j);
-                    internalLists.add(new InternalList(internalListObject.getString(getString(R.string.jsonid)),internalListObject.getString(getString(R.string.jsonname)),internalListObject.getString(getString(R.string.jsoncount))));
-
-                }
-
-                dashBoardLists.add(new DashBoardList(dashBoardObject.getString(getString(R.string.jsontitle)),internalLists));
-            }
-
-            //for (int i = 0; i <)
-        }catch (JSONException jsonException) {
-            toastActivity.makeJsonException(this);
-            LogHelper logHelper = new LogHelper(jsonException);
-            jsonException.printStackTrace();
-        }
-        return dashBoardLists;
-    }
 
 
 
@@ -167,25 +134,21 @@ public class Main_Activity extends MainParentActivity implements RemoteCallHandl
 
     @Override
     public void HandleRemoteCall(boolean isSuccessful, RemoteCalls callFor, JSONObject response, Exception exception) {
+        super.HandleRemoteCall(isSuccessful,callFor,response,exception);
         if(!isSuccessful)
         {
-
             toastActivity.makeUknownErrorMessage(this);
         }
         else
         {
             try {
                 progressBarActivity.showProgress(mDashboardView,mProgressView,false,getApplicationContext());
-                if (response.get("success").equals("false")) {
+                if (response.get("success").toString().equals("false")) {
                     toastActivity.makeToastMessage(response,this);
                 }
                 else
                 {
-                    dataList=fetchData(response);
-                    List<DashBoardList>hell=dataList;
                     showView(dataList);
-                    //
-
                 }
             }catch (Exception e)
             {

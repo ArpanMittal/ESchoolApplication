@@ -2,6 +2,7 @@ package com.organization.sjhg.e_school;
 
 import android.app.SearchManager;
 import android.content.Context;
+import android.content.res.Configuration;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.CollapsingToolbarLayout;
@@ -16,13 +17,32 @@ import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.SubMenu;
 import android.view.View;
 import android.widget.TextView;
 
 import com.organization.sjhg.e_school.Helpers.ConnectivityReceiver;
 import com.organization.sjhg.e_school.Helpers.Custom_Pager_Adapter;
+import com.organization.sjhg.e_school.Helpers.LogHelper;
+import com.organization.sjhg.e_school.ListStructure.DashBoardList;
+import com.organization.sjhg.e_school.ListStructure.InternalList;
+import com.organization.sjhg.e_school.Remote.RemoteCallHandler;
+import com.organization.sjhg.e_school.Remote.RemoteCalls;
+import com.organization.sjhg.e_school.Remote.RemoteHelper;
 import com.organization.sjhg.e_school.Remote.VolleyController;
+import com.organization.sjhg.e_school.Utils.ProgressBarActivity;
+import com.organization.sjhg.e_school.Utils.ToastActivity;
 
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import cn.trinea.android.view.autoscrollviewpager.AutoScrollViewPager;
 import me.relex.circleindicator.CircleIndicator;
@@ -31,14 +51,17 @@ import me.relex.circleindicator.CircleIndicator;
  * Created by arpan on 8/24/2016.
  */
 public class MainParentActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener,
-        ConnectivityReceiver.ConnectivityReceiverListener {
+        ConnectivityReceiver.ConnectivityReceiverListener,RemoteCallHandler {
 
     private CircleIndicator indicator;
-
-
+    //protected List<DashBoardList> dataList=new ArrayList<>();
+    private ActionBarDrawerToggle toggle;
     private CollapsingToolbarLayout collapsingToolbar;
     private Toolbar toolbar;
-
+    private NavigationView navigationView;
+    protected List<DashBoardList> dataList;
+    Map content = new HashMap();
+    int key=0;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,13 +78,17 @@ public class MainParentActivity extends AppCompatActivity implements NavigationV
         indicator = (CircleIndicator) findViewById(R.id.indicator);
         indicator.setViewPager(viewPager);
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+        toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.setDrawerListener(toggle);
         toggle.syncState();
 
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+
+
+
 
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -70,6 +97,43 @@ public class MainParentActivity extends AppCompatActivity implements NavigationV
                         .setAction("Action", null).show();
             }
         });
+
+        if(savedInstanceState!=null)
+        {
+            dataList=(List<DashBoardList>) savedInstanceState.getSerializable("LIST");
+            fillNavigationDrawer(dataList, navigationView);
+
+        }
+        else {
+
+            new RemoteHelper(getApplicationContext()).getDashBoardDetails(this, RemoteCalls.GET_DASHBOARD_LIST);
+        }
+
+
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putSerializable("LIST", (Serializable) dataList);
+    }
+
+    private void fillNavigationDrawer(List<DashBoardList> dataList,NavigationView navigationView) {
+        for(int i=0;i<dataList.size();i++)
+        {
+            Menu m = navigationView.getMenu();
+            SubMenu topChannelMenu = m.addSubMenu(dataList.get(i).title);
+            List<InternalList> internalList=dataList.get(i).internalLists;
+            content.put(dataList.get(i).title.toString(),key++);
+
+            int groupId=Integer.valueOf(content.get(dataList.get(i).title.toString()).toString());
+            for(int j=0;j<internalList.size();j++)
+            {
+                content.put(internalList.get(j).id.toString(),key++);
+                int itemId=Integer.valueOf(content.get(internalList.get(j).id.toString()).toString());
+                topChannelMenu.add(groupId,itemId,j,internalList.get(j).name);
+            }
+        }
     }
 
     @Override
@@ -77,6 +141,19 @@ public class MainParentActivity extends AppCompatActivity implements NavigationV
         super.onResume();
         VolleyController.getInstance().setConnectivityListener(this);
 
+    }
+    @Override
+    protected void onPostCreate(Bundle savedInstanceState) {
+        super.onPostCreate(savedInstanceState);
+        // Sync the toggle state after onRestoreInstanceState has occurred.
+            toggle.syncState();
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        // Pass any configuration change to the drawer toggles
+        toggle.onConfigurationChanged(newConfig);
     }
 
     @Override
@@ -128,23 +205,54 @@ public class MainParentActivity extends AppCompatActivity implements NavigationV
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_camera) {
-            // Handle the camera action
-        } else if (id == R.id.nav_gallery) {
-
-        } else if (id == R.id.nav_slideshow) {
-
-        } else if (id == R.id.nav_manage) {
-
-        } else if (id == R.id.nav_share) {
-
-        } else if (id == R.id.nav_send) {
-
-        }
+//        if (id == R.id.nav_camera) {
+//            // Handle the camera action
+//        } else if (id == R.id.nav_gallery) {
+//
+//        } else if (id == R.id.nav_slideshow) {
+//
+//        } else if (id == R.id.nav_manage) {
+//
+//        } else if (id == R.id.nav_share) {
+//
+//        } else if (id == R.id.nav_send) {
+//
+//        }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+    private List<DashBoardList> fetchData(JSONObject response)
+    {
+        List<DashBoardList> dashBoardLists = new ArrayList<>();
+        try {
+
+
+            JSONArray data = response.getJSONArray(getString(R.string.data));
+
+            for(int i=0;i<data.length();i++)
+            {
+                JSONObject dashBoardObject=data.getJSONObject(i);
+                List<InternalList> internalLists = new ArrayList<>();
+                JSONArray list=dashBoardObject.getJSONArray(getString(R.string.jsonlist));
+                for(int j=0;j<list.length();j++)
+                {
+                    JSONObject internalListObject=list.getJSONObject(j);
+                    internalLists.add(new InternalList(internalListObject.getString(getString(R.string.jsonid)),internalListObject.getString(getString(R.string.jsonname)),internalListObject.getString(getString(R.string.jsoncount))));
+
+                }
+
+                dashBoardLists.add(new DashBoardList(dashBoardObject.getString(getString(R.string.jsontitle)),internalLists));
+            }
+
+            //for (int i = 0; i <)
+        }catch (JSONException jsonException) {
+            new ToastActivity().makeJsonException(this);
+            LogHelper logHelper = new LogHelper(jsonException);
+            jsonException.printStackTrace();
+        }
+        return dashBoardLists;
     }
 
     private void showSnack(boolean isConnected) {
@@ -170,6 +278,27 @@ public class MainParentActivity extends AppCompatActivity implements NavigationV
     @Override
     public void onNetworkConnectionChanged(boolean isConnected) {
         showSnack(isConnected);
+    }
+
+    @Override
+    public void HandleRemoteCall(boolean isSuccessful, RemoteCalls callFor, JSONObject response, Exception exception) {
+        if(isSuccessful)
+        {
+            try {
+                    String dun=response.get("success").toString();
+                if ((response.get("success").toString()).equals("true")) {
+                    dataList = fetchData(response);
+                    fillNavigationDrawer(dataList, navigationView);
+                }
+            }
+                catch (Exception e)
+                {
+                    LogHelper logHelper=new LogHelper(e);
+                    e.printStackTrace();
+                }
+
+
+        }
     }
 }
 
