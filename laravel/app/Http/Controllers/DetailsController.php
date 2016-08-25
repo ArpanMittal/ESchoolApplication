@@ -20,7 +20,7 @@ class DetailsController extends Controller
         $row1['title'] = 'Classes';
         $row1['list'] = $class;
 
-        $row2['title'] = 'Streams';
+        $row2['title'] = 'Subjects';
         $row2['list'] = $stream;
 
         $row3['title'] = 'Exams';
@@ -48,12 +48,12 @@ class DetailsController extends Controller
                 $title = 'Subjects';
                 $data = $this->getSubject($id);
                 break;
-            case 'Streams':
+            case 'Subjects':
                 $title = 'Chapters';
                 $data = $this->getStreams($id);
                 break;
             case 'Exams':
-                $title = 'Chapters';
+                $title = 'Subjects';
                 $data = $this->getExamSubjects($id);
         }
 
@@ -143,6 +143,7 @@ class DetailsController extends Controller
 
     private function getExamSubjects($id)
     {
-        return;
+        $data = array(array('id'=>'practice','name'=>'Practice Test','count'=>''));
+        return $data;
     }
 }
