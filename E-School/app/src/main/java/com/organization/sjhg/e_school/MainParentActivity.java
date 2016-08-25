@@ -19,10 +19,14 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.SubMenu;
 import android.view.View;
+import android.widget.ExpandableListAdapter;
+import android.widget.ExpandableListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.organization.sjhg.e_school.Helpers.ConnectivityReceiver;
 import com.organization.sjhg.e_school.Helpers.Custom_Pager_Adapter;
+import com.organization.sjhg.e_school.Helpers.ExpandListAdapter;
 import com.organization.sjhg.e_school.Helpers.LogHelper;
 import com.organization.sjhg.e_school.ListStructure.DashBoardList;
 import com.organization.sjhg.e_school.ListStructure.InternalList;
@@ -60,7 +64,11 @@ public class MainParentActivity extends AppCompatActivity implements NavigationV
     private Toolbar toolbar;
     private NavigationView navigationView;
     protected List<DashBoardList> dataList;
+    ExpandableListAdapter listAdapter;
+    ExpandableListView expListView;
     Map content = new HashMap();
+    List<String> listDataHeader;
+    HashMap<String, List<String>> listDataChild;
     int key=0;
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -119,20 +127,104 @@ public class MainParentActivity extends AppCompatActivity implements NavigationV
     }
 
     private void fillNavigationDrawer(List<DashBoardList> dataList,NavigationView navigationView) {
+
+        expListView=(ExpandableListView)navigationView.findViewById(R.id.navigationmenu);
+        // preparing list data
+        prepareListData(dataList);
+
+        listAdapter = new ExpandListAdapter(this, listDataHeader, listDataChild);
+
+        // setting list adapter
+        expListView.setAdapter(listAdapter);
+
+        // Listview Group click listener
+        expListView.setOnGroupClickListener(new ExpandableListView.OnGroupClickListener() {
+
+            @Override
+            public boolean onGroupClick(ExpandableListView parent, View v,
+                                        int groupPosition, long id) {
+                // Toast.makeText(getApplicationContext(),
+                // "Group Clicked " + listDataHeader.get(groupPosition),
+                // Toast.LENGTH_SHORT).show();
+                return false;
+            }
+        });
+
+        // Listview Group expanded listener
+        expListView.setOnGroupExpandListener(new ExpandableListView.OnGroupExpandListener() {
+
+            @Override
+            public void onGroupExpand(int groupPosition) {
+                Toast.makeText(getApplicationContext(),
+                        listDataHeader.get(groupPosition) + " Expanded",
+                        Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        // Listview Group collasped listener
+        expListView.setOnGroupCollapseListener(new ExpandableListView.OnGroupCollapseListener() {
+
+            @Override
+            public void onGroupCollapse(int groupPosition) {
+                Toast.makeText(getApplicationContext(),
+                        listDataHeader.get(groupPosition) + " Collapsed",
+                        Toast.LENGTH_SHORT).show();
+
+            }
+        });
+
+        // Listview on child click listener
+        expListView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
+
+            @Override
+            public boolean onChildClick(ExpandableListView parent, View v,
+                                        int groupPosition, int childPosition, long id) {
+                // TODO Auto-generated method stub
+                Toast.makeText(
+                        getApplicationContext(),
+                        listDataHeader.get(groupPosition)
+                                + " : "
+                                + listDataChild.get(
+                                listDataHeader.get(groupPosition)).get(
+                                childPosition), Toast.LENGTH_SHORT)
+                        .show();
+                return false;
+            }
+        });
+//        for(int i=0;i<dataList.size();i++)
+//        {
+//            Menu m = navigationView.getMenu();
+//            SubMenu topChannelMenu = m.addSubMenu(dataList.get(i).title);
+//            List<InternalList> internalList=dataList.get(i).internalLists;
+//            content.put(dataList.get(i).title.toString(),key++);
+//
+//            int groupId=Integer.valueOf(content.get(dataList.get(i).title.toString()).toString());
+//            for(int j=0;j<internalList.size();j++)
+//            {
+//                content.put(internalList.get(j).id.toString(),key++);
+//                int itemId=Integer.valueOf(content.get(internalList.get(j).id.toString()).toString());
+//                topChannelMenu.add(groupId,itemId,j,internalList.get(j).name);
+//                //topChannelMenu.getItem(itemId).setVisible(false);
+//            }
+//           // groupId=Integer.valueOf(content.get(dataList.get(1).title.toString()).toString());
+//           // m.setGroupVisible(groupId,false);
+//        }
+    }
+
+    private void prepareListData(List<DashBoardList> dataList)
+    {
+        listDataHeader = new ArrayList<String>();
+        listDataChild = new HashMap<String, List<String>>();
         for(int i=0;i<dataList.size();i++)
         {
-            Menu m = navigationView.getMenu();
-            SubMenu topChannelMenu = m.addSubMenu(dataList.get(i).title);
+            listDataHeader.add(dataList.get(i).title.toString());
             List<InternalList> internalList=dataList.get(i).internalLists;
-            content.put(dataList.get(i).title.toString(),key++);
-
-            int groupId=Integer.valueOf(content.get(dataList.get(i).title.toString()).toString());
+            List<String>dataChild=new ArrayList<String>();
             for(int j=0;j<internalList.size();j++)
             {
-                content.put(internalList.get(j).id.toString(),key++);
-                int itemId=Integer.valueOf(content.get(internalList.get(j).id.toString()).toString());
-                topChannelMenu.add(groupId,itemId,j,internalList.get(j).name);
+                dataChild.add(internalList.get(j).name);
             }
+            listDataChild.put(listDataHeader.get(i),dataChild);
         }
     }
 
@@ -199,11 +291,14 @@ public class MainParentActivity extends AppCompatActivity implements NavigationV
         return super.onOptionsItemSelected(item);
     }
 
+
+
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
+        int well=id;
 
 //        if (id == R.id.nav_camera) {
 //            // Handle the camera action
