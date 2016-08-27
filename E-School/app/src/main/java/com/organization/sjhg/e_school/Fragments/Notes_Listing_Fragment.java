@@ -13,6 +13,7 @@ import com.organization.sjhg.e_school.MainParentActivity;
 import com.organization.sjhg.e_school.R;
 import com.organization.sjhg.e_school.TakeNotes.AddSmallNotesActivity;
 import com.organization.sjhg.e_school.TakeNotes.NoteListingActivity;
+import com.organization.sjhg.e_school.TakeNotes.whiteboard.WhiteBoardActivity;
 
 /**
  * Created by arpan on 8/25/2016.
@@ -23,7 +24,7 @@ public class Notes_Listing_Fragment extends AppCompatActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.notes_listing_activity);
         Fragment fragment=new NoteListingActivity();
-        getFragmentManager().beginTransaction().replace(R.id.notesfragment1, new NoteListingActivity()).commit();
+        getFragmentManager().beginTransaction().replace(R.id.notesfragment, new NoteListingActivity()).commit();
         View addnote= findViewById(R.id.addnotebutton);
         addnote.setOnClickListener(new View.OnClickListener(){
             @Override
@@ -32,5 +33,17 @@ public class Notes_Listing_Fragment extends AppCompatActivity{
                 startActivity(intent);
             }
         });
+        View addBoard= findViewById(R.id.newWhiteBoard);
+        addBoard.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view) {
+                Intent intent=new Intent(getApplicationContext(), WhiteBoardActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        View restore= findViewById(R.id.restore);
+
+        View backup= findViewById(R.id.backup);
     }
 }

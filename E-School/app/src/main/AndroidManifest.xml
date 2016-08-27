@@ -39,8 +39,9 @@
             android:theme="@style/AppTheme" />
         <activity android:name=".Fragments.Notes_Listing_Fragment"
             android:theme="@style/AppTheme">
-
         </activity>
+        <activity android:name=".TakeNotes.whiteboard.WhiteBoardActivity"
+            android:theme="@style/AppTheme"/>
         <activity
             android:name=".LoginActivity"
             android:theme="@style/AppTheme"

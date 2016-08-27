@@ -1,43 +1,63 @@
-<?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
-    <FrameLayout
-        android:layout_width="350dp"
-        android:layout_height="300dp"
-        android:orientation="vertical"
-        android:layout_centerInParent="true">
+<FrameLayout android:layout_width="350dp"
+    android:layout_height="300dp"
+    android:orientation="vertical"
+    android:layout_centerInParent="true"
+    xmlns:android="http://schemas.android.com/apk/res/android">
 
-        <!-- android:layout_toRightOf="@+id/notesSidebar"-->
+    <!-- android:layout_toRightOf="@+id/notesSidebar"-->
 
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:id="@+id/notesfragment1"
-            android:background="@drawable/notelisting">
-            <!--android:visibility="invisible"-->
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/notesfragment"
+        android:background="@drawable/notelisting"
+        >
+    </RelativeLayout>
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+        <ImageView
 
-        </RelativeLayout>
-        <RelativeLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
-            <ImageView
-
-                android:layout_width="25dp"
-                android:layout_height="25dp"
-                android:id="@+id/addnotebutton"
-                android:src="@drawable/newnote"
-                android:layout_margin="10dp"/>
-                <!--android:visibility="invisible"-->
-                />
-        </RelativeLayout>
-
-        <RelativeLayout
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:id="@+id/addnotebutton"
+            android:src="@drawable/newnote"
+            android:layout_centerVertical="true"
+            android:layout_margin="10dp"
+            />
+        <ImageButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/notelist_date">
-        </RelativeLayout>
+            android:layout_toRightOf="@+id/addnotebutton"
+            android:layout_centerVertical="true"
+            android:background="@null"
+            android:layout_margin="10dp"
+            android:src="@drawable/scketching"
+            android:id="@+id/newWhiteBoard"/>
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@+id/newWhiteBoard"
+            android:background="@null"
+            android:src="@drawable/ic_history_black_48dp"
+            android:id="@+id/restore"/>
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:layout_toRightOf="@+id/restore"
+            android:layout_centerVertical="true"
+            android:background="@null"
+            android:src="@drawable/ic_backup_black_48dp"
+            android:id="@+id/backup"/>
+    </RelativeLayout>
 
-    </FrameLayout>
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/notelist_date">
+    </RelativeLayout>
 
-</LinearLayout>
+</FrameLayout>
