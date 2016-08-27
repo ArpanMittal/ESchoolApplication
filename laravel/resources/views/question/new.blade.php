@@ -290,6 +290,10 @@
         @endif
 
         $("#frmquestion").submit(function(){
+            if(!$('#frmquestion').valid())
+            {
+                return false;
+            }
             var tags = $("#TagIds :selected").length;
             if(tags <= 0){
                 alert("Please add a tag");
