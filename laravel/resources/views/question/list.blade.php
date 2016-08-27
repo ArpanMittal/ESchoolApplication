@@ -75,12 +75,11 @@
                                 </thead>
                                 <tbody>
 
-                                {!! $Sno =	0 !!}
+
                                 @if(isset($question_list))
                                     @foreach($question_list as $question)
-                                    {!! $Sno++ !!}
                                     <tr class="gradeA info">
-                                        <td style="text-align:right;width:60px">{{$Sno}}</td>
+                                        <td style="text-align:right;width:60px">{{isset($Sno)?++$Sno:$Sno=1}}</td>
                                         <td style="width:60px">{{$question->class_name}}</td>
                                         <td>{{$question->subject_name." - ". $question->stream_name." - ".$question->chapter_name ." - ". $question->topic_name}}</td>
                                         <td style="text-align:left">{{$question->question}}</td>
