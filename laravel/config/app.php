@@ -158,6 +158,8 @@ return [
         App\Providers\RouteServiceProvider::class,
         //Unisharp\Ckeditor\ServiceProvider::class,
 
+        BackupManager\Laravel\Laravel5ServiceProvider::class,
+
     ],
 
     /*
