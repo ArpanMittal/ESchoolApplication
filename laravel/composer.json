@@ -11,7 +11,9 @@
         "bshaffer/oauth2-server-httpfoundation-bridge":"~1.1",
         "unisharp/laravel-ckeditor": "^4.5",
         "doctrine/dbal": "^2.5",
-        "guzzlehttp/guzzle": "^6.2"
+        "guzzlehttp/guzzle": "^6.2",
+        "backup-manager/laravel": "^1.1",
+        "league/flysystem": "^1.0"
 
 
     },

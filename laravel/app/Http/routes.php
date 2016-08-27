@@ -64,10 +64,12 @@ Route::group(['prefix'=>'api/v1','middleware'=>['client']],function(){
      */
     Route::post('doGoogleAuth','AuthGoogleIdToken@doAuth') ;
     Route::post('signup','SignUpController@doSignUp');
+    Route::post('chart/{id}', array('uses' => 'DetailsController@getCharts'));
     Route::post('getDashBoardDetails','DetailsController@getDashBoard');
     Route::post('getDetails/{tag}/{id}','DetailsController@getDetails');
     Route::post('search', array('uses' => 'SearchController@search'));
     Route::post('search/{key}', array('uses' => 'SearchController@search'));
+
 });
 
 
