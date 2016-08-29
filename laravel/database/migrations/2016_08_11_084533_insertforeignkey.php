@@ -30,5 +30,8 @@ class Insertforeignkey extends Migration
     public function down()
     {
         //
+        Schema::table('userdetail',function($table){
+            $table->dropForeign('id');
+        });
     }
 }
