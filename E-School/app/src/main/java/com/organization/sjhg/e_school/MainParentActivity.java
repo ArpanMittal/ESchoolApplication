@@ -2,6 +2,7 @@ package com.organization.sjhg.e_school;
 
 import android.app.SearchManager;
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -24,6 +25,7 @@ import android.widget.ExpandableListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.organization.sjhg.e_school.Fragments.Notes_Listing_Fragment;
 import com.organization.sjhg.e_school.Helpers.ConnectivityReceiver;
 import com.organization.sjhg.e_school.Helpers.Custom_Pager_Adapter;
 import com.organization.sjhg.e_school.Helpers.ExpandListAdapter;
@@ -104,8 +106,10 @@ public class MainParentActivity extends AppCompatActivity implements NavigationV
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+//                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+//                        .setAction("Action", null).show();
+                Intent intent=new Intent(getApplicationContext(), Notes_Listing_Fragment.class);
+                startActivity(intent);
             }
         });
 
@@ -191,6 +195,8 @@ public class MainParentActivity extends AppCompatActivity implements NavigationV
                                 + " : "
                                 +internalList.get(childPosition).id, Toast.LENGTH_SHORT)
                         .show();
+                Intent intent=new Intent(getApplicationContext(),ListActivity.class);
+                startActivity(intent);
                 return false;
             }
         });

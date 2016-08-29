@@ -1,16 +1,15 @@
 package com.organization.sjhg.e_school.TakeNotes;
 
+import android.accounts.NetworkErrorException;
 import android.app.AlertDialog;
-import android.app.Fragment;
-import android.app.ListActivity;
 import android.app.ListFragment;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.view.ContextMenu;
+import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -20,20 +19,29 @@ import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
 import android.widget.Toast;
 
 import com.organization.sjhg.e_school.R;
+import com.organization.sjhg.e_school.Remote.HttpHelper;
 import com.organization.sjhg.e_school.Remote.RemoteCallHandler;
 import com.organization.sjhg.e_school.Remote.RemoteCalls;
 import com.organization.sjhg.e_school.Remote.RemoteHelper;
-import com.organization.sjhg.e_school.deviceadmin.DeviceAdminUtil;
+import com.organization.sjhg.e_school.Remote.ServerAddress;
+import com.organization.sjhg.e_school.Structure.NotesDetail;
+import com.organization.sjhg.e_school.TakeNotes.whiteboard.WhiteBoardActivity;
 
+import org.apache.http.NameValuePair;
+import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.io.IOException;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Prateek Tulsyan on 30-04-2015.
@@ -85,12 +93,12 @@ public class NoteListingActivity extends ListFragment implements RemoteCallHandl
             }
         });*/
 
-        ImageView RestoreBtn;
-       /* RestoreBtn = (ImageView)getActivity().findViewById(R.id.restore);
+        ImageButton RestoreBtn;
+        RestoreBtn = (ImageButton) getActivity().findViewById(R.id.restore);
         RestoreBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                AlertDialog.Builder builder = new AlertDialog.Builder(new ContextThemeWrapper( context, android.R.style.Theme_Holo_Light_Dialog));
                 builder.setMessage(getResources().getString(R.string.restore_warning));
                 builder.setTitle(getResources().getString(R.string.attention));
                 builder.setCancelable(true);
@@ -99,6 +107,7 @@ public class NoteListingActivity extends ListFragment implements RemoteCallHandl
                             public void onClick(DialogInterface dialog, int id) {
 
                                 new RemoteHelper(context).getServerNotes(NoteListingActivity.this, RemoteCalls.GET_NOTES);
+                                Toast.makeText(context,"Notes restore in progress",Toast.LENGTH_LONG).show();
                             }
                         });
                 builder.setNegativeButton("NO",
@@ -110,7 +119,27 @@ public class NoteListingActivity extends ListFragment implements RemoteCallHandl
                 AlertDialog alert11 = builder.create();
                 alert11.show();
             }
-        });*/
+        });
+        ImageButton BackupBtn;
+        BackupBtn = (ImageButton) getActivity().findViewById(R.id.backup);
+        BackupBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+//                try {
+//                    //new RemoteHelper(context).backupNotes(NoteListingActivity.this, RemoteCalls.BACKUP_NOTES);
+//                    Toast.makeText(context,"Notes backup in progress",Toast.LENGTH_LONG).show();
+//                } catch (JSONException e) {
+//                    e.printStackTrace();
+//                } catch (IOException e) {
+//                    e.printStackTrace();
+//                } catch (NetworkErrorException e) {
+//                    e.printStackTrace();
+//                } catch (SQLException e) {
+//                    e.printStackTrace();
+//                }
+            }
+        });
     }
 
    /* @Override
@@ -141,7 +170,12 @@ public class NoteListingActivity extends ListFragment implements RemoteCallHandl
     @Override
     public void onListItemClick(ListView l, View v, int position, long id) {
         super.onListItemClick(l, v, position, id);
+        Cursor note = table_obj.fetchSingleNote(id);
+        String type = note.getString(note.getColumnIndexOrThrow(NotesDetailTable.KEY_TYPE));
         Intent i = new Intent(context, AddSmallNotesActivity.class);
+        if (type.equals("2")){
+            i = new Intent(context, WhiteBoardActivity.class);
+        }
         i.putExtra(NotesDetailTable.KEY_ROWID, id);
         startActivityForResult(i, ACTIVITY_EDIT);
 
@@ -277,7 +311,7 @@ public class NoteListingActivity extends ListFragment implements RemoteCallHandl
                             }
                             try {
                                 table_obj.insertNote(notesDetailAsJson);
-                            } catch (JSONException e) {
+                            } catch (Exception e) {
                                 e.printStackTrace();
                             }
                         }
