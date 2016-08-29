@@ -60,7 +60,14 @@ class Samplepaper extends Migration
             $table->foreign('exam_state_year_id')->references('id')->on('exam_state_year_map')->onDelete('cascade');
             $table->foreign('rest_id')->references('id')->on('rest_part')->onDelete('cascade');
         });
-        
+
+        Schema::table('questiontags', function ($table) {
+            $table->dropForeign('tag_id');
+        });
+
+        Schema::table('questiontags', function ($table) {
+            $table->Foreign('tag_id')->references('id')->on('exam_state_year_rest_map')->onDelete('cascade');;
+        });
 
 
 
@@ -80,5 +87,6 @@ class Samplepaper extends Migration
         Schema::drop('exam_state_map');
         Schema::drop('exam_state_year_map');
         Schema::drop('exam_state_year_rest_map');
+       
     }
 }
