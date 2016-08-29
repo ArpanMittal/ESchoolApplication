@@ -195,6 +195,8 @@ public class MainParentActivity extends AppCompatActivity implements NavigationV
                                 + " : "
                                 +internalList.get(childPosition).id, Toast.LENGTH_SHORT)
                         .show();
+                Intent intent=new Intent(getApplicationContext(),ListActivity.class);
+                startActivity(intent);
                 return false;
             }
         });
