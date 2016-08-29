@@ -62,7 +62,7 @@ class Samplepaper extends Migration
         });
 
         Schema::table('questiontags', function ($table) {
-            $table->dropForeign('tag_id');
+            $table->dropForeign('questiontags_tag_id_foreign');
         });
 
         Schema::table('questiontags', function ($table) {
@@ -87,6 +87,6 @@ class Samplepaper extends Migration
         Schema::drop('exam_state_map');
         Schema::drop('exam_state_year_map');
         Schema::drop('exam_state_year_rest_map');
-       
+
     }
 }
