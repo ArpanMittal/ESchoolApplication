@@ -14,7 +14,7 @@ class DetailsController extends Controller
     //
     public function getDashBoard(Request $request){
         $class = $this->getClasses();
-        $stream = $this->getStream();
+        $stream = $this->getSubject();
         $exam = $this->getExam();
 
         $row1['title'] = 'Classes';
@@ -46,11 +46,12 @@ class DetailsController extends Controller
         switch ($tag){
             case 'Classes':
                 $title = 'ClassSubject';
-                $data = $this->getSubject($id);
+                //$data = $this->getSubject($id);
+                $data = $this->getSubjectListDetail($id);
                 break;
             case 'Subjects':
                 $title = 'SubjectStream';
-                $data = $this->getStreams($id);
+                $data = $this->getStreamDetail($id);
                 break;
             case 'Exams':
                 $title = 'ExamSubject';
@@ -99,17 +100,18 @@ class DetailsController extends Controller
             ->get();
     }
 
-    private function getStream()
+    private function getSubject()
     {
         return DB::table('subjectstreammap')
-            ->select('subject.id as id',
-                'subject.subject_name as name',
-                DB::raw('CONCAT(\'No. of streams \',count(DISTINCT subjectstreammap.cl_su_st_id)) as count'))
+            ->select('subject.id as id', 'subject.subject_name as name', DB::raw('CONCAT(\'No. of streams \',count(DISTINCT subjectstreammap.stream_id)) as count'))
             ->leftjoin('classsubjectmap','subjectstreammap.cl_su_id','=','classsubjectmap.cl_su_id')
             ->leftjoin('subject','classsubjectmap.subject_id','=','subject.id')
             ->groupBy('subject.id')
             ->get();
+
     }
+
+
 
     private function getExam()
     {
@@ -124,8 +126,7 @@ class DetailsController extends Controller
     private function getChapter($id){
         $dm =  DB::table('streamchaptermap')
             ->select('streamchaptermap.cl_su_st_ch_id as id',
-                'chapter.chapter_name as name',
-                DB::raw('count(DISTINCT chaptertopicmap.hash) as count'))
+                'chapter.chapter_name as name')
             ->leftjoin('chapter','streamchaptermap.chapter_id','=','chapter.id')
             ->leftjoin('chaptertopicmap','streamchaptermap.cl_su_st_ch_id','=','chaptertopicmap.cl_su_st_ch_id')
             ->where('streamchaptermap.cl_su_st_id','LIKE',$id."%")
@@ -133,30 +134,48 @@ class DetailsController extends Controller
             ->get();
         return $dm;
     }
-    private function getSubject($id){
-        return DB::table('classsubjectmap')
-            ->select('classsubjectmap.cl_su_id as id',
-                'subject.subject_name as name',
-                DB::raw('CONCAT(\'No. of chapters \',count(DISTINCT streamchaptermap.cl_su_st_ch_id)) as count'))
+    private function getClassSubjects($id){
+        $arr= DB::table('classsubjectmap')
+            ->select('classsubjectmap.cl_su_id as id','subject.subject_name as name')
             ->join('subject','classsubjectmap.subject_id','=','subject.id')
-            ->join('subjectstreammap','classsubjectmap.cl_su_id','=','subjectstreammap.cl_su_id')
-            ->join('streamchaptermap','subjectstreammap.cl_su_st_id','=','streamchaptermap.cl_su_st_id')
-            ->where('classsubjectmap.class_id',$id)
-            ->groupBy('classsubjectmap.subject_id')
-            ->get();
+            ->where('classsubjectmap.class_id',$id)->get();
+        return $arr;
+    }
+
+    private function getSubjectListDetail($id){
+        //
+        $subject=$this->getClassSubjects($id);
+        for($i=0;$i<count($subject);$i++)
+        {
+            $chapter=$this->getChapter($subject[$i]->id);
+            $subject[$i]->innerList=$chapter;
+        }
+        return $subject;
     }
 
     private function getStreams($id)
     {
         return DB::table('subjectstreammap')
             ->select('subjectstreammap.cl_su_st_id as id',
-                'stream.stream_name as name',
-                DB::raw('CONCAT(\'No. of chapters \',count(DISTINCT streamchaptermap.cl_su_st_ch_id)) as count'))
+                'stream.stream_name as name')
+               // DB::raw('CONCAT(\'No. of chapters \',count(DISTINCT streamchaptermap.cl_su_st_ch_id)) as count'))
             ->join('stream','subjectstreammap.stream_id','=','stream.id')
             ->join('streamchaptermap','subjectstreammap.cl_su_st_id','=','streamchaptermap.cl_su_st_id')
             ->where('subjectstreammap.cl_su_id','LIKE',"%".$id)
             ->groupBy('subjectstreammap.stream_id')
             ->get();
+    }
+
+    private function getStreamDetail($id)
+    {
+
+        $stream=$this->getStreams($id);
+        for($i=0;$i<count($stream);$i++)
+        {
+            $chapter=$this->getChapter($stream[$i]->id);
+            $stream[$i]->innerList=$chapter;
+        }
+        return $stream;
     }
 
     private function getExamSubjects($id)
