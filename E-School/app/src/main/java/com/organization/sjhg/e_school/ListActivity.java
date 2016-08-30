@@ -10,6 +10,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewStub;
+import android.widget.TextView;
 
 import com.organization.sjhg.e_school.Helpers.GridDataAdapter;
 import com.organization.sjhg.e_school.Helpers.GridParentDataAdapter;
@@ -32,6 +33,7 @@ import com.organization.sjhg.e_school.Utils.ToastActivity;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -41,7 +43,8 @@ import java.util.List;
 public class ListActivity extends MainParentActivity implements RemoteCallHandler {
     private View mDashboardView;
     private View mProgressView;
-
+    private List<ItemDataList> internalList=new ArrayList<>();
+    private List<InternalListData> internalListDatas=new ArrayList<>();
     private ProgressBarActivity progressBarActivity=new ProgressBarActivity();
     private ToastActivity toastActivity=new ToastActivity();
 
@@ -49,89 +52,47 @@ public class ListActivity extends MainParentActivity implements RemoteCallHandle
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        ViewStub viewStub=(ViewStub)findViewById(R.id.viewstub);
+        ViewStub viewStub = (ViewStub) findViewById(R.id.viewstub);
         viewStub.setLayoutResource(R.layout.content_main);
         viewStub.inflate();
-        Intent intent=getIntent();
-        mContext=getApplicationContext();
-        String title= (String) intent.getExtras().get(mContext.getString(R.string.title));
-        String id= (String) intent.getExtras().get(mContext.getString(R.string.jsonid));
-        mDashboardView=findViewById(R.id.dashboard_form);
-        mProgressView=findViewById(R.id.dashboard_progress);
+        Intent intent = getIntent();
+        mContext = getApplicationContext();
+        String title = (String) intent.getExtras().get(mContext.getString(R.string.title));
+        String id = (String) intent.getExtras().get(mContext.getString(R.string.jsonid));
 
-        if(savedInstanceState!=null)
-        {
-            dataList=(List<ItemDataList>) savedInstanceState.getSerializable("INTERNAL LIST");
-            showView(dataList);
-        }
-        else {
-            progressBarActivity.showProgress(mDashboardView,mProgressView,true,getApplicationContext());
+        mDashboardView = findViewById(R.id.dashboard_form);
+        mProgressView = findViewById(R.id.dashboard_progress);
+
+        if (savedInstanceState != null) {
+            internalList = (List<ItemDataList>) savedInstanceState.getSerializable("INTERNAL LIST");
+            showView(internalList);
+        } else {
+            progressBarActivity.showProgress(mDashboardView, mProgressView, true, getApplicationContext());
             new RemoteHelper(mContext).getItemDetails(this, RemoteCalls.GET_ITEM_DETAILS, title, id);
         }
 
-//        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recycler);
-//        recyclerView.setHasFixedSize(true);
-//        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+    }
 
-
-
-
-//        RecyclerView.LayoutManager layoutManager = new GridLayoutManager(getApplicationContext(),2);
-//        recyclerView.setLayoutManager(layoutManager);
-
-
-
-//        Recycler_View_Adapter adapter = new Recycler_View_Adapter(dataList, this);
-//        recyclerView.setAdapter(adapter);
-//        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putSerializable("INTERNAL LIST", (Serializable) internalList);
+        outState.putSerializable("LIST",(Serializable)dataList);
 
     }
-//    private final String android_version_names[] = {
-//            "Donut",
-//            "Eclair",
-//            "Froyo",
-//            "Gingerbread",
-//            "Honeycomb",
-//            "Ice Cream Sandwich",
-//            "Jelly Bean",
-//            "KitKat",
-//            "Lollipop",
-//            "Marshmallow"
-//    };
-
-//    private final String android_image_urls[] = {
-//            "http://api.learn2crack.com/android/images/donut.png",
-//            "http://api.learn2crack.com/android/images/eclair.png",
-//            "http://api.learn2crack.com/android/images/froyo.png",
-//            "http://api.learn2crack.com/android/images/ginger.png",
-//            "http://api.learn2crack.com/android/images/honey.png",
-//            "http://api.learn2crack.com/android/images/icecream.png",
-//            "http://api.learn2crack.com/android/images/jellybean.png",
-//            "http://api.learn2crack.com/android/images/kitkat.png",
-//            "http://api.learn2crack.com/android/images/lollipop.png",
-//            "http://api.learn2crack.com/android/images/marshmallow.png"
-//    };
-
-//    private ArrayList<AndroidVersion> prepareData(){
-//
-//        ArrayList<AndroidVersion> android_version = new ArrayList<>();
-//        for(int i=0;i<android_version_names.length;i++){
-//            AndroidVersion androidVersion = new AndroidVersion();
-//            androidVersion.setAndroid_version_name(android_version_names[i]);
-//            androidVersion.setAndroid_image_url(android_image_urls[i]);
-//            android_version.add(androidVersion);
-//        }
-//        return android_version;
-//    }
 
     private void showView(List<ItemDataList> list)
     {
+
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recycler);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        TextView textView=(TextView) findViewById(R.id.maintitle);
+        textView.setText(list.get(0).title);
+
+        internalListDatas=list.get(0).internalListDatas;
 //        ArrayList<AndroidVersion> androidVersions = prepareData();
-        GridParentDataAdapter adapter = new GridParentDataAdapter(getApplicationContext(),list);
+        GridParentDataAdapter adapter = new GridParentDataAdapter(getApplicationContext(),internalListDatas);
         recyclerView.setAdapter(adapter);
 
 
@@ -150,7 +111,7 @@ public class ListActivity extends MainParentActivity implements RemoteCallHandle
         //return dataList;
         List<ItemDataList> dataList=new ArrayList<>();
         try {
-            title=response.getString(getString(R.string.title));
+            title=response.getString(getString(R.string.jsontitle));
             JSONArray data = response.getJSONArray(mContext.getString(R.string.data));
             List<InternalListData> internalListDatas=new ArrayList<>();
             int length=data.length();
@@ -185,6 +146,7 @@ public class ListActivity extends MainParentActivity implements RemoteCallHandle
 
     @Override
     public void HandleRemoteCall(boolean isSuccessful, RemoteCalls callFor, JSONObject response, Exception exception) {
+        super.HandleRemoteCall(isSuccessful,callFor,response,exception);
         progressBarActivity.showProgress(mDashboardView,mProgressView,false,getApplicationContext());
         if(!isSuccessful)
         {
@@ -193,25 +155,27 @@ public class ListActivity extends MainParentActivity implements RemoteCallHandle
         }
         else
         {
-            try {
-                if (response.getString("success").equals("false")) {
-                    new ToastActivity().makeToastMessage(response, (Activity) mContext);
-                }
-                else
-                {
-                    String title=response.getString(mContext.getString(R.string.jsontitle));
-                    List<ItemDataList> dataList=new ArrayList<>();
-                    dataList=getList(response);
+            switch (callFor) {
+                case GET_ITEM_DETAILS: {
+                    try {
+                        if (response.getString("success").equals("false")) {
+                            toastActivity.makeToastMessage(response,this);
+                        } else {
+                            if (response.getString(getString(R.string.jsoncode)).equals(getString(R.string.nocontentcode))) {
+                                toastActivity.makeToastMessage(response,(Activity)mContext);
+                            } else {
+                                internalList = getList(response);
+                                List<DashBoardList> dash = dataList;
+                                showView(internalList);
+                            }
 
-//                    Recycler_Child_Adapter adapter = new Recycler_Child_Adapter(dataList, mContext,title);
-//                    recyclerView.setAdapter(adapter);
-//                    recyclerView.setVisibility(View.VISIBLE);
 
+                        }
+                    } catch (Exception e) {
+                        LogHelper logHelper = new LogHelper(e);
+                        e.printStackTrace();
+                    }
                 }
-            }catch (Exception e)
-            {
-                LogHelper logHelper=new LogHelper(e);
-                e.printStackTrace();
             }
         }
     }

@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 
 import com.organization.sjhg.e_school.ListStructure.AndroidVersion;
 import com.organization.sjhg.e_school.ListStructure.DashBoardList;
+import com.organization.sjhg.e_school.ListStructure.InternalListData;
 import com.organization.sjhg.e_school.ListStructure.ItemDataList;
 import com.organization.sjhg.e_school.R;
 
@@ -21,8 +22,8 @@ import java.util.List;
 public class GridParentDataAdapter extends RecyclerView.Adapter<Grid_View_Holder>  {
 
     Context mContext;
-    List<ItemDataList> list;
-    public GridParentDataAdapter(Context applicationContext, List<ItemDataList>list) {
+    List<InternalListData> list;
+    public GridParentDataAdapter(Context applicationContext, List<InternalListData>list) {
         this.mContext=applicationContext;
         this.list=list;
 
@@ -41,8 +42,8 @@ public class GridParentDataAdapter extends RecyclerView.Adapter<Grid_View_Holder
 
     @Override
     public void onBindViewHolder(Grid_View_Holder holder, int position) {
-        holder.title.setText(list.get(position).title);
-        holder.addList(list.get(position).internalListDatas);
+        holder.title.setText(list.get(position).name);
+        holder.addList(list.get(position).chapterLists);
     }
 
 
