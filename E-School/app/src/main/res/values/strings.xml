@@ -196,6 +196,7 @@
     <string name="sml">small</string>
     <string name="med">medium</string>
     <string name="lrg">large</string>
+    <string name="jsonchapter">innerList</string>
 
 
 </resources>

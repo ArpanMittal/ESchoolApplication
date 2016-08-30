@@ -12,16 +12,20 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.organization.sjhg.e_school.ListStructure.AndroidVersion;
+import com.organization.sjhg.e_school.ListStructure.DashBoardList;
+import com.organization.sjhg.e_school.ListStructure.InternalList;
+import com.organization.sjhg.e_school.ListStructure.InternalListData;
 import com.organization.sjhg.e_school.R;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class GridDataAdapter extends RecyclerView.Adapter<GridDataAdapter.ViewHolder> {
-    private ArrayList<AndroidVersion> android;
+    private List<InternalListData> android;
     private Context context;
 
-    public GridDataAdapter(Context context,ArrayList<AndroidVersion> android) {
+    public GridDataAdapter(Context context,List<InternalListData> android) {
         this.android = android;
         this.context = context;
     }
@@ -35,8 +39,8 @@ public class GridDataAdapter extends RecyclerView.Adapter<GridDataAdapter.ViewHo
     @Override
     public void onBindViewHolder(GridDataAdapter.ViewHolder viewHolder, int i) {
 
-        viewHolder.tv_android.setText(android.get(i).getAndroid_version_name());
-        Picasso.with(context).load(android.get(i).getAndroid_image_url()).resize(240, 120).into(viewHolder.img_android);
+        //viewHolder.tv_android.setText(android.get(i).getAndroid_version_name());
+        //Picasso.with(context).load(android.get(i).getAndroid_image_url()).resize(240, 120).into(viewHolder.img_android);
     }
 
     @Override
