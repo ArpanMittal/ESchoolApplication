@@ -330,7 +330,6 @@
                 data: formData,
                 async: false,
                 success: function (data) {
-                    alert(JSON.stringify(data));
                     data = JSON.parse(data);
                     if(data.success=='false'){
                         alert(JSON.stringify(data.error));

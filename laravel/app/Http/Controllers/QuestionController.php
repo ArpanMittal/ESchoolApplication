@@ -31,7 +31,16 @@ class QuestionController extends Controller
 
         $data['types'] = DB::table('questiontype')->get();
 
-        $data['tags'] = DB::table('examtag')->get();
+        $data['tags'] = DB::table('exam_state_year_rest_map')
+            ->select('exam_state_year_rest_map.id as id',
+                DB::raw('CONCAT(examtag.exam_name,\' \',state.state_name, \' \', year.year_name, \' \', rest_part.rest) as exam_name'))
+            ->join('exam_state_year_map','exam_state_year_rest_map.exam_state_year_id','=','exam_state_year_map.id')
+            ->join('exam_state_map','exam_state_year_map.exam_state_id','=','exam_state_map.id')
+            ->join('examtag','exam_state_map.exam_id','=','examtag.id')
+            ->join('state','exam_state_map.state_id','=','state.id')
+            ->join('year','exam_state_year_map.year_id','=','year.id')
+            ->join('rest_part','exam_state_year_rest_map.rest_id','=','rest_part.id')
+            ->get();
         
         return view('question.new',$data);
     }
@@ -72,7 +81,16 @@ class QuestionController extends Controller
         $data['answer'] = DB::table('answer')->where('question_id',$id)->get();
         $data['seleted_tags'] = DB::table('questiontags')->where('question_id',$id)->get();
         
-        $data['tags'] = DB::table('examtag')->get();
+        $data['tags'] = DB::table('exam_state_year_rest_map')
+            ->select('exam_state_year_rest_map.id as id',
+                DB::raw('CONCAT(examtag.exam_name,\' \',state.state_name, \' \', year.year_name, \' \', rest_part.rest) as exam_name'))
+            ->join('exam_state_year_map','exam_state_year_rest_map.exam_state_year_id','=','exam_state_year_map.id')
+            ->join('exam_state_map','exam_state_year_map.exam_state_id','=','exam_state_map.id')
+            ->join('examtag','exam_state_map.exam_id','=','examtag.id')
+            ->join('state','exam_state_map.state_id','=','state.id')
+            ->join('year','exam_state_year_map.year_id','=','year.id')
+            ->join('rest_part','exam_state_year_rest_map.rest_id','=','rest_part.id')
+            ->get();
 
         $data['subjects'] = DB::table('classsubjectmap')
             ->join('class', 'classsubjectmap.class_id', '=', 'class.id')
