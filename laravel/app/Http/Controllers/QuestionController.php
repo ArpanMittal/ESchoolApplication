@@ -415,6 +415,8 @@ class QuestionController extends Controller
         $data['selected_question'] = $question;
         $subject = Input::get('SubjectId');
         $data['selected_subject'] = $subject;
+        $topic = Input::get('TopicId');
+        $data['selected_topic'] = $topic;
 
         if ($user->role_id == 1){
             $query = DB::table('question');
@@ -429,6 +431,9 @@ class QuestionController extends Controller
         }
         if(isset($subject) && $subject != '') {
             $query->where('hash','LIKE',$subject.'%');
+        }
+        if(isset($topic) && $topic != '') {
+            $query->where('hash','LIKE',$topic);
         }
 
         $data['question_list'] = $query->select('id','hash','question','question_type_id')
@@ -465,6 +470,11 @@ class QuestionController extends Controller
         $data['subjects'] = DB::table('classsubjectmap')
             ->join('class', 'classsubjectmap.class_id', '=', 'class.id')
             ->join('subject', 'classsubjectmap.subject_id', '=', 'subject.id')
+            ->get();
+        $data['topics'] = DB::table('chaptertopicmap')
+            ->join('streamchaptermap', 'chaptertopicmap.cl_su_st_ch_id', '=', 'streamchaptermap.cl_su_st_ch_id')
+            ->join('chapter', 'streamchaptermap.chapter_id', '=', 'chapter.id')
+            ->join('topic', 'chaptertopicmap.topic_id', '=', 'topic.id')
             ->get();
         return view('question.list',$data);
     }
