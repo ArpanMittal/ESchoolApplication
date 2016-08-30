@@ -42,7 +42,7 @@ public class GridDataAdapter extends RecyclerView.Adapter<GridDataAdapter.ViewHo
 
 
         viewHolder.tv_android.setText((String) android.get(i).name);
-        //Picasso.with(context).load(android.get(i).getAndroid_image_url()).resize(240, 120).into(viewHolder.img_android);
+        Picasso.with(context).load("https://s9.postimg.io/al1o9ip5r/image.jpg").resize(50,50).into(viewHolder.img_android);
     }
 
     @Override

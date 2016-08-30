@@ -76,7 +76,9 @@ public class ListActivity extends MainParentActivity implements RemoteCallHandle
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        outState.putSerializable("INTERNAL LIST", (Serializable) internalList);
+        if(internalList!=null) {
+            outState.putSerializable("INTERNAL LIST", (Serializable) internalList);
+        }
         outState.putSerializable("LIST",(Serializable)dataList);
 
     }
