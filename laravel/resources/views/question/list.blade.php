@@ -51,6 +51,23 @@
                                         </div>
                                     </td>
                                 </tr>
+                                <tr>
+                                    <td>
+                                        <div class="control-group">
+                                            <label class="control-label">Topic</label>
+                                            <div class="controls">
+                                                <select name="SubjectId" id="SubjectId" >
+                                                    <option value="">-- Select Topic --</option>
+                                                    @if(isset($topics))
+                                                        @foreach($topics as $topic)
+                                                            <option value="{{ $topic->hash }}"> {{$topic->chapter_name ." - ". $topic->topic_name}}</option>
+                                                        @endforeach
+                                                    @endif
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
                                 <tr colspan="3" style="float:right	">
                                     <td align="right" style="padding-right:85px">
                                         <input name="Search" type="submit" id="Search" class="btn btn-info" value="Search">
