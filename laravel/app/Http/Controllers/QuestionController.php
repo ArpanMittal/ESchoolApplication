@@ -31,7 +31,16 @@ class QuestionController extends Controller
 
         $data['types'] = DB::table('questiontype')->get();
 
-        $data['tags'] = DB::table('examtag')->get();
+        $data['tags'] = DB::table('exam_state_year_rest_map')
+            ->select('exam_state_year_rest_map.id as id',
+                DB::raw('CONCAT(examtag.exam_name,\' \',state.state_name, \' \', year.year_name, \' \', rest_part.rest) as exam_name'))
+            ->join('exam_state_year_map','exam_state_year_rest_map.exam_state_year_id','=','exam_state_year_map.id')
+            ->join('exam_state_map','exam_state_year_map.exam_state_id','=','exam_state_map.id')
+            ->join('examtag','exam_state_map.exam_id','=','examtag.id')
+            ->join('state','exam_state_map.state_id','=','state.id')
+            ->join('year','exam_state_year_map.year_id','=','year.id')
+            ->join('rest_part','exam_state_year_rest_map.rest_id','=','rest_part.id')
+            ->get();
         
         return view('question.new',$data);
     }
@@ -72,7 +81,16 @@ class QuestionController extends Controller
         $data['answer'] = DB::table('answer')->where('question_id',$id)->get();
         $data['seleted_tags'] = DB::table('questiontags')->where('question_id',$id)->get();
         
-        $data['tags'] = DB::table('examtag')->get();
+        $data['tags'] = DB::table('exam_state_year_rest_map')
+            ->select('exam_state_year_rest_map.id as id',
+                DB::raw('CONCAT(examtag.exam_name,\' \',state.state_name, \' \', year.year_name, \' \', rest_part.rest) as exam_name'))
+            ->join('exam_state_year_map','exam_state_year_rest_map.exam_state_year_id','=','exam_state_year_map.id')
+            ->join('exam_state_map','exam_state_year_map.exam_state_id','=','exam_state_map.id')
+            ->join('examtag','exam_state_map.exam_id','=','examtag.id')
+            ->join('state','exam_state_map.state_id','=','state.id')
+            ->join('year','exam_state_year_map.year_id','=','year.id')
+            ->join('rest_part','exam_state_year_rest_map.rest_id','=','rest_part.id')
+            ->get();
 
         $data['subjects'] = DB::table('classsubjectmap')
             ->join('class', 'classsubjectmap.class_id', '=', 'class.id')
@@ -397,6 +415,8 @@ class QuestionController extends Controller
         $data['selected_question'] = $question;
         $subject = Input::get('SubjectId');
         $data['selected_subject'] = $subject;
+        $topic = Input::get('TopicId');
+        $data['selected_topic'] = $topic;
 
         if ($user->role_id == 1){
             $query = DB::table('question');
@@ -411,6 +431,9 @@ class QuestionController extends Controller
         }
         if(isset($subject) && $subject != '') {
             $query->where('hash','LIKE',$subject.'%');
+        }
+        if(isset($topic) && $topic != '') {
+            $query->where('hash','LIKE',$topic);
         }
 
         $data['question_list'] = $query->select('id','hash','question','question_type_id')
@@ -447,6 +470,11 @@ class QuestionController extends Controller
         $data['subjects'] = DB::table('classsubjectmap')
             ->join('class', 'classsubjectmap.class_id', '=', 'class.id')
             ->join('subject', 'classsubjectmap.subject_id', '=', 'subject.id')
+            ->get();
+        $data['topics'] = DB::table('chaptertopicmap')
+            ->join('streamchaptermap', 'chaptertopicmap.cl_su_st_ch_id', '=', 'streamchaptermap.cl_su_st_ch_id')
+            ->join('chapter', 'streamchaptermap.chapter_id', '=', 'chapter.id')
+            ->join('topic', 'chaptertopicmap.topic_id', '=', 'topic.id')
             ->get();
         return view('question.list',$data);
     }

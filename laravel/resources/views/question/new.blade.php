@@ -107,7 +107,7 @@
                                                             <input class="" type="button" name="question_diagram_button" id="question_diagram_button" value="Change Image" />
                                                             <img src="{!! asset($question->image_path) !!}" />
                                                         @else
-                                                            <input class="" type="file" name="question_diagram" id="question_diagram" accept="image/*" />
+                                                            <input class="" type="file" name="question_diagram" id="question_diagram" />
                                                         @endif
                                                     </div>
                                                 </div>
@@ -162,7 +162,7 @@
                                                         <input class="" type="button" name="solution_button" id="solution_button" value="Change Image" />
                                                         <img src="{!! asset($question->solution_path) !!}" />
                                                     @else
-                                                        <input class="" type="file" name="solution" id="solution" accept="image/*" />
+                                                        <input class="" type="file" name="solution" id="solution" />
                                                     @endif
                                                 </div>
                                             </div>
@@ -330,7 +330,6 @@
                 data: formData,
                 async: false,
                 success: function (data) {
-                    alert(JSON.stringify(data));
                     data = JSON.parse(data);
                     if(data.success=='false'){
                         alert(JSON.stringify(data.error));
