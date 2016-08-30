@@ -9,7 +9,10 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.organization.sjhg.e_school.ListStructure.AndroidVersion;
+import com.organization.sjhg.e_school.ListStructure.DashBoardList;
 import com.organization.sjhg.e_school.ListStructure.InternalList;
+import com.organization.sjhg.e_school.ListStructure.InternalListData;
+import com.organization.sjhg.e_school.ListStructure.ItemDataList;
 import com.organization.sjhg.e_school.R;
 
 import java.util.ArrayList;
@@ -22,7 +25,7 @@ public class Grid_View_Holder extends RecyclerView.ViewHolder {
     private RecyclerView recyclerView;
     private Context mContext;
     public TextView title;
-    public ArrayList<AndroidVersion> list;
+    public List<InternalListData> list;
     private GridDataAdapter mAdapter;
 
     public Grid_View_Holder(Context context, View itemView) {
@@ -37,7 +40,7 @@ public class Grid_View_Holder extends RecyclerView.ViewHolder {
         recyclerView.setItemAnimator(new DefaultItemAnimator());
     }
 
-    public void addList(ArrayList<AndroidVersion> list){
+    public void addList(List<InternalListData> list){
 
         mAdapter = new GridDataAdapter(mContext, list);
         recyclerView.setAdapter(mAdapter);
