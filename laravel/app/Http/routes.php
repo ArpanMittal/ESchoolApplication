@@ -64,10 +64,12 @@ Route::group(['prefix'=>'api/v1','middleware'=>['client']],function(){
      */
     Route::post('doGoogleAuth','AuthGoogleIdToken@doAuth') ;
     Route::post('signup','SignUpController@doSignUp');
+    Route::post('chart/{id}', array('uses' => 'DetailsController@getCharts'));
     Route::post('getDashBoardDetails','DetailsController@getDashBoard');
     Route::post('getDetails/{tag}/{id}','DetailsController@getDetails');
     Route::post('search', array('uses' => 'SearchController@search'));
     Route::post('search/{key}', array('uses' => 'SearchController@search'));
+
 });
 
 
@@ -88,6 +90,14 @@ Route::group(['prefix' => 'question','middleware' => ['check.session']], functio
     Route::get('/{id}',array('uses' => 'QuestionController@editQuestion'));
     Route::get('/view/next',array('uses' => 'QuestionController@viewNextQuestion'));
     Route::get('/view/{id}',array('uses' => 'QuestionController@viewQuestion'));
+});
+
+Route::group(['prefix' => 'content','middleware' => ['check.session']], function () {
+    //list of all content classes
+    Route::get('/list/class',array('uses' => 'ContentController@getAllClassList'));
+    Route::get('/list/subject/{classid}',array('uses' => 'ContentController@getSubjectList'));
+    Route::get('/list/chapter/{subjectid}',array('uses' => 'ContentController@getChapterList'));
+    Route::get('/add/{id}',array('uses' => 'ContentController@getUploadPage'));
 });
 
 

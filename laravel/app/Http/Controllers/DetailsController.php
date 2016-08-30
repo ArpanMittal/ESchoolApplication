@@ -20,7 +20,7 @@ class DetailsController extends Controller
         $row1['title'] = 'Classes';
         $row1['list'] = $class;
 
-        $row2['title'] = 'Streams';
+        $row2['title'] = 'Subjects';
         $row2['list'] = $stream;
 
         $row3['title'] = 'Exams';
@@ -45,15 +45,15 @@ class DetailsController extends Controller
     public function getDetails(Request $request, $tag, $id){
         switch ($tag){
             case 'Classes':
-                $title = 'Subjects';
+                $title = 'ClassSubject';
                 $data = $this->getSubject($id);
                 break;
-            case 'Streams':
-                $title = 'Chapters';
+            case 'Subjects':
+                $title = 'SubjectStream';
                 $data = $this->getStreams($id);
                 break;
             case 'Exams':
-                $title = 'Chapters';
+                $title = 'ExamSubject';
                 $data = $this->getExamSubjects($id);
         }
 
@@ -68,6 +68,23 @@ class DetailsController extends Controller
             'success' => true,
             'code' => 200,
             'title' => $title,
+            'data' => $data
+        ]);
+    }
+    
+    public function getCharts(Request $request,$id){
+        $data  = $this->getChapter($id);
+        if (!$data){
+            return Response::json([
+                'success' => false,
+                'code' => 401,
+                'message' => 'Content is not available'
+            ]);
+        }
+        return Response::json([
+            'success' => true,
+            'code' => 200,
+            'title' => "Subject",
             'data' => $data
         ]);
     }
@@ -105,15 +122,16 @@ class DetailsController extends Controller
     }
 
     private function getChapter($id){
-        return DB::table('streamchaptermap')
+        $dm =  DB::table('streamchaptermap')
             ->select('streamchaptermap.cl_su_st_ch_id as id',
                 'chapter.chapter_name as name',
-                DB::raw('CONCAT(\'No. of topics \',count(DISTINCT chaptertopicmap.hash)) as count'))
-            ->join('chapter','streamchaptermap.chapter_id','=','chapter.id')
-            ->join('chaptertopicmap','streamchaptermap.cl_su_st_ch_id','=','chaptertopicmap.cl_su_st_ch_id')
-            ->where('streamchaptermap.cl_su_st_id',$id)
+                DB::raw('count(DISTINCT chaptertopicmap.hash) as count'))
+            ->leftjoin('chapter','streamchaptermap.chapter_id','=','chapter.id')
+            ->leftjoin('chaptertopicmap','streamchaptermap.cl_su_st_ch_id','=','chaptertopicmap.cl_su_st_ch_id')
+            ->where('streamchaptermap.cl_su_st_id','LIKE',$id."%")
             ->groupBy('streamchaptermap.chapter_id')
             ->get();
+        return $dm;
     }
     private function getSubject($id){
         return DB::table('classsubjectmap')
@@ -143,6 +161,7 @@ class DetailsController extends Controller
 
     private function getExamSubjects($id)
     {
-        return;
+        $data = array(array('id'=>'practice','name'=>'Practice Test','count'=>''));
+        return $data;
     }
 }

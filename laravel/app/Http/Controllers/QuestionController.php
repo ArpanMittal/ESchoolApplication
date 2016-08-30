@@ -288,7 +288,8 @@ class QuestionController extends Controller
 
         try{
             DB::beginTransaction();
-            $status = DB::table('question')->where('id',$questionId)
+            $status =0;
+            $status += DB::table('question')->where('id',$questionId)
                 ->update([
                     'hash'              =>  $hash,
                     'question'          =>  $question,
@@ -297,12 +298,6 @@ class QuestionController extends Controller
                     'difficulty'        =>  $level,
                     'ideal_attempt_time'=> $ideal_time
                 ]);
-            if ($status==false){
-                DB::rollback();
-                $result['success'] = 'false';
-                $result['error'] = 'Error in filling question';
-                return json_encode($result);
-            }
             if(Input::hasFile('question_diagram'))
             {
                 $image = Input::file('question_diagram');
@@ -312,7 +307,7 @@ class QuestionController extends Controller
 
                 Input::file('question_diagram')->move($path,$question_image);
 
-                DB::table('question')->where('id',$questionId)
+                $status +=DB::table('question')->where('id',$questionId)
                     ->update(['image_path' => $directory."/".$question_image]);
             }
             if(Input::hasFile('solution'))
@@ -324,42 +319,34 @@ class QuestionController extends Controller
                 $path = public_path($directory);
 
                 Input::file('solution')->move($path,$solution_image);
-                DB::table('question')->whereId($questionId)
+                $status +=DB::table('question')->whereId($questionId)
                     ->update(['solution_path' => $directory."/".$solution_image]);
             }
             for ($i=0;$i<count($options);$i++){
-                $status = DB::table('option')->where('id',$optionid[$i])
+                $status += DB::table('option')->where('id',$optionid[$i])
                     ->update([
                         'opt' => $options[$i]
                     ]);
-                if ($status==false){
-                    // Back to form with errors
-                    DB::rollback();
-                    $result['success'] = 'false';
-                    $result['error'] = 'Error in filling options'.$i;
-                    return json_encode($result);
-                }
             }
             DB::table('questiontags')->where('question_id','=',$questionId)->delete();
             for ($i=0;$i<count($tags);$i++){
-                $status = DB::table('questiontags')
+                $status += DB::table('questiontags')
                     ->insert([
                         'question_id' => $questionId,
                         'tag_id' => $tags[$i]
                     ]);
-                if ($status==false){
-                    // Back to form with errors
-                    DB::rollback();
-                    $result['success'] = 'false';
-                    $result['error'] = 'Error in filling tags'.$i;
-                    return json_encode($result);
-                }
+            }
+            if ($status <1){
+                DB::rollback();
+                $result['success'] = 'false';
+                $result['error'] = 'error';
+                return json_encode($result);
             }
             DB::table('answer')->where('question_id','=', $questionId)->delete();
             $answerId= DB::table('answer')->insert(
                 ['question_id' => $questionId, 'answer'=> $optionid[$correct_option-1]]
             );
-            if ($answerId==false){
+            if ($answerId == 0){
                 DB::rollback();
                 $result['success'] = 'false';
                 $result['error'] = 'Error in filling correct option';

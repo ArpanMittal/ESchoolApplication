@@ -35,6 +35,13 @@
         android:supportsRtl="true"
         android:screenOrientation="sensorLandscape"
         android:theme="@style/AppTheme">
+        <activity android:name=".MainParentActivity"
+            android:theme="@style/AppTheme" />
+        <activity android:name=".Fragments.Notes_Listing_Fragment"
+            android:theme="@style/AppTheme">
+        </activity>
+        <activity android:name=".TakeNotes.whiteboard.WhiteBoardActivity"
+            android:theme="@style/AppTheme"/>
         <activity
             android:name=".LoginActivity"
             android:theme="@style/AppTheme"
@@ -44,9 +51,8 @@
             android:label="@string/signup"
             android:parentActivityName=".LoginActivity"
             android:theme="@style/AppTheme">
-
-
         </activity>
+
         <activity
             android:name=".Main_Activity"
             android:parentActivityName=".LoginActivity"
@@ -55,6 +61,22 @@
         <meta-data android:name="android.app.default_searchable"
             android:value=".Main_Activity" />
         </activity>
+        <activity
+            android:name=".Content.Quest.QuestListActivity"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:label="Quest"
+            />
+        <receiver
+            android:name=".Helpers.ConnectivityReceiver"
+            android:enabled="true">
+            <intent-filter>
+                <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
+            </intent-filter>
+        </receiver>
+        <activity android:name=".ListActivity"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:label="List"
+           />
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         <activity
             android:name=".MainActivity"

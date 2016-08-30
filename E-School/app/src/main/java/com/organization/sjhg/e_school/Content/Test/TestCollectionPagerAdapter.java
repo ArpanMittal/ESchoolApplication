@@ -62,11 +62,11 @@ public class TestCollectionPagerAdapter extends FragmentStatePagerAdapter {
         return String.valueOf(position + 1);
     }
 
-    @Override
+    /*@Override
     public float getPageWidth(int position) {
         if (position == getCount() - 1)
             return (1f);
         else
             return (1f);
-    }
+    }*/
 }

@@ -117,7 +117,7 @@ public class AddSmallNotesActivity extends Activity
 
         if((!title.equals("") && !body.equals("")) || (!title.equals("") || !body.equals(""))) {
             if (mRowId == null) {
-                long id = table_obj.createNote(title, body, curDate);
+                long id = table_obj.createNote(title, body, curDate,1);
                 if (id > 0) {
                     mRowId = id;
                 } else {

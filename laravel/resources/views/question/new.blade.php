@@ -107,7 +107,7 @@
                                                             <input class="" type="button" name="question_diagram_button" id="question_diagram_button" value="Change Image" />
                                                             <img src="{!! asset($question->image_path) !!}" />
                                                         @else
-                                                            <input class="" type="file" name="question_diagram" id="question_diagram"  />
+                                                            <input class="" type="file" name="question_diagram" id="question_diagram" />
                                                         @endif
                                                     </div>
                                                 </div>
@@ -162,7 +162,7 @@
                                                         <input class="" type="button" name="solution_button" id="solution_button" value="Change Image" />
                                                         <img src="{!! asset($question->solution_path) !!}" />
                                                     @else
-                                                        <input class="" type="file" name="solution" id="solution"  />
+                                                        <input class="" type="file" name="solution" id="solution" />
                                                     @endif
                                                 </div>
                                             </div>
@@ -290,6 +290,10 @@
         @endif
 
         $("#frmquestion").submit(function(){
+            if(!$('#frmquestion').valid())
+            {
+                return false;
+            }
             var tags = $("#TagIds :selected").length;
             if(tags <= 0){
                 alert("Please add a tag");
@@ -326,6 +330,7 @@
                 data: formData,
                 async: false,
                 success: function (data) {
+                    alert(JSON.stringify(data));
                     data = JSON.parse(data);
                     if(data.success=='false'){
                         alert(JSON.stringify(data.error));

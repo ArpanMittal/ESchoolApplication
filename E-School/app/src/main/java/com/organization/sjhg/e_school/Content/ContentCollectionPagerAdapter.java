@@ -46,11 +46,11 @@ public class ContentCollectionPagerAdapter extends FragmentPagerAdapter {
         return subjectList.get(position).second;
     }
 
-    @Override
+  /*  @Override
     public float getPageWidth(int position) {
         if (position == getCount() - 1)
             return (1f);
         else
             return (1f);
-    }
+    }*/
 }
