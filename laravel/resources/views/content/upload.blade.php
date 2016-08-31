@@ -45,7 +45,7 @@
                         <div class="container-fluid">
                             <div class="row-fluid">
                                 <div class="span12">
-                                    <form class="form-horizontal" action="{{ url('/content/add/'.isset($selected->cl_su_st_ch_id)) }}" method="POST" enctype="multipart/form-data" id="frmcontent" name="frmcontent"  >
+                                    <form class="form-horizontal" action="{{ url('/content/add/'.(isset($selected->cl_su_st_ch_id)?$selected->cl_su_st_ch_id:"NULL")) }}" method="POST" enctype="multipart/form-data" id="frmcontent" name="frmcontent"  >
                                         {{ csrf_field() }}
                                         <br />
                                         <h5>Content  Information</h5>
@@ -76,8 +76,16 @@
                                                         <td>{{isset($Sno)?++$Sno:$Sno=1}}</td>
                                                         <td>{{$content->topic_name}}</td>
                                                         <td class="hidden-phone">
-                                                            <input type="file" name="{!!$content->hash!!}_pdf">
-
+                                                            <input type="file" class="FileSelect" id="{!!$content->hash!!}_pdf" />
+                                                            @if(isset($content->pdf_path))
+                                                                <a target="_blank" href='{{ url($content->pdf_path) }}' class="icon-eye"  title='View PDF' ></a>
+                                                            @endif
+                                                        </td>
+                                                        <td class="hidden-phone">
+                                                            <input type="file" class="FileSelect" id="{!!$content->hash!!}_vid" />
+                                                            @if(isset($content->video_path))
+                                                                <a target="_blank" href='{{ url($content->video_path) }}' class="icon-eye"  title='View Video' ></a>
+                                                            @endif
                                                         </td>
                                                     </tr>
 
@@ -101,6 +109,7 @@
         </div>
     </div>
 </div>
+    <div id="output"></div>
 @endsection
 @section('script')
     <script src="{!! asset('js/jquery.dataTables.js') !!}"></script>
@@ -110,5 +119,98 @@
                 "sPaginationType": "full_numbers"
             });
         });
+        $(".FileSelect").change(function () {
+            // get the file name, possibly with path (depends on browser)
+            var filename = $(this).val();
+
+            // Use a regular expression to trim everything before final dot
+            var extension = filename.replace(/^.*\./, '');
+
+            // Iff there is no dot anywhere in filename, we would have extension == filename,
+            // so we account for this possibility now
+            if (extension == filename) {
+                extension = '';
+            } else {
+                // if there is an extension, we convert to lower case
+                // (N.B. this conversion will not effect the value of the extension
+                // on the file upload.)
+                extension = extension.toLowerCase();
+            }
+            type = this.id.split("_")[1];
+            if(type == 'pdf' && extension != 'pdf'){
+                alert("only pdf files allowed");
+                this.value = "";
+                return false;
+            }else if(type == 'vid' && extension != 'mp4'){
+                alert('Only mp4 files allowed');
+                this.value="";
+                return false;
+            }else{
+                $( this ).parent().append('<div class="myProgress"><input type="hidden" name="'+this.id+'" value="'+this.id.split("_")[0]+'.'+extension+'"/> <div class="myBar" id="progress__'+this.id+'"><div class="progressLabel__'+this.id+'" id="progressLabel__'+this.id+'">0%</div></div></div><button type="button" onclick="handleFileUpload(this.id)" id="upload__'+this.id+'" >upload</button>');
+            }
+        });
+        function handleFileUpload(id) {
+            var i = id.split("__")[1];
+            $("#progress__"+i).addClass("myBar");
+            $("#progress__"+i).removeClass("myBarError");
+            if (!window.File || !window.FileReader || !window.FileList || !window.Blob) {
+                alert('The File APIs are not fully supported in this browser.');
+                return;
+            }
+
+            input = document.getElementById(i);
+            if (!input) {
+                alert("Um, couldn't find the file element.");
+            }
+            else if (!input.files) {
+                alert("This browser doesn't seem to support the `files` property of file inputs.");
+            }
+            else {
+                var file = input.files[0];
+                readBlob(file,0,i);
+            }
+        }
+        function readBlob(file,start,i) {
+            var temp = start + 512000;
+            var stop = file.size - 1;
+            if(temp>stop){
+                temp = stop +1;
+            }
+            if(start < stop){
+                var reader = new FileReader();
+
+                // If we use onloadend, we need to check the readyState.
+                reader.onloadend = function(evt) {
+                    if (evt.target.readyState == FileReader.DONE) { // DONE == 2
+                        var data = evt.target.result;
+                        var percent = Math.floor((temp/stop)* 25);
+                        $("#progress__"+i).width( percent  + "%" );
+                        $("#progressLabel__"+i).text((percent*4)+"%");
+                        var filename = i.split("_")[0]+"."+file.name.split(".")[1];
+                        $.post( "{{ url('/content/receiver') }}", { 'fname': filename, 'start': start, 'data': data })
+                                .done(function( rec ) {
+                                    if(rec == start){
+                                        readBlob(file,temp,i);
+                                    }else{
+                                        $("#progressLabel__"+i).text(rec);
+                                        $("#progress__"+i).addClass("myBarError");
+                                        $("#progress__"+i).removeClass("myBar");
+                                    }
+                                })
+                                .error(function( rec ) {
+                                    $("#output").append(rec.responseText);
+                                    $("#progressLabel__"+i).text("error");
+                                    $("#progress__"+i).addClass("myBarError");
+                                    $("#progress__"+i).removeClass("myBar");
+                                });
+                    }
+                };
+
+                var blob = file.slice(start, temp);
+                reader.readAsDataURL(blob);
+            }else {
+                $("#progressLabel__"+i).text("completed");
+            }
+        }
     </script>
 @endsection

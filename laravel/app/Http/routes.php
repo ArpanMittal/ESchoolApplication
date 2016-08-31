@@ -98,6 +98,8 @@ Route::group(['prefix' => 'content','middleware' => ['check.session']], function
     Route::get('/list/subject/{classid}',array('uses' => 'ContentController@getSubjectList'));
     Route::get('/list/chapter/{subjectid}',array('uses' => 'ContentController@getChapterList'));
     Route::get('/add/{id}',array('uses' => 'ContentController@getUploadPage'));
+    Route::post('/add/{id}',array('uses' => 'ContentController@insert'));
+    Route::post('/receiver',array('uses' => 'ContentController@receive'));
 });
 
 

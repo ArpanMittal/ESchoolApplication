@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Input;
+use Illuminate\Support\Facades\Redirect;
 
 class ContentController extends Controller
 {
@@ -60,7 +62,95 @@ class ContentController extends Controller
         return view('content.upload',$data);
     }
 
+    public function receive(Request $request){
+        $base64 =  substr(Input::get('data'),13);
+        $binary=base64_decode($base64);
+        $filepath = 'content/temp/' . Input::get('fname');
+        if(Input::get("start") == 0  && file_exists ( $filepath)){
+            unlink($filepath);
+        }
+        $file = fopen($filepath, 'ab');
+        if ($file !== false) {
 
+            if(filesize($filepath)!=Input::get("start")){
+                echo "error not same size";
+            }
+            fwrite($file, $binary);
+            fclose($file);
+            echo Input::get("start");
+        } else {
+            echo "error in creating file";
+        }
+    }
+
+    public function insert(Request $request,$id){
+
+        $topics = DB::table('chaptertopicmap')
+            ->where('chaptertopicmap.cl_su_st_ch_id',$id)
+            ->get();
+        foreach ($topics as $topic){
+            if ($request->has($topic->hash."_pdf")){
+                $filename = str_replace("C:\\fakepath\\","",$request->get($topic->hash."_pdf"));
+                $filepath = 'content/temp';
+                $destination = 'content/'.$topic->hash.'/document';
+                if (!file_exists($destination)) {
+                    mkdir($destination, 0777, true);
+                }
+                rename ( $filepath."/".$filename , $destination."/".$filename );
+                $pdf_check = md5_file($destination."/".$filename);
+                $status = DB::table('content')
+                    ->where('hash',$topic->hash)
+                    ->first();
+                if (!$status){
+                    DB::table('content')->insert([
+                            'hash' => $topic->hash,
+                            'pdf_path' => $destination."/".$filename,
+                            'pdf_hash' => $pdf_check
+                        ]);
+                }else{
+                    if( file_exists ( $status->pdf_path)){
+                        unlink($status->pdf_path);
+                    }
+                    DB::table('content')->where('id',$status->id)
+                        ->update([
+                        'hash' => $topic->hash,
+                        'pdf_path' => $destination."/".$filename,
+                        'pdf_hash' => $pdf_check
+                        ]);
+                }
+
+            }
+
+            if ($request->has($topic->hash."_vid")){
+                $filename = str_replace("C:\\fakepath\\","",$request->get($topic->hash."_vid"));
+                $filepath = 'content/temp';
+                $destination = 'content/'.$topic->hash.'/video';
+                if (!file_exists($destination)) {
+                    mkdir($destination, 0777, true);
+                }
+                rename ( $filepath."/".$filename , $destination."/".$filename );
+                $status = DB::table('content')
+                    ->where('hash',$topic->hash)
+                    ->first();
+                if (!$status){
+                    DB::table('content')->insert([
+                        'hash' => $topic->hash,
+                        'video_path' => $destination."/".$filename
+                    ]);
+                }else{
+                    if( file_exists ( $status->video_path)){
+                        unlink($status->video_path);
+                    }
+                    DB::table('content')->where('id',$status->id)
+                        ->update([
+                            'hash' => $topic->hash,
+                            'video_path' => $destination."/".$filename
+                        ]);
+                }
+            }
+        }
+        return Redirect::to("content/add/".$id);
+    }
 
     private function getClasses(){
         return DB::table('class')
@@ -103,8 +193,10 @@ class ContentController extends Controller
 
     private function getTopic($id){
         $dm =  DB::table('chaptertopicmap')
+            ->select('chaptertopicmap.hash as hash',
+                'topic.topic_name', 'content.pdf_path', 'content.video_path')
             ->join('topic','chaptertopicmap.topic_id','=','topic.id')
-            ->join('content','chaptertopicmap.hash','=','content.hash')
+            ->leftjoin('content','chaptertopicmap.hash','=','content.hash')
             ->where('chaptertopicmap.cl_su_st_ch_id',$id)
             ->get();
         return $dm;
