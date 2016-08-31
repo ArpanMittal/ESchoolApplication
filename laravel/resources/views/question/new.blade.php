@@ -14,7 +14,7 @@
                             <div class="container-fluid">
                                 <div class="row-fluid">
                                     <div class="span9">
-                                        <form class="form-horizontal" action="{{ url('/question/add') }}" method="POST" enctype="multipart/form-data" id="frmquestion"   >
+                                        <form class="form-horizontal" action="{{ url('/question/add') }}" method="POST" enctype="multipart/form-data" id="frmquestion"  onsubmit="formSubmit()" >
                                             {{ csrf_field() }}
                                             <input class="span6" type="hidden"  name="TeacherId"   id="TeacherId"   style="width:95%;"  value="{{$user->id}}" >
                                             <h5>Create Question </h5>
@@ -289,7 +289,7 @@
         });
         @endif
 
-        $("#frmquestion").submit(function(){
+        function formSubmit(){
             if(!$('#frmquestion').valid())
             {
                 return false;
@@ -346,7 +346,7 @@
             });
 
             return false;
-        });
+        }
 
         function clearFields() {
             CKEDITOR.instances.question.setData('');
