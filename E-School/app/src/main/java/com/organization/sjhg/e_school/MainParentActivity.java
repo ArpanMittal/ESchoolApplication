@@ -20,6 +20,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.SubMenu;
 import android.view.View;
+import android.view.ViewStub;
 import android.widget.ExpandableListAdapter;
 import android.widget.ExpandableListView;
 import android.widget.TextView;
@@ -59,10 +60,10 @@ import me.relex.circleindicator.CircleIndicator;
 public class MainParentActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener,
         ConnectivityReceiver.ConnectivityReceiverListener,RemoteCallHandler {
 
-    private CircleIndicator indicator;
+    protected CircleIndicator indicator;
 
     //protected List<DashBoardList> dataList=new ArrayList<>();
-    private ActionBarDrawerToggle toggle;
+    protected ActionBarDrawerToggle toggle;
     protected CollapsingToolbarLayout collapsingToolbar;
     protected Toolbar toolbar;
     private NavigationView navigationView;
@@ -72,6 +73,7 @@ public class MainParentActivity extends AppCompatActivity implements NavigationV
     Map content = new HashMap();
     List<String> listDataHeader;
     HashMap<String, List<String>> listDataChild;
+    protected  DrawerLayout drawer;
     int key=0;
 
 
@@ -79,22 +81,12 @@ public class MainParentActivity extends AppCompatActivity implements NavigationV
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main_activity);
-        toolbar = (Toolbar)findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        collapsingToolbar = (CollapsingToolbarLayout) findViewById(R.id.collapse_toolbar);
-        collapsingToolbar.setTitle(getString(R.string.expand));
-        AutoScrollViewPager viewPager = (AutoScrollViewPager) findViewById(R.id.viewpager);
-        viewPager.setAdapter(new Custom_Pager_Adapter(getSupportFragmentManager()));
-        viewPager.setInterval(5000);
-        viewPager.startAutoScroll();
-        indicator = (CircleIndicator) findViewById(R.id.indicator);
-        indicator.setViewPager(viewPager);
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawer.setDrawerListener(toggle);
-        toggle.syncState();
+        ViewStub viewStub=(ViewStub)findViewById(R.id.viewstub);
+        viewStub.setLayoutResource(R.layout.app_bar_main);
+        viewStub.inflate();
+
+         drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+
 
         navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
@@ -103,15 +95,7 @@ public class MainParentActivity extends AppCompatActivity implements NavigationV
 
 
 
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-//                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-//                        .setAction("Action", null).show();
-                Intent intent=new Intent(getApplicationContext(), Notes_Listing_Fragment.class);
-                startActivity(intent);
-            }
-        });
+
 
         if(savedInstanceState!=null)
         {
@@ -184,8 +168,7 @@ public class MainParentActivity extends AppCompatActivity implements NavigationV
         expListView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
 
             @Override
-            public boolean onChildClick(ExpandableListView parent, View v,
-                                        int groupPosition, int childPosition, long id) {
+            public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
                 List<InternalList> internalList=dataList.get(groupPosition).internalLists;
 //                String childId= internalList.get(childPosition).id;
 //                // TODO Auto-generated method stub
@@ -195,11 +178,17 @@ public class MainParentActivity extends AppCompatActivity implements NavigationV
 //                                + " : "
 //                                +internalList.get(childPosition).id, Toast.LENGTH_SHORT)
 //                        .show();
-                Intent intent=new Intent(getApplicationContext(),ListActivity.class);
-                intent.putExtra(getString(R.string.title),listDataHeader.get(groupPosition));
-                intent.putExtra(getString(R.string.jsonid),internalList.get(childPosition).id);
-
-                startActivity(intent);
+                if(listDataHeader.get(groupPosition).equals("Exams"))
+                {
+                    Intent intent = new Intent(getApplicationContext(), ExaminationParent.class);
+                    startActivity(intent);
+                }
+                else {
+                    Intent intent = new Intent(getApplicationContext(), ListActivity.class);
+                    intent.putExtra(getString(R.string.title), listDataHeader.get(groupPosition));
+                    intent.putExtra(getString(R.string.jsonid), internalList.get(childPosition).id);
+                    startActivity(intent);
+                    }
                 return false;
             }
         });
@@ -250,39 +239,6 @@ public class MainParentActivity extends AppCompatActivity implements NavigationV
         } else {
             super.onBackPressed();
         }
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.main, menu);
-        SearchManager searchManager =
-                (SearchManager) getSystemService(Context.SEARCH_SERVICE);
-        SearchView searchView =
-                (SearchView) menu.findItem(R.id.menu_search).getActionView();
-        searchView.setSearchableInfo(
-                searchManager.getSearchableInfo(getComponentName()));
-
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-
-        int id = item.getItemId();
-
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        } else if (id == R.id.menu_search) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
     }
 
 
