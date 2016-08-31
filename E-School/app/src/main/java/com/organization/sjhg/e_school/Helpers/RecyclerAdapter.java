@@ -61,19 +61,19 @@ public class RecyclerAdapter extends RecyclerView.Adapter<View_Holder> implement
         viewHolder.view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(item.id.equals(pre))
-                {
-                    recyclerView.setVisibility(View.GONE);
-                    pre=null;
-                }
-                else {
+//                if(item.id.equals(pre))
+//                {
+//                    recyclerView.setVisibility(View.GONE);
+//                    pre=null;
+//                }
+//                else {
                     pre=item.id;
                     Intent intent=new Intent(mContext.getApplicationContext(), ListActivity.class);
                     intent.putExtra(mContext.getString(R.string.title),title);
                     intent.putExtra(mContext.getString(R.string.jsonid),item.id);
                     mContext.startActivity(intent);
                   //  new RemoteHelper(mContext).getItemDetails(RecyclerAdapter.this, RemoteCalls.GET_ITEM_DETAILS, title, item.id);
-                }
+//                }
 
             }
         });

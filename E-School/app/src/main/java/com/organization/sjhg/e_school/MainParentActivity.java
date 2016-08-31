@@ -66,7 +66,7 @@ public class MainParentActivity extends AppCompatActivity implements NavigationV
     protected CollapsingToolbarLayout collapsingToolbar;
     protected Toolbar toolbar;
     private NavigationView navigationView;
-    protected List<DashBoardList> dataList;
+    protected static List<DashBoardList> dataList=new ArrayList<>();
     ExpandableListAdapter listAdapter;
     ExpandableListView expListView;
     Map content = new HashMap();
@@ -162,9 +162,9 @@ public class MainParentActivity extends AppCompatActivity implements NavigationV
 
             @Override
             public void onGroupExpand(int groupPosition) {
-                Toast.makeText(getApplicationContext(),
-                        listDataHeader.get(groupPosition) + " Expanded",
-                        Toast.LENGTH_SHORT).show();
+//                Toast.makeText(getApplicationContext(),
+//                        listDataHeader.get(groupPosition) + " Expanded",
+//                        Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -173,10 +173,10 @@ public class MainParentActivity extends AppCompatActivity implements NavigationV
 
             @Override
             public void onGroupCollapse(int groupPosition) {
-                Toast.makeText(getApplicationContext(),
-                        listDataHeader.get(groupPosition) + " Collapsed",
-                        Toast.LENGTH_SHORT).show();
-
+//                Toast.makeText(getApplicationContext(),
+//                        listDataHeader.get(groupPosition) + " Collapsed",
+//                        Toast.LENGTH_SHORT).show();
+//
             }
         });
 
@@ -187,37 +187,22 @@ public class MainParentActivity extends AppCompatActivity implements NavigationV
             public boolean onChildClick(ExpandableListView parent, View v,
                                         int groupPosition, int childPosition, long id) {
                 List<InternalList> internalList=dataList.get(groupPosition).internalLists;
-                String childId= internalList.get(childPosition).id;
-                // TODO Auto-generated method stub
-                Toast.makeText(
-                        getApplicationContext(),
-                        listDataHeader.get(groupPosition)
-                                + " : "
-                                +internalList.get(childPosition).id, Toast.LENGTH_SHORT)
-                        .show();
+//                String childId= internalList.get(childPosition).id;
+//                // TODO Auto-generated method stub
+//                Toast.makeText(
+//                        getApplicationContext(),
+//                        listDataHeader.get(groupPosition)
+//                                + " : "
+//                                +internalList.get(childPosition).id, Toast.LENGTH_SHORT)
+//                        .show();
                 Intent intent=new Intent(getApplicationContext(),ListActivity.class);
+                intent.putExtra(getString(R.string.title),listDataHeader.get(groupPosition));
+                intent.putExtra(getString(R.string.jsonid),internalList.get(childPosition).id);
+
                 startActivity(intent);
                 return false;
             }
         });
-//        for(int i=0;i<dataList.size();i++)
-//        {
-//            Menu m = navigationView.getMenu();
-//            SubMenu topChannelMenu = m.addSubMenu(dataList.get(i).title);
-//            List<InternalList> internalList=dataList.get(i).internalLists;
-//            content.put(dataList.get(i).title.toString(),key++);
-//
-//            int groupId=Integer.valueOf(content.get(dataList.get(i).title.toString()).toString());
-//            for(int j=0;j<internalList.size();j++)
-//            {
-//                content.put(internalList.get(j).id.toString(),key++);
-//                int itemId=Integer.valueOf(content.get(internalList.get(j).id.toString()).toString());
-//                topChannelMenu.add(groupId,itemId,j,internalList.get(j).name);
-//                //topChannelMenu.getItem(itemId).setVisible(false);
-//            }
-//           // groupId=Integer.valueOf(content.get(dataList.get(1).title.toString()).toString());
-//           // m.setGroupVisible(groupId,false);
-//        }
     }
 
     private void prepareListData(List<DashBoardList> dataList)
@@ -308,21 +293,6 @@ public class MainParentActivity extends AppCompatActivity implements NavigationV
         // Handle navigation view item clicks here.
         int id = item.getItemId();
         int well=id;
-
-//        if (id == R.id.nav_camera) {
-//            // Handle the camera action
-//        } else if (id == R.id.nav_gallery) {
-//
-//        } else if (id == R.id.nav_slideshow) {
-//
-//        } else if (id == R.id.nav_manage) {
-//
-//        } else if (id == R.id.nav_share) {
-//
-//        } else if (id == R.id.nav_send) {
-//
-//        }
-
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
@@ -388,18 +358,28 @@ public class MainParentActivity extends AppCompatActivity implements NavigationV
     public void HandleRemoteCall(boolean isSuccessful, RemoteCalls callFor, JSONObject response, Exception exception) {
         if(isSuccessful)
         {
-            try {
-                    String dun=response.get("success").toString();
-                if ((response.get("success").toString()).equals("true")) {
-                    dataList = fetchData(response);
-                    fillNavigationDrawer(dataList, navigationView);
+            switch (callFor) {
+                case GET_DASHBOARD_LIST: {
+                    try {
+                        if ((response.get("success").toString()).equals("true")) {
+
+                            if(response.getString(getString(R.string.jsoncode)).equals(getString(R.string.nocontentcode)))
+                            {
+                                new ToastActivity().makeToastMessage(response,this);
+                            }
+                            else {
+                                dataList = fetchData(response);
+                                fillNavigationDrawer(dataList, navigationView);
+                            }
+                        }
+                    } catch (Exception e) {
+                        LogHelper logHelper = new LogHelper(e);
+                        e.printStackTrace();
+                    }
+                    break;
                 }
+
             }
-                catch (Exception e)
-                {
-                    LogHelper logHelper=new LogHelper(e);
-                    e.printStackTrace();
-                }
 
 
         }
