@@ -250,8 +250,14 @@
                 height: '50px',
                 enterMode : CKEDITOR.ENTER_BR,
                 shiftEnterMode: CKEDITOR.ENTER_P });
-            @if(isset($question))
+            @if(isset($question)||isset($hash))
                 selectQuestion();
+            @endif
+            @if(isset($result))
+                alert("{{$result}}");
+            @endif
+            @if (session('status'))
+                alert("{{ session('status') }}");
             @endif
         });
 
@@ -287,6 +293,17 @@
         $("#nextButton").click(function() {
             window.location = '{{ url('/question/next?QuestionId='.$question->id) }}';
         });
+        @endif
+
+        @if(isset($hash))
+        function selectQuestion(){
+
+
+            $('#ChapterId').val('{{$selected_chapter}}');
+            document.getElementById("SubjectId").value = "{{$selected_subject}}";
+            {{--$('#SubjectId').val("{{$selected_subject}}");--}}
+            $('#TopicId').val('{{$hash}}');
+        }
         @endif
 
         function formSubmit(){

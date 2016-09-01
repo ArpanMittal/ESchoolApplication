@@ -216,9 +216,9 @@ class QuestionController extends Controller
             );
             if (!$questionId>0){
                 DB::rollback();
-                $result['success'] = 'false';
-                $result['error'] = 'Error in filling question';
-                return json_encode($result);
+                $error = 'Error in filling question';
+                return $this->gotoView($request,$questionId,$hash,$error);
+
             }
             if(Input::hasFile('question_diagram'))
             {
@@ -265,17 +265,16 @@ class QuestionController extends Controller
                 if ($status==false){
                     // Back to form with errors
                     DB::rollback();
-                    $result['success'] = 'false';
-                    $result['error'] = 'Error in filling tags'.$i;
-                    return json_encode($result);
+                    $error = 'Error in filling tags'.$i;
+                    return $this->gotoView($request,$questionId,$hash,$error);
+
                 }
             }
             if (!$correct_option>0){
                 // Back to form with errors
                 DB::rollback();
-                $result['success'] = 'false';
-                $result['error'] = 'Error in filling options';
-                return json_encode($result);
+                $error = 'Error in filling options';
+                return $this->gotoView($request,$questionId,$hash,$error);
             }
 
             $answerId= DB::table('answer')->insert(
@@ -283,23 +282,67 @@ class QuestionController extends Controller
             );
             if (!$answerId>0){
                 DB::rollback();
-                $result['success'] = 'false';
-                $result['error'] = 'Error in filling correct option';
-                return json_encode($result);
+                $error= 'Error in filling correct option';
+                return $this->gotoView($request,$questionId,$hash,$error);
             }
             DB::commit();
         } catch(Exception $e)
         {
             // Back to form with errors
             DB::rollback();
-            $result['success'] = 'false';
-            $result['error'] = $e->getTraceAsString();
-            return json_encode($result);
+            return $this->gotoView($request,$questionId,$hash,$e->getTraceAsString());
         }
 
 
-        $result['success'] = 'true';
-        return json_encode($result);
+        return $this->gotoView($request,$questionId,$hash,"Done");
+
+        
+    }
+    
+    private function gotoView($request,$questionId,$hash,$result){
+        $userId = $request->session()->get('id');
+        $user = DB::table('user')->whereId($userId)->first();
+        $data['user'] = $user;
+        if(isset($questionId)){
+            $data['seleted_tags'] = DB::table('questiontags')->where('question_id',$questionId)->get();
+        }
+
+        $data['tags'] = DB::table('exam_state_year_rest_map')
+            ->select('exam_state_year_rest_map.id as id',
+                DB::raw('CONCAT(examtag.exam_name,\' \',state.state_name, \' \', year.year_name, \' \', rest_part.rest) as exam_name'))
+            ->join('exam_state_year_map','exam_state_year_rest_map.exam_state_year_id','=','exam_state_year_map.id')
+            ->join('exam_state_map','exam_state_year_map.exam_state_id','=','exam_state_map.id')
+            ->join('examtag','exam_state_map.exam_id','=','examtag.id')
+            ->join('state','exam_state_map.state_id','=','state.id')
+            ->join('year','exam_state_year_map.year_id','=','year.id')
+            ->join('rest_part','exam_state_year_rest_map.rest_id','=','rest_part.id')
+            ->get();
+
+        $data['subjects'] = DB::table('classsubjectmap')
+            ->join('class', 'classsubjectmap.class_id', '=', 'class.id')
+            ->join('subject', 'classsubjectmap.subject_id', '=', 'subject.id')
+            ->get();
+
+        $data['hash'] = $hash;
+        $subject_id = substr($hash,0,5);
+        $chapter_id = substr($hash,0,10);
+
+        $data['chapters'] = DB::table('streamchaptermap')
+            ->join('chapter', 'streamchaptermap.chapter_id', '=', 'chapter.id')
+            ->join('subjectstreammap', 'streamchaptermap.cl_su_st_id', '=', 'subjectstreammap.cl_su_st_id')
+            ->join('stream', 'subjectstreammap.stream_id', '=', 'stream.id')
+            ->where('streamchaptermap.cl_su_st_id','LIKE' ,$subject_id.'%')
+            ->get();
+
+        $data['topics'] = DB::table('chaptertopicmap')
+            ->join('topic', 'chaptertopicmap.topic_id', '=', 'topic.id')
+            ->where('chaptertopicmap.cl_su_st_ch_id' ,'LIKE',$chapter_id.'%')
+            ->get();
+        $data['selected_subject'] = $subject_id;
+        $data['selected_chapter'] = $chapter_id;
+        $data['types'] = DB::table('questiontype')->get();
+        $data['result'] = $result;
+        return view('question.new',$data);
     }
 
     public function updateQuestion(Request $request)
@@ -368,9 +411,8 @@ class QuestionController extends Controller
             }
             if ($status <1){
                 DB::rollback();
-                $result['success'] = 'false';
-                $result['error'] = 'error';
-                return json_encode($result);
+                $error = 'error';
+                return redirect('question/'.$questionId)->with('status', $error);
             }
             DB::table('answer')->where('question_id','=', $questionId)->delete();
             $answerId= DB::table('answer')->insert(
@@ -378,23 +420,18 @@ class QuestionController extends Controller
             );
             if ($answerId == 0){
                 DB::rollback();
-                $result['success'] = 'false';
-                $result['error'] = 'Error in filling correct option';
-                return json_encode($result);
+                $error = 'Error in filling correct option';
+                return redirect('question/'.$questionId)->with('status', $error);
             }
             DB::commit();
         } catch(Exception $e)
         {
             // Back to form with errors
             DB::rollback();
-            $result['success'] = 'false';
-            $result['error'] = $e->getTraceAsString();
-            return json_encode($result);
+            return redirect('question/'.$questionId)->with('status', $e->getTraceAsString());
         }
 
-
-        $result['success'] = 'true';
-        return json_encode($result);
+        return redirect('question/'.$questionId)->with('status', 'Done');
     }
 
     public function getChapters(Request $request)
