@@ -127,6 +127,18 @@ class QuestionController extends Controller
         $data['question'] = DB::table('question')->where('id',$id)->first();
         $data['options'] = DB::table('option')->where('question_id',$id)->get();
         $data['answer'] = DB::table('answer')->where('question_id',$id)->get();
+        $data['tags'] = DB::table('exam_state_year_rest_map')
+            ->select('exam_state_year_rest_map.id as id',
+                DB::raw('CONCAT(examtag.exam_name,\' \',state.state_name, \' \', year.year_name, \' \', rest_part.rest) as exam_name'))
+            ->join('exam_state_year_map','exam_state_year_rest_map.exam_state_year_id','=','exam_state_year_map.id')
+            ->join('exam_state_map','exam_state_year_map.exam_state_id','=','exam_state_map.id')
+            ->join('examtag','exam_state_map.exam_id','=','examtag.id')
+            ->join('state','exam_state_map.state_id','=','state.id')
+            ->join('year','exam_state_year_map.year_id','=','year.id')
+            ->join('rest_part','exam_state_year_rest_map.rest_id','=','rest_part.id')
+            ->join('questiontags','exam_state_year_rest_map.rest_id','=','questiontags.tag_id')
+            ->where('questiontags.question_id',$id)
+            ->get();
 
         $hash = $data['question']->hash;
 

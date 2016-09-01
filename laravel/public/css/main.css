@@ -2464,3 +2464,23 @@ button.btn.btn-mini, input[type="submit"].btn.btn-mini {
     height: 30px;
     margin-bottom: 0;
 }
+
+.tags {
+    display: inline-block;
+    background-color: #e6e6e6;
+    /* Fallback Color */
+    background-image: -webkit-gradient(linear, left top, left bottom, from(#f2f2f2), to(#e6e6e6));
+    /* Saf4+, Chrome */
+    background-image: -webkit-linear-gradient(top, #f2f2f2, #e6e6e6);
+    /* Chrome 10+, Saf5.1+, iOS 5+ */
+    background-image: -moz-linear-gradient(top, #f2f2f2, #e6e6e6);
+    /* FF3.6 */
+    background-image: -ms-linear-gradient(top, #f2f2f2, #e6e6e6);
+    /* IE10 */
+    background-image: -o-linear-gradient(top, #f2f2f2, #e6e6e6);
+    /* Opera 11.10+ */
+    background-image: linear-gradient(top, #f2f2f2, #e6e6e6);
+    border-radius: 5px;
+    padding: 5px;
+    margin: 5px;
+}
