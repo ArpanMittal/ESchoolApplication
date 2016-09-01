@@ -7,6 +7,9 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.organization.sjhg.e_school.ListStructure.AndroidVersion;
+import com.organization.sjhg.e_school.ListStructure.DashBoardList;
+import com.organization.sjhg.e_school.ListStructure.InternalListData;
+import com.organization.sjhg.e_school.ListStructure.ItemDataList;
 import com.organization.sjhg.e_school.R;
 
 
@@ -19,10 +22,10 @@ import java.util.List;
 public class GridParentDataAdapter extends RecyclerView.Adapter<Grid_View_Holder>  {
 
     Context mContext;
-    ArrayList<AndroidVersion> list;
-    public GridParentDataAdapter(Context applicationContext, ArrayList<AndroidVersion> androidVersions) {
+    List<InternalListData> list;
+    public GridParentDataAdapter(Context applicationContext, List<InternalListData>list) {
         this.mContext=applicationContext;
-        this.list=androidVersions;
+        this.list=list;
 
 
     }
@@ -39,14 +42,14 @@ public class GridParentDataAdapter extends RecyclerView.Adapter<Grid_View_Holder
 
     @Override
     public void onBindViewHolder(Grid_View_Holder holder, int position) {
-        holder.title.setText("android Version");
-        holder.addList(list);
+        holder.title.setText(list.get(position).name);
+        holder.addList(list.get(position).chapterLists);
     }
 
 
 
     @Override
     public int getItemCount() {
-        return 1;
+        return list.size();
     }
 }

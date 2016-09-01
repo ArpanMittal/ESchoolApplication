@@ -1,12 +1,14 @@
 package com.organization.sjhg.e_school.Helpers;
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.organization.sjhg.e_school.ListActivity;
 import com.organization.sjhg.e_school.ListStructure.InternalList;
 import com.organization.sjhg.e_school.R;
 import com.organization.sjhg.e_school.Remote.RemoteCallHandler;
@@ -59,15 +61,19 @@ public class RecyclerAdapter extends RecyclerView.Adapter<View_Holder> implement
         viewHolder.view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(item.id.equals(pre))
-                {
-                    recyclerView.setVisibility(View.GONE);
-                    pre=null;
-                }
-                else {
+//                if(item.id.equals(pre))
+//                {
+//                    recyclerView.setVisibility(View.GONE);
+//                    pre=null;
+//                }
+//                else {
                     pre=item.id;
-                    new RemoteHelper(mContext).getItemDetails(RecyclerAdapter.this, RemoteCalls.GET_ITEM_DETAILS, title, item.id);
-                }
+                    Intent intent=new Intent(mContext.getApplicationContext(), ListActivity.class);
+                    intent.putExtra(mContext.getString(R.string.title),title);
+                    intent.putExtra(mContext.getString(R.string.jsonid),item.id);
+                    mContext.startActivity(intent);
+                  //  new RemoteHelper(mContext).getItemDetails(RecyclerAdapter.this, RemoteCalls.GET_ITEM_DETAILS, title, item.id);
+//                }
 
             }
         });
@@ -83,66 +89,9 @@ public class RecyclerAdapter extends RecyclerView.Adapter<View_Holder> implement
     }
 
 
-    //put data from json to list
-    private List<InternalList> getList(JSONObject response)
-    {
-        //return dataList;
-        List<InternalList> dataList=new ArrayList<>();
-        try {
-            //title=response.getString(activity.getString(R.string.title));
-            JSONArray data = response.getJSONArray(mContext.getString(R.string.data));
-            int length=data.length();
-
-            for(int i=0;i<data.length();i++)
-            {
-                JSONObject internalListObject=data.getJSONObject(i);
-                String id=internalListObject.getString(mContext.getString(R.string.jsonid));
-                String name=internalListObject.getString(mContext.getString(R.string.jsonname));
-                String count=internalListObject.getString(mContext.getString(R.string.jsoncount));
-                dataList.add(new InternalList(id,name,count));
-
-
-            }
-
-        }catch (Exception e) {
-            e.printStackTrace();
-            new ToastActivity().makeJsonException((Activity) mContext);
-            new LogHelper(e);
-
-        }
-        return dataList;
-    }
-
-
 
     @Override
     public void HandleRemoteCall(boolean isSuccessful, RemoteCalls callFor, JSONObject response, Exception exception) {
-        if(!isSuccessful)
-        {
-            new ToastActivity().makeUknownErrorMessage((Activity) mContext);
 
-        }
-        else
-        {
-            try {
-                if (response.getString("success").equals("false")) {
-                    new ToastActivity().makeToastMessage(response, (Activity) mContext);
-                }
-                else
-                {
-                    String title=response.getString(mContext.getString(R.string.jsontitle));
-                    List<InternalList> dataList=new ArrayList<>();
-                    dataList=getList(response);
-                    Recycler_Child_Adapter adapter = new Recycler_Child_Adapter(dataList, mContext,title);
-                    recyclerView.setAdapter(adapter);
-                    recyclerView.setVisibility(View.VISIBLE);
-
-                }
-            }catch (Exception e)
-            {
-                LogHelper logHelper=new LogHelper(e);
-                e.printStackTrace();
-            }
-        }
     }
 }

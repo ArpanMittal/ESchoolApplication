@@ -20,6 +20,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.SubMenu;
 import android.view.View;
+import android.view.ViewStub;
 import android.widget.ExpandableListAdapter;
 import android.widget.ExpandableListView;
 import android.widget.TextView;
@@ -59,19 +60,20 @@ import me.relex.circleindicator.CircleIndicator;
 public class MainParentActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener,
         ConnectivityReceiver.ConnectivityReceiverListener,RemoteCallHandler {
 
-    private CircleIndicator indicator;
+    protected CircleIndicator indicator;
 
     //protected List<DashBoardList> dataList=new ArrayList<>();
-    private ActionBarDrawerToggle toggle;
+    protected ActionBarDrawerToggle toggle;
     protected CollapsingToolbarLayout collapsingToolbar;
     protected Toolbar toolbar;
     private NavigationView navigationView;
-    protected List<DashBoardList> dataList;
+    protected static List<DashBoardList> dataList=new ArrayList<>();
     ExpandableListAdapter listAdapter;
     ExpandableListView expListView;
     Map content = new HashMap();
     List<String> listDataHeader;
     HashMap<String, List<String>> listDataChild;
+    protected  DrawerLayout drawer;
     int key=0;
 
 
@@ -79,22 +81,12 @@ public class MainParentActivity extends AppCompatActivity implements NavigationV
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main_activity);
-        toolbar = (Toolbar)findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        collapsingToolbar = (CollapsingToolbarLayout) findViewById(R.id.collapse_toolbar);
-        collapsingToolbar.setTitle(getString(R.string.expand));
-        AutoScrollViewPager viewPager = (AutoScrollViewPager) findViewById(R.id.viewpager);
-        viewPager.setAdapter(new Custom_Pager_Adapter(getSupportFragmentManager()));
-        viewPager.setInterval(5000);
-        viewPager.startAutoScroll();
-        indicator = (CircleIndicator) findViewById(R.id.indicator);
-        indicator.setViewPager(viewPager);
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawer.setDrawerListener(toggle);
-        toggle.syncState();
+        ViewStub viewStub=(ViewStub)findViewById(R.id.viewstub);
+        viewStub.setLayoutResource(R.layout.app_bar_main);
+        viewStub.inflate();
+
+         drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+
 
         navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
@@ -103,15 +95,7 @@ public class MainParentActivity extends AppCompatActivity implements NavigationV
 
 
 
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-//                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-//                        .setAction("Action", null).show();
-                Intent intent=new Intent(getApplicationContext(), Notes_Listing_Fragment.class);
-                startActivity(intent);
-            }
-        });
+
 
         if(savedInstanceState!=null)
         {
@@ -162,9 +146,9 @@ public class MainParentActivity extends AppCompatActivity implements NavigationV
 
             @Override
             public void onGroupExpand(int groupPosition) {
-                Toast.makeText(getApplicationContext(),
-                        listDataHeader.get(groupPosition) + " Expanded",
-                        Toast.LENGTH_SHORT).show();
+//                Toast.makeText(getApplicationContext(),
+//                        listDataHeader.get(groupPosition) + " Expanded",
+//                        Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -173,10 +157,10 @@ public class MainParentActivity extends AppCompatActivity implements NavigationV
 
             @Override
             public void onGroupCollapse(int groupPosition) {
-                Toast.makeText(getApplicationContext(),
-                        listDataHeader.get(groupPosition) + " Collapsed",
-                        Toast.LENGTH_SHORT).show();
-
+//                Toast.makeText(getApplicationContext(),
+//                        listDataHeader.get(groupPosition) + " Collapsed",
+//                        Toast.LENGTH_SHORT).show();
+//
             }
         });
 
@@ -184,40 +168,30 @@ public class MainParentActivity extends AppCompatActivity implements NavigationV
         expListView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
 
             @Override
-            public boolean onChildClick(ExpandableListView parent, View v,
-                                        int groupPosition, int childPosition, long id) {
+            public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
                 List<InternalList> internalList=dataList.get(groupPosition).internalLists;
-                String childId= internalList.get(childPosition).id;
-                // TODO Auto-generated method stub
-                Toast.makeText(
-                        getApplicationContext(),
-                        listDataHeader.get(groupPosition)
-                                + " : "
-                                +internalList.get(childPosition).id, Toast.LENGTH_SHORT)
-                        .show();
-                Intent intent=new Intent(getApplicationContext(),ListActivity.class);
-                startActivity(intent);
+//                String childId= internalList.get(childPosition).id;
+//                // TODO Auto-generated method stub
+//                Toast.makeText(
+//                        getApplicationContext(),
+//                        listDataHeader.get(groupPosition)
+//                                + " : "
+//                                +internalList.get(childPosition).id, Toast.LENGTH_SHORT)
+//                        .show();
+                if(listDataHeader.get(groupPosition).equals("Exams"))
+                {
+                    Intent intent = new Intent(getApplicationContext(), ExaminationParent.class);
+                    startActivity(intent);
+                }
+                else {
+                    Intent intent = new Intent(getApplicationContext(), ListActivity.class);
+                    intent.putExtra(getString(R.string.title), listDataHeader.get(groupPosition));
+                    intent.putExtra(getString(R.string.jsonid), internalList.get(childPosition).id);
+                    startActivity(intent);
+                    }
                 return false;
             }
         });
-//        for(int i=0;i<dataList.size();i++)
-//        {
-//            Menu m = navigationView.getMenu();
-//            SubMenu topChannelMenu = m.addSubMenu(dataList.get(i).title);
-//            List<InternalList> internalList=dataList.get(i).internalLists;
-//            content.put(dataList.get(i).title.toString(),key++);
-//
-//            int groupId=Integer.valueOf(content.get(dataList.get(i).title.toString()).toString());
-//            for(int j=0;j<internalList.size();j++)
-//            {
-//                content.put(internalList.get(j).id.toString(),key++);
-//                int itemId=Integer.valueOf(content.get(internalList.get(j).id.toString()).toString());
-//                topChannelMenu.add(groupId,itemId,j,internalList.get(j).name);
-//                //topChannelMenu.getItem(itemId).setVisible(false);
-//            }
-//           // groupId=Integer.valueOf(content.get(dataList.get(1).title.toString()).toString());
-//           // m.setGroupVisible(groupId,false);
-//        }
     }
 
     private void prepareListData(List<DashBoardList> dataList)
@@ -267,39 +241,6 @@ public class MainParentActivity extends AppCompatActivity implements NavigationV
         }
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.main, menu);
-        SearchManager searchManager =
-                (SearchManager) getSystemService(Context.SEARCH_SERVICE);
-        SearchView searchView =
-                (SearchView) menu.findItem(R.id.menu_search).getActionView();
-        searchView.setSearchableInfo(
-                searchManager.getSearchableInfo(getComponentName()));
-
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-
-        int id = item.getItemId();
-
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        } else if (id == R.id.menu_search) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
-
 
 
     @SuppressWarnings("StatementWithEmptyBody")
@@ -308,21 +249,6 @@ public class MainParentActivity extends AppCompatActivity implements NavigationV
         // Handle navigation view item clicks here.
         int id = item.getItemId();
         int well=id;
-
-//        if (id == R.id.nav_camera) {
-//            // Handle the camera action
-//        } else if (id == R.id.nav_gallery) {
-//
-//        } else if (id == R.id.nav_slideshow) {
-//
-//        } else if (id == R.id.nav_manage) {
-//
-//        } else if (id == R.id.nav_share) {
-//
-//        } else if (id == R.id.nav_send) {
-//
-//        }
-
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
@@ -388,18 +314,28 @@ public class MainParentActivity extends AppCompatActivity implements NavigationV
     public void HandleRemoteCall(boolean isSuccessful, RemoteCalls callFor, JSONObject response, Exception exception) {
         if(isSuccessful)
         {
-            try {
-                    String dun=response.get("success").toString();
-                if ((response.get("success").toString()).equals("true")) {
-                    dataList = fetchData(response);
-                    fillNavigationDrawer(dataList, navigationView);
+            switch (callFor) {
+                case GET_DASHBOARD_LIST: {
+                    try {
+                        if ((response.get("success").toString()).equals("true")) {
+
+                            if(response.getString(getString(R.string.jsoncode)).equals(getString(R.string.nocontentcode)))
+                            {
+                                new ToastActivity().makeToastMessage(response,this);
+                            }
+                            else {
+                                dataList = fetchData(response);
+                                fillNavigationDrawer(dataList, navigationView);
+                            }
+                        }
+                    } catch (Exception e) {
+                        LogHelper logHelper = new LogHelper(e);
+                        e.printStackTrace();
+                    }
+                    break;
                 }
+
             }
-                catch (Exception e)
-                {
-                    LogHelper logHelper=new LogHelper(e);
-                    e.printStackTrace();
-                }
 
 
         }

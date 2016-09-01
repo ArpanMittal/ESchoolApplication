@@ -14,7 +14,7 @@
                             <div class="container-fluid">
                                 <div class="row-fluid">
                                     <div class="span9">
-                                        <form class="form-horizontal" action="{{ url('/question/add') }}" method="POST" enctype="multipart/form-data" id="frmquestion"   >
+                                        <form class="form-horizontal" action="{{ isset($question)?url('/question/update'):url('/question/add') }}" method="POST" enctype="multipart/form-data" id="frmquestion"   >
                                             {{ csrf_field() }}
                                             <input class="span6" type="hidden"  name="TeacherId"   id="TeacherId"   style="width:95%;"  value="{{$user->id}}" >
                                             <h5>Create Question </h5>
@@ -190,7 +190,7 @@
                                                 @if(isset($question))
                                                     <button type="button" class="btn btn-info" id="nextButton" name="nextButton" >Next</button>
                                                 @endif
-                                                <button type="submit" class="btn btn-info" id="epSave" name="epSave">Save</button>
+                                                <button type="submit" class="btn btn-info" id="epSave" name="epSave"  onclick="formSubmit()">Save</button>
                                                 <button type="reset" id="cancleForm" class="btn">Cancel</button>
                                             </div>
                                         </form>
@@ -289,7 +289,7 @@
         });
         @endif
 
-        $("#frmquestion").submit(function(){
+        function formSubmit(){
             if(!$('#frmquestion').valid())
             {
                 return false;
@@ -318,35 +318,8 @@
             $("#Option2").val(opt2);
             $("#Option3").val(opt3);
             $("#Option4").val(opt4);
-            var formData = new FormData($(this)[0]);
-
-            $.ajax({
-                @if(isset($question))
-                    url: '{{ url('/question/update') }}',
-                @else
-                    url: '{{ url('/question/add') }}',
-                @endif
-                type: 'POST',
-                data: formData,
-                async: false,
-                success: function (data) {
-                    data = JSON.parse(data);
-                    if(data.success=='false'){
-                        alert(JSON.stringify(data.error));
-                    }else {
-                        alert('saved');
-                        @if(!isset($question))
-                        clearFields();
-                        @endif
-                    }
-                },
-                cache: false,
-                contentType: false,
-                processData: false
-            });
-
-            return false;
-        });
+            return true;
+        }
 
         function clearFields() {
             CKEDITOR.instances.question.setData('');
@@ -393,7 +366,6 @@
                 "optionsRadioG":{required: "Please select the correct answer to this question"},
                 "Level":{required: "Please select question level"}
             },
-            debug: true
         });
 
         function loadTopics()
