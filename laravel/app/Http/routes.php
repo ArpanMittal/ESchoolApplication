@@ -117,15 +117,27 @@ Route::post('login', array('uses' => 'HomeController@doLogin'));
 // route to process the form
 Route::get('logout', array('uses' => 'HomeController@doLogout'));
 
-// route to show test information
-Route::get('test', array('uses' => 'TestController@showTestInfo'));
+//Route::group(['prefix' => 'test','middleware' => ['check.session']], function () {
+//
+//    // route to show test information
+//    Route::get('/info', array('uses' => 'TestController@showTestInfo'));
+//
+//    // route to show test instructions
+//    Route::get('/signup', array('uses' => 'TestController@testSignUp'));
+//});
 
-// route to show test instructions
-Route::get('test/signup', array('uses' => 'TestController@testSignUp'));
-
-// route to show test information
-Route::get('test', array('uses' => 'TestController@showTestInfo'));
-
-// route to show test instructions
-Route::get('test/signup', array('uses' => 'TestController@testSignUp'));
+// route to check speed difference between hashing and joining tables
 Route::get('difference', array('uses' => 'QuestionController@difference'));
+
+
+Route::group(['prefix' => 'package','middleware' => ['check.session']], function () {
+
+    // route to make test packages
+    Route::get('create', array('uses' => 'PackageController@showPackageCreator'));
+
+    // route to process package form
+    Route::post('add', array('uses' => 'PackageController@addPackage'));
+
+    //route to list all the packages
+    Route::get('list',array('uses' => 'PackageController@getAllPackages'));
+});
