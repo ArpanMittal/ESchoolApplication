@@ -55,7 +55,7 @@ class DetailsController extends Controller
                 break;
             case 'Exams':
                 $title = 'ExamSubject';
-                $data = $this->getExamSubjects($id);
+                $data = $this->getExamPrepareSubjects($id);
         }
 
         if (!$data){
@@ -178,9 +178,103 @@ class DetailsController extends Controller
         return $stream;
     }
 
-    private function getExamSubjects($id)
-    {
-        $data = array(array('id'=>'practice','name'=>'Practice Test','count'=>''));
-        return $data;
+    private function getExamPrepareSubjects($id){
+
+        $prepare=DB::table('exampackmap')
+            ->select('package.cost as cost','subscription.item_id as id','subscription.type_id as type_id','subscription.duration as duration')
+            ->leftjoin('package','exampackmap.pack_id','=','package.id')
+            ->leftjoin('packagesubmap','package.id','=','packagesubmap.pack_id')
+            ->leftjoin('subscription','packagesubmap.sub_id','=','subscription.id')
+            ->where('exampackmap.exam_id',$id)->get();
+
+        for($i=0;$i<count($prepare);$i++)
+        {
+            if(!strcmp($prepare[$i]->type_id,"1")) {
+                $subject = $this->getExamSubject($prepare[$i]->id);
+//                return $subject;
+//                return $subject;
+                $chapter = $this->getChapter($prepare[$i]->id);
+                $prepare[$i]->subject=$subject;
+                for($j=0;$j<count($subject);$j++)
+                $prepare[$i]->subject[$j]->chapter=$chapter;
+            }
+            else if(!strcmp($prepare[$i]->type_id,"2"))
+            {
+                //$subject
+                $prepare[$i]->subject=$this->getChapterSubject($prepare[$i]->id);
+
+            }
+            else
+            {
+
+                $prepare[$i]->subject=$this->getTopicChapter($prepare[$i]->id);
+
+            }
+
+
+        }
+        return $prepare;
+
     }
-}
+
+    private function getTopicChapter($id)
+    {
+
+        $stream=DB::table('chaptertopicmap')
+            ->select('chaptertopicmap.cl_su_st_ch_id as id')
+            ->where('chaptertopicmap.hash',$id)->get();
+       
+        for($i=0;$i<count($stream);$i++)
+        {
+            $subject=$this->getChapterSubject($stream[$i]->id);
+        }
+        return $subject;
+    }
+
+    private function getChapterSubject($id)
+    {
+
+        $subject1=DB::table('streamchaptermap')
+            ->select('subjectstreammap.cl_su_id as id')
+            ->join("subjectstreammap",'streamchaptermap.cl_su_st_id',"=","subjectstreammap.cl_su_st_id")
+            ->where("streamchaptermap.cl_su_st_ch_id",$id)->get();
+
+        for($i=0;$i<count($subject1);$i++)
+        {
+            $subject = $this->getExamSubject($subject1[$i]->id);
+            $chapter = $this->getChapter($subject1[$i]->id);
+            for($j=0;$j<count($subject);$j++)
+            {
+                $subject[$j]->chapter=$chapter;
+            }
+        }
+        return $subject;
+
+    }
+
+//    private function getSubjectChapter($id)
+//    {
+//        return $this->getChapter($id);
+//
+////        $stream=DB::table('subjectstreammap')
+////            ->select('subjectstreammap.cl_su_st_id as id')
+////            ->where('subjectstreammap.cl_su.id',$id);
+////
+////        for($i=0;$i<count($stream);$i++)
+////        {
+////            $ch=$this->getChapter($stream[$i]->id);
+////        }
+////        return $ch;
+//    }
+
+    private function getExamSubject($id)
+    {
+        return DB::table('classsubjectmap')
+            ->select('subject.subject_name as name','subject.id as id')
+            ->join('subject','classsubjectmap.subject_id','=','subject.id')
+            ->where('classsubjectmap.cl_su_id',$id)->get();
+    }
+
+//        $data = array(array('id'=>'practice','name'=>'Practice Test','count'=>''));
+//        return $data;
+    }
