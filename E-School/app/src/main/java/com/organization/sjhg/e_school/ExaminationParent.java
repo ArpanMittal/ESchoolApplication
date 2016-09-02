@@ -4,12 +4,17 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.CollapsingToolbarLayout;
+import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.TabLayout;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.PagerTabStrip;
 import android.support.v4.view.ScrollingView;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.NestedScrollView;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -22,10 +27,14 @@ import android.widget.TextView;
 
 import com.ToxicBakery.viewpager.transforms.RotateUpTransformer;
 import com.astuetz.PagerSlidingTabStrip;
+import com.organization.sjhg.e_school.Fragments.Notes_Listing_Fragment;
 import com.organization.sjhg.e_school.Helpers.Custom_Pager_Adapter;
 import com.organization.sjhg.e_school.ListStructure.InternalList;
+import com.organization.sjhg.e_school.Utils.ProgressBarActivity;
+import com.organization.sjhg.e_school.Utils.ToastActivity;
 
 import cn.trinea.android.view.autoscrollviewpager.AutoScrollViewPager;
+import me.relex.circleindicator.CircleIndicator;
 
 /**
  * Created by arpan on 8/31/2016.
@@ -63,6 +72,12 @@ public class ExaminationParent extends MainParentActivity {
     int[] equipmentImages;
 
     MyAdapter adapter1, adapter2, adapter3;
+    private View mDashboardView;
+    private View mProgressView;
+    TabLayout tabLayout;
+
+    private ProgressBarActivity progressBarActivity=new ProgressBarActivity();
+    private ToastActivity toastActivity=new ToastActivity();
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -72,6 +87,44 @@ public class ExaminationParent extends MainParentActivity {
 //        ViewStub viewStub=(ViewStub)findViewById(R.id.viewstub);
 //        viewStub.setLayoutResource(R.layout.examination_item);
 //        viewStub.inflate();
+
+        ViewStub view_Stub=(ViewStub)findViewById(R.id.viewstub);
+        view_Stub.setLayoutResource(R.layout.exam_app_bar);
+        view_Stub.inflate();
+
+        mDashboardView=findViewById(R.id.dashboard_form);
+        mProgressView=findViewById(R.id.dashboard_progress);
+
+
+        toolbar = (Toolbar)findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
+        // code repeated in all activity
+        toggle = new ActionBarDrawerToggle(
+                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        drawer.setDrawerListener(toggle);
+        toggle.syncState();
+        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+//        collapsingToolbar = (CollapsingToolbarLayout) findViewById(R.id.collapse_toolbar);
+//        collapsingToolbar.setTitle(getString(R.string.expand));
+//        AutoScrollViewPager viewPager = (AutoScrollViewPager) findViewById(R.id.viewpager);
+//        viewPager.setAdapter(new Custom_Pager_Adapter(getSupportFragmentManager()));
+//        viewPager.setInterval(5000);
+//        viewPager.startAutoScroll();
+//        indicator = (CircleIndicator) findViewById(R.id.indicator);
+//        indicator.setViewPager(viewPager);
+//        tabLayout.addTab(tabLayout.newTab().setText("TAB"));
+        tabLayout=(TabLayout)findViewById(R.id.id_tabs);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+//                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+//                        .setAction("Action", null).show();
+                Intent intent=new Intent(getApplicationContext(), Notes_Listing_Fragment.class);
+                startActivity(intent);
+            }
+        });
+
 
         context =getApplicationContext();
 
@@ -93,7 +146,7 @@ public class ExaminationParent extends MainParentActivity {
         equipmentImages = new int[]{R.drawable.paint, R.drawable.backgrounddesign,
                 R.drawable.common_google_signin_btn_text_light_normal, R.drawable.menu_button};
 
-         ViewPager view1 = (ViewPager) findViewById(R.id.viewpager1);
+         ViewPager view1 = (ViewPager) findViewById(R.id.viewpager_fragment);
 //        ViewPager view2 = (ViewPager) findViewById(R.id.viewpager2);
 //        ViewPager view3 = (ViewPager) findViewById(R.id.viewpager3);
 //
@@ -103,13 +156,19 @@ public class ExaminationParent extends MainParentActivity {
 //
         view1.setAdapter(adapter1);
 //
-        view1.setPageTransformer(true, new RotateUpTransformer());
+        //view1.setPageTransformer(true, new RotateUpTransformer());
+
+
+       tabLayout = (TabLayout) findViewById(R.id.id_tabs);
+        tabLayout.setupWithViewPager(view1);
+
 //        view2.setAdapter(adapter2);
 //        view2.setPageTransformer(true, new RotateUpTransformer());
 //        view3.setAdapter(adapter3);
 //        view3.setPageTransformer(true, new RotateUpTransformer());
 
     }
+    // Returns the page title for the top indicator
 
 
     @Override
@@ -175,6 +234,7 @@ public class ExaminationParent extends MainParentActivity {
             LayoutInflater inflater = (LayoutInflater) collection.getContext()
                     .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             // Setting view you want to display as a row element
+
             View view = inflater.inflate(R.layout.examination_item, null);
 
             TextView itemText = (TextView) view.findViewById(R.id.textViewMain);
@@ -202,6 +262,10 @@ public class ExaminationParent extends MainParentActivity {
 
         }
 
+        @Override
+        public CharSequence getPageTitle(int position) {
+            return "TAB";
+        }
     }
 }
 

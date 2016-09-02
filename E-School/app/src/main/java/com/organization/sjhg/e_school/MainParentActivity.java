@@ -81,9 +81,7 @@ public class MainParentActivity extends AppCompatActivity implements NavigationV
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main_activity);
-        ViewStub viewStub=(ViewStub)findViewById(R.id.viewstub);
-        viewStub.setLayoutResource(R.layout.app_bar_main);
-        viewStub.inflate();
+
 
          drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
 

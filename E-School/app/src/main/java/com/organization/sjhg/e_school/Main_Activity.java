@@ -71,6 +71,10 @@ public class Main_Activity extends MainParentActivity{
         super.onCreate(savedInstanceState);
      //  setContentView(R.layout.main_activity);
 
+        ViewStub view_Stub=(ViewStub)findViewById(R.id.viewstub);
+        view_Stub.setLayoutResource(R.layout.app_bar_main);
+        view_Stub.inflate();
+
         ViewStub viewStub=(ViewStub)findViewById(R.id.view_stub_bar);
         viewStub.setLayoutResource(R.layout.content_main);
        viewStub.inflate();

@@ -65,6 +65,10 @@ public class ListActivity extends MainParentActivity implements RemoteCallHandle
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        ViewStub view_Stub=(ViewStub)findViewById(R.id.viewstub);
+        view_Stub.setLayoutResource(R.layout.app_bar_main);
+        view_Stub.inflate();
+
         ViewStub viewStub = (ViewStub) findViewById(R.id.view_stub_bar);
         viewStub.setLayoutResource(R.layout.content_main);
         viewStub.inflate();
