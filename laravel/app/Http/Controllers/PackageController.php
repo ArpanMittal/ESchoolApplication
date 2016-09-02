@@ -18,9 +18,8 @@ class PackageController extends Controller
         $user = DB::table('user')->whereId($userId)->first();
         $data['user'] = $user;
 
-        $data['subjects'] = DB::table('operatorsubjectmap')
-            ->join('classsubjectmap', 'operatorsubjectmap.subject_id', '=', 'classsubjectmap.subject_id')
-            ->join('subject', 'operatorsubjectmap.subject_id', '=', 'subject.id')
+        $data['subjects'] = DB::table('classsubjectmap')
+            ->join('subject', 'classsubjectmap.subject_id', '=', 'subject.id')
             ->join('class', 'classsubjectmap.class_id', '=', 'class.id')
             ->get();
 
