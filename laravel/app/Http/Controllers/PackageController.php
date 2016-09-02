@@ -18,9 +18,8 @@ class PackageController extends Controller
         $user = DB::table('user')->whereId($userId)->first();
         $data['user'] = $user;
 
-        $data['subjects'] = DB::table('operatorsubjectmap')
-            ->join('classsubjectmap', 'operatorsubjectmap.subject_id', '=', 'classsubjectmap.subject_id')
-            ->join('subject', 'operatorsubjectmap.subject_id', '=', 'subject.id')
+        $data['subjects'] = DB::table('classsubjectmap')
+            ->join('subject', 'classsubjectmap.subject_id', '=', 'subject.id')
             ->join('class', 'classsubjectmap.class_id', '=', 'class.id')
             ->get();
 
@@ -33,6 +32,8 @@ class PackageController extends Controller
         $data['topics'] = DB::table('chaptertopicmap')
             ->join('topic', 'chaptertopicmap.topic_id', '=', 'topic.id')
             ->get();
+
+        $data['exams'] = DB::table('examtag')->get();
 
         return view('package.create',$data);
     }
@@ -49,6 +50,10 @@ class PackageController extends Controller
         $packageDetails['subjects'] = Input::get('subjects');
         $packageDetails['chapters'] = Input::get('chapters');
         $packageDetails['topics'] = Input::get('topics');
+        $packageDetails['packagetype'] = Input::get('PackageType');
+        if ($packageDetails['packagetype'] == 1) {
+            $packageDetails['exam'] = Input::get('ExamTag');
+        }
         $topicCount = count($packageDetails['topics']);
         if ($topicCount <= 100) { $packageDetails['cost'] = 10*$topicCount; }
         elseif ($topicCount > 100 && $topicCount <= 200) { $packageDetails['cost'] = (10*$topicCount)-$topicCount; }
@@ -147,6 +152,13 @@ class PackageController extends Controller
 
                 DB::table('packagesubmap')->insert(
                     ['pack_id'=> $packageId, 'sub_id' => $subId]
+                );
+            }
+
+            if ($packageDetails['packagetype'] == 1) {
+
+                DB::table('exampackmap')->insert(
+                    ['pack_id'=> $packageId, 'exam_id' => $packageDetails['exam']]
                 );
             }
 
