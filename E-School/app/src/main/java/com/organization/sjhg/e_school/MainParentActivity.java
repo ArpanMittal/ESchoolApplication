@@ -179,11 +179,13 @@ public class MainParentActivity extends AppCompatActivity implements NavigationV
                 if(listDataHeader.get(groupPosition).equals("Exams"))
                 {
                     Intent intent = new Intent(getApplicationContext(), ExaminationParent.class);
+                    intent.putExtra(getString(R.string.jsontitle), listDataHeader.get(groupPosition));
+                    intent.putExtra(getString(R.string.jsonid), internalList.get(childPosition).id);
                     startActivity(intent);
                 }
                 else {
                     Intent intent = new Intent(getApplicationContext(), ListActivity.class);
-                    intent.putExtra(getString(R.string.title), listDataHeader.get(groupPosition));
+                    intent.putExtra(getString(R.string.jsontitle), listDataHeader.get(groupPosition));
                     intent.putExtra(getString(R.string.jsonid), internalList.get(childPosition).id);
                     startActivity(intent);
                     }

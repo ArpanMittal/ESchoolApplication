@@ -199,7 +199,7 @@ public class ListActivity extends MainParentActivity implements RemoteCallHandle
             title=response.getString(getString(R.string.jsontitle));
             JSONArray data = response.getJSONArray(mContext.getString(R.string.data));
             List<InternalListData> internalListDatas=new ArrayList<>();
-            int length=data.length();
+
 
             for(int i=0;i<data.length();i++)
             {
