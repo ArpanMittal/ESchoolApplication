@@ -19,9 +19,11 @@
                                                     @if(isset($subject))
                                                         @if(isset($chapter))
                                                             @if(isset($topic))
+                                                                <label>Path</label>
                                                                 <h3 style="width: 600px">
                                                                     {{$subject->subject_name." - ".$chapter->chapter_name." - ".$topic->topic_name}}
                                                                 </h3>
+                                                                <label>Stream</label>
                                                                 <h3 class="pull-right">
                                                                     {{$stream->stream_name}}
                                                                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
@@ -32,6 +34,15 @@
                                                             @endif
                                                         @endif
                                                     @endif
+                                                @endif
+                                            </div>
+                                        </div>
+                                        <div class="control-group">
+                                            <div class="controls">
+                                                @if(isset($question))
+                                                    @foreach($tags as $tag)
+                                                        <span class="tags">{{$tag->exam_name}}</span>
+                                                    @endforeach
                                                 @endif
                                             </div>
                                         </div>
