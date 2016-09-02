@@ -22,7 +22,26 @@
                                                 </div>
                                             </div>
                                             <div class="control-group">
-                                                <label class="control-label">Select Contents</label>
+                                                <label class="control-label">Package Type</label>
+                                                <div class="controls">
+                                                    <input type="checkbox" name="PackageType" id="packageType" value="1">Exam Package
+                                                </div>
+                                            </div>
+                                            <div class="control-group" id="examdiv">
+                                                <label class="control-label">Select Exam</label>
+                                                <div class="controls">
+                                                    <select name="ExamTag">
+                                                        <option value="">-- Select --</option>
+                                                        @if(isset($exams))
+                                                            @foreach($exams as $exam)
+                                                                <option value="{{ $exam->id }}">{{$exam->exam_name}}</option>
+                                                            @endforeach
+                                                        @endif
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="control-group">
+                                                <label class="control-label">Select Contents of Package</label>
                                                 <div class="controls">
                                                     <ul class="package-ul">
                                                         @if(isset($subjects))
@@ -70,6 +89,25 @@
 @endsection
 @section('script')
     <script>
+
+        $(function () {
+
+            $("#examdiv").hide();
+        });
+
+        $("#packageType").click(function () {
+
+
+            if($(this).prop("checked") == true){
+
+                $("#examdiv").show();
+            }
+
+            else if($(this).prop("checked") == false){
+
+                $("#examdiv").hide();
+            }
+        });
 
         $('#epSave').click(function () {
 

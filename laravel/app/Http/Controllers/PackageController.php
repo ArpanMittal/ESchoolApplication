@@ -33,6 +33,8 @@ class PackageController extends Controller
             ->join('topic', 'chaptertopicmap.topic_id', '=', 'topic.id')
             ->get();
 
+        $data['exams'] = DB::table('examtag')->get();
+
         return view('package.create',$data);
     }
 
@@ -48,6 +50,10 @@ class PackageController extends Controller
         $packageDetails['subjects'] = Input::get('subjects');
         $packageDetails['chapters'] = Input::get('chapters');
         $packageDetails['topics'] = Input::get('topics');
+        $packageDetails['packagetype'] = Input::get('PackageType');
+        if ($packageDetails['packagetype'] == 1) {
+            $packageDetails['exam'] = Input::get('ExamTag');
+        }
         $topicCount = count($packageDetails['topics']);
         if ($topicCount <= 100) { $packageDetails['cost'] = 10*$topicCount; }
         elseif ($topicCount > 100 && $topicCount <= 200) { $packageDetails['cost'] = (10*$topicCount)-$topicCount; }
@@ -146,6 +152,13 @@ class PackageController extends Controller
 
                 DB::table('packagesubmap')->insert(
                     ['pack_id'=> $packageId, 'sub_id' => $subId]
+                );
+            }
+
+            if ($packageDetails['packagetype'] == 1) {
+
+                DB::table('exampackmap')->insert(
+                    ['pack_id'=> $packageId, 'exam_id' => $packageDetails['exam']]
                 );
             }
 
