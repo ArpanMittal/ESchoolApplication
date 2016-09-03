@@ -186,14 +186,16 @@ class DetailsController extends Controller
             ->leftjoin('packagesubmap','package.id','=','packagesubmap.pack_id')
             ->leftjoin('subscription','packagesubmap.sub_id','=','subscription.id')
             ->where('exampackmap.exam_id',$id)->get();
+        //return $prepare;
+        //$k=0;
+
 
         for($i=0;$i<count($prepare);$i++)
         {
             if(!strcmp($prepare[$i]->type_id,"1")) {
                 $subject = $this->getExamSubject($prepare[$i]->id);
-//                return $subject;
-//                return $subject;
                 $chapter = $this->getChapter($prepare[$i]->id);
+
                 $prepare[$i]->subject=$subject;
                 for($j=0;$j<count($subject);$j++)
                 $prepare[$i]->subject[$j]->chapter=$chapter;
@@ -201,14 +203,14 @@ class DetailsController extends Controller
             else if(!strcmp($prepare[$i]->type_id,"2"))
             {
                 //$subject
-                
-                $prepare[$i]->subject=$this->getChapterSubject($prepare[$i]->id);
+               // if($this->getChapterSubject($prepare[$i]->id,$prepare,$i=="false"))
+                    $prepare[$i]->subject=$this->getChapterSubject($prepare[$i]->id,$prepare,$i);
 
             }
             else
             {
 
-                $prepare[$i]->subject=$this->getTopicChapter($prepare[$i]->id);
+                $prepare[$i]->subject=$this->getTopicChapter($prepare[$i]->id,$prepare,$i);
 
             }
 
@@ -218,7 +220,7 @@ class DetailsController extends Controller
 
     }
 
-    private function getTopicChapter($id)
+    private function getTopicChapter($id,$prepare,$length)
     {
 
         $stream=DB::table('chaptertopicmap')
@@ -227,12 +229,12 @@ class DetailsController extends Controller
        
         for($i=0;$i<count($stream);$i++)
         {
-            $subject=$this->getChapterSubject($stream[$i]->id);
+            $subject=$this->getChapterSubject($stream[$i]->id,$prepare,$length);
         }
         return $subject;
     }
 
-    private function getChapterSubject($id)
+    private function getChapterSubject($id,$prepare,$length)
     {
 
         $subject1=DB::table('streamchaptermap')
@@ -240,22 +242,51 @@ class DetailsController extends Controller
             ->join("subjectstreammap",'streamchaptermap.cl_su_st_id',"=","subjectstreammap.cl_su_st_id")
             ->where("streamchaptermap.cl_su_st_ch_id",$id)->get();
 
-
+//        if($length>0)
+//       return $prepare[$length-1]->subject[0]->id;
+//        else
+//            return $subject1;
         for($i=0;$i<count($subject1);$i++)
         {
-            $subject = $this->getExamSubject($subject1[$i]->id);
-            $chapter = DB::table('chapter')
-                ->select("chapter.id as id","chapter.chapter_name as name")
-                ->join("streamchaptermap","chapter.id","=","streamchaptermap.chapter_id")
-                ->where("streamchaptermap.cl_su_st_ch_id",$id)->get();
-            for($j=0;$j<count($subject);$j++)
+            $subject=false;
+            $flag=1;
+            if($length>0) {
+                for ($j = 0; $j < $length; $j++) {
+                   //return $subject1[$i]->id;
+
+                    if (!strcmp($prepare[$j]->subject[0]->id, $subject1[$i]->id)) {
+                        $length=$this->getIndividualChapter($id);
+                       // $prepare[$j]->subject[0]->chapter[$length]=$this->getIndividualChapter($id);
+                        array_push($prepare[$j]->subject[0]->chapter,$length[0] );
+                        $i++;
+                        $flag = 0;
+                        break;
+                    }
+                }
+            }
+            if($flag==1)
             {
-                $subject[$j]->chapter=$chapter;
+                $subject = $this->getExamSubject($subject1[$i]->id);
+                $chapter = $this->getIndividualChapter($id);
+                for($j=0;$j<count($subject);$j++)
+                {
+                    $subject[$j]->chapter=$chapter;
+                }
             }
         }
         return $subject;
 
     }
+    private function getIndividualChapter($id){
+        return DB::table('chapter')
+            ->select("chapter.id as id",
+                "chapter.chapter_name as name")
+            ->join("streamchaptermap","chapter.id","=","streamchaptermap.chapter_id")
+            ->where("streamchaptermap.cl_su_st_ch_id",$id)->get();
+    }
+
+
+
 
 //    private function getSubjectChapter($id)
 //    {
@@ -275,8 +306,10 @@ class DetailsController extends Controller
     private function getExamSubject($id)
     {
         return DB::table('classsubjectmap')
-            ->select('subject.subject_name as name','subject.id as id')
+            ->select('subject.subject_name as name','classsubjectmap.cl_su_id as id',
+                DB::raw('CONCAT(class.class_name,":",subject.subject_name) as name'))
             ->join('subject','classsubjectmap.subject_id','=','subject.id')
+            ->join('class','classsubjectmap.class_id','=','class.id')
             ->where('classsubjectmap.cl_su_id',$id)->get();
     }
 
