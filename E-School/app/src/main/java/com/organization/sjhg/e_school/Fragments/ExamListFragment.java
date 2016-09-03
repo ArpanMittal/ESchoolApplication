@@ -51,7 +51,8 @@ public class ExamListFragment extends Fragment {
         RecyclerView rv = (RecyclerView) rootView.findViewById(R.id.recycler);
         rv.setHasFixedSize(true);
         List<InternalListData> internalListDatas=new ArrayList<>();
-        internalListDatas=list.get(0).internalListDatas;
+        for(int i=0;i<list.size();i++)
+        internalListDatas.addAll(list.get(i).internalListDatas);
         GridParentDataAdapter adapter = new GridParentDataAdapter(getContext(),internalListDatas);
         rv.setAdapter(adapter);
 //        MyAdapter adapter = new MyAdapter(new String[]{"test one", "test two", "test three", "test four", "test five" , "test six" , "test seven"});

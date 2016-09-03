@@ -201,6 +201,7 @@ class DetailsController extends Controller
             else if(!strcmp($prepare[$i]->type_id,"2"))
             {
                 //$subject
+                
                 $prepare[$i]->subject=$this->getChapterSubject($prepare[$i]->id);
 
             }
@@ -239,10 +240,14 @@ class DetailsController extends Controller
             ->join("subjectstreammap",'streamchaptermap.cl_su_st_id',"=","subjectstreammap.cl_su_st_id")
             ->where("streamchaptermap.cl_su_st_ch_id",$id)->get();
 
+
         for($i=0;$i<count($subject1);$i++)
         {
             $subject = $this->getExamSubject($subject1[$i]->id);
-            $chapter = $this->getChapter($subject1[$i]->id);
+            $chapter = DB::table('chapter')
+                ->select("chapter.id as id","chapter.chapter_name as name")
+                ->join("streamchaptermap","chapter.id","=","streamchaptermap.chapter_id")
+                ->where("streamchaptermap.cl_su_st_ch_id",$id)->get();
             for($j=0;$j<count($subject);$j++)
             {
                 $subject[$j]->chapter=$chapter;
