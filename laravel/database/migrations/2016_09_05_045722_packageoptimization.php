@@ -14,7 +14,7 @@ class Packageoptimization extends Migration
     {
         //
         Schema::table('package', function ($table) {
-            $table->integer('duration');
+            $table->integer('duration')->default('12');
         });
 
         Schema::table('subscription', function ($table) {
@@ -29,7 +29,7 @@ class Packageoptimization extends Migration
             $table->integer('pack_id')->unsigned();
             $table->string('subject_id');
             $table->Foreign('pack_id')->references('id')->on('package')->onDelete('cascade');
-            $table->Foreign('subject_id')->references('id')->on('subject')->onDelete('cascade');;
+            $table->Foreign('subject_id')->references('cl_su_id')->on('classsubjectmap')->onDelete('cascade');;
         });
 
         Schema::create('pack_subject_chapter_map',function(Blueprint $table)
