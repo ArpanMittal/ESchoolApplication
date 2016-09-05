@@ -48,6 +48,12 @@ class Packageoptimization extends Migration
             $table->Foreign('sub_subject_chapter_id')->references('id')->on('sub_subject_chapter_map')->onDelete('cascade');
             $table->Foreign('topic_id')->references('id')->on('topic')->onDelete('cascade');;
         });
+        Schema::table('subscription', function ($table) {
+            $table->dropForeign('subscription_type_id_foreign');
+            $table->dropColumn('type_id');
+        });
+        Schema::dropIfExists('subscriptiontype');
+
         
     }
 
@@ -62,9 +68,21 @@ class Packageoptimization extends Migration
         Schema::drop('subscription_subject_chapter_topic_map');
         Schema::drop('subscription_subject_chapter_map');
         Schema::drop('subscription_subject_map');
+
+        Schema::create('subscriptiontype', function (Blueprint $table) {
+            $table->engine='InnoDB';
+            $table->increments('id');
+            $table->string('sub_type');
+            $table->boolean('active');
+            $table->datetime('created_at');
+
+
+            $table->timestamp('updated_at')->default(DB::raw('CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP'));
+        });
         Schema::table('subscription', function ($table) {
             $table->string('item_id');
+            $table->integer('type_id');
+            $table->foreign('type_id')->references('id')->on('subscriptiontype')->onDelete('cascade');
         });
-        
     }
 }
