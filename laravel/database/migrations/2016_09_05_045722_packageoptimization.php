@@ -39,7 +39,7 @@ class Packageoptimization extends Migration
             $table->integer('pack_subject_id')->unsigned();
             $table->string('chapter_id');
             $table->Foreign('pack_subject_id')->references('id')->on('pack_subject_map')->onDelete('cascade');
-            $table->Foreign('chapter_id')->references('id')->on('chapter')->onDelete('cascade');;
+            $table->Foreign('chapter_id')->references('cl_su_st_ch_id')->on('streamchaptermap')->onDelete('cascade');;
         });
 
         Schema::create('pack_subject_chapter_topic_map',function(Blueprint $table)
@@ -49,7 +49,7 @@ class Packageoptimization extends Migration
             $table->integer('pack_subject_chapter_id')->unsigned();
             $table->string('topic_id');
             $table->Foreign('pack_subject_chapter_id')->references('id')->on('pack_subject_chapter_map')->onDelete('cascade');
-            $table->Foreign('topic_id')->references('id')->on('topic')->onDelete('cascade');;
+            $table->Foreign('topic_id')->references('hash')->on('chaptertopicmap')->onDelete('cascade');;
         });
         Schema::table('subscription', function ($table) {
             $table->dropForeign('subscription_type_id_foreign');
