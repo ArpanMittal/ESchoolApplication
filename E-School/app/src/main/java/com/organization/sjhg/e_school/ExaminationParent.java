@@ -41,6 +41,7 @@ import com.organization.sjhg.e_school.ListStructure.InternalListData;
 import com.organization.sjhg.e_school.ListStructure.ItemDataList;
 import com.organization.sjhg.e_school.Remote.RemoteCalls;
 import com.organization.sjhg.e_school.Remote.RemoteHelper;
+import com.organization.sjhg.e_school.Structure.GlobalConstants;
 import com.organization.sjhg.e_school.Utils.ProgressBarActivity;
 import com.organization.sjhg.e_school.Utils.SharedPrefrence;
 import com.organization.sjhg.e_school.Utils.ToastActivity;
@@ -227,7 +228,8 @@ public class ExaminationParent extends MainParentActivity {
         else
         {
             switch (callFor) {
-                case GET_EXAM_PREPARE_LIST: {
+                case GET_EXAM_PREPARE_LIST:
+                {
                     try {
                         if (response.getString("success").equals("false")) {
                             toastActivity.makeToastMessage(response,this);
@@ -255,18 +257,56 @@ public class ExaminationParent extends MainParentActivity {
                         e.printStackTrace();
                     }
                 }
-                case GET_USER_ATTEMPT_DETAILS:{
-                    try{
-                        //TODO::in case add analytics
-                       // list=getUserAttemptList(response);
-                        JSONObject jsonObject=response;
-                        if(list!=null)
-                            showView(list);
+                case GET_USER_ATTEMPT_DETAILS:
+                {
+                    try {
+                        if (response.get("code").toString().equals(GlobalConstants.EXPIRED_TOKEN))
+                        {
+
+                            if(sharedPrefrence.getRefreshToken(getApplicationContext())==null)
+                            {
+
+                                toastActivity.makeToastMessage(response,this);
+                                break;
+                            }
+                            else
+                            {
+                                new RemoteHelper(getApplicationContext()).getAccessToken(this,RemoteCalls.GET_ACCESS_TOKEN,sharedPrefrence.getRefreshToken(getApplicationContext()));
+                            }
+
+                        }
+                        else
+                        {
+                            JSONObject jsonObject = response;
+                            if (list != null)
+                                showView(list);
+                        }
                     }catch (Exception e)
                     {
                         LogHelper logHelper = new LogHelper(e);
                         e.printStackTrace();
                     }
+                }
+
+                case GET_ACCESS_TOKEN:
+                {
+                    try{
+                        if(response.get("sucess").toString().equals("false"))
+                        {
+                            toastActivity.makeToastMessage(response,this);
+                        }
+                        else
+                        {
+                            sharedPrefrence.saveAccessToken(getApplicationContext(),response.get("access_token").toString(),response.get("refresh_token").toString());
+                            progressBarActivity.showProgress(viewPager,mProgressView,true,getApplicationContext());
+                            new RemoteHelper(context).getUserAttemptDetails(this,RemoteCalls.GET_USER_ATTEMPT_DETAILS,sharedPrefrence.getAccessToken(context));
+                        }
+                    }catch (Exception e)
+                    {
+                        LogHelper logHelper=new LogHelper(e);
+                        e.printStackTrace();
+                    }
+                    break;
                 }
             }
         }
