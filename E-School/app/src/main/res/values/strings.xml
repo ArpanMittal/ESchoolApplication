@@ -196,9 +196,18 @@
     <string name="sml">small</string>
     <string name="med">medium</string>
     <string name="lrg">large</string>
+    <string name="json_chapter">chapter</string>
     <string name="jsonchapter">innerList</string>
     <string name="jsoncode">code</string>
     <string name="nocontentcode">401</string>
+    <string name="cost">cost</string>
+    <string name="duration">duration</string>
+    <string name="jsonsubject">subject</string>
+    <string name="ExamContent">ExamSubject</string>
+    <string name="sendlist">SENDLIST</string>
+    <string name="jsonsamplepaper">samplepaper</string>
+    <string name="prepare">prepare</string>
+    <string name="practcice">practice</string>
 
 
 </resources>

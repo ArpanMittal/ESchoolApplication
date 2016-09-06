@@ -13,7 +13,7 @@ class Databsecorrection extends Migration
     public function up()
     {
         //
-       /* Schema::table('user', function ($table) {
+        Schema::table('user', function ($table) {
             $table->dropColumn(['token_id']);
             $table->boolean('is_active')->default(true)->change();
         });
@@ -21,7 +21,7 @@ class Databsecorrection extends Migration
             $table->dropColumn(['verified']);
             $table->string('photo_path')->nullable()->change();
             $table->date('date_of_birth')->nullable()->change();
-        });*/
+        });
 
        /* Schema::table('user', function ($table) {
 

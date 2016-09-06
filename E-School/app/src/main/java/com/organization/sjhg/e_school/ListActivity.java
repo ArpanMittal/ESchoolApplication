@@ -199,7 +199,7 @@ public class ListActivity extends MainParentActivity implements RemoteCallHandle
             title=response.getString(getString(R.string.jsontitle));
             JSONArray data = response.getJSONArray(mContext.getString(R.string.data));
             List<InternalListData> internalListDatas=new ArrayList<>();
-            int length=data.length();
+
 
             for(int i=0;i<data.length();i++)
             {
@@ -235,7 +235,7 @@ public class ListActivity extends MainParentActivity implements RemoteCallHandle
         progressBarActivity.showProgress(mDashboardView,mProgressView,false,getApplicationContext());
         if(!isSuccessful)
         {
-            new ToastActivity().makeUknownErrorMessage((Activity) mContext);
+            toastActivity.makeUknownErrorMessage((this));
 
         }
         else
@@ -247,7 +247,7 @@ public class ListActivity extends MainParentActivity implements RemoteCallHandle
                             toastActivity.makeToastMessage(response,this);
                         } else {
                             if (response.getString(getString(R.string.jsoncode)).equals(getString(R.string.nocontentcode))) {
-                                toastActivity.makeToastMessage(response,(Activity)mContext);
+                                toastActivity.makeToastMessage(response,this);
                             } else {
                                 internalList = getList(response);
                                 List<DashBoardList> dash = dataList;

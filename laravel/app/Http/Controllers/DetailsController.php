@@ -55,8 +55,10 @@ class DetailsController extends Controller
                 break;
             case 'Exams':
                 $title = 'ExamSubject';
-                $data = $this->getExamSubjects($id);
+                $data = $this->getExamPrepareSubjects($id);
+
         }
+
 
         if (!$data){
             return Response::json([
@@ -69,7 +71,9 @@ class DetailsController extends Controller
             'success' => true,
             'code' => 200,
             'title' => $title,
+
             'data' => $data
+            
         ]);
     }
     
@@ -178,9 +182,70 @@ class DetailsController extends Controller
         return $stream;
     }
 
-    private function getExamSubjects($id)
-    {
-        $data = array(array('id'=>'practice','name'=>'Practice Test','count'=>''));
-        return $data;
+    private function getExamPrepareSubjects($id){
+
+
+        $prepare=DB::table('exampackmap')
+            ->select('package.cost as cost','package.duration as duration','package.id as id')
+            ->join('package','exampackmap.pack_id','=','package.id')
+            ->where('exampackmap.exam_id',$id)->get();
+
+        for($i=0;$i<count($prepare);$i++)
+        {
+            $subject=$this->getExamSubject($prepare[$i]->id);
+
+            for($j=0;$j<count($subject);$j++)
+            {
+                $subject[$j]->chapter=$this->getIndividualChapter($subject[$j]->mainId);
+            }
+            $prepare[$i]->name="Package";
+            $prepare[$i]->subject=$subject;
+            $prepare[$i]->samplepaper=$this->getSamplePaper($id);
+
+
+        }
+//
+        return $prepare;
+
     }
+    
+    private function getIndividualChapter($id){
+        return DB::table('pack_subject_chapter_map')
+            ->select("streamchaptermap.cl_su_st_ch_id as id",
+                "chapter.chapter_name as name")
+            ->join("streamchaptermap","pack_subject_chapter_map.chapter_id","=","streamchaptermap.cl_su_st_ch_id")
+            ->join("chapter","chapter.id","=","streamchaptermap.chapter_id")
+            ->where("pack_subject_chapter_map.pack_subject_id",$id)->get();
+    }
+
+    
+
+    private function getExamSubject($id)
+    {
+        return DB::table('pack_subject_map')
+            ->select('subject.subject_name as name','classsubjectmap.cl_su_id as id','pack_subject_map.id as mainId',
+                DB::raw('CONCAT(class.class_name,":",subject.subject_name) as name'))
+            ->join('classsubjectmap','pack_subject_map.subject_id',"=","classsubjectmap.cl_su_id")
+            ->join('subject','classsubjectmap.subject_id','=','subject.id')
+            ->join('class','classsubjectmap.class_id','=','class.id')
+            ->where('pack_subject_map.pack_id',$id)->get();
+    }
+
+    private function getSamplePaper($id)
+    {
+        return DB::table('examtag')
+            ->select('exam_state_year_rest_map.id as id', DB::raw('CONCAT(examtag.exam_name,\' \',state.state_name, \' \', year.year_name, \' \', rest_part.rest) as name'))
+            ->join("exam_state_map","examtag.id","=","exam_state_map.exam_id")
+            ->join("state","exam_state_map.state_id","=","state.id")
+            ->join("exam_state_year_map","exam_state_map.id","=","exam_state_year_map.exam_state_id")
+            ->join("year","exam_state_year_map.year_id","=","year.id")
+            ->join("exam_state_year_rest_map","exam_state_year_map.id","=","exam_state_year_rest_map.exam_state_year_id")
+            ->join("rest_part","exam_state_year_rest_map.rest_id","=","rest_part.id")
+            ->where('examtag.id',$id)->get();
+    }
+
+
+
+
+
 }

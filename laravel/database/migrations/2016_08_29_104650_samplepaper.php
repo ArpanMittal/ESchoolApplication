@@ -13,61 +13,61 @@ class Samplepaper extends Migration
     public function up()
     {
         //
-        Schema::create('state', function ($table) {
-            $table->engine='InnoDB';
-            $table->increments('id');
-            $table->string('state_name');
-            $table->timestamp('timestamp')->default(DB::raw('CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP'));
-        });
-
-        Schema::create('year', function ($table) {
-            $table->engine='InnoDB';
-            $table->increments('id');
-            $table->string('year_name');
-            $table->timestamp('timestamp')->default(DB::raw('CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP'));
-        });
-
-        Schema::create('rest_part', function ($table) {
-            $table->engine='InnoDB';
-            $table->increments('id');
-            $table->string('rest');
-            $table->timestamp('timestamp')->default(DB::raw('CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP'));
-        });
-
-        Schema::create('exam_state_map',function ($table){
-            $table->engine='InnoDB';
-            $table->increments('id');
-            $table->integer('exam_id')->unsigned();
-            $table->integer('state_id')->unsigned();
-            $table->foreign('exam_id')->references('id')->on('examtag')->onDelete('cascade');
-            $table->foreign('state_id')->references('id')->on('state')->onDelete('cascade');
-        });
-
-        Schema::create('exam_state_year_map',function ($table){
-            $table->engine='InnoDB';
-            $table->increments('id');
-            $table->integer('exam_state_id')->unsigned();
-            $table->integer('year_id')->unsigned();
-            $table->foreign('exam_state_id')->references('id')->on('exam_state_map')->onDelete('cascade');
-            $table->foreign('year_id')->references('id')->on('year')->onDelete('cascade');
-        });
-
-        Schema::create('exam_state_year_rest_map',function ($table){
-            $table->engine='InnoDB';
-            $table->increments('id');
-            $table->integer('exam_state_year_id')->unsigned();
-            $table->integer('rest_id')->unsigned();
-            $table->foreign('exam_state_year_id')->references('id')->on('exam_state_year_map')->onDelete('cascade');
-            $table->foreign('rest_id')->references('id')->on('rest_part')->onDelete('cascade');
-        });
-
-        Schema::table('questiontags', function ($table) {
-            $table->dropForeign('questiontags_tag_id_foreign');
-        });
-
-        Schema::table('questiontags', function ($table) {
-            $table->Foreign('tag_id')->references('id')->on('exam_state_year_rest_map')->onDelete('cascade');;
-        });
+//        Schema::create('state', function ($table) {
+//            $table->engine='InnoDB';
+//            $table->increments('id');
+//            $table->string('state_name');
+//            $table->timestamp('timestamp')->default(DB::raw('CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP'));
+//        });
+//
+//        Schema::create('year', function ($table) {
+//            $table->engine='InnoDB';
+//            $table->increments('id');
+//            $table->string('year_name');
+//            $table->timestamp('timestamp')->default(DB::raw('CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP'));
+//        });
+//
+//        Schema::create('rest_part', function ($table) {
+//            $table->engine='InnoDB';
+//            $table->increments('id');
+//            $table->string('rest');
+//            $table->timestamp('timestamp')->default(DB::raw('CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP'));
+//        });
+//
+//        Schema::create('exam_state_map',function ($table){
+//            $table->engine='InnoDB';
+//            $table->increments('id');
+//            $table->integer('exam_id')->unsigned();
+//            $table->integer('state_id')->unsigned();
+//            $table->foreign('exam_id')->references('id')->on('examtag')->onDelete('cascade');
+//            $table->foreign('state_id')->references('id')->on('state')->onDelete('cascade');
+//        });
+//
+//        Schema::create('exam_state_year_map',function ($table){
+//            $table->engine='InnoDB';
+//            $table->increments('id');
+//            $table->integer('exam_state_id')->unsigned();
+//            $table->integer('year_id')->unsigned();
+//            $table->foreign('exam_state_id')->references('id')->on('exam_state_map')->onDelete('cascade');
+//            $table->foreign('year_id')->references('id')->on('year')->onDelete('cascade');
+//        });
+//
+//        Schema::create('exam_state_year_rest_map',function ($table){
+//            $table->engine='InnoDB';
+//            $table->increments('id');
+//            $table->integer('exam_state_year_id')->unsigned();
+//            $table->integer('rest_id')->unsigned();
+//            $table->foreign('exam_state_year_id')->references('id')->on('exam_state_year_map')->onDelete('cascade');
+//            $table->foreign('rest_id')->references('id')->on('rest_part')->onDelete('cascade');
+//        });
+//
+//        Schema::table('questiontags', function ($table) {
+//            $table->dropForeign('questiontags_tag_id_foreign');
+//        });
+//
+//        Schema::table('questiontags', function ($table) {
+//            $table->Foreign('tag_id')->references('id')->on('exam_state_year_rest_map')->onDelete('cascade');;
+//        });
 
 
 

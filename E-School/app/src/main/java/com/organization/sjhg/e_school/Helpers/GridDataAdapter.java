@@ -28,11 +28,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class GridDataAdapter extends RecyclerView.Adapter<GridDataAdapter.ViewHolder> {
-    private List<ChapterList> android;
+    private List<ChapterList> chapterLists;
     private Context context;
 
     public GridDataAdapter(Context context,List<ChapterList> android) {
-        this.android = android;
+        this.chapterLists = android;
         this.context = context;
     }
 
@@ -45,7 +45,7 @@ public class GridDataAdapter extends RecyclerView.Adapter<GridDataAdapter.ViewHo
     @Override
     public void onBindViewHolder(GridDataAdapter.ViewHolder viewHolder, final int i) {
 
-        viewHolder.tv_android.setText((String) android.get(i).name);
+        viewHolder.tv_android.setText((String) chapterLists.get(i).name);
         Picasso.with(context).load("https://s9.postimg.io/al1o9ip5r/image.jpg").resize(50,50).into(viewHolder.img_android);
         viewHolder.view.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -63,7 +63,7 @@ public class GridDataAdapter extends RecyclerView.Adapter<GridDataAdapter.ViewHo
 
     @Override
     public int getItemCount() {
-        return android.size();
+        return chapterLists.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder{

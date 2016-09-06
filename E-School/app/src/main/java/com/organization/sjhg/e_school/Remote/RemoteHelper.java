@@ -9,6 +9,7 @@ import android.provider.Settings;
 import android.util.Log;
 
 import com.organization.sjhg.e_school.Content.Quest.QuestListActivity;
+import com.organization.sjhg.e_school.ExaminationParent;
 import com.organization.sjhg.e_school.Helpers.LogHelper;
 import com.organization.sjhg.e_school.Structure.LaughguruContentDetailBase;
 import com.organization.sjhg.e_school.Sync.FileManager;
@@ -192,6 +193,7 @@ public class RemoteHelper {
         new JSONParserAsync(url,params,header,caller,functionCalled);
     }
 
+<<<<<<< HEAD
     public void getQuestDetails(QuestListActivity questListActivity, RemoteCalls getItemDetails, String id) {
 
         String url=ServerAddress.getServerAddress(context)+GET_QUEST_DETAILS+"/"+id;
@@ -203,6 +205,17 @@ public class RemoteHelper {
         header.put("Content-Type","application/x-www-form-urlencoded");
 
         new JSONParserAsync(url,params,header,questListActivity,getItemDetails);
+=======
+    public void getUserAttemptDetails(RemoteCallHandler caller, RemoteCalls functionCalled, String access_token) {
+        String url=ServerAddress.getServerAddress(context)+GET_USER_DETAIL;
+        Map<String, String> params = new HashMap<String, String>();
+        params.put("client_id",GlobalConstants.CLIENT_ID);
+        params.put("client_secret",GlobalConstants.CLINET_SECRET);
+        params.put("access_token",access_token);
+        Map<String, String> header = new HashMap<String, String>();
+        header.put("Content-Type","application/x-www-form-urlencoded");
+        new JSONParserAsync(url,params,header,caller,functionCalled);
+>>>>>>> c7206a558b5e34b6416a98781613160e7c6a6030
     }
 
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -547,4 +560,6 @@ public class RemoteHelper {
         new JSONParserAsync(calendarURL, params, null, caller, functioncalled);
 
     }
+
+
 }
