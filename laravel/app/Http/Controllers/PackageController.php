@@ -12,6 +12,7 @@ class PackageController extends Controller
 {
     //Controller to create a new package
 
+
     public function showPackageCreator(Request $request) {
 
         $userId = $request->session()->get('id');
@@ -51,6 +52,8 @@ class PackageController extends Controller
         $packageDetails['chapters'] = Input::get('chapters');
         $packageDetails['topics'] = Input::get('topics');
         $packageDetails['packagetype'] = Input::get('PackageType');
+        $pack_sub_id = '';
+        $pack_sub_chap_id = '';
         if ($packageDetails['packagetype'] == 1) {
             $packageDetails['exam'] = Input::get('ExamTag');
         }
@@ -77,15 +80,15 @@ class PackageController extends Controller
 
                 foreach ($packageDetails['topics'] as $topic) {
 
-                    $query=DB::table('pack_subject_map')
+                    $query = DB::table('pack_subject_map')
                         ->where('pack_id', $packageId)
-                        ->where('subject_id', substr($topic,0,5))
+                        ->where('subject_id', substr($topic, 0, 5))
                         ->first();
-                    if($query==null) {
+                    if ($query == null) {
                         $pack_sub_id = DB::table('pack_subject_map')->insertGetId(
                             ['pack_id' => $packageId, 'subject_id' => substr($topic, 0, 5)]
                         );
-                        if (!$pack_sub_id>0){
+                        if (!$pack_sub_id > 0) {
                             DB::rollback();
                             $result['success'] = 'false';
                             $result['error'] = 'Error adding subject';
@@ -93,15 +96,16 @@ class PackageController extends Controller
                             return Redirect::to('package/list')->with('data', $data);
                         }
 
-                        $query=DB::table('pack_subject_chapter_map')
+                        $query = DB::table('pack_subject_chapter_map')
                             ->where('pack_subject_id', $pack_sub_id)
-                            ->where('chapter_id', substr($topic,0,10))
+                            ->where('chapter_id', substr($topic, 0, 10))
                             ->first();
-                        if($query==null) {
+                        if ($query == null) {
+
                             $pack_sub_chap_id = DB::table('pack_subject_chapter_map')->insertGetId(
                                 ['pack_subject_id' => $pack_sub_id, 'chapter_id' => substr($topic, 0, 10)]
                             );
-                            if (!$pack_sub_chap_id>0){
+                            if (!$pack_sub_chap_id > 0) {
                                 DB::rollback();
                                 $result['success'] = 'false';
                                 $result['error'] = 'Error adding subject';
@@ -112,7 +116,61 @@ class PackageController extends Controller
                             $query = DB::table('pack_subject_chapter_topic_map')->insert(
                                 ['pack_subject_chapter_id' => $pack_sub_chap_id, 'topic_id' => $topic]
                             );
-                            if (!$query>0){
+                            if (!$query > 0) {
+                                DB::rollback();
+                                $result['success'] = 'false';
+                                $result['error'] = 'Error adding topic';
+                                $data['result'] = $result;
+                                return Redirect::to('package/list')->with('data', $data);
+                            }
+                        } else {
+
+                            $query = DB::table('pack_subject_chapter_topic_map')->insert(
+                                ['pack_subject_chapter_id' => $pack_sub_chap_id, 'topic_id' => $topic]
+                            );
+                            if (!$query > 0) {
+                                DB::rollback();
+                                $result['success'] = 'false';
+                                $result['error'] = 'Error adding topic';
+                                $data['result'] = $result;
+                                return Redirect::to('package/list')->with('data', $data);
+                            }
+                        }
+                    } else {
+
+                        $query = DB::table('pack_subject_chapter_map')
+                            ->where('pack_subject_id', $pack_sub_id)
+                            ->where('chapter_id', substr($topic, 0, 10))
+                            ->first();
+                        if ($query == null) {
+
+                            $pack_sub_chap_id = DB::table('pack_subject_chapter_map')->insertGetId(
+                                ['pack_subject_id' => $pack_sub_id, 'chapter_id' => substr($topic, 0, 10)]
+                            );
+                            if (!$pack_sub_chap_id > 0) {
+                                DB::rollback();
+                                $result['success'] = 'false';
+                                $result['error'] = 'Error adding subject';
+                                $data['result'] = $result;
+                                return Redirect::to('package/list')->with('data', $data);
+                            }
+
+                            $query = DB::table('pack_subject_chapter_topic_map')->insert(
+                                ['pack_subject_chapter_id' => $pack_sub_chap_id, 'topic_id' => $topic]
+                            );
+                            if (!$query > 0) {
+                                DB::rollback();
+                                $result['success'] = 'false';
+                                $result['error'] = 'Error adding topic';
+                                $data['result'] = $result;
+                                return Redirect::to('package/list')->with('data', $data);
+                            }
+                        } else {
+
+                            $query = DB::table('pack_subject_chapter_topic_map')->insert(
+                                ['pack_subject_chapter_id' => $pack_sub_chap_id, 'topic_id' => $topic]
+                            );
+                            if (!$query > 0) {
                                 DB::rollback();
                                 $result['success'] = 'false';
                                 $result['error'] = 'Error adding topic';
@@ -133,8 +191,8 @@ class PackageController extends Controller
 
             DB::commit();
 
-        } catch(Exception $e)
-        {
+        } catch(Exception $e) {
+
             // Back to form with errors
             DB::rollback();
             $result['success'] = 'false';
