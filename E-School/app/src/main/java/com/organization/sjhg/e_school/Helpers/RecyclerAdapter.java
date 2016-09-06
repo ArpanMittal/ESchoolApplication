@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.organization.sjhg.e_school.ExaminationParent;
 import com.organization.sjhg.e_school.ListActivity;
 import com.organization.sjhg.e_school.ListStructure.InternalList;
 import com.organization.sjhg.e_school.R;
@@ -67,11 +68,19 @@ public class RecyclerAdapter extends RecyclerView.Adapter<View_Holder> implement
 //                    pre=null;
 //                }
 //                else {
-                    pre=item.id;
-                    Intent intent=new Intent(mContext.getApplicationContext(), ListActivity.class);
-                    intent.putExtra(mContext.getString(R.string.title),title);
-                    intent.putExtra(mContext.getString(R.string.jsonid),item.id);
-                    mContext.startActivity(intent);
+                    if(title.equals("Exams"))
+                    {
+                        Intent intent = new Intent(mContext.getApplicationContext(), ExaminationParent.class);
+                        intent.putExtra(mContext.getString(R.string.jsontitle), title);
+                        intent.putExtra(mContext.getString(R.string.jsonid), item.id);
+                        mContext.startActivity(intent);
+                    }
+                else {
+                        Intent intent = new Intent(mContext.getApplicationContext(), ListActivity.class);
+                        intent.putExtra(mContext.getString(R.string.title), title);
+                        intent.putExtra(mContext.getString(R.string.jsonid), item.id);
+                        mContext.startActivity(intent);
+                    }
                   //  new RemoteHelper(mContext).getItemDetails(RecyclerAdapter.this, RemoteCalls.GET_ITEM_DETAILS, title, item.id);
 //                }
 

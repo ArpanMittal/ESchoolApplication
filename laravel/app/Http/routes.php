@@ -53,7 +53,9 @@ Route::post('oauth/token','OAuthcontroller@getOAuthToken');
  * middleware to check validation of access token and return user_id into request
  */
 Route::group(['prefix'=>'api/v1','middleware'=>['oauth']],function(){
-
+    /*
+         * @input client_id,client_secret,access_token
+         */
     Route::post('getEmail','postController@getAllPost');
     Route::post('getAllAttempt','postController@getUserAttempt');
     
