@@ -43,10 +43,8 @@ public class Grid_Exam_Fragment extends FragmentStatePagerAdapter {
 
 
 
-        if(position==0)
+        if(position==1)
         {
- //           return new ExamListFragment();
-           //return Image_View_Fragment.newInstance("FirstFragment, Instance 1");
 
             Bundle bundle=new Bundle();
             bundle.putSerializable(context.getString(R.string.sendlist),(Serializable)examPrepareLists);
@@ -54,7 +52,7 @@ public class Grid_Exam_Fragment extends FragmentStatePagerAdapter {
             examListFragment.setArguments(bundle);
             return examListFragment;
         }
-        else if(position==1)
+        else if(position==2)
         {
             Bundle bundle=new Bundle();
             bundle.putSerializable(context.getString(R.string.sendlist),(Serializable)chapterLists);
@@ -62,7 +60,7 @@ public class Grid_Exam_Fragment extends FragmentStatePagerAdapter {
             samplePaperListFragment.setArguments(bundle);
             return samplePaperListFragment;
         }
-        else if(position==2)
+        else if(position==0)
         {
             return new Image_View_Fragment();
         }
@@ -75,11 +73,11 @@ public class Grid_Exam_Fragment extends FragmentStatePagerAdapter {
     @Override
     public CharSequence getPageTitle(int position) {
         // Generate title based on item position
-        if(position==0)
+        if(position==1)
         return context.getString(R.string.prepare);
-        else if(position==1)
-            return  context.getString(R.string.jsonsamplepaper);
         else if(position==2)
+            return  context.getString(R.string.jsonsamplepaper);
+        else if(position==0)
             return context.getString(R.string.practcice);
         else
             return "fgehg";
