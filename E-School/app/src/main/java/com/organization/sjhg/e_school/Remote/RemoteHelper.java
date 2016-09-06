@@ -8,6 +8,7 @@ import android.os.AsyncTask;
 import android.provider.Settings;
 import android.util.Log;
 
+import com.organization.sjhg.e_school.Content.Quest.QuestListActivity;
 import com.organization.sjhg.e_school.Helpers.LogHelper;
 import com.organization.sjhg.e_school.Structure.LaughguruContentDetailBase;
 import com.organization.sjhg.e_school.Sync.FileManager;
@@ -46,6 +47,7 @@ public class RemoteHelper {
     String GET_USER_DETAIL;
     String GET_DASHBOARD_DETAILS;
     String GET_ITEM_DETAILS;
+    String GET_QUEST_DETAILS;
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////
     String LOGIN_PAGE;
     String FETCH_CONTENT_PAGE;
@@ -72,6 +74,7 @@ public class RemoteHelper {
         GET_GOOGLE_AUTH_DETAILS=context.getResources().getString(R.string.getGoogleAccountDetails);
         GET_DASHBOARD_DETAILS="api/v1/getDashBoardDetails";
         GET_ITEM_DETAILS="api/v1/getDetails";
+        GET_QUEST_DETAILS = "api/v1/topic/chapter";
         //////////////////////////////////////////////////////////////////////////////////////
         GET_SINGLEADAPTIVE_TEST=this.context.getResources().getString(R.string.get_single_adaptive_test);
         LOGIN_PAGE = this.context.getResources().getString(R.string.login_page);
@@ -187,6 +190,19 @@ public class RemoteHelper {
         Map<String, String> header = new HashMap<String, String>();
         header.put("Content-Type","application/x-www-form-urlencoded");
         new JSONParserAsync(url,params,header,caller,functionCalled);
+    }
+
+    public void getQuestDetails(QuestListActivity questListActivity, RemoteCalls getItemDetails, String id) {
+
+        String url=ServerAddress.getServerAddress(context)+GET_QUEST_DETAILS+"/"+id;
+        Map<String, String> params = new HashMap<String, String>();
+        params.put("client_id",GlobalConstants.CLIENT_ID);
+        params.put("client_secret",GlobalConstants.CLINET_SECRET);
+
+        Map<String, String> header = new HashMap<String, String>();
+        header.put("Content-Type","application/x-www-form-urlencoded");
+
+        new JSONParserAsync(url,params,header,questListActivity,getItemDetails);
     }
 
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
