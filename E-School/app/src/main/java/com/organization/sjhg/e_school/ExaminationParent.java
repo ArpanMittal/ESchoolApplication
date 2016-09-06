@@ -48,6 +48,7 @@ import com.organization.sjhg.e_school.Utils.ToastActivity;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -107,7 +108,8 @@ public class ExaminationParent extends MainParentActivity {
 
 
         if (savedInstanceState != null) {
-
+            list = (List<DashBoardList>) savedInstanceState.getSerializable("Exam List");
+            showView(list);
         } else {
             progressBarActivity.showProgress(viewPager, mProgressView, true, getApplicationContext());
             new RemoteHelper(context).getItemDetails(this, RemoteCalls.GET_EXAM_PREPARE_LIST, title, id);
@@ -118,6 +120,15 @@ public class ExaminationParent extends MainParentActivity {
     }
     // Returns the page title for the top indicator
 
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        if(list!=null) {
+            outState.putSerializable("Exam List", (Serializable) list);
+        }
+        outState.putSerializable("LIST",(Serializable)dataList);
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -248,11 +259,13 @@ public class ExaminationParent extends MainParentActivity {
                     try{
                         //TODO::in case add analytics
                        // list=getUserAttemptList(response);
-                        showView(list);
+                        JSONObject jsonObject=response;
+                        if(list!=null)
+                            showView(list);
                     }catch (Exception e)
                     {
                         LogHelper logHelper = new LogHelper(e);
-                        e.printStackTrace(); 
+                        e.printStackTrace();
                     }
                 }
             }

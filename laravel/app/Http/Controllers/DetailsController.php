@@ -56,7 +56,7 @@ class DetailsController extends Controller
             case 'Exams':
                 $title = 'ExamSubject';
                 $data = $this->getExamPrepareSubjects($id);
-                array_push($data,$this->getSamplePaper($id));
+
         }
 
 
@@ -193,12 +193,14 @@ class DetailsController extends Controller
         for($i=0;$i<count($prepare);$i++)
         {
             $subject=$this->getExamSubject($prepare[$i]->id);
+
             for($j=0;$j<count($subject);$j++)
             {
                 $subject[$j]->chapter=$this->getIndividualChapter($subject[$j]->mainId);
             }
             $prepare[$i]->name="Package";
             $prepare[$i]->subject=$subject;
+            $prepare[$i]->samplepaper=$this->getSamplePaper($id);
 
 
         }
