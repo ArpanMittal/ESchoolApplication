@@ -58,84 +58,9 @@ class PackageController extends Controller
         if ($topicCount <= 100) { $packageDetails['cost'] = 10*$topicCount; }
         elseif ($topicCount > 100 && $topicCount <= 200) { $packageDetails['cost'] = (10*$topicCount)-$topicCount; }
         elseif ($topicCount > 200) { $packageDetails['cost'] = (10 * $topicCount) - (2.5*$topicCount); }
-        $subIds = array();
 
         try {
             DB::beginTransaction();
-
-            if (count($packageDetails['subjects']) != 0) {
-
-                foreach ($packageDetails['subjects'] as $subject) {
-
-                    $temp = DB::table('subscription')->insertGetId(
-                        ['type_id' => 1, 'item_id' => $subject]
-                    );
-                    if (!$temp>0){
-                        DB::rollback();
-                        $result['success'] = 'false';
-                        $result['error'] = 'Error adding subject';
-                        $data['result'] = $result;
-                        return Redirect::to('package/list')->with('data', $data);
-                    }
-                    array_push($subIds, $temp);
-                    foreach ($packageDetails['chapters'] as $chapter) {
-
-                        if (substr_compare($subject, $chapter, 0, 5) == 0) {
-
-                            foreach ($packageDetails['topics'] as $topic) {
-
-                                if (substr_compare($chapter, $topic, 0, 10) == 0) {
-                                    $key = array_search($topic, $packageDetails['topics']);
-                                    unset($packageDetails['topics'][$key]);
-                                }
-                            }
-                            $key = array_search($chapter, $packageDetails['chapters']);
-                            unset($packageDetails['chapters'][$key]);
-                        }
-                    }
-                }
-            }
-            if (count($packageDetails['chapters']) != 0) {
-
-                foreach ($packageDetails['chapters'] as $chapter) {
-
-                    $temp = DB::table('subscription')->insertGetId(
-                        ['type_id' => 2, 'item_id' => $chapter]
-                    );
-                    if (!$temp>0){
-                        DB::rollback();
-                        $result['success'] = 'false';
-                        $result['error'] = 'Error adding chapter';
-                        $data['result'] = $result;
-                        return Redirect::to('package/list')->with('data', $data);
-                    }
-                    array_push($subIds, $temp);
-                    foreach ($packageDetails['topics'] as $topic) {
-
-                        if (substr_compare($chapter, $topic, 0, 10) == 0) {
-                            $key = array_search($topic, $packageDetails['topics']);
-                            unset($packageDetails['topics'][$key]);
-                        }
-                    }
-                }
-            }
-            if (count($packageDetails['topics']) != 0) {
-
-                foreach ($packageDetails['topics'] as $topic) {
-
-                    $temp = DB::table('subscription')->insertGetId(
-                        ['type_id' => 3, 'item_id' => $topic]
-                    );
-                    if (!$temp>0){
-                        DB::rollback();
-                        $result['success'] = 'false';
-                        $result['error'] = 'Error adding topic';
-                        $data['result'] = $result;
-                        return Redirect::to('package/list')->with('data', $data);
-                    }
-                    array_push($subIds, $temp);
-                }
-            }
 
             $packageId = DB::table('package')->insertGetId(
                 ['package_name' => $packageDetails['name'], 'cost' => $packageDetails['cost']]
@@ -148,11 +73,55 @@ class PackageController extends Controller
                 return Redirect::to('package/list')->with('data', $data);
             }
 
-            foreach ($subIds as $subId) {
+            if (isset($packageDetails['topics'])) {
 
-                DB::table('packagesubmap')->insert(
-                    ['pack_id'=> $packageId, 'sub_id' => $subId]
-                );
+                foreach ($packageDetails['topics'] as $topic) {
+
+                    $query=DB::table('pack_subject_map')
+                        ->where('pack_id', $packageId)
+                        ->where('subject_id', substr($topic,0,5))
+                        ->first();
+                    if($query==null) {
+                        $pack_sub_id = DB::table('pack_subject_map')->insertGetId(
+                            ['pack_id' => $packageId, 'subject_id' => substr($topic, 0, 5)]
+                        );
+                        if (!$pack_sub_id>0){
+                            DB::rollback();
+                            $result['success'] = 'false';
+                            $result['error'] = 'Error adding subject';
+                            $data['result'] = $result;
+                            return Redirect::to('package/list')->with('data', $data);
+                        }
+
+                        $query=DB::table('pack_subject_chapter_map')
+                            ->where('pack_subject_id', $pack_sub_id)
+                            ->where('chapter_id', substr($topic,0,10))
+                            ->first();
+                        if($query==null) {
+                            $pack_sub_chap_id = DB::table('pack_subject_chapter_map')->insertGetId(
+                                ['pack_subject_id' => $pack_sub_id, 'chapter_id' => substr($topic, 0, 10)]
+                            );
+                            if (!$pack_sub_chap_id>0){
+                                DB::rollback();
+                                $result['success'] = 'false';
+                                $result['error'] = 'Error adding subject';
+                                $data['result'] = $result;
+                                return Redirect::to('package/list')->with('data', $data);
+                            }
+
+                            $query = DB::table('pack_subject_chapter_topic_map')->insert(
+                                ['pack_subject_chapter_id' => $pack_sub_chap_id, 'topic_id' => $topic]
+                            );
+                            if (!$query>0){
+                                DB::rollback();
+                                $result['success'] = 'false';
+                                $result['error'] = 'Error adding topic';
+                                $data['result'] = $result;
+                                return Redirect::to('package/list')->with('data', $data);
+                            }
+                        }
+                    }
+                }
             }
 
             if ($packageDetails['packagetype'] == 1) {
@@ -188,9 +157,10 @@ class PackageController extends Controller
 
         $data['packages'] = DB::table('package')
             ->get();
-        $data['submap'] = DB::table('packagesubmap')
-            ->join('subscription', 'packagesubmap.sub_id', '=', 'subscription.id')
-            ->get();
+//        $data['submap'] = DB::table('pack_subject_map')
+//            ->join('pack_subject_chapter_map', 'pack_subject_map.id', '=', 'pack_subject_chapter_map.subject_map_id')
+//            ->join('pack_subject_chapter_topic_map', 'pack_subject_chapter_map.id', '=', 'pack_subject_chapter_topic_map.subject_chapter_map_id')
+//            ->get();
         return view('package.list',$data);
     }
 }

@@ -29,7 +29,7 @@
                                     <tr  class="gradeA success">
                                         <th  style="text-align:center" class ="sort">S.No</th>
                                         <th style="text-align:center">Package Name</th>
-                                        <th style="text-align:center">Content</th>
+                                        {{--<th style="text-align:center">Content</th>--}}
                                     </tr>
                                     </thead>
                                     <tbody>
@@ -39,13 +39,13 @@
                                             <tr class="gradeA info">
                                                 <td style="text-align:right;width:60px">{{isset($Sno)?++$Sno:$Sno=1}}</td>
                                                 <td style="width: 200px">{{$package->package_name}}</td>
-                                                <td style="text-align:left">
-                                                @foreach($submap as $submaps)
-                                                    @if($submaps->pack_id == $package->id)
-                                                            {{$submaps->item_id.", "}}
-                                                    @endif
-                                                @endforeach
-                                                </td>
+                                                {{--<td style="text-align:left">--}}
+                                                {{--@foreach($submap as $submaps)--}}
+                                                    {{--@if($submaps->pack_id == $package->id)--}}
+                                                            {{--{{$submaps->item_id.", "}}--}}
+                                                    {{--@endif--}}
+                                                {{--@endforeach--}}
+                                                {{--</td>--}}
                                             </tr>
                                         @endforeach
                                     @endif
