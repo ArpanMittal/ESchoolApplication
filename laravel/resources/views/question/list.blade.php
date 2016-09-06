@@ -56,7 +56,7 @@
                                         <div class="control-group">
                                             <label class="control-label">Topic</label>
                                             <div class="controls">
-                                                <select name="SubjectId" id="SubjectId" >
+                                                <select name="TopicId" id="TopicId" >
                                                     <option value="">-- Select Topic --</option>
                                                     @if(isset($topics))
                                                         @foreach($topics as $topic)
