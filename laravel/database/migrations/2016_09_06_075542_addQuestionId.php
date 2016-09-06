@@ -17,6 +17,10 @@ class AddQuestionId extends Migration
             $table->integer('question_id')->unsigned();
             $table->foreign('question_id')->references('id')->on('question')->onDelete('cascade');
         });
+        Schema::table('question',function($table){
+            $table->integer('users_difficulty')->nullable();
+            $table->time('users_ideal_attempt_time')->nullable();
+        });
     }
 
     /**
