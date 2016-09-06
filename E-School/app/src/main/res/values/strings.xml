@@ -205,6 +205,7 @@
     <string name="jsonsubject">subject</string>
     <string name="ExamContent">ExamSubject</string>
     <string name="sendlist">SENDLIST</string>
+    <string name="jsonsamplepaper">samplepaper</string>
 
 
 </resources>

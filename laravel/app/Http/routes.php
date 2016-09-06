@@ -55,6 +55,7 @@ Route::post('oauth/token','OAuthcontroller@getOAuthToken');
 Route::group(['prefix'=>'api/v1','middleware'=>['oauth']],function(){
 
     Route::post('getEmail','postController@getAllPost');
+    Route::post('getAllAttempt','postController@getUserAttempt');
     
 });
 
@@ -69,7 +70,6 @@ Route::group(['prefix'=>'api/v1','middleware'=>['client']],function(){
     Route::post('getDetails/{tag}/{id}','DetailsController@getDetails');
     Route::post('search', array('uses' => 'SearchController@search'));
     Route::post('search/{key}', array('uses' => 'SearchController@search'));
-
     Route::post('topic/chapter/{id}', array('uses' => 'QuestController@freeDetails'));
 });
 

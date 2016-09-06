@@ -32,6 +32,7 @@ import com.organization.sjhg.e_school.Fragments.Notes_Listing_Fragment;
 import com.organization.sjhg.e_school.Helpers.Custom_Pager_Adapter;
 import com.organization.sjhg.e_school.Helpers.Grid_Exam_Fragment;
 import com.organization.sjhg.e_school.Helpers.LogHelper;
+import com.organization.sjhg.e_school.Helpers.StudentApplicationUserData;
 import com.organization.sjhg.e_school.ListStructure.ChapterList;
 import com.organization.sjhg.e_school.ListStructure.DashBoardList;
 import com.organization.sjhg.e_school.ListStructure.ExamPrepareList;
@@ -41,6 +42,7 @@ import com.organization.sjhg.e_school.ListStructure.ItemDataList;
 import com.organization.sjhg.e_school.Remote.RemoteCalls;
 import com.organization.sjhg.e_school.Remote.RemoteHelper;
 import com.organization.sjhg.e_school.Utils.ProgressBarActivity;
+import com.organization.sjhg.e_school.Utils.SharedPrefrence;
 import com.organization.sjhg.e_school.Utils.ToastActivity;
 
 import org.json.JSONArray;
@@ -67,7 +69,7 @@ public class ExaminationParent extends MainParentActivity {
     private String id;
     TabLayout tabLayout;
     private List<DashBoardList> list = new ArrayList<>();
-
+    private SharedPrefrence sharedPrefrence=new SharedPrefrence();
     private ProgressBarActivity progressBarActivity = new ProgressBarActivity();
     private ToastActivity toastActivity = new ToastActivity();
 
@@ -109,6 +111,7 @@ public class ExaminationParent extends MainParentActivity {
         } else {
             progressBarActivity.showProgress(viewPager, mProgressView, true, getApplicationContext());
             new RemoteHelper(context).getItemDetails(this, RemoteCalls.GET_EXAM_PREPARE_LIST, title, id);
+
         }
 
 
@@ -141,6 +144,7 @@ public class ExaminationParent extends MainParentActivity {
             title = response.getString(getString(R.string.jsontitle));
             JSONArray data = response.getJSONArray(context.getString(R.string.data));
             List<ExamPrepareList> examPrepareLists = new ArrayList<>();
+            List<ChapterList> chapterList=new ArrayList<>();
             for (int i = 0; i < data.length(); i++) {
                 JSONObject jsonObject = data.getJSONObject(i);
                 String cost = jsonObject.getString(getString(R.string.cost));
@@ -166,9 +170,18 @@ public class ExaminationParent extends MainParentActivity {
 
                 }
                 examPrepareLists.add(new ExamPrepareList(cost, duration, id, internalListDatas));
-
+                JSONArray samplePaper = jsonObject.getJSONArray(context.getString(R.string.jsonsamplepaper));
+                for(int j=0;j<samplePaper.length();j++)
+                {
+                    JSONObject jsonObject1=samplePaper.getJSONObject(j);
+                    String name=jsonObject1.getString(context.getString(R.string.jsonname));
+                    String id1=jsonObject1.getString(context.getString(R.string.jsonid));
+                    chapterList.add(new ChapterList(id1,name));
+                }
             }
-            list.add(new DashBoardList(title, examPrepareLists, 1));
+            list.add(new DashBoardList(title, examPrepareLists, chapterList));
+
+
         } catch (Exception e) {
             e.printStackTrace();
             new ToastActivity().makeJsonException((Activity) context);
@@ -212,7 +225,14 @@ public class ExaminationParent extends MainParentActivity {
                                 toastActivity.makeToastMessage(response,(Activity)context);
                             } else {
                                 list = getList(response);
-                                showView(list);
+                                if(sharedPrefrence.getAccessToken(context)!=null)
+                                {
+                                    progressBarActivity.showProgress(viewPager,mProgressView,true,getApplicationContext());
+                                    new RemoteHelper(context).getUserAttemptDetails(this,RemoteCalls.GET_USER_ATTEMPT_DETAILS,sharedPrefrence.getAccessToken(context));
+                                }
+                                else {
+                                    showView(list);
+                                }
                                // List<DashBoardList>dashBoardLists=list;
 
                             }
@@ -222,6 +242,17 @@ public class ExaminationParent extends MainParentActivity {
                     } catch (Exception e) {
                         LogHelper logHelper = new LogHelper(e);
                         e.printStackTrace();
+                    }
+                }
+                case GET_USER_ATTEMPT_DETAILS:{
+                    try{
+                        //TODO::in case add analytics
+                       // list=getUserAttemptList(response);
+                        showView(list);
+                    }catch (Exception e)
+                    {
+                        LogHelper logHelper = new LogHelper(e);
+                        e.printStackTrace(); 
                     }
                 }
             }
