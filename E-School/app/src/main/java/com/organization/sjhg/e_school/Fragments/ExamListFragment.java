@@ -55,8 +55,7 @@ public class ExamListFragment extends Fragment {
         internalListDatas.addAll(list.get(i).internalListDatas);
         GridParentDataAdapter adapter = new GridParentDataAdapter(getContext(),internalListDatas);
         rv.setAdapter(adapter);
-//        MyAdapter adapter = new MyAdapter(new String[]{"test one", "test two", "test three", "test four", "test five" , "test six" , "test seven"});
-//        rv.setAdapter(adapter);
+
 
         LinearLayoutManager llm = new LinearLayoutManager(getActivity());
         rv.setLayoutManager(llm);
@@ -64,49 +63,5 @@ public class ExamListFragment extends Fragment {
         return rootView;
     }
 
-    private class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
-        private String[] mDataset;
-
-        // Provide a reference to the views for each data item
-        // Complex data items may need more than one view per item, and
-        // you provide access to all the views for a data item in a view holder
-        public class MyViewHolder extends RecyclerView.ViewHolder {
-            public CardView mCardView;
-            public TextView mTextView;
-            public MyViewHolder(View v) {
-                super(v);
-
-                mCardView = (CardView) v.findViewById(R.id.cardView);
-                mTextView = (TextView) v.findViewById(R.id.name);
-            }
-        }
-
-        // Provide a suitable constructor (depends on the kind of dataset)
-        public MyAdapter(String[] myDataset) {
-            mDataset = myDataset;
-        }
-
-        // Create new views (invoked by the layout manager)
-        @Override
-        public MyAdapter.MyViewHolder onCreateViewHolder(ViewGroup parent,
-                                                         int viewType) {
-            // create a new view
-            View v = LayoutInflater.from(parent.getContext())
-                    .inflate(R.layout.activitycardview, parent, false);
-            // set the view's size, margins, paddings and layout parameters
-            MyViewHolder vh = new MyViewHolder(v);
-            return vh;
-        }
-
-        @Override
-        public void onBindViewHolder(MyViewHolder holder, int position) {
-            holder.mTextView.setText(mDataset[position]);
-        }
-
-        @Override
-        public int getItemCount() {
-            return mDataset.length;
-        }
-    }
 
 }

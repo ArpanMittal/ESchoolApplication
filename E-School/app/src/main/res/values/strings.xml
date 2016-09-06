@@ -206,6 +206,8 @@
     <string name="ExamContent">ExamSubject</string>
     <string name="sendlist">SENDLIST</string>
     <string name="jsonsamplepaper">samplepaper</string>
+    <string name="prepare">prepare</string>
+    <string name="practcice">practice</string>
 
 
 </resources>
