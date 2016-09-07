@@ -95,7 +95,11 @@
 
         <activity android:name=".Content.NewTest.TestInstructionActivity"
             android:theme="@style/AppTheme.NoActionBar"
+            android:label="TestInstruction"/>
+
+        <activity android:name=".Content.NewTest.TestActivity"
             android:label="Test"/>
+
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         <activity
             android:name=".MainActivity"

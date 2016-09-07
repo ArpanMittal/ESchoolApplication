@@ -54,8 +54,8 @@ public class TestInstructionActivity extends MainParentActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         final Intent intent=getIntent();
-        String tag=intent.getStringExtra("Tag");
-        String id=intent.getStringExtra("Id");
+        final String tag=intent.getStringExtra("Tag");
+        final String id=intent.getStringExtra("Id");
         //framework code
         ViewStub view_Stub=(ViewStub)findViewById(R.id.viewstub);
         view_Stub.setLayoutResource(R.layout.app_bar_main);
@@ -103,6 +103,10 @@ public class TestInstructionActivity extends MainParentActivity {
                 }
                 else
                 {
+                    Intent intent1=new Intent(getApplicationContext(),TestActivity.class);
+                    intent1.putExtra("Tag",tag);
+                    intent1.putExtra("Id",id);
+                    startActivity(intent1);
 
                 }
             }
@@ -149,76 +153,6 @@ public class TestInstructionActivity extends MainParentActivity {
     }
 
 
-    @Override
-    public void HandleRemoteCall(boolean isSuccessful, RemoteCalls callFor, JSONObject response, Exception exception) {
-        super.HandleRemoteCall(isSuccessful,callFor,response,exception);
-        if(!isSuccessful)
-        {
-            toastActivity.makeUknownErrorMessage(this);
-        }
-        else
-        {
-
-            switch (callFor) {
-            case GET_USER_DETAILS:
-            {
-                try {
-                    if (response.get("code").toString().equals(GlobalConstants.EXPIRED_TOKEN))
-                    {
-
-                        if(sharedPrefrence.getRefreshToken(getApplicationContext())==null)
-                        {
-
-                            toastActivity.makeToastMessage(response,this);
-                            break;
-                        }
-                        else
-                        {
-                            new RemoteHelper(getApplicationContext()).getAccessToken(this,RemoteCalls.GET_ACCESS_TOKEN,sharedPrefrence.getRefreshToken(getApplicationContext()));
-                        }
-
-                    }
-                    else
-                    {
-                        Toast.makeText(this, response.toString(), Toast.LENGTH_LONG);
-                        Intent intent = new Intent(this, Main_Activity.class);
-                        startActivity(intent);
-                    }
-                }catch (Exception e)
-                {
-                    LogHelper logHelper=new LogHelper(e);
-                    e.printStackTrace();
-                }
-
-                break;
-            }
-            case GET_ACCESS_TOKEN:
-            {
-                try{
-                    if(response.get("sucess").toString().equals("false"))
-                    {
-                        toastActivity.makeToastMessage(response,this);
-                    }
-                    else
-                    {
-                        sharedPrefrence.saveAccessToken(getApplicationContext(),response.get("access_token").toString(),response.get("refresh_token").toString());
-
-                        new RemoteHelper(getApplicationContext()).getUserDetails(this,RemoteCalls.GET_USER_DETAILS,response.get("access_token").toString());
-                    }
-                }catch (Exception e)
-                {
-                    LogHelper logHelper=new LogHelper(e);
-                    e.printStackTrace();
-                }
-                break;
-            }
-        }
-
-        }
-
-
-
-    }
 
 
 }

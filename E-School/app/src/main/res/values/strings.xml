@@ -208,6 +208,13 @@
     <string name="jsonsamplepaper">samplepaper</string>
     <string name="prepare">prepare</string>
     <string name="practcice">practice</string>
+    <string name="jsonhash">hash</string>
+    <string name="jsonquestiontype">type_id</string>
+    <string name="jsonsolutonpath">solution_path</string>
+    <string name="jsondifficulty">difficulty</string>
+    <string name="jsonquestionimage">question_image_path</string>
+    <string name="jsonanswer">answer</string>
+    <string name="jsonoption">option</string>
 
 
 </resources>
