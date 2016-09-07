@@ -58,7 +58,7 @@ Route::group(['prefix'=>'api/v1','middleware'=>['oauth']],function(){
          */
     Route::post('getEmail','postController@getAllPost');
     Route::post('getAllAttempt','postController@getUserAttempt');
-    Route::post('getSamplePaper/{tag}/{key}',array('uses'=>'fetchQuestionController@getQuestion'));
+    Route::post('getQuestion/{tag}/{key}',array('uses'=>'fetchQuestionController@getQuestion'));
     
     
 });
