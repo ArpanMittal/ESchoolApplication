@@ -1,19 +1,28 @@
 package com.organization.sjhg.e_school.Content;
 
 import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.graphics.drawable.AnimationDrawable;
 import android.graphics.drawable.ColorDrawable;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
+import android.support.v7.app.AppCompatActivity;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
 import android.widget.ImageView;
 import android.widget.MediaController;
+import android.widget.ProgressBar;
 import android.widget.VideoView;
 
+import com.organization.sjhg.e_school.Helpers.LogHelper;
 import com.organization.sjhg.e_school.HideNavigationBar;
+import com.organization.sjhg.e_school.MainParentActivity;
 import com.organization.sjhg.e_school.R;
+import com.organization.sjhg.e_school.Remote.ServerAddress;
+import com.organization.sjhg.e_school.Utils.ToastActivity;
 import com.organization.sjhg.e_school.deviceadmin.DeviceAdminUtil;
 
 /**
@@ -22,17 +31,75 @@ import com.organization.sjhg.e_school.deviceadmin.DeviceAdminUtil;
  * Organization: St. Joseph's Hitech Gurukul.
  */
 
-public class AudioVideoPlayerActivity extends ContentViewer {
+public class AudioVideoPlayerActivity extends AppCompatActivity {
+    private String videoUrl;
+    private VideoView videoView;
+    private ProgressDialog pDialog;
     @Override
-    protected void onCreate(final Bundle savedInstanceState) {
+    public void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        DeviceAdminUtil.checkAndPrompt(this);
         HideNavigationBar hideNavigationBar=new HideNavigationBar();
         hideNavigationBar.hideNavigationBar(getWindow());
         setContentView(R.layout.activity_audio_video_player);
+        videoUrl =getIntent().getStringExtra("path");
+        videoView = (VideoView) findViewById(R.id.video_view);
 
-        super.onResume();
-        videoView(localFilePath);
+
+
+        // Create a progressbar
+        pDialog = new ProgressDialog(this);
+        // Set progressbar title
+        pDialog.setTitle("Video");
+        // Set progressbar message
+        pDialog.setMessage("Buffering...");
+        pDialog.setIndeterminate(false);
+        pDialog.setCancelable(false);
+        // Show progressbar
+        pDialog.show();
+
+        try {
+            // Start the MediaController
+            final MediaController mediacontroller = new MediaController(
+                    this);
+            mediacontroller.setAnchorView(videoView);
+            // Get the URL from String VideoURL
+            Uri video = Uri.parse(ServerAddress.getServerAddress(this)+videoUrl);
+            videoView.setMediaController(mediacontroller);
+            videoView.setVideoURI(video);
+
+            videoView.setOnTouchListener(new View.OnTouchListener() {
+                @Override
+                public boolean onTouch(View v, MotionEvent event) {
+                    int delaytime = 3000;
+                    mediacontroller.show(delaytime-250);
+                    Handler h = new Handler();
+
+                    h.postDelayed(new Runnable() {
+
+                        @Override
+                        public void run() {
+                            HideNavigationBar hideNavigationBar=new HideNavigationBar();
+                            hideNavigationBar.hideNavigationBar(getWindow());
+                        }
+                    }, delaytime);
+                    return true;
+                }
+            });
+
+        } catch (Exception e) {
+            new ToastActivity().makeJsonException(this);
+            new LogHelper(e);
+            e.printStackTrace();
+        }
+
+        videoView.requestFocus();
+        videoView.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+            // Close the progress bar and play the video
+            public void onPrepared(MediaPlayer mp) {
+                pDialog.dismiss();
+                videoView.start();
+            }
+        });
     }
 
     @Override
@@ -47,43 +114,43 @@ public class AudioVideoPlayerActivity extends ContentViewer {
         super.onPause();
     }
 
-    private void videoView(String localFilePath) {
-        final VideoView myVideoView = (VideoView) findViewById(R.id.video_view);
-        final int position = 0;
-        final Dialog progressDialog;
-        MediaController mediaControls = null;
-
-        if (mediaControls == null) {
-            mediaControls = new MediaController(this);
-        }
-
-        progressDialog = new Dialog(this);
-        progressDialog.getWindow().requestFeature(Window.FEATURE_NO_TITLE);
-        progressDialog.setContentView(getLayoutInflater().inflate(R.layout.pdialog
-                , null));
-        progressDialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
-        progressDialog.setCancelable(false);
-        ImageView mImageViewFilling = (ImageView) progressDialog.findViewById(R.id.pdialogimageview);
-        ((AnimationDrawable) mImageViewFilling.getBackground()).start();
-        progressDialog.show();
-
-        myVideoView.setMediaController(mediaControls);
-        myVideoView.setVideoURI(Uri.parse(localFilePath));
-
-        myVideoView.requestFocus();
-        myVideoView.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
-
-            @Override
-            public void onPrepared(MediaPlayer mp) {
-                progressDialog.dismiss();
-                myVideoView.seekTo(position);
-                if (position == 0) {
-                    myVideoView.start();
-                } else {
-                    myVideoView.pause();
-                }
-            }
-        });
-
-    }
+//    private void videoView(String localFilePath) {
+//        final VideoView myVideoView = (VideoView) findViewById(R.id.video_view);
+//        final int position = 0;
+//        final Dialog progressDialog;
+//        MediaController mediaControls = null;
+//
+//        if (mediaControls == null) {
+//            mediaControls = new MediaController(this);
+//        }
+//
+//        progressDialog = new Dialog(this);
+//        progressDialog.getWindow().requestFeature(Window.FEATURE_NO_TITLE);
+//        progressDialog.setContentView(getLayoutInflater().inflate(R.layout.pdialog
+//                , null));
+//        progressDialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+//        progressDialog.setCancelable(false);
+//        ImageView mImageViewFilling = (ImageView) progressDialog.findViewById(R.id.pdialogimageview);
+//        ((AnimationDrawable) mImageViewFilling.getBackground()).start();
+//        progressDialog.show();
+//
+//        myVideoView.setMediaController(mediaControls);
+//        myVideoView.setVideoURI(Uri.parse(localFilePath));
+//
+//        myVideoView.requestFocus();
+//        myVideoView.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+//
+//            @Override
+//            public void onPrepared(MediaPlayer mp) {
+//                progressDialog.dismiss();
+//                myVideoView.seekTo(position);
+//                if (position == 0) {
+//                    myVideoView.start();
+//                } else {
+//                    myVideoView.pause();
+//                }
+//            }
+//        });
+//
+//    }
 }

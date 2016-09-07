@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content" android:layout_height="wrap_content"
+    android:paddingRight="@dimen/activity_right_padding"
+    android:paddingLeft="@dimen/activity_left_padding"
+    android:paddingTop="@dimen/activity_top_padding"
+    android:paddingBottom="@dimen/activity_bottom_padding">
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/name"
+        android:text="name"/>
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_alignTop="@+id/lockButton"
+        android:layout_alignBottom="@+id/lockButton"
+        android:id="@+id/background"
+        android:src="@drawable/ic_launcher"/>
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/name"
+        android:id="@+id/lockButton">
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Video"
+            android:id="@+id/video"/>
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/video"
+            android:text="Doc"
+            android:id="@+id/pdf" />
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/pdf"
+            android:text="Work Sheet"
+            android:id="@+id/worksheet"/>
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/worksheet"
+            android:text="Analytics"
+            android:id="@+id/analytics"/>
+    </RelativeLayout>
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/lockButton"
+        android:text="progress"
+        android:id="@+id/progress"/>
+
+</RelativeLayout>

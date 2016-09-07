@@ -58,6 +58,10 @@
             android:parentActivityName=".LoginActivity"
             android:label="@string/title_activity_module1"
             android:theme="@style/AppTheme.NoActionBar">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         <meta-data android:name="android.app.default_searchable"
             android:value=".Main_Activity" />
         </activity>
@@ -66,6 +70,11 @@
             android:theme="@style/AppTheme.NoActionBar"
             android:label="Quest"
             />
+        <activity
+            android:name=".Content.AudioVideoPlayerActivity"
+            android:label="@string/title_activity_audio_video_player"
+            android:screenOrientation="sensorLandscape"
+            android:theme="@style/AppTheme.NoActionBar" />
         <receiver
             android:name=".Helpers.ConnectivityReceiver"
             android:enabled="true">
@@ -75,12 +84,15 @@
         </receiver>
         <activity android:name=".ListActivity"
             android:theme="@style/AppTheme.NoActionBar"
+            android:parentActivityName=".Main_Activity"
             android:label="List"
            />
         <activity android:name=".ExaminationParent"
             android:theme="@style/AppTheme.NoActionBar"
-            android:label="Exam"
-            />
+
+            android:label="Exam"/>
+
+
         <activity android:name=".Content.NewTest.TestInstructionActivity"
             android:theme="@style/AppTheme.NoActionBar"
             android:label="Test"/>
@@ -99,11 +111,7 @@
             android:label="@string/title_activity_pdf_view"
             android:screenOrientation="sensorLandscape"
             android:theme="@android:style/Theme.NoTitleBar.Fullscreen" />
-        <activity
-            android:name=".Content.AudioVideoPlayerActivity"
-            android:label="@string/title_activity_audio_video_player"
-            android:screenOrientation="sensorLandscape"
-            android:theme="@android:style/Theme.NoTitleBar.Fullscreen" />
+
         <activity
             android:name=".Content.Test.TestActivity"
             android:label="@string/title_activity_test_fillIn_the_blanks"
@@ -121,10 +129,7 @@
             android:label="@string/app_name"
             android:screenOrientation="sensorLandscape"
             android:theme="@android:style/Theme.NoTitleBar.Fullscreen">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+
 
         </activity>
 
