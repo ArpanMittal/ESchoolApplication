@@ -58,6 +58,8 @@ Route::group(['prefix'=>'api/v1','middleware'=>['oauth']],function(){
          */
     Route::post('getEmail','postController@getAllPost');
     Route::post('getAllAttempt','postController@getUserAttempt');
+    Route::post('getSamplePaper/{tag}/{key}',array('uses'=>'fetchQuestionController@getQuestion'));
+    
     
 });
 
@@ -94,6 +96,7 @@ Route::group(['prefix' => 'question','middleware' => ['check.session']], functio
     Route::get('/view/next',array('uses' => 'QuestionController@viewNextQuestion'));
     Route::get('/view/{id}',array('uses' => 'QuestionController@viewQuestion'));
 });
+
 
 Route::group(['prefix' => 'content','middleware' => ['check.session']], function () {
     //list of all content classes

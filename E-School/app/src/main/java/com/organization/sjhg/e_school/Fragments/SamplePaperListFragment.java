@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.organization.sjhg.e_school.Helpers.GridDataAdapter;
+import com.organization.sjhg.e_school.Helpers.SamplePaperListDataAdapter;
 import com.organization.sjhg.e_school.ListStructure.ChapterList;
 import com.organization.sjhg.e_school.R;
 
@@ -37,10 +38,11 @@ public class SamplePaperListFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.list_view_helper, container, false);
         RecyclerView rv = (RecyclerView) rootView.findViewById(R.id.recycler);
-        GridDataAdapter gridDataAdapter=new GridDataAdapter(getContext(),chapterLists);
+        //GridDataAdapter gridDataAdapter=new GridDataAdapter(getContext(),chapterLists);
+        SamplePaperListDataAdapter samplePaperListDataAdapter=new SamplePaperListDataAdapter(getContext(),chapterLists);
         LinearLayoutManager llm = new LinearLayoutManager(getActivity());
         rv.setLayoutManager(llm);
-        rv.setAdapter(gridDataAdapter);
+        rv.setAdapter(samplePaperListDataAdapter);
         rv.setHasFixedSize(true);
 
         return rootView;
