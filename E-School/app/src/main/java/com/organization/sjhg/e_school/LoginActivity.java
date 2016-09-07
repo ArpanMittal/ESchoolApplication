@@ -422,8 +422,7 @@ public class LoginActivity extends AppCompatActivity implements RemoteCallHandle
                         {
                             progressBarActivity.showProgress(mLoginFormView,mProgressView,false,getApplicationContext());
                             Toast.makeText(this, response.toString(), Toast.LENGTH_LONG);
-                            Intent intent = new Intent(this, Main_Activity.class);
-                            startActivity(intent);
+                            finish();
                         }
                     }catch (Exception e)
                     {
