@@ -51,8 +51,8 @@ public class GridDataAdapter extends RecyclerView.Adapter<GridDataAdapter.ViewHo
             @Override
             public void onClick(View v) {
                 Intent intent  = new Intent(context, QuestListActivity.class);
-                intent.putExtra("chapterId",(String) android.get(i).id);
-                intent.putExtra("name",(String) android.get(i).name);
+                intent.putExtra("chapterId",(String) chapterLists.get(i).id);
+                intent.putExtra("name",(String) chapterLists.get(i).name);
                 intent.setFlags(
                         Intent.FLAG_ACTIVITY_NEW_TASK
                                 | Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS);
