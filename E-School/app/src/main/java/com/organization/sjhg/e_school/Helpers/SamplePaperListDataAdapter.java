@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.organization.sjhg.e_school.Content.NewTest.TestInstructionActivity;
 import com.organization.sjhg.e_school.Fragments.SamplePaperListFragment;
 import com.organization.sjhg.e_school.ListStructure.ChapterList;
 import com.organization.sjhg.e_school.Main_Activity;
@@ -45,7 +46,7 @@ public class SamplePaperListDataAdapter extends RecyclerView.Adapter<SamplePaper
         viewHolder.tv_android.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent=new Intent(context, Main_Activity.class);
+                Intent intent=new Intent(context, TestInstructionActivity.class);
                 intent.putExtra("Tag", GlobalConstants.SamplePaperTag);
                 intent.putExtra("Id",chapterLists.get(position).id);
                 context.startActivity(intent);
