@@ -79,8 +79,11 @@
            />
         <activity android:name=".ExaminationParent"
             android:theme="@style/AppTheme.NoActionBar"
-            android:label="List"
+            android:label="Exam"
             />
+        <activity android:name=".Content.NewTest.TestInstructionActivity"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:label="Test"/>
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         <activity
             android:name=".MainActivity"
