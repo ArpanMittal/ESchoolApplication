@@ -61,6 +61,7 @@ public class QuestListActivity extends MainParentActivity {
     private String id, name;
     private TopicList list;
     private ProgressBar mLoading,mProgress;
+    private View mProgressDialog;
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -90,6 +91,7 @@ public class QuestListActivity extends MainParentActivity {
 
         mLoading = (ProgressBar) findViewById(R.id.progress);
         mProgress = (ProgressBar) findViewById(R.id.completeProgress);
+        mProgressDialog = findViewById(R.id.progressDialog);
         id = getIntent().getStringExtra("chapterId");
         name = getIntent().getStringExtra("name");
         getSupportActionBar().setTitle(name);
@@ -226,5 +228,12 @@ public class QuestListActivity extends MainParentActivity {
         }
 
 
+    }
+
+    public void showDialog() {
+        mProgressDialog.setVisibility(View.VISIBLE);
+    }
+    public void dismissDialog(){
+        mProgressDialog.setVisibility(View.GONE);
     }
 }

@@ -28,7 +28,6 @@ public class PdfDisplayActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        DeviceAdminUtil.checkAndPrompt(this);
         HideNavigationBar hideNavigationBar=new HideNavigationBar();
         hideNavigationBar.hideNavigationBar(getWindow());
         Intent intent = getIntent();

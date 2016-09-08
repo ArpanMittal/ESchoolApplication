@@ -23,6 +23,8 @@ public class Provider extends ContentProvider {
 
     static final int USER = 100;
     static final int USER_WITH_ID = 101;
+    static final int CONTENT = 200;
+    static final int CONTENT_WITH_ID = 201;
 
     /*
         Here is where you need to create the UriMatcher. This UriMatcher will
@@ -42,6 +44,10 @@ public class Provider extends ContentProvider {
         matcher.addURI(authority, UserContract.PATH_USER_DETAIL, USER);
 
         matcher.addURI(authority, UserContract.PATH_USER_DETAIL + "/#", USER_WITH_ID);
+
+        matcher.addURI(authority, UserContract.PATH_CONTENT, CONTENT);
+
+        matcher.addURI(authority, UserContract.PATH_CONTENT + "/#", CONTENT_WITH_ID);
 
         return matcher;
     }
@@ -70,6 +76,10 @@ public class Provider extends ContentProvider {
             case USER:
                 return UserContract.UserDetailEntry.CONTENT_TYPE;
             case USER_WITH_ID:
+                return UserContract.UserDetailEntry.CONTENT_ITEM_TYPE;
+            case CONTENT:
+                return UserContract.UserDetailEntry.CONTENT_TYPE;
+            case CONTENT_WITH_ID:
                 return UserContract.UserDetailEntry.CONTENT_ITEM_TYPE;
             default:
                 throw new UnsupportedOperationException("Unknown uri: " + uri);
@@ -101,7 +111,32 @@ public class Provider extends ContentProvider {
                         UserContract.UserDetailEntry.TABLE_NAME,
                         projection,
                         UserContract.UserDetailEntry._ID + " = ?",
-                        new String[id],
+                        new String[]{String.valueOf(id)},
+                        null,
+                        null,
+                        sortOrder
+                );
+                break;
+            }
+            case CONTENT: {
+                retCursor = mOpenUserHelper.getReadableDatabase().query(
+                        UserContract.ContentEntry.TABLE_NAME,
+                        projection,
+                        selection,
+                        selectionArgs,
+                        null,
+                        null,
+                        sortOrder
+                );
+                break;
+            }
+            case CONTENT_WITH_ID: {
+                String id = UserContract.ContentEntry.getIdFromUri(uri);
+                retCursor = mOpenUserHelper.getReadableDatabase().query(
+                        UserContract.ContentEntry.TABLE_NAME,
+                        projection,
+                        UserContract.ContentEntry.COLUMN_ID + " = ?",
+                        new String[]{id},
                         null,
                         null,
                         sortOrder
@@ -133,6 +168,14 @@ public class Provider extends ContentProvider {
                     throw new android.database.SQLException("Failed to insert row into " + uri);
                 break;
             }
+            case CONTENT: {
+                long _id = db.insert(UserContract.ContentEntry.TABLE_NAME, null, values);
+                if (_id > 0)
+                    returnUri = UserContract.ContentEntry.buildUserDetailUri(_id);
+                else
+                    throw new android.database.SQLException("Failed to insert row into " + uri);
+                break;
+            }
             default:
                 throw new UnsupportedOperationException("Unknown uri: " + uri);
         }
@@ -155,7 +198,16 @@ public class Provider extends ContentProvider {
             case USER_WITH_ID:
                 int id = UserContract.UserDetailEntry.getIdFromUri(uri);
                 rowsDeleted = db.delete(
-                        UserContract.UserDetailEntry.TABLE_NAME, UserContract.UserDetailEntry._ID + " = ?", new String[id]);
+                        UserContract.UserDetailEntry.TABLE_NAME, UserContract.UserDetailEntry._ID + " = ?", new String[]{String.valueOf(id)});
+                break;
+            case CONTENT:
+                rowsDeleted = db.delete(
+                        UserContract.ContentEntry.TABLE_NAME, selection, selectionArgs);
+                break;
+            case CONTENT_WITH_ID:
+                String cid = UserContract.ContentEntry.getIdFromUri(uri);
+                rowsDeleted = db.delete(
+                        UserContract.UserDetailEntry.TABLE_NAME, UserContract.ContentEntry._ID + " = ?", new String[]{cid});
                 break;
             default:
                 throw new UnsupportedOperationException("Unknown uri: " + uri);
@@ -181,7 +233,15 @@ public class Provider extends ContentProvider {
                 break;
             case USER_WITH_ID:
                 int id = UserContract.UserDetailEntry.getIdFromUri(uri);
-                rowsUpdated = db.update(UserContract.UserDetailEntry.TABLE_NAME, values, UserContract.UserDetailEntry._ID + " = ?", new String[id]);
+                rowsUpdated = db.update(UserContract.UserDetailEntry.TABLE_NAME, values, UserContract.UserDetailEntry._ID + " = ?", new String[]{String.valueOf(id)});
+                break;
+            case CONTENT:
+                rowsUpdated = db.update(UserContract.ContentEntry.TABLE_NAME, values, selection,
+                        selectionArgs);
+                break;
+            case CONTENT_WITH_ID:
+                String cid = UserContract.ContentEntry.getIdFromUri(uri);
+                rowsUpdated = db.update(UserContract.ContentEntry.TABLE_NAME, values, UserContract.ContentEntry._ID + " = ?", new String[]{cid});
                 break;
             default:
                 throw new UnsupportedOperationException("Unknown uri: " + uri);

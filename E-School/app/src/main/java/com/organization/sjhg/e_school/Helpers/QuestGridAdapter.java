@@ -1,7 +1,14 @@
 package com.organization.sjhg.e_school.Helpers;
 
+import android.app.Activity;
+import android.app.DownloadManager;
+import android.app.ProgressDialog;
+import android.content.ActivityNotFoundException;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
+import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,12 +18,15 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.organization.sjhg.e_school.Content.AudioVideoPlayerActivity;
+import com.organization.sjhg.e_school.Content.PdfDisplayActivity;
 import com.organization.sjhg.e_school.Content.Quest.QuestListActivity;
 import com.organization.sjhg.e_school.ListStructure.Topic;
 import com.organization.sjhg.e_school.ListStructure.TopicList;
 import com.organization.sjhg.e_school.LoginActivity;
 import com.organization.sjhg.e_school.R;
+import com.organization.sjhg.e_school.Remote.ServerAddress;
 import com.organization.sjhg.e_school.Utils.SharedPrefrence;
+import com.organization.sjhg.e_school.Utils.ToastActivity;
 
 /**
  * Created by Punit Chhajer on 02-09-2016.
@@ -24,6 +34,7 @@ import com.organization.sjhg.e_school.Utils.SharedPrefrence;
 public class QuestGridAdapter extends RecyclerView.Adapter<QuestGridAdapter.QuestListViewHolder>{
     private Context context;
     private TopicList list;
+    private ProgressDialog mProgressDialog;
     public QuestGridAdapter(Context context, TopicList list) {
         this.context = context;
         this.list =list;
@@ -83,7 +94,18 @@ public class QuestGridAdapter extends RecyclerView.Adapter<QuestGridAdapter.Ques
                 holder.doc.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-
+                        String token = new SharedPrefrence().getAccessToken(context);
+                        if(token==null){
+                            Intent intent = new Intent(context, LoginActivity.class);
+                            context.startActivity(intent);
+                        }else{
+                            final FileHelper pdf = new FileHelper(context,detail.pdf_path,detail.pdf_hash,detail.hash);
+                            if (pdf.isExist()){
+                                pdf.openFile();
+                            }else{
+                                pdf.download();
+                            }
+                        }
                     }
                 });
             }else{
