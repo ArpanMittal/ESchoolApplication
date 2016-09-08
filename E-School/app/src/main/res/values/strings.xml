@@ -215,6 +215,7 @@
     <string name="jsonquestionimage">question_image_path</string>
     <string name="jsonanswer">answer</string>
     <string name="jsonoption">option</string>
+    <string name="jsonquestiontext">question_text</string>
 
 
 </resources>

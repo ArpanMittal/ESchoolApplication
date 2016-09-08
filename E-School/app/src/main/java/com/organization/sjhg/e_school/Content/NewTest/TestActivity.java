@@ -4,13 +4,19 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.PersistableBundle;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
 import android.widget.Toast;
 
 import com.organization.sjhg.e_school.Fragments.ExamListFragment;
+import com.organization.sjhg.e_school.Helpers.Grid_Exam_Fragment;
 import com.organization.sjhg.e_school.Helpers.LogHelper;
+import com.organization.sjhg.e_school.Helpers.QuestionAdapter;
 import com.organization.sjhg.e_school.ListStructure.ChapterList;
 import com.organization.sjhg.e_school.ListStructure.QuestionList;
+import com.organization.sjhg.e_school.ListStructure.QuestionResponseList;
+import com.organization.sjhg.e_school.LoginActivity;
 import com.organization.sjhg.e_school.Main_Activity;
 import com.organization.sjhg.e_school.R;
 import com.organization.sjhg.e_school.Remote.RemoteCallHandler;
@@ -18,6 +24,7 @@ import com.organization.sjhg.e_school.Remote.RemoteCalls;
 import com.organization.sjhg.e_school.Remote.RemoteHelper;
 import com.organization.sjhg.e_school.Structure.GlobalConstants;
 import com.organization.sjhg.e_school.Structure.Question;
+import com.organization.sjhg.e_school.Utils.ProgressBarActivity;
 import com.organization.sjhg.e_school.Utils.SharedPrefrence;
 import com.organization.sjhg.e_school.Utils.ToastActivity;
 
@@ -37,7 +44,11 @@ public class TestActivity extends AppCompatActivity implements RemoteCallHandler
     private  String tag="";
     private  String id="";
     private List<QuestionList>  questionLists=new ArrayList<>();
-
+    ProgressBarActivity progressBarActivity=new ProgressBarActivity();
+    Bundle saveInstances;
+    private View mProgressView;
+    public List<QuestionResponseList>questionResponseLists=new ArrayList<>();
+    private ViewPager mViewPagerView;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -45,17 +56,54 @@ public class TestActivity extends AppCompatActivity implements RemoteCallHandler
         Intent intent=getIntent();
          tag=intent.getStringExtra("Tag");
          id=intent.getStringExtra("Id");
-        access_token=sharedPrefrence.getAccessToken(getApplicationContext());
-        if(savedInstanceState==null) {
-            new RemoteHelper(getApplicationContext()).getQuestion(this, RemoteCalls.GET_QUESTION, tag, id, access_token);
+
+        saveInstances=savedInstanceState;
+        setContentView(R.layout.activity_test);
+        mProgressView=findViewById(R.id.dashboard_progress);
+        mViewPagerView=(ViewPager)findViewById(R.id.viewpager_fragment);
+
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if(saveInstances==null) {
+            if (questionLists.isEmpty()) {
+                progressBarActivity.showProgress(mViewPagerView,mProgressView,true,getApplicationContext());
+                access_token=sharedPrefrence.getAccessToken(getApplicationContext());
+                new RemoteHelper(getApplicationContext()).getQuestion(this, RemoteCalls.GET_QUESTION, tag, id, access_token);
+            }
         }
-        //setContentView(R.layout.);
     }
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         //TODO: save list
+    }
+
+    private void showView(List<QuestionList> questions)
+    {
+
+        QuestionAdapter questionAdapter=new QuestionAdapter(getSupportFragmentManager(),questions,getApplicationContext());
+        //Grid_Exam_Fragment grid_exam_fragment=new Grid_Exam_Fragment(getSupportFragmentManager(),li,context);
+        mViewPagerView.setAdapter(questionAdapter);
+        mViewPagerView.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
     }
 
     private List<QuestionList> getList(JSONObject response)
@@ -69,6 +117,7 @@ public class TestActivity extends AppCompatActivity implements RemoteCallHandler
                 String id=jsonObject.getString(getString(R.string.jsonid));
                 String hash=jsonObject.getString(getString(R.string.jsonhash));
                 String question_type=jsonObject.getString(getString(R.string.jsonquestiontype));
+                String question_text=jsonObject.getString(getString(R.string.jsonquestiontext));
                 String solution_path=jsonObject.getString(getString(R.string.jsonsolutonpath));
                 String difficulty=jsonObject.getString(getString(R.string.jsondifficulty));
                 String question_image_path=jsonObject.getString(getString(R.string.jsonquestionimage));
@@ -82,7 +131,7 @@ public class TestActivity extends AppCompatActivity implements RemoteCallHandler
                     String option=jsonObject1.getString(getString(R.string.jsonoption));
                     chapterLists.add(new ChapterList(id1,option));
                 }
-               questionLists.add(new QuestionList(id,hash,question_type,solution_path,difficulty,question_image_path,answer,chapterLists));
+               questionLists.add(new QuestionList(id,hash,question_type,question_text,solution_path,difficulty,question_image_path,answer,chapterLists));
             }
         }catch (Exception e)
         {
@@ -94,7 +143,7 @@ public class TestActivity extends AppCompatActivity implements RemoteCallHandler
 
     @Override
     public void HandleRemoteCall(boolean isSuccessful, RemoteCalls callFor, JSONObject response, Exception exception) {
-
+        progressBarActivity.showProgress(mViewPagerView,mProgressView,false,getApplicationContext());
         if(!isSuccessful)
         {
             toastActivity.makeUknownErrorMessage(this);
@@ -117,15 +166,24 @@ public class TestActivity extends AppCompatActivity implements RemoteCallHandler
                             }
                             else
                             {
-                                new RemoteHelper(getApplicationContext()).getAccessToken(this,RemoteCalls.GET_ACCESS_TOKEN,sharedPrefrence.getRefreshToken(getApplicationContext()));
+                               // new RemoteHelper(getApplicationContext()).getAccessToken(this,RemoteCalls.GET_ACCESS_TOKEN,sharedPrefrence.getRefreshToken(getApplicationContext()));
+                                Intent intent=new Intent(this,LoginActivity.class);
+                                startActivity(intent);
                             }
 
                         }
+                        else if(response.get("code").toString().equals(GlobalConstants.INAVLID_TOKEN))
+                        {
+                            toastActivity.makeUknownErrorMessage(this);
+
+                        }
+
                         else
                         {
-                            Toast.makeText(this, response.toString(), Toast.LENGTH_LONG);
+                            toastActivity.makeToastMessage(response,this);
                             questionLists=getList(response);
                             List<QuestionList>question=questionLists;
+                            showView(question);
                             //TODO: show test view
                         }
                     }catch (Exception e)
@@ -143,6 +201,7 @@ public class TestActivity extends AppCompatActivity implements RemoteCallHandler
                         {
                             toastActivity.makeToastMessage(response,this);
                         }
+
                         else
                         {
                             sharedPrefrence.saveAccessToken(getApplicationContext(),response.get("access_token").toString(),response.get("refresh_token").toString());
