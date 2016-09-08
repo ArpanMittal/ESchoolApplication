@@ -50,6 +50,7 @@ class fetchQuestionController extends Controller
            ->select('question.id as id',
                'question.hash as hash',
                'question.question_type_id as type_id',
+                'question.question as question_text',
                'question.solution_path as solution_path',
                'question.difficulty as difficulty',
                 'question.image_path as question_image_path',

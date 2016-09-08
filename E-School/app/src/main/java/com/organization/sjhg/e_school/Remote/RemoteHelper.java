@@ -136,7 +136,20 @@ public class RemoteHelper {
         params.put("client_secret",GlobalConstants.CLINET_SECRET);
         params.put("access_token",access_token);
         Map<String, String> header = new HashMap<String, String>();
-        header.put("Content-Type","application/x-www-form-urlencoded");
+       // header.put("Content-Type","application/x-www-form-urlencoded");
+        new JSONParserAsync(url,params,header,caller,functionCalled);
+    }
+
+
+    public void getQuestion(RemoteCallHandler caller, RemoteCalls functionCalled,String tag,String key,String access_token)
+    {
+        String url=ServerAddress.getServerAddress(context)+GET_QUESTION+"/"+tag+"/"+key;
+        Map<String, String> params = new HashMap<String, String>();
+        params.put("client_id",GlobalConstants.CLIENT_ID);
+        params.put("client_secret",GlobalConstants.CLINET_SECRET);
+        params.put("access_token",access_token);
+        Map<String, String> header = new HashMap<String, String>();
+       // header.put("Content-Type","application/x-www-form-urlencoded");
         new JSONParserAsync(url,params,header,caller,functionCalled);
     }
 
@@ -150,7 +163,7 @@ public class RemoteHelper {
         params.put("client_secret",GlobalConstants.CLINET_SECRET);
         params.put("refresh_token",refresh_token);
         Map<String, String> header = new HashMap<String, String>();
-        header.put("Content-Type","application/x-www-form-urlencoded");
+//        header.put("Content-Type","application/x-www-form-urlencoded");
         new JSONParserAsync(url,params,header,caller,functionCalled);
     }
 
@@ -204,7 +217,7 @@ public class RemoteHelper {
         params.put("client_secret",GlobalConstants.CLINET_SECRET);
 
         Map<String, String> header = new HashMap<String, String>();
-        header.put("Content-Type","application/x-www-form-urlencoded");
+        //header.put("Content-Type","application/x-www-form-urlencoded");
 
         new JSONParserAsync(url,params,header,questListActivity,getItemDetails);
     }
@@ -219,17 +232,7 @@ public class RemoteHelper {
         new JSONParserAsync(url,params,header,caller,functionCalled);
     }
 
-    public void getQuestion(RemoteCallHandler caller, RemoteCalls functionCalled,String tag,String key,String access_token)
-    {
-        String url=ServerAddress.getServerAddress(context)+GET_QUESTION+"/"+tag+"/"+key;
-        Map<String, String> params = new HashMap<String, String>();
-        params.put("client_id",GlobalConstants.CLIENT_ID);
-        params.put("client_secret",GlobalConstants.CLINET_SECRET);
-        params.put("access_token",access_token);
-        Map<String, String> header = new HashMap<String, String>();
-        header.put("Content-Type","application/x-www-form-urlencoded");
-        new JSONParserAsync(url,params,header,caller,functionCalled);
-    }
+
 
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
