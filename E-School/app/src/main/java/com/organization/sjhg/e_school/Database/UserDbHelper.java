@@ -45,8 +45,16 @@ public class UserDbHelper extends SQLiteOpenHelper {
                 ContentEntry.CoLUMN_PROTECTION + " BLOB " +
                 " );";
 
+
+        final String SQL_CREATE_TEST_DETAIL_TABLE = "CREATE TABLE " + UserContract.TestDetail.TABLE_NAME + " ("+
+                UserContract.TestDetail.COLUMN_ID+" INTEGER PRIMARY KEY," +
+                UserContract.TestDetail.COLUMN_QUESTION_ID+" TEXT," +
+                UserContract.TestDetail.COLUMN_OPTION_ID+" TEXT" +
+                " );";
+
         sqLiteDatabase.execSQL(SQL_CREATE_USER_DETAIL_TABLE);
         sqLiteDatabase.execSQL(SQL_CREATE_CONTENT_TABLE);
+        sqLiteDatabase.execSQL(SQL_CREATE_TEST_DETAIL_TABLE);
     }
 
     @Override
@@ -59,6 +67,7 @@ public class UserDbHelper extends SQLiteOpenHelper {
         // should be your top priority before modifying this method.
         sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + UserDetailEntry.TABLE_NAME);
         sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + ContentEntry.TABLE_NAME);
+        sqLiteDatabase.execSQL("DROP TABLE IF EXISTS"+ UserContract.TestDetail.TABLE_NAME);
         onCreate(sqLiteDatabase);
     }
 }
