@@ -89,9 +89,12 @@
            />
         <activity android:name=".ExaminationParent"
             android:theme="@style/AppTheme.NoActionBar"
-
+            android:parentActivityName=".Main_Activity"
             android:label="Exam"/>
-
+        <activity
+            android:name=".Content.PdfDisplayActivity"
+            android:label="@string/title_activity_pdf_view"
+            android:theme="@android:style/Theme.NoTitleBar.Fullscreen" />
 
         <activity android:name=".Content.NewTest.TestInstructionActivity"
             android:theme="@style/AppTheme.NoActionBar"
@@ -108,11 +111,6 @@
         <activity
             android:name=".Content.ImageDisplayActivity"
             android:label="@string/title_activity_display_image"
-            android:screenOrientation="sensorLandscape"
-            android:theme="@android:style/Theme.NoTitleBar.Fullscreen" />
-        <activity
-            android:name=".Content.PdfDisplayActivity"
-            android:label="@string/title_activity_pdf_view"
             android:screenOrientation="sensorLandscape"
             android:theme="@android:style/Theme.NoTitleBar.Fullscreen" />
 

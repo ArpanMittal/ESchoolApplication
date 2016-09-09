@@ -15,7 +15,9 @@ import com.organization.sjhg.e_school.Helpers.LogHelper;
 import com.organization.sjhg.e_school.Helpers.QuestionAdapter;
 import com.organization.sjhg.e_school.ListStructure.ChapterList;
 import com.organization.sjhg.e_school.ListStructure.QuestionList;
+
 import com.organization.sjhg.e_school.ListStructure.QuestionResponseList;
+
 import com.organization.sjhg.e_school.LoginActivity;
 import com.organization.sjhg.e_school.Main_Activity;
 import com.organization.sjhg.e_school.R;
@@ -47,7 +49,9 @@ public class TestActivity extends AppCompatActivity implements RemoteCallHandler
     ProgressBarActivity progressBarActivity=new ProgressBarActivity();
     Bundle saveInstances;
     private View mProgressView;
+
     public List<QuestionResponseList>questionResponseLists=new ArrayList<>();
+
     private ViewPager mViewPagerView;
 
     @Override
@@ -70,7 +74,9 @@ public class TestActivity extends AppCompatActivity implements RemoteCallHandler
         if(saveInstances==null) {
             if (questionLists.isEmpty()) {
                 progressBarActivity.showProgress(mViewPagerView,mProgressView,true,getApplicationContext());
+
                 access_token=sharedPrefrence.getAccessToken(getApplicationContext());
+
                 new RemoteHelper(getApplicationContext()).getQuestion(this, RemoteCalls.GET_QUESTION, tag, id, access_token);
             }
         }
@@ -84,6 +90,7 @@ public class TestActivity extends AppCompatActivity implements RemoteCallHandler
 
     private void showView(List<QuestionList> questions)
     {
+
 
         QuestionAdapter questionAdapter=new QuestionAdapter(getSupportFragmentManager(),questions,getApplicationContext());
         //Grid_Exam_Fragment grid_exam_fragment=new Grid_Exam_Fragment(getSupportFragmentManager(),li,context);
@@ -104,6 +111,7 @@ public class TestActivity extends AppCompatActivity implements RemoteCallHandler
 
             }
         });
+
     }
 
     private List<QuestionList> getList(JSONObject response)

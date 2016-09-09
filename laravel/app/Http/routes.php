@@ -58,9 +58,8 @@ Route::group(['prefix'=>'api/v1','middleware'=>['oauth']],function(){
          */
     Route::post('getEmail','postController@getAllPost');
     Route::post('getAllAttempt','postController@getUserAttempt');
+    Route::post('topics/chapter/{id}', array('uses' => 'QuestController@details'));
     Route::post('getQuestion/{tag}/{key}',array('uses'=>'fetchQuestionController@getQuestion'));
-    
-    
 });
 
 Route::group(['prefix'=>'api/v1','middleware'=>['client']],function(){
@@ -74,7 +73,7 @@ Route::group(['prefix'=>'api/v1','middleware'=>['client']],function(){
     Route::post('getDetails/{tag}/{id}','DetailsController@getDetails');
     Route::post('search', array('uses' => 'SearchController@search'));
     Route::post('search/{key}', array('uses' => 'SearchController@search'));
-    Route::post('topic/chapter/{id}', array('uses' => 'QuestController@freeDetails'));
+    Route::post('freetopics/chapter/{id}', array('uses' => 'QuestController@freeDetails'));
 });
 
 

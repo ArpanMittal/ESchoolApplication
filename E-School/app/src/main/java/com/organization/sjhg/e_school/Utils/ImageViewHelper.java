@@ -85,13 +85,15 @@ public class ImageViewHelper extends ImageView {
 
 
 
-
-
     @Override
     public boolean onTouchEvent(MotionEvent event)
     {
         dumpEvent(event);
+
         getParent().requestDisallowInterceptTouchEvent(true);
+
+        float valx,valy;
+
         // Handle touch events here...
         switch (event.getAction() & MotionEvent.ACTION_MASK) {
             case MotionEvent.ACTION_DOWN:

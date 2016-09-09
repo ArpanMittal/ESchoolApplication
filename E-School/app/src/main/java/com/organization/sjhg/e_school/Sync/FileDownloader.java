@@ -42,16 +42,12 @@ public class FileDownloader {
             input = new BufferedInputStream(url.openStream());
 
             File file = new File(localFilePath);
+            file.getParentFile().mkdirs();
             output = new FileOutputStream(file);
-            int downloadedLength = 0;
-            NotificationBar.progress =0;
             // Read in chunks of 1024 bytes from remote stream and write to local  stream
             byte data[] = new byte[1024];
             while ((count = input.read(data)) != -1) {
                 output.write(data, 0, count);
-                downloadedLength+=count;
-                int progress = (downloadedLength* 100)/lengthOfFile ;
-                NotificationBar.progress = progress;
             }
         } finally {
             try {

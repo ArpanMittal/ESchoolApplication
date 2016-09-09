@@ -31,4 +31,7 @@ public  class ToastActivity {
     {
         Toast.makeText(activity,"error code:420 retry please",Toast.LENGTH_LONG).show();
     }
+    public void showMessage(String msg, Activity activity){
+        Toast.makeText(activity, msg, Toast.LENGTH_SHORT).show();
+    }
 }

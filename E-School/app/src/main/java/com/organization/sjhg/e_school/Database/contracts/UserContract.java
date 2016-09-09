@@ -25,6 +25,7 @@ public class UserContract {
     // as the ContentProvider hasn't been given any information on what to do with "givemeroot".
     // At least, let's hope not.  Don't be that dev, reader.  Don't be that dev.
     public static final String PATH_USER_DETAIL = "userdetail";
+    public static final String PATH_CONTENT = "content";
 
     /* Inner class that defines the table contents of the login table */
     public static final class UserDetailEntry implements BaseColumns {
@@ -62,4 +63,32 @@ public class UserContract {
         }
     }
 
+    public static final class ContentEntry implements BaseColumns {
+
+        public static final Uri CONTENT_URI =
+                BASE_CONTENT_URI.buildUpon().appendPath(PATH_CONTENT).build();
+
+        public static final String CONTENT_TYPE =
+                ContentResolver.CURSOR_DIR_BASE_TYPE + "/" + CONTENT_AUTHORITY + "/" + PATH_CONTENT;
+        public static final String CONTENT_ITEM_TYPE =
+                ContentResolver.CURSOR_ITEM_BASE_TYPE + "/" + CONTENT_AUTHORITY + "/" + PATH_CONTENT;
+
+        // Table name
+        public static final String TABLE_NAME = "content";
+
+        // user detail column name
+        public static final String COLUMN_ID = "_id";
+        public static final String COLUMN_HASH = "hash";
+        public static final String CoLUMN_PATH = "path";
+        public static final String CoLUMN_PROTECTION = "protection";
+
+        //function to build User detail uri for content provider
+        public static Uri buildUserDetailUri(long id) {
+            return ContentUris.withAppendedId(CONTENT_URI, id);
+        }
+
+        public static String getIdFromUri(Uri uri) {
+            return uri.getPathSegments().get(1);
+        }
+    }
 }

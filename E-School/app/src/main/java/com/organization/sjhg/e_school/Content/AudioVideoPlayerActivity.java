@@ -12,6 +12,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.MediaController;
 import android.widget.ProgressBar;
@@ -35,6 +36,7 @@ public class AudioVideoPlayerActivity extends AppCompatActivity {
     private String videoUrl;
     private VideoView videoView;
     private ProgressDialog pDialog;
+    private Button restart,back;
     @Override
     public void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,8 +45,8 @@ public class AudioVideoPlayerActivity extends AppCompatActivity {
         setContentView(R.layout.activity_audio_video_player);
         videoUrl =getIntent().getStringExtra("path");
         videoView = (VideoView) findViewById(R.id.video_view);
-
-
+        restart = (Button) findViewById(R.id.restart);
+        back = (Button) findViewById(R.id.back);
 
         // Create a progressbar
         pDialog = new ProgressDialog(this);
@@ -63,7 +65,7 @@ public class AudioVideoPlayerActivity extends AppCompatActivity {
                     this);
             mediacontroller.setAnchorView(videoView);
             // Get the URL from String VideoURL
-            Uri video = Uri.parse(ServerAddress.getServerAddress(this)+videoUrl);
+            final Uri video = Uri.parse(ServerAddress.getServerAddress(this)+videoUrl);
             videoView.setMediaController(mediacontroller);
             videoView.setVideoURI(video);
 
@@ -71,7 +73,7 @@ public class AudioVideoPlayerActivity extends AppCompatActivity {
                 @Override
                 public boolean onTouch(View v, MotionEvent event) {
                     int delaytime = 3000;
-                    mediacontroller.show(delaytime-250);
+                    mediacontroller.show(delaytime-200);
                     Handler h = new Handler();
 
                     h.postDelayed(new Runnable() {
@@ -83,6 +85,30 @@ public class AudioVideoPlayerActivity extends AppCompatActivity {
                         }
                     }, delaytime);
                     return true;
+                }
+            });
+
+            videoView.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+                public void onCompletion(MediaPlayer mp) {
+                    restart.setVisibility(View.VISIBLE);
+                    back.setVisibility(View.VISIBLE);
+                }
+            });
+
+            restart.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    videoView.seekTo(0);
+                    videoView.setVideoURI(video);
+                    videoView.start();
+                    restart.setVisibility(View.GONE);
+                }
+            });
+
+            back.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    AudioVideoPlayerActivity.this.finish();
                 }
             });
 

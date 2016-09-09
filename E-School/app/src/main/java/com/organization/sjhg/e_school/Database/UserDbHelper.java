@@ -3,7 +3,10 @@ package com.organization.sjhg.e_school.Database;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+
+import com.organization.sjhg.e_school.Database.contracts.UserContract;
 import com.organization.sjhg.e_school.Database.contracts.UserContract.UserDetailEntry;
+import com.organization.sjhg.e_school.Database.contracts.UserContract.ContentEntry;
 
 /**
  * Created by Punit Chhajer on 10-08-2016.
@@ -35,7 +38,15 @@ public class UserDbHelper extends SQLiteOpenHelper {
                 UserDetailEntry.CoLUMN_PHONE_NUMBER + " TEXT " +
                 " );";
 
+        final String SQL_CREATE_CONTENT_TABLE = "CREATE TABLE " + ContentEntry.TABLE_NAME + " ("+
+                ContentEntry.COLUMN_ID + " INTEGER PRIMARY KEY," +
+                ContentEntry.COLUMN_HASH + " TEXT NOT NULL," +
+                ContentEntry.CoLUMN_PATH + " TEXT NOT NULL, " +
+                ContentEntry.CoLUMN_PROTECTION + " BLOB " +
+                " );";
+
         sqLiteDatabase.execSQL(SQL_CREATE_USER_DETAIL_TABLE);
+        sqLiteDatabase.execSQL(SQL_CREATE_CONTENT_TABLE);
     }
 
     @Override
@@ -47,6 +58,7 @@ public class UserDbHelper extends SQLiteOpenHelper {
         // If you want to update the schema without wiping data, commenting out the next 2 lines
         // should be your top priority before modifying this method.
         sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + UserDetailEntry.TABLE_NAME);
+        sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + ContentEntry.TABLE_NAME);
         onCreate(sqLiteDatabase);
     }
 }

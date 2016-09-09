@@ -1,49 +1,31 @@
 package com.organization.sjhg.e_school.Content.Quest;
 
-import android.app.ActionBar;
-import android.app.Activity;
 import android.content.Intent;
 import android.content.res.Configuration;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.design.widget.AppBarLayout;
-import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.NavigationView;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewStub;
-import android.view.Window;
 import android.widget.ProgressBar;
-import android.widget.TextView;
 
 import com.organization.sjhg.e_school.Fragments.Notes_Listing_Fragment;
 import com.organization.sjhg.e_school.Helpers.ConnectivityReceiver;
-import com.organization.sjhg.e_school.Helpers.GridParentDataAdapter;
 import com.organization.sjhg.e_school.Helpers.LogHelper;
 import com.organization.sjhg.e_school.Helpers.QuestGridAdapter;
-import com.organization.sjhg.e_school.ListStructure.ChapterList;
-import com.organization.sjhg.e_school.ListStructure.InternalListData;
-import com.organization.sjhg.e_school.ListStructure.ItemDataList;
 import com.organization.sjhg.e_school.ListStructure.Topic;
 import com.organization.sjhg.e_school.ListStructure.TopicList;
 import com.organization.sjhg.e_school.MainParentActivity;
 import com.organization.sjhg.e_school.R;
-import com.organization.sjhg.e_school.Remote.RemoteCallHandler;
 import com.organization.sjhg.e_school.Remote.RemoteCalls;
 import com.organization.sjhg.e_school.Remote.RemoteHelper;
-import com.organization.sjhg.e_school.Remote.VolleyController;
 import com.organization.sjhg.e_school.Utils.ToastActivity;
 
 import org.json.JSONArray;
@@ -61,6 +43,7 @@ public class QuestListActivity extends MainParentActivity {
     private String id, name;
     private TopicList list;
     private ProgressBar mLoading,mProgress;
+    private View mProgressDialog;
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -90,6 +73,7 @@ public class QuestListActivity extends MainParentActivity {
 
         mLoading = (ProgressBar) findViewById(R.id.progress);
         mProgress = (ProgressBar) findViewById(R.id.completeProgress);
+        mProgressDialog = findViewById(R.id.progressDialog);
         id = getIntent().getStringExtra("chapterId");
         name = getIntent().getStringExtra("name");
         getSupportActionBar().setTitle(name);
@@ -97,7 +81,7 @@ public class QuestListActivity extends MainParentActivity {
             list = (TopicList) savedInstanceState.getSerializable("INTERNAL LIST");
             showView();
         } else {
-            new RemoteHelper(this).getQuestDetails(this, RemoteCalls.GET_ITEM_DETAILS, id);
+            new RemoteHelper(this).getFreeQuestDetails(this, RemoteCalls.GET_ITEM_DETAILS, id);
         }
 
     }
@@ -226,5 +210,12 @@ public class QuestListActivity extends MainParentActivity {
         }
 
 
+    }
+
+    public void showDialog() {
+        mProgressDialog.setVisibility(View.VISIBLE);
+    }
+    public void dismissDialog(){
+        mProgressDialog.setVisibility(View.GONE);
     }
 }

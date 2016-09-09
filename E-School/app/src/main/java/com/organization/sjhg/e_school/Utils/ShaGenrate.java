@@ -5,6 +5,12 @@ import android.util.Log;
 import com.organization.sjhg.e_school.Helpers.LogHelper;
 import com.organization.sjhg.e_school.Structure.GlobalConstants;
 
+import org.apache.commons.codec.binary.Hex;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
@@ -34,5 +40,41 @@ public class ShaGenrate {
             new LogHelper(e);
         }
         return password;
+    }
+
+    public boolean verifyCheckSum(String localFilePath,String checksum)
+    {
+        MessageDigest md;
+        String orignal_checksum=checksum;
+        String new_checksum="";
+        try{
+            md = MessageDigest.getInstance("MD5");
+            File file = new File(localFilePath);
+
+            new_checksum = getDigest(new FileInputStream(file), md, 2048);
+        }
+        catch (Exception e)
+        {
+            Log.e(GlobalConstants.LOG_TAG,e.getMessage());
+        }
+
+        if(orignal_checksum.equals(new_checksum))
+            return true;
+        else
+            return false;
+    }
+
+    private String getDigest(InputStream is, MessageDigest md, int byteArraySize)
+            throws NoSuchAlgorithmException, IOException {
+
+        md.reset();
+        byte[] bytes = new byte[byteArraySize];
+        int numBytes;
+        while ((numBytes = is.read(bytes)) != -1) {
+            md.update(bytes, 0, numBytes);
+        }
+        byte[] digest = md.digest();
+        String result = new String(Hex.encodeHex(digest));
+        return result;
     }
 }
