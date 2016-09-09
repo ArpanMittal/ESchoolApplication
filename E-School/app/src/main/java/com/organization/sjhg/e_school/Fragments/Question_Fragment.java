@@ -62,7 +62,7 @@ public class Question_Fragment extends Fragment {
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
 
-        QuestionOptionAdapter questionOptionAdapter=new QuestionOptionAdapter(getContext(),questionLists.get(0).chapterLists);
+        QuestionOptionAdapter questionOptionAdapter=new QuestionOptionAdapter(getContext(),questionLists.get(0).chapterLists,questionLists.get(0).id,questionLists.get(0).answer);
         recyclerView.setAdapter(questionOptionAdapter);
         String url= ServerAddress.getServerAddress(getContext())+questionLists.get(0).question_image_path;
         Picasso.with(getContext())

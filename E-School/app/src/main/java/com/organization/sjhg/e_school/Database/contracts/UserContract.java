@@ -111,6 +111,7 @@ public class UserContract {
         public static final String COLUMN_ID = "_id";
         public static final String COLUMN_QUESTION_ID = "question_id";
         public static final String COLUMN_OPTION_ID = "option_id";
+        public static final String COLUMN_IS_CORRECT="is_correct";
 
 
         //function to build User detail uri for content provider
