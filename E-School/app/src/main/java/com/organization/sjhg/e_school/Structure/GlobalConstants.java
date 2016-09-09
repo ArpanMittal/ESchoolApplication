@@ -1,5 +1,7 @@
 package com.organization.sjhg.e_school.Structure;
 
+import com.organization.sjhg.e_school.Helpers.SamplePaperListDataAdapter;
+
 /**
  * Created by siddharth on 03/09/15.
  */
@@ -15,9 +17,11 @@ public class GlobalConstants {
 
     final public static boolean IS_DEBUG_MODE = true;
     final public static String EXPIRED_TOKEN="755";
+    final public static String INAVLID_TOKEN="422";
     final public static String STUDENT_ROLE_ID="3";
     final public static String CLIENT_ID="vinci";
     final public static String CLINET_SECRET="vincipassword";
     final public static String PASSWORD_GRANTTYPE="password";
     final public static String REFRESH_TOKEN_GRANTTYPE="refresh_token";
+    final public static String SamplePaperTag="SamplePaper";
 }

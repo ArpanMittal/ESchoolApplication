@@ -222,7 +222,7 @@ public class ExaminationParent extends MainParentActivity {
         progressBarActivity.showProgress(viewPager,mProgressView,false,getApplicationContext());
         if(!isSuccessful)
         {
-            toastActivity.makeUknownErrorMessage((Activity) context);
+            toastActivity.makeUknownErrorMessage(this);
 
         }
         else

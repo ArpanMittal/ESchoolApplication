@@ -260,7 +260,8 @@ public class LoginActivity extends AppCompatActivity implements RemoteCallHandle
 
 
             @Override
-            protected void onStart() {
+            protected void onStart()
+            {
                 super.onStart();
                 String email1=sharedPrefrence.getUserEmail(getApplicationContext());
                 String password1=sharedPrefrence.getUserPassword(getApplicationContext());
@@ -272,7 +273,7 @@ public class LoginActivity extends AppCompatActivity implements RemoteCallHandle
                     progressBarActivity.showProgress(mLoginFormView,mProgressView,true,getApplicationContext());
                     new RemoteHelper(getApplicationContext()).verifyLogin(this, RemoteCalls.CHECK_LOGIN_CREDENTIALS,email,password);
                 }
-                else {
+                else  {
 
                     OptionalPendingResult<GoogleSignInResult> opr = Auth.GoogleSignInApi.silentSignIn(mGoogleApiClient);
                     if (opr.isDone()) {
@@ -281,7 +282,8 @@ public class LoginActivity extends AppCompatActivity implements RemoteCallHandle
                         Log.d(TAG, "Got cached sign-in");
                         GoogleSignInResult result = opr.get();
                         handleSignInResult(result);
-                    } else {
+                    }
+                    else if(sharedPrefrence.getUserEmail(getApplicationContext())!=null) {
                         // If the user has not previously signed in on this device or the sign-in has expired,
                         // this asynchronous branch will attempt to sign in the user silently.  Cross-device
                         // single sign-on will occur in this branch.
@@ -396,7 +398,10 @@ public class LoginActivity extends AppCompatActivity implements RemoteCallHandle
                     }
 
                     sharedPrefrence.saveAccessToken(getApplicationContext(),access_token,refresh_token);
-                    new RemoteHelper(getApplicationContext()).getUserDetails(this,RemoteCalls.GET_USER_DETAILS,access_token);
+                    progressBarActivity.showProgress(mLoginFormView,mProgressView,false,getApplicationContext());
+                    toastActivity.makeToastMessage( response,this);
+                    finish();
+                   // new RemoteHelper(getApplicationContext()).getUserDetails(this,RemoteCalls.GET_USER_DETAILS,access_token);
                     //new RemoteCallHandler(getApplicationContext(),RemoteCalls.GET_USER_DETAILS,)
                    break;
                 }
@@ -414,9 +419,15 @@ public class LoginActivity extends AppCompatActivity implements RemoteCallHandle
                             }
                             else
                             {
-                                new RemoteHelper(getApplicationContext()).getAccessToken(this,RemoteCalls.GET_ACCESS_TOKEN,sharedPrefrence.getRefreshToken(getApplicationContext()));
+                                toastActivity.makeUknownErrorMessage(this);
+                                //new RemoteHelper(getApplicationContext()).getAccessToken(this,RemoteCalls.GET_ACCESS_TOKEN,sharedPrefrence.getRefreshToken(getApplicationContext()));
                             }
 
+                        }
+                        else if(response.get("code").toString().equals(GlobalConstants.INAVLID_TOKEN))
+                        {
+                            progressBarActivity.showProgress(mLoginFormView,mProgressView,false,getApplicationContext());
+                            toastActivity.makeToastMessage(response,this);
                         }
                         else
                         {

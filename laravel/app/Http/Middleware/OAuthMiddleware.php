@@ -30,6 +30,7 @@ class OAuthMiddleware
         if(!$token=\App::make('oauth2')->getAccessTokenData($bridgedRequest,$bridgedResponse))
         {
             $response=\App::make('oauth2')->getResponse();
+            
             if($response->isClientError()&&$response->getParameter('error'))
             {
                 if($response->getParameter('error')=='expired_token')
@@ -37,6 +38,8 @@ class OAuthMiddleware
                     return response()->json(["sucess"=>false,"message"=>'The access token is expired',"code"=>755]);
                 }
                 else{
+
+                    return $response;
                     return response()->json(["sucess"=>false,"message"=>"invalid Token","code"=>422]);
                 }
             }

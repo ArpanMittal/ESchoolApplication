@@ -53,10 +53,13 @@ Route::post('oauth/token','OAuthcontroller@getOAuthToken');
  * middleware to check validation of access token and return user_id into request
  */
 Route::group(['prefix'=>'api/v1','middleware'=>['oauth']],function(){
-
+    /*
+         * @input client_id,client_secret,access_token
+         */
     Route::post('getEmail','postController@getAllPost');
     Route::post('getAllAttempt','postController@getUserAttempt');
     Route::post('topics/chapter/{id}', array('uses' => 'QuestController@details'));
+    Route::post('getQuestion/{tag}/{key}',array('uses'=>'fetchQuestionController@getQuestion'));
 });
 
 Route::group(['prefix'=>'api/v1','middleware'=>['client']],function(){
@@ -92,6 +95,7 @@ Route::group(['prefix' => 'question','middleware' => ['check.session']], functio
     Route::get('/view/next',array('uses' => 'QuestionController@viewNextQuestion'));
     Route::get('/view/{id}',array('uses' => 'QuestionController@viewQuestion'));
 });
+
 
 Route::group(['prefix' => 'content','middleware' => ['check.session']], function () {
     //list of all content classes
