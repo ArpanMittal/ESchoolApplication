@@ -77,6 +77,7 @@ public class QuestGridAdapter extends RecyclerView.Adapter<QuestGridAdapter.Ques
                     public void onClick(View v) {
                         String token = new SharedPrefrence().getAccessToken(context);
                         if(token==null){
+                            ((QuestListActivity)context).list = null;
                             Intent intent = new Intent(context, LoginActivity.class);
                             context.startActivity(intent);
                         }else{
@@ -96,6 +97,7 @@ public class QuestGridAdapter extends RecyclerView.Adapter<QuestGridAdapter.Ques
                     public void onClick(View v) {
                         String token = new SharedPrefrence().getAccessToken(context);
                         if(token==null){
+                            ((QuestListActivity)context).list = null;
                             Intent intent = new Intent(context, LoginActivity.class);
                             context.startActivity(intent);
                         }else{

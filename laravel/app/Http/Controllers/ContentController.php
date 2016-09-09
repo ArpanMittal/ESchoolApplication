@@ -198,6 +198,7 @@ class ContentController extends Controller
             ->join('topic','chaptertopicmap.topic_id','=','topic.id')
             ->leftjoin('content','chaptertopicmap.hash','=','content.hash')
             ->where('chaptertopicmap.cl_su_st_ch_id',$id)
+            ->orderBy('chaptertopicmap.order', 'asc')
             ->get();
         return $dm;
     }

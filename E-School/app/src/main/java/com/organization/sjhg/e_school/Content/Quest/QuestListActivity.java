@@ -26,6 +26,7 @@ import com.organization.sjhg.e_school.MainParentActivity;
 import com.organization.sjhg.e_school.R;
 import com.organization.sjhg.e_school.Remote.RemoteCalls;
 import com.organization.sjhg.e_school.Remote.RemoteHelper;
+import com.organization.sjhg.e_school.Utils.SharedPrefrence;
 import com.organization.sjhg.e_school.Utils.ToastActivity;
 
 import org.json.JSONArray;
@@ -41,7 +42,7 @@ import java.util.List;
 public class QuestListActivity extends MainParentActivity {
 
     private String id, name;
-    private TopicList list;
+    public TopicList list;
     private ProgressBar mLoading,mProgress;
     private View mProgressDialog;
     @Override
@@ -80,8 +81,6 @@ public class QuestListActivity extends MainParentActivity {
         if (savedInstanceState != null) {
             list = (TopicList) savedInstanceState.getSerializable("INTERNAL LIST");
             showView();
-        } else {
-            new RemoteHelper(this).getFreeQuestDetails(this, RemoteCalls.GET_ITEM_DETAILS, id);
         }
 
     }
@@ -174,10 +173,22 @@ public class QuestListActivity extends MainParentActivity {
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        if(list!=null) {
+        String token = new SharedPrefrence().getAccessToken(this);
+        if(list!=null && token!=null) {
             outState.putSerializable("INTERNAL LIST", (Serializable) list);
         }
 
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        String token = new SharedPrefrence().getAccessToken(this);
+        if (list==null && token==null){
+            new RemoteHelper(this).getFreeQuestDetails(this, RemoteCalls.GET_ITEM_DETAILS, id);
+        }else if (list == null){
+            new RemoteHelper(this).getQuestDetails(this, RemoteCalls.GET_ITEM_DETAILS, id);
+        }
     }
 
     @Override

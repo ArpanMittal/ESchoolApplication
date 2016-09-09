@@ -17,6 +17,7 @@ import com.organization.sjhg.e_school.Helpers.StudentApplicationUserData;
 import com.organization.sjhg.e_school.R;
 import com.organization.sjhg.e_school.Structure.ContentDetailBase;
 import com.organization.sjhg.e_school.Structure.GlobalConstants;
+import com.organization.sjhg.e_school.Utils.SharedPrefrence;
 
 
 import org.apache.http.NameValuePair;
@@ -48,6 +49,7 @@ public class RemoteHelper {
     String GET_USER_DETAIL;
     String GET_DASHBOARD_DETAILS;
     String GET_ITEM_DETAILS;
+    String GET_FREE_QUEST_DETAILS;
     String GET_QUEST_DETAILS;
     String GET_QUESTION;
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -76,7 +78,8 @@ public class RemoteHelper {
         GET_GOOGLE_AUTH_DETAILS=context.getResources().getString(R.string.getGoogleAccountDetails);
         GET_DASHBOARD_DETAILS="api/v1/getDashBoardDetails";
         GET_ITEM_DETAILS="api/v1/getDetails";
-        GET_QUEST_DETAILS = "api/v1/topic/chapter";
+        GET_FREE_QUEST_DETAILS = "api/v1/freetopics/chapter";
+        GET_QUEST_DETAILS = "api/v1/topics/chapter";
         GET_QUESTION="api/v1/getQuestion";
         //////////////////////////////////////////////////////////////////////////////////////
         GET_SINGLEADAPTIVE_TEST=this.context.getResources().getString(R.string.get_single_adaptive_test);
@@ -209,13 +212,26 @@ public class RemoteHelper {
     }
 
 
-    public void getQuestDetails(QuestListActivity questListActivity, RemoteCalls getItemDetails, String id) {
+    public void getFreeQuestDetails(QuestListActivity questListActivity, RemoteCalls getItemDetails, String id) {
 
-        String url=ServerAddress.getServerAddress(context)+GET_QUEST_DETAILS+"/"+id;
+        String url=ServerAddress.getServerAddress(context)+GET_FREE_QUEST_DETAILS+"/"+id;
         Map<String, String> params = new HashMap<String, String>();
         params.put("client_id",GlobalConstants.CLIENT_ID);
         params.put("client_secret",GlobalConstants.CLINET_SECRET);
 
+        Map<String, String> header = new HashMap<String, String>();
+        //header.put("Content-Type","application/x-www-form-urlencoded");
+
+        new JSONParserAsync(url,params,header,questListActivity,getItemDetails);
+    }
+    public void getQuestDetails(QuestListActivity questListActivity, RemoteCalls getItemDetails, String id) {
+
+        String url=ServerAddress.getServerAddress(context)+GET_QUEST_DETAILS+"/"+id;
+        String access_taken = new SharedPrefrence().getAccessToken(context);
+        Map<String, String> params = new HashMap<String, String>();
+        params.put("client_id",GlobalConstants.CLIENT_ID);
+        params.put("client_secret",GlobalConstants.CLINET_SECRET);
+        params.put("access_token",access_taken);
         Map<String, String> header = new HashMap<String, String>();
         //header.put("Content-Type","application/x-www-form-urlencoded");
 
