@@ -3,24 +3,62 @@ package com.organization.sjhg.e_school.ListStructure;
 /**
  * Created by arpan on 8/29/2016.
  */
-public class AndroidVersion {
 
-    private String android_version_name;
-    private String android_image_url;
+import java.io.Serializable;
 
-    public String getAndroid_version_name() {
-        return android_version_name;
+public class AndroidVersion implements Serializable {
+
+    /**
+     *
+     */
+    private static final long serialVersionUID = 1L;
+
+    private String name;
+
+    private String emailId;
+
+    private boolean isSelected;
+
+    public AndroidVersion() {
+
     }
 
-    public void setAndroid_version_name(String android_version_name) {
-        this.android_version_name = android_version_name;
+    public AndroidVersion(String name, String emailId) {
+
+        this.name = name;
+        this.emailId = emailId;
+
     }
 
-    public String getAndroid_image_url() {
-        return android_image_url;
+    public AndroidVersion(String name, String emailId, boolean isSelected) {
+
+        this.name = name;
+        this.emailId = emailId;
+        this.isSelected = isSelected;
     }
 
-    public void setAndroid_image_url(String android_image_url) {
-        this.android_image_url = android_image_url;
+    public String getName() {
+        return name;
     }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getEmailId() {
+        return emailId;
+    }
+
+    public void setEmailId(String emailId) {
+        this.emailId = emailId;
+    }
+
+    public boolean isSelected() {
+        return isSelected;
+    }
+
+    public void setSelected(boolean isSelected) {
+        this.isSelected = isSelected;
+    }
+
 }

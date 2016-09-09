@@ -25,6 +25,8 @@ public class Provider extends ContentProvider {
     static final int USER_WITH_ID = 101;
     static final int CONTENT = 200;
     static final int CONTENT_WITH_ID = 201;
+    static final int TEST=300;
+
 
     /*
         Here is where you need to create the UriMatcher. This UriMatcher will
@@ -48,6 +50,8 @@ public class Provider extends ContentProvider {
         matcher.addURI(authority, UserContract.PATH_CONTENT, CONTENT);
 
         matcher.addURI(authority, UserContract.PATH_CONTENT + "/#", CONTENT_WITH_ID);
+
+        matcher.addURI(authority, UserContract.PATH_TEST, TEST);
 
         return matcher;
     }
@@ -78,9 +82,11 @@ public class Provider extends ContentProvider {
             case USER_WITH_ID:
                 return UserContract.UserDetailEntry.CONTENT_ITEM_TYPE;
             case CONTENT:
-                return UserContract.UserDetailEntry.CONTENT_TYPE;
+                return UserContract.ContentEntry.CONTENT_TYPE;
             case CONTENT_WITH_ID:
-                return UserContract.UserDetailEntry.CONTENT_ITEM_TYPE;
+                return UserContract.ContentEntry.CONTENT_ITEM_TYPE;
+            case TEST:
+                return UserContract.TestDetail.CONTENT_TYPE;
             default:
                 throw new UnsupportedOperationException("Unknown uri: " + uri);
         }
@@ -143,6 +149,19 @@ public class Provider extends ContentProvider {
                 );
                 break;
             }
+            case TEST: {
+                retCursor = mOpenUserHelper.getReadableDatabase().query(
+                        UserContract.TestDetail.TABLE_NAME,
+                        projection,
+                        selection,
+                        selectionArgs,
+                        null,
+                        null,
+                        sortOrder
+                );
+                break;
+            }
+
             default:
                 throw new UnsupportedOperationException("Unknown uri: " + uri);
         }
@@ -176,6 +195,15 @@ public class Provider extends ContentProvider {
                     throw new android.database.SQLException("Failed to insert row into " + uri);
                 break;
             }
+            case TEST: {
+                long _id = db.insert(UserContract.TestDetail.TABLE_NAME, null, values);
+                if (_id > 0)
+                    returnUri = UserContract.TestDetail.buildTestDetailUri(_id);
+                else
+                    throw new android.database.SQLException("Failed to insert row into " + uri);
+                break;
+            }
+
             default:
                 throw new UnsupportedOperationException("Unknown uri: " + uri);
         }
@@ -208,6 +236,10 @@ public class Provider extends ContentProvider {
                 String cid = UserContract.ContentEntry.getIdFromUri(uri);
                 rowsDeleted = db.delete(
                         UserContract.UserDetailEntry.TABLE_NAME, UserContract.ContentEntry._ID + " = ?", new String[]{cid});
+                break;
+            case TEST:
+                rowsDeleted = db.delete(
+                        UserContract.TestDetail.TABLE_NAME, selection, selectionArgs);
                 break;
             default:
                 throw new UnsupportedOperationException("Unknown uri: " + uri);
@@ -242,6 +274,10 @@ public class Provider extends ContentProvider {
             case CONTENT_WITH_ID:
                 String cid = UserContract.ContentEntry.getIdFromUri(uri);
                 rowsUpdated = db.update(UserContract.ContentEntry.TABLE_NAME, values, UserContract.ContentEntry._ID + " = ?", new String[]{cid});
+                break;
+            case TEST:
+                rowsUpdated = db.update(UserContract.TestDetail.TABLE_NAME, values, selection,
+                        selectionArgs);
                 break;
             default:
                 throw new UnsupportedOperationException("Unknown uri: " + uri);

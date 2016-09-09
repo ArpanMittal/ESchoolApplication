@@ -12,8 +12,12 @@ import android.widget.Toast;
 import com.organization.sjhg.e_school.Fragments.ExamListFragment;
 import com.organization.sjhg.e_school.Helpers.Grid_Exam_Fragment;
 import com.organization.sjhg.e_school.Helpers.LogHelper;
+import com.organization.sjhg.e_school.Helpers.QuestionAdapter;
 import com.organization.sjhg.e_school.ListStructure.ChapterList;
 import com.organization.sjhg.e_school.ListStructure.QuestionList;
+
+import com.organization.sjhg.e_school.ListStructure.QuestionResponseList;
+
 import com.organization.sjhg.e_school.LoginActivity;
 import com.organization.sjhg.e_school.Main_Activity;
 import com.organization.sjhg.e_school.R;
@@ -45,6 +49,9 @@ public class TestActivity extends AppCompatActivity implements RemoteCallHandler
     ProgressBarActivity progressBarActivity=new ProgressBarActivity();
     Bundle saveInstances;
     private View mProgressView;
+
+    public List<QuestionResponseList>questionResponseLists=new ArrayList<>();
+
     private ViewPager mViewPagerView;
 
     @Override
@@ -53,7 +60,7 @@ public class TestActivity extends AppCompatActivity implements RemoteCallHandler
         Intent intent=getIntent();
          tag=intent.getStringExtra("Tag");
          id=intent.getStringExtra("Id");
-        access_token=sharedPrefrence.getAccessToken(getApplicationContext());
+
         saveInstances=savedInstanceState;
         setContentView(R.layout.activity_test);
         mProgressView=findViewById(R.id.dashboard_progress);
@@ -67,6 +74,9 @@ public class TestActivity extends AppCompatActivity implements RemoteCallHandler
         if(saveInstances==null) {
             if (questionLists.isEmpty()) {
                 progressBarActivity.showProgress(mViewPagerView,mProgressView,true,getApplicationContext());
+
+                access_token=sharedPrefrence.getAccessToken(getApplicationContext());
+
                 new RemoteHelper(getApplicationContext()).getQuestion(this, RemoteCalls.GET_QUESTION, tag, id, access_token);
             }
         }
@@ -80,9 +90,28 @@ public class TestActivity extends AppCompatActivity implements RemoteCallHandler
 
     private void showView(List<QuestionList> questions)
     {
-       // QuestionAdapter
+
+
+        QuestionAdapter questionAdapter=new QuestionAdapter(getSupportFragmentManager(),questions,getApplicationContext());
         //Grid_Exam_Fragment grid_exam_fragment=new Grid_Exam_Fragment(getSupportFragmentManager(),li,context);
-        //mViewPagerView.setAdapter(grid_exam_fragment);
+        mViewPagerView.setAdapter(questionAdapter);
+        mViewPagerView.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
+
     }
 
     private List<QuestionList> getList(JSONObject response)

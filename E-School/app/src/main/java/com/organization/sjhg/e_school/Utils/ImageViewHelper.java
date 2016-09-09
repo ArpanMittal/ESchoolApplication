@@ -80,6 +80,7 @@ public class ImageViewHelper extends ImageView {
 
         this.setImageMatrix(matrix);
 
+
     }
 
 
@@ -88,7 +89,11 @@ public class ImageViewHelper extends ImageView {
     public boolean onTouchEvent(MotionEvent event)
     {
         dumpEvent(event);
+
+        getParent().requestDisallowInterceptTouchEvent(true);
+
         float valx,valy;
+
         // Handle touch events here...
         switch (event.getAction() & MotionEvent.ACTION_MASK) {
             case MotionEvent.ACTION_DOWN:
