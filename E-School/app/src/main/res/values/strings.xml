@@ -216,6 +216,7 @@
     <string name="jsonanswer">answer</string>
     <string name="jsonoption">option</string>
     <string name="jsonquestiontext">question_text</string>
+    <string name="action_submit">submit test</string>
 
 
 </resources>

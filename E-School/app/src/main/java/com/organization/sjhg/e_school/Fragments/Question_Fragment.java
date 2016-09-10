@@ -42,11 +42,9 @@ public class Question_Fragment extends Fragment {
         super.onCreate(savedInstanceState);
         Bundle bundle=this.getArguments();
         this.questionLists= (List<QuestionList>) bundle.getSerializable(getString(R.string.sendlist));
-
-
-
-
     }
+
+
 
     @Nullable
     @Override
@@ -70,11 +68,6 @@ public class Question_Fragment extends Fragment {
                 .resize(200,200)
                 .into(imageView);
         textView.setText(Html.fromHtml(questionLists.get(0).question_text));
-
-
-
-
-
         return rootView;
     }
 }

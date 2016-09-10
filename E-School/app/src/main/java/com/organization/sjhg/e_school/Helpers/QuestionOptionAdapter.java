@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -29,7 +30,8 @@ public class QuestionOptionAdapter extends RecyclerView.Adapter<QuestionOptionAd
     private List<ChapterList> chapterLists;
     private Context context;
     private static CheckBox lastChecked = null;
-    public static String lastCheckedId ;
+    public static String lastCheckedId=null ;
+    public static int lastcheckposition;
     private String questionId;
     private String answer;
     private String is_correct;
@@ -47,65 +49,95 @@ public class QuestionOptionAdapter extends RecyclerView.Adapter<QuestionOptionAd
         return new ViewHolder(view);
 
     }
+    private void makeCheckbox(View v,int position)
+    {
+        CheckBox cb = (CheckBox) v.findViewById(R.id.chkSelected);
+//               // cb.setChecked(true);
+        String clickId=chapterLists.get(position).id;
+        if(lastCheckedId!=clickId)
+        {
+            if(lastCheckedId==null)
+            {
+                cb.setChecked(true);
+                chapterLists.get(position).checked_option_id=clickId;
+                chapterLists.get(position).checkBox=cb;
+                lastCheckedId=clickId;
+                lastcheckposition=position;
+                lastChecked=cb;
+            }
+            else {
+                lastChecked.setChecked(false);
+                cb.setChecked(true);
+                chapterLists.get(lastcheckposition).checked_option_id=null;
+                chapterLists.get(lastcheckposition).checkBox=null;
+                chapterLists.get(position).checked_option_id = clickId;
+                chapterLists.get(position).checkBox = cb;
+                lastCheckedId=clickId;
+                lastChecked=cb;
+                lastcheckposition=position;
+            }
+
+            Cursor cursor = context.getContentResolver().query(
+                    UserContract.TestDetail.CONTENT_URI, null,
+                    UserContract.TestDetail.COLUMN_QUESTION_ID + " =? ",
+                    new String[]{questionId},
+                    null,
+                    null
+            );
+            ContentValues contentValues = new ContentValues();
+            contentValues.put(UserContract.TestDetail.COLUMN_OPTION_ID, clickId);
+            if (clickId.equals(answer)) {
+                is_correct = "true";
+            }
+            else {
+                is_correct = "false";
+            }
+            contentValues.put(UserContract.TestDetail.COLUMN_TIME_SPEND, 0.0);
+            contentValues.put(UserContract.TestDetail.COLUMN_IS_CORRECT, is_correct);
+
+            int count = cursor.getCount();
+            if (count > 0) {
+
+                int result = context.getContentResolver().update(UserContract.TestDetail.CONTENT_URI, contentValues,
+                        UserContract.TestDetail.COLUMN_QUESTION_ID + "=?",
+                        new String[]{questionId});
+            }
+        }
+
+
+
+    }
+
+
 
     @Override
-    public void onBindViewHolder(QuestionOptionAdapter.ViewHolder holder, final int position) {
+    public void onBindViewHolder(final QuestionOptionAdapter.ViewHolder holder, final int position) {
         holder.option_text.setText(Html.fromHtml(chapterLists.get(position).name));
+        if(chapterLists.get(position).checked_option_id!=null)
+        {
+           // chapterLists.get(position).checkBox.setChecked(true);
+           //holder.chkSelected.setChecked(true);
+            lastcheckposition=position;
+           lastChecked=holder.chkSelected;
+            lastCheckedId=chapterLists.get(position).checked_option_id;
+        }
+        if(lastChecked!=null)
+            lastChecked.setChecked(true);
+        holder.chkSelected.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                makeCheckbox(v,position);
+                notifyDataSetChanged();
+            }
+        });
 
         holder.view.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-
-                CheckBox cb = (CheckBox) v.findViewById(R.id.chkSelected);
-                cb.setChecked(true);
-                String clickId=chapterLists.get(position).id;
-                if(cb.isChecked())
-                {
-                    if(lastChecked != null)
-                    {
-                        lastChecked.setChecked(false);
-                    }
-
-                    lastChecked = cb;
-                    lastCheckedId =clickId;
-
-                    Cursor cursor = context.getContentResolver().query(
-                            UserContract.TestDetail.CONTENT_URI, null,
-                            UserContract.TestDetail.COLUMN_QUESTION_ID+" =? ",
-                            new String[]{questionId},
-                            null,
-                            null
-                    );
-                    ContentValues contentValues=new ContentValues();
-                    contentValues.put(UserContract.TestDetail.COLUMN_OPTION_ID,lastCheckedId);
-                    if(lastCheckedId.equals(answer))
-                    {
-                        is_correct="true";
-                    }
-                    else
-                    {
-                        is_correct="false";
-                    }
-                    contentValues.put(UserContract.TestDetail.COLUMN_TIME_SPEND,0.0);
-                    contentValues.put(UserContract.TestDetail.COLUMN_IS_CORRECT,is_correct);
-
-                    int count = cursor.getCount();
-                    if(count >0){
-
-                        int result = context.getContentResolver().update(UserContract.TestDetail.CONTENT_URI,contentValues,
-                                UserContract.TestDetail.COLUMN_QUESTION_ID+"=?",
-                                new String[]{questionId});
-                    }
-                    else
-                    {
-                        context.getContentResolver().insert(UserContract.TestDetail.CONTENT_URI,contentValues);
-                    }
-
-                }
-                else
-                    lastChecked = null;
-
-
+            public void onClick(View v)
+            {
+                makeCheckbox(v,position);
+                notifyDataSetChanged();
             }
         });
     }
@@ -130,6 +162,7 @@ public class QuestionOptionAdapter extends RecyclerView.Adapter<QuestionOptionAd
             option_text = (TextView) itemLayoutView.findViewById(R.id.option_text);
 
             chkSelected = (CheckBox) itemLayoutView.findViewById(R.id.chkSelected);
+
             view=(RelativeLayout) itemLayoutView.findViewById(R.id.option);
 
 
