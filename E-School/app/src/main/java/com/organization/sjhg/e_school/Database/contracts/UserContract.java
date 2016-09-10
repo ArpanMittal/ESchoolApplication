@@ -107,11 +107,12 @@ public class UserContract {
         // Table name
         public static final String TABLE_NAME = "testdetail";
 
-        // user detail column name
+        // Test detail column name
         public static final String COLUMN_ID = "_id";
         public static final String COLUMN_QUESTION_ID = "question_id";
         public static final String COLUMN_OPTION_ID = "option_id";
         public static final String COLUMN_IS_CORRECT="is_correct";
+        public static final String COLUMN_TIME_SPEND="time_spend";
 
 
         //function to build User detail uri for content provider

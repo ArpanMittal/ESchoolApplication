@@ -50,7 +50,8 @@ public class UserDbHelper extends SQLiteOpenHelper {
                 UserContract.TestDetail.COLUMN_ID+" INTEGER PRIMARY KEY," +
                 UserContract.TestDetail.COLUMN_QUESTION_ID+" TEXT," +
                 UserContract.TestDetail.COLUMN_OPTION_ID+" TEXT," +
-                UserContract.TestDetail.COLUMN_IS_CORRECT+"TEXT"+
+                UserContract.TestDetail.COLUMN_IS_CORRECT +" TEXT, " +
+                UserContract.TestDetail.COLUMN_TIME_SPEND +" REAL " +
                 " );";
 
         sqLiteDatabase.execSQL(SQL_CREATE_USER_DETAIL_TABLE);

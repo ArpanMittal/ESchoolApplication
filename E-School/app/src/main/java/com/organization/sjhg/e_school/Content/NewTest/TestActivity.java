@@ -1,7 +1,9 @@
 package com.organization.sjhg.e_school.Content.NewTest;
 
 import android.app.Activity;
+import android.content.ContentValues;
 import android.content.Intent;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.os.PersistableBundle;
 import android.support.v4.view.ViewPager;
@@ -9,6 +11,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Toast;
 
+import com.organization.sjhg.e_school.Database.contracts.UserContract;
 import com.organization.sjhg.e_school.Fragments.ExamListFragment;
 import com.organization.sjhg.e_school.Helpers.Grid_Exam_Fragment;
 import com.organization.sjhg.e_school.Helpers.LogHelper;
@@ -49,6 +52,10 @@ public class TestActivity extends AppCompatActivity implements RemoteCallHandler
     ProgressBarActivity progressBarActivity=new ProgressBarActivity();
     Bundle saveInstances;
     private View mProgressView;
+    double startTime ;
+    double endTime ;
+    int lastPageposition=0;
+    int pageOffset;
 
     public List<QuestionResponseList>questionResponseLists=new ArrayList<>();
 
@@ -88,7 +95,7 @@ public class TestActivity extends AppCompatActivity implements RemoteCallHandler
         //TODO: save list
     }
 
-    private void showView(List<QuestionList> questions)
+    private void showView(final List<QuestionList> questions)
     {
 
 
@@ -96,13 +103,70 @@ public class TestActivity extends AppCompatActivity implements RemoteCallHandler
         //Grid_Exam_Fragment grid_exam_fragment=new Grid_Exam_Fragment(getSupportFragmentManager(),li,context);
         mViewPagerView.setAdapter(questionAdapter);
         mViewPagerView.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+                if(position==0)
+                {
+                    startTime=System.currentTimeMillis();
+                    //lastPageposition=position;
+                }
 
             }
 
             @Override
             public void onPageSelected(int position) {
+
+                // to detect left or right scroll
+                if(position!=0)
+                {
+                    if(position<lastPageposition)
+                        pageOffset=-1;
+                    else
+                        pageOffset=1;
+                    // for timer of each question
+                    double diff=0.0;
+                    Cursor cursor = getApplicationContext().getContentResolver().query(
+                            UserContract.TestDetail.CONTENT_URI, null,
+                            UserContract.TestDetail.COLUMN_QUESTION_ID+" =? ",
+                            new String[]{questionLists.get(position-pageOffset).id},
+                            null,
+                            null
+                    );
+                    if(cursor.getCount()>0)
+                        diff = cursor.getColumnIndex(UserContract.TestDetail.COLUMN_TIME_SPEND);
+
+                        endTime = System.currentTimeMillis();
+
+                        ContentValues contentValues = new ContentValues();
+                        contentValues.put(UserContract.TestDetail.COLUMN_TIME_SPEND,(endTime - startTime+diff));
+                    // insert time spend on previous question
+                        int result = getApplicationContext().getContentResolver().update(UserContract.TestDetail.CONTENT_URI, contentValues,
+                                UserContract.TestDetail.COLUMN_QUESTION_ID + "=?",
+                                new String[]{questionLists.get(position - pageOffset).id});
+
+                }
+
+                startTime=System.currentTimeMillis();
+                Cursor cursor = getApplicationContext().getContentResolver().query(
+                        UserContract.TestDetail.CONTENT_URI, null,
+                        UserContract.TestDetail.COLUMN_QUESTION_ID+" =? ",
+                        new String[]{questionLists.get(position).id},
+                        null,
+                        null
+                );
+                ContentValues contentValues=new ContentValues();
+                contentValues.put(UserContract.TestDetail.COLUMN_QUESTION_ID,questions.get(position).id);
+                contentValues.put(UserContract.TestDetail.COLUMN_OPTION_ID,"");
+                contentValues.put(UserContract.TestDetail.COLUMN_TIME_SPEND,0.0);
+                contentValues.put(UserContract.TestDetail.COLUMN_IS_CORRECT,"empty");
+                int count = cursor.getCount();
+                if(count <=0){
+                    getApplicationContext().getContentResolver().insert(UserContract.TestDetail.CONTENT_URI,contentValues);
+                }
+
+                lastPageposition=position;
 
             }
 

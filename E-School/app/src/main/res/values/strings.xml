@@ -93,7 +93,7 @@
     <string name="moved_out_of_test_submit_message">Test has been submitted.</string>
     <string name="moved_out_of_test_message">WARNING! This may lead to auto-submission</string>
     <string name="on_destroy_test_message">You have closed the application. Answers will be submitted automatically.</string>
-    <string name="cloud_base_address">http://laravel.eurovisions.in/</string>
+    <string name="cloud_base_address">http://14.192.17.104/</string>
     <string name="local_database_address">http://localhost:8000/</string>
     <string name="cloud_content_relative_path">contentfile/</string>
     <string name="local_base_address">http://192.168.5.5/eschool</string>

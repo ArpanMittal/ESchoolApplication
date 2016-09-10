@@ -76,19 +76,21 @@ public class QuestionOptionAdapter extends RecyclerView.Adapter<QuestionOptionAd
                             null,
                             null
                     );
+                    ContentValues contentValues=new ContentValues();
+                    contentValues.put(UserContract.TestDetail.COLUMN_OPTION_ID,lastCheckedId);
+                    if(lastCheckedId.equals(answer))
+                    {
+                        is_correct="true";
+                    }
+                    else
+                    {
+                        is_correct="false";
+                    }
+                    contentValues.put(UserContract.TestDetail.COLUMN_TIME_SPEND,0.0);
+                    contentValues.put(UserContract.TestDetail.COLUMN_IS_CORRECT,is_correct);
+
                     int count = cursor.getCount();
                     if(count >0){
-                        ContentValues contentValues=new ContentValues();
-                        contentValues.put(UserContract.TestDetail.COLUMN_OPTION_ID,lastCheckedId);
-                        if(lastCheckedId.equals(answer))
-                        {
-                            is_correct="true";
-                        }
-                        else
-                        {
-                            is_correct="false";
-                        }
-                        contentValues.put(UserContract.TestDetail.COLUMN_IS_CORRECT,is_correct);
 
                         int result = context.getContentResolver().update(UserContract.TestDetail.CONTENT_URI,contentValues,
                                 UserContract.TestDetail.COLUMN_QUESTION_ID+"=?",
@@ -96,7 +98,7 @@ public class QuestionOptionAdapter extends RecyclerView.Adapter<QuestionOptionAd
                     }
                     else
                     {
-                        //TODO: insert into databse
+                        context.getContentResolver().insert(UserContract.TestDetail.CONTENT_URI,contentValues);
                     }
 
                 }
