@@ -22,10 +22,12 @@ import com.organization.sjhg.e_school.Helpers.LogHelper;
 import com.organization.sjhg.e_school.Helpers.QuestGridAdapter;
 import com.organization.sjhg.e_school.ListStructure.Topic;
 import com.organization.sjhg.e_school.ListStructure.TopicList;
+import com.organization.sjhg.e_school.LoginActivity;
 import com.organization.sjhg.e_school.MainParentActivity;
 import com.organization.sjhg.e_school.R;
 import com.organization.sjhg.e_school.Remote.RemoteCalls;
 import com.organization.sjhg.e_school.Remote.RemoteHelper;
+import com.organization.sjhg.e_school.Structure.GlobalConstants;
 import com.organization.sjhg.e_school.Utils.SharedPrefrence;
 import com.organization.sjhg.e_school.Utils.ToastActivity;
 
@@ -148,16 +150,15 @@ public class QuestListActivity extends MainParentActivity {
             for(int i=0;i<length;i++)
             {
                 JSONObject internalListObject=data.getJSONObject(i);
-                String name=internalListObject.getString("topic_name");
-                String hash=internalListObject.getString("hash");
-                String contentId=internalListObject.getString("content_id");
-                String pdf_path=internalListObject.getString("pdf_path");
-                String video_path=internalListObject.getString("video_path");
-                String pdf_hash=internalListObject.getString("pdf_hash");
+                String name=""+internalListObject.getString("topic_name");
+                String hash=""+internalListObject.getString("hash");
+                String pdf_path=""+internalListObject.getString("pdf_path");
+                String video_path=""+internalListObject.getString("video_path");
+                String pdf_hash=""+internalListObject.getString("pdf_hash");
                 Boolean subscribed= Boolean.valueOf(internalListObject.getString("is_subscribed"));
                 Boolean lock= Boolean.valueOf(internalListObject.getString("is_locked"));
                 int progress= Integer.parseInt(internalListObject.getString("progress"));
-                topics.add(new Topic(name, hash, contentId,pdf_path, video_path, pdf_hash, subscribed, lock,progress));
+                topics.add(new Topic(name, hash,pdf_path, video_path, pdf_hash, subscribed, lock,progress));
             }
             list = new TopicList(id,topics);
 
@@ -201,23 +202,72 @@ public class QuestListActivity extends MainParentActivity {
         }
         switch (callFor){
             case GET_ITEM_DETAILS:
-                try{
-                    list = getList(response);
-                    showView();
-                    int total = list.topics.size();
-                    int cmp = 0;
-                    for (int i=0;i<total;i++){
-                        if (!list.topics.get(i).islock()){
-                            cmp++;
+                try {
+                    if (response.get("code").toString().equals(GlobalConstants.EXPIRED_TOKEN))
+                    {
+
+                        if(new SharedPrefrence().getRefreshToken(getApplicationContext())==null)
+                        {
+
+                            new ToastActivity().makeToastMessage(response,this);
+                            break;
                         }
+                        else
+                        {
+                            // new RemoteHelper(getApplicationContext()).getAccessToken(this,RemoteCalls.GET_ACCESS_TOKEN,sharedPrefrence.getRefreshToken(getApplicationContext()));
+                            Intent intent=new Intent(this,LoginActivity.class);
+                            startActivity(intent);
+                        }
+
                     }
-                    mProgress.setProgress((cmp*100)/total);
+                    else if(response.get("code").toString().equals(GlobalConstants.INAVLID_TOKEN))
+                    {
+                        new ToastActivity().makeUknownErrorMessage(this);
+
+                    }
+
+                    else
+                    {
+                        list = getList(response);
+                        if(list!=null){
+                            showView();
+                        }
+                        int total = list.topics.size();
+                        int cmp = -1;
+                        for (int i=0;i<total;i++){
+                            if (!list.topics.get(i).islock()){
+                                cmp++;
+                            }
+                        }
+                        mProgress.setProgress((cmp*100)/total);
+                    }
                 }catch (Exception e){
                     e.printStackTrace();
                     new ToastActivity().makeJsonException(this);
                     new LogHelper(e);
                 }
                 break;
+            case GET_ACCESS_TOKEN:
+            {
+                try{
+                    if(response.get("sucess").toString().equals("false"))
+                    {
+                        new ToastActivity().makeToastMessage(response,this);
+                    }
+
+                    else
+                    {
+                        new SharedPrefrence().saveAccessToken(getApplicationContext(),response.get("access_token").toString(),response.get("refresh_token").toString());
+                        String access_token=response.get("access_token").toString();
+                        new RemoteHelper(this).getFreeQuestDetails(this, RemoteCalls.GET_ITEM_DETAILS, id);
+                    }
+                }catch (Exception e)
+                {
+                    LogHelper logHelper=new LogHelper(e);
+                    e.printStackTrace();
+                }
+                break;
+            }
         }
 
 

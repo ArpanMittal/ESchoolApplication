@@ -12,6 +12,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.TextView;
 
 import com.organization.sjhg.e_school.R;
@@ -22,12 +24,26 @@ public class ExpandListAdapter extends BaseExpandableListAdapter {
     private List<String> _listDataHeader; // header titles
     // child data in format of header title, child title
     private HashMap<String, List<String>> _listDataChild;
-
+    private int layout, textview;
+    public HashMap<String,Boolean> _check;
     public ExpandListAdapter(Context context, List<String> listDataHeader,
                                  HashMap<String, List<String>> listChildData) {
         this._context = context;
         this._listDataHeader = listDataHeader;
         this._listDataChild = listChildData;
+        this.layout = -1;
+        this.textview = -1;
+    }
+
+    public ExpandListAdapter(Context context, List<String> listDataHeader,
+                             HashMap<String, List<String>> listChildData,int layout, int textview, HashMap<String,Boolean> _check) {
+        this._context = context;
+        this._listDataHeader = listDataHeader;
+        this._listDataChild = listChildData;
+        this.layout = layout;
+        this.textview = textview;
+        this._check = _check;
+
     }
 
     @Override
@@ -42,7 +58,7 @@ public class ExpandListAdapter extends BaseExpandableListAdapter {
     }
 
     @Override
-    public View getChildView(int groupPosition, final int childPosition,
+    public View getChildView(final int groupPosition, final int childPosition,
                              boolean isLastChild, View convertView, ViewGroup parent) {
 
         final String childText = (String) getChild(groupPosition, childPosition);
@@ -50,11 +66,52 @@ public class ExpandListAdapter extends BaseExpandableListAdapter {
         if (convertView == null) {
             LayoutInflater infalInflater = (LayoutInflater) this._context
                     .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            convertView = infalInflater.inflate(R.layout.list_item, null);
+            if (this.layout==-1){
+                convertView = infalInflater.inflate(R.layout.list_item, null);
+            }else{
+                convertView = infalInflater.inflate(this.layout, null);
+            }
+
         }
 
-        TextView txtListChild = (TextView) convertView
-                .findViewById(R.id.lblListItem);
+        TextView txtListChild;
+        if (this.textview==-1){
+            txtListChild = (TextView) convertView
+                    .findViewById(R.id.lblListItem);
+        }else{
+            txtListChild = (TextView) convertView
+                    .findViewById(this.textview);
+        }
+
+        if (this.textview!=-1){
+            CheckBox checkBox = (CheckBox) convertView.findViewById(R.id.checkbox);
+            checkBox.setOnCheckedChangeListener(null);
+            convertView.setOnClickListener(null);
+            checkBox.setChecked(_check.get(groupPosition+"__"+childText));
+            checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+
+                @Override
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+
+                        _check.remove(groupPosition+"__"+childText);
+                        _check.put(groupPosition+"__"+childText,isChecked);
+                        notifyDataSetChanged();
+                }
+            });
+
+            convertView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    CheckBox checkBox = (CheckBox) v.findViewById(R.id.checkbox);
+                    if (checkBox.isChecked()){
+                        checkBox.setChecked(false);
+                    }else{
+                        checkBox.setChecked(true);
+                    }
+                }
+            });
+        }
+
 
         txtListChild.setText(childText);
         return convertView;

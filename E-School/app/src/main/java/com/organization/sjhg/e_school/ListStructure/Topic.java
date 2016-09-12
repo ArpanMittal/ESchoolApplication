@@ -10,16 +10,20 @@ public class Topic implements Serializable{
     private Boolean subscribed,lock;
     private int progress;
 
-    public Topic(String name, String hash, String contentId, String pdf_path, String video_path, String pdf_hash, Boolean subscribed, Boolean lock, int progress){
+    public Topic(String name, String hash, String pdf_path, String video_path, String pdf_hash, Boolean subscribed, Boolean lock, int progress){
         this.name = name;
         this.hash = hash;
-        this.contentId = contentId;
         this.pdf_path = pdf_path;
         this.video_path = video_path;
         this.pdf_hash = pdf_hash;
         this.subscribed = subscribed;
         this.lock = lock;
         this.progress = progress;
+    }
+
+    public Topic(String topic_name, String topic_id) {
+        this.name = topic_name;
+        this.hash = topic_id;
     }
 
     public int getProgress(){

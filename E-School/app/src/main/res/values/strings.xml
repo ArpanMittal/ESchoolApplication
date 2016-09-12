@@ -175,6 +175,7 @@
     <string name="expand">DashBoard</string>
     <string name="paralax">paralex</string>
     <string name="menu_search">search</string>
+    <string name="menu_filter">Filter</string>
     <string name="app_label">vinci</string>
     <string name="search_hint">search Contents</string>
     <string name="get_sign_up_page">api/v1/signup</string>
