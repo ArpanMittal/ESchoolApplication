@@ -30,6 +30,7 @@ class receiveQuestionController extends Controller
     public function saveSamplePaperQuestion($key)
     {
         $data=$_REQUEST['data'];
+        return $data;
         $data=DB::table('user_attempt')
             ->where('user_id',$_REQUEST['user_id'])
             ->where('included_id',$_REQUEST['data']);
