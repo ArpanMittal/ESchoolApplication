@@ -4,8 +4,17 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Color;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
+import android.graphics.drawable.LevelListDrawable;
+import android.os.AsyncTask;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
+import android.text.Spanned;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,19 +28,26 @@ import com.organization.sjhg.e_school.Content.Quest.QuestListActivity;
 import com.organization.sjhg.e_school.Database.contracts.UserContract;
 import com.organization.sjhg.e_school.ListStructure.ChapterList;
 import com.organization.sjhg.e_school.R;
+import com.organization.sjhg.e_school.Utils.Latex_Image_Loader;
+import com.organization.sjhg.e_school.Utils.ProgressBarActivity;
 import com.squareup.picasso.Picasso;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.List;
 
 /**
  * Created by arpan on 9/9/2016.
  */
-public class QuestionOptionAdapter extends RecyclerView.Adapter<QuestionOptionAdapter.ViewHolder> {
+public class QuestionOptionAdapter extends RecyclerView.Adapter<QuestionOptionAdapter.ViewHolder>{
     private List<ChapterList> chapterLists;
     private Context context;
-    private static CheckBox lastChecked = null;
-    public static String lastCheckedId=null ;
-    public static int lastcheckposition;
+    private  CheckBox lastChecked = null;
+    public String lastCheckedId=null ;
+    public  int lastcheckposition;
     private String questionId;
     private String answer;
     private String is_correct;
@@ -43,12 +59,13 @@ public class QuestionOptionAdapter extends RecyclerView.Adapter<QuestionOptionAd
         this.answer=answer;
     }
 
+
     @Override
     public QuestionOptionAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(context).inflate(R.layout.question_option_fragment, parent, false);
         return new ViewHolder(view);
-
     }
+
     private void makeCheckbox(View v,int position)
     {
         CheckBox cb = (CheckBox) v.findViewById(R.id.chkSelected);
@@ -67,6 +84,7 @@ public class QuestionOptionAdapter extends RecyclerView.Adapter<QuestionOptionAd
             }
             else {
                 lastChecked.setChecked(false);
+
                 cb.setChecked(true);
                 chapterLists.get(lastcheckposition).checked_option_id=null;
                 chapterLists.get(lastcheckposition).checkBox=null;
@@ -103,16 +121,27 @@ public class QuestionOptionAdapter extends RecyclerView.Adapter<QuestionOptionAd
                         new String[]{questionId});
             }
         }
-
-
-
     }
 
 
 
     @Override
     public void onBindViewHolder(final QuestionOptionAdapter.ViewHolder holder, final int position) {
-        holder.option_text.setText(Html.fromHtml(chapterLists.get(position).name));
+        String code=chapterLists.get(position).name;
+        Spanned spanned = Html.fromHtml(code, new Html.ImageGetter() {
+            @Override
+            public Drawable getDrawable(String source) {
+                LevelListDrawable d = new LevelListDrawable();
+                Drawable empty = context.getResources().getDrawable(R.drawable.ic_launcher);
+                d.addLevel(0, 0, empty);
+                d.setBounds(0, 0, empty.getIntrinsicWidth(), empty.getIntrinsicHeight());
+                new Latex_Image_Loader().execute(source, d,holder.option_text);
+                return d;
+            }
+        }, null);
+        holder.option_text.setText(spanned);
+        //holder.option_text.setText(Html.fromHtml(chapterLists.get(position).name));
+
         if(chapterLists.get(position).checked_option_id!=null)
         {
            // chapterLists.get(position).checkBox.setChecked(true);
@@ -128,7 +157,9 @@ public class QuestionOptionAdapter extends RecyclerView.Adapter<QuestionOptionAd
             @Override
             public void onClick(View v) {
                 makeCheckbox(v,position);
-                notifyDataSetChanged();
+               holder.chkSelected.setBackgroundColor(0);
+               // notifyDataSetChanged();
+
             }
         });
 
@@ -137,7 +168,8 @@ public class QuestionOptionAdapter extends RecyclerView.Adapter<QuestionOptionAd
             public void onClick(View v)
             {
                 makeCheckbox(v,position);
-                notifyDataSetChanged();
+                holder.chkSelected.setBackgroundColor(0);
+                //notifyDataSetChanged();
             }
         });
     }
@@ -147,6 +179,20 @@ public class QuestionOptionAdapter extends RecyclerView.Adapter<QuestionOptionAd
     public int getItemCount() {
         return chapterLists.size();
     }
+
+//    @Override
+//    public Drawable getDrawable(String source) {
+//        LevelListDrawable d = new LevelListDrawable();
+//        Drawable empty = context.getResources().getDrawable(R.drawable.ic_launcher);
+//        d.addLevel(0, 0, empty);
+//        d.setBounds(0, 0, empty.getIntrinsicWidth(), empty.getIntrinsicHeight());
+//        new LoadImage().execute(source, d,textView);
+//        return d;
+//    }
+
+
+
+
 
     public class ViewHolder extends RecyclerView.ViewHolder{
         public TextView option_text;
@@ -164,10 +210,6 @@ public class QuestionOptionAdapter extends RecyclerView.Adapter<QuestionOptionAd
             chkSelected = (CheckBox) itemLayoutView.findViewById(R.id.chkSelected);
 
             view=(RelativeLayout) itemLayoutView.findViewById(R.id.option);
-
-
-
-
         }
 
     }

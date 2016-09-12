@@ -1,12 +1,15 @@
 package com.organization.sjhg.e_school.Fragments;
 
 import android.content.Context;
+import android.graphics.drawable.Drawable;
+import android.graphics.drawable.LevelListDrawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
+import android.text.Spanned;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,6 +23,7 @@ import com.organization.sjhg.e_school.ListStructure.ChapterList;
 import com.organization.sjhg.e_school.ListStructure.QuestionList;
 import com.organization.sjhg.e_school.R;
 import com.organization.sjhg.e_school.Remote.ServerAddress;
+import com.organization.sjhg.e_school.Utils.Latex_Image_Loader;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -52,7 +56,7 @@ public class Question_Fragment extends Fragment {
         super.onCreateView(inflater, container, savedInstanceState);
         View rootView = inflater.inflate(R.layout.question_fragment, container, false);
         ImageView imageView=(ImageView)rootView.findViewById(R.id.question_image);
-        TextView textView=(TextView)rootView.findViewById(R.id.question_text);
+        final TextView textView=(TextView)rootView.findViewById(R.id.question_text);
         RecyclerView recyclerView=(RecyclerView)rootView.findViewById(R.id.recycler);
         recyclerView.setHasFixedSize(true);
 
@@ -67,7 +71,23 @@ public class Question_Fragment extends Fragment {
                 .load(url)
                 .resize(200,200)
                 .into(imageView);
-        textView.setText(Html.fromHtml(questionLists.get(0).question_text));
+
+        String code=questionLists.get(0).question_text;
+        Spanned spanned = Html.fromHtml(code, new Html.ImageGetter() {
+            // download latex symbol
+            @Override
+            public Drawable getDrawable(String source) {
+                LevelListDrawable d = new LevelListDrawable();
+                Drawable empty = getContext().getResources().getDrawable(R.drawable.ic_launcher);
+                d.addLevel(0, 0, empty);
+                d.setBounds(0, 0, empty.getIntrinsicWidth(), empty.getIntrinsicHeight());
+                new Latex_Image_Loader().execute(source, d,textView);
+                return d;
+            }
+        }, null);
+
+        textView.setText(spanned);
+
         return rootView;
     }
 }

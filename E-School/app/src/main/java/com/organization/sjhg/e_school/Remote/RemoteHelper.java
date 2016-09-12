@@ -47,6 +47,7 @@ public class RemoteHelper {
     String SIGNUP_PAGE;
     String GET_ACESS_TOKEN;
     String GET_USER_DETAIL;
+    String SEND_QUESTION_RESPONSE;
     String GET_DASHBOARD_DETAILS;
     String GET_ITEM_DETAILS;
     String GET_FREE_QUEST_DETAILS;
@@ -72,6 +73,7 @@ public class RemoteHelper {
 
     public RemoteHelper(Context context) {
         this.context = context;
+        SEND_QUESTION_RESPONSE="api/v1/saveQuestionResponse";
         SIGNUP_PAGE=this.context.getResources().getString(R.string.get_sign_up_page);
         GET_ACESS_TOKEN=this.context.getResources().getString(R.string.getaccesstoken);
         GET_USER_DETAIL=this.context.getResources().getString(R.string.getuserdetail);
@@ -170,6 +172,8 @@ public class RemoteHelper {
         new JSONParserAsync(url,params,header,caller,functionCalled);
     }
 
+
+
     //get google auth details
     public void getGoogleAuthDetails(RemoteCallHandler caller,RemoteCalls functionCalled,String code)
     {
@@ -245,6 +249,18 @@ public class RemoteHelper {
         params.put("access_token",access_token);
         Map<String, String> header = new HashMap<String, String>();
         header.put("Content-Type","application/x-www-form-urlencoded");
+        new JSONParserAsync(url,params,header,caller,functionCalled);
+    }
+
+    public void sendQuestionResponse(RemoteCallHandler caller,RemoteCalls functionCalled,String tag, String id, String access_token,JSONObject jsonObject)
+    {
+        String url=ServerAddress.getServerAddress(context)+SEND_QUESTION_RESPONSE+'/'+tag+'/'+id;
+        Map<String, String> params = new HashMap<String, String>();
+        params.put("client_id",GlobalConstants.CLIENT_ID);
+        params.put("client_secret",GlobalConstants.CLINET_SECRET);
+        params.put("access_token",access_token);
+        params.put("data",jsonObject.toString());
+        Map<String, String> header = new HashMap<String, String>();
         new JSONParserAsync(url,params,header,caller,functionCalled);
     }
 

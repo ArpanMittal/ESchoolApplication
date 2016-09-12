@@ -20,6 +20,7 @@ import com.organization.sjhg.e_school.ListStructure.ChapterList;
 import com.organization.sjhg.e_school.ListStructure.QuestionList;
 
 import com.organization.sjhg.e_school.LoginActivity;
+import com.organization.sjhg.e_school.Main_Activity;
 import com.organization.sjhg.e_school.R;
 import com.organization.sjhg.e_school.Remote.RemoteCallHandler;
 import com.organization.sjhg.e_school.Remote.RemoteCalls;
@@ -32,6 +33,7 @@ import com.organization.sjhg.e_school.Utils.ToastActivity;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -87,13 +89,40 @@ public class TestActivity extends AppCompatActivity implements RemoteCallHandler
 
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        } else if (id == R.id.menu_search) {
-            return true;
+        if (id == R.id.action_submit) {
+            new RemoteHelper(getApplicationContext()).sendQuestionResponse(this, RemoteCalls.SEND_QUESTION_RESPONSE,tag,this.id, access_token,makeResponseList());
+            progressBarActivity.showProgress(mViewPagerView,mProgressView,true,getApplicationContext());
+
+//            Intent intent=new Intent(this, Main_Activity.class);
+//            startActivity(intent);
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    JSONObject makeResponseList()
+    {
+        JSONObject jsonObject=new JSONObject();
+        try{
+            JSONArray jsonArray=new JSONArray();
+            Cursor cursor=getApplicationContext().getContentResolver().query(UserContract.TestDetail.CONTENT_URI,null,null,null,null);
+            while(cursor.moveToNext())
+            {
+                JSONObject jsonObject1=new JSONObject();
+                jsonObject1.put(getString(R.string.sendQuestionId),cursor.getString(cursor.getColumnIndex(UserContract.TestDetail.COLUMN_QUESTION_ID)));
+                jsonObject1.put(getString(R.string.sendIsCorrect),cursor.getString(cursor.getColumnIndex(UserContract.TestDetail.COLUMN_IS_CORRECT)));
+                jsonObject1.put(getString(R.string.sendOptionId),cursor.getString(cursor.getColumnIndex(UserContract.TestDetail.COLUMN_OPTION_ID)));
+                jsonObject1.put(getString(R.string.sendTimeTaken),cursor.getString(cursor.getColumnIndex(UserContract.TestDetail.COLUMN_TIME_SPEND)));
+                jsonArray.put(jsonObject1);
+            }
+            jsonObject.put("data",jsonArray);
+        }catch (Exception e)
+        {
+            LogHelper logHelper=new LogHelper(e);
+            e.printStackTrace();
+        }
+        getApplicationContext().getContentResolver().delete(UserContract.TestDetail.CONTENT_URI,null,null);
+        return jsonObject;
     }
 
     @Override
@@ -108,12 +137,20 @@ public class TestActivity extends AppCompatActivity implements RemoteCallHandler
                 new RemoteHelper(getApplicationContext()).getQuestion(this, RemoteCalls.GET_QUESTION, tag, id, access_token);
             }
         }
+        else
+        {
+            questionLists=(List<QuestionList>)saveInstances.getSerializable("Question List");
+            showView(questionLists);
+        }
     }
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        //TODO: save list
+        if(questionLists!=null) {
+            outState.putSerializable("Question List", (Serializable) questionLists);
+        }
+
     }
     private void insertIntoDatabse(List<QuestionList> questions)
     {
@@ -126,7 +163,6 @@ public class TestActivity extends AppCompatActivity implements RemoteCallHandler
             contentValues[position].put(UserContract.TestDetail.COLUMN_IS_CORRECT, "empty");
         }
        int count= getApplicationContext().getContentResolver().bulkInsert(UserContract.TestDetail.CONTENT_URI,contentValues);
-        String hello="";
     }
 
     private void showView(final List<QuestionList> questions)
@@ -134,10 +170,7 @@ public class TestActivity extends AppCompatActivity implements RemoteCallHandler
 
 
         QuestionAdapter questionAdapter=new QuestionAdapter(getSupportFragmentManager(),questions,getApplicationContext());
-       // progressBarActivity.showProgress(mViewPagerView,mViewPagerView,true,getApplicationContext());
         insertIntoDatabse(questions);
-        //progressBarActivity.showProgress(mViewPagerView,mViewPagerView,false,getApplicationContext());
-        //Grid_Exam_Fragment grid_exam_fragment=new Grid_Exam_Fragment(getSupportFragmentManager(),li,context);
         mViewPagerView.setAdapter(questionAdapter);
         mViewPagerView.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
 
@@ -181,22 +214,6 @@ public class TestActivity extends AppCompatActivity implements RemoteCallHandler
                 }
 
                 startTime=System.currentTimeMillis();
-//                Cursor cursor = getApplicationContext().getContentResolver().query(
-//                        UserContract.TestDetail.CONTENT_URI, null,
-//                        UserContract.TestDetail.COLUMN_QUESTION_ID+" =? ",
-//                        new String[]{questionLists.get(position).id},
-//                        null,
-//                        null
-//                );
-////                ContentValues contentValues=new ContentValues();
-////                contentValues.put(UserContract.TestDetail.COLUMN_QUESTION_ID,questions.get(position).id);
-////                contentValues.put(UserContract.TestDetail.COLUMN_OPTION_ID,"");
-////                contentValues.put(UserContract.TestDetail.COLUMN_TIME_SPEND,0.0);
-////                contentValues.put(UserContract.TestDetail.COLUMN_IS_CORRECT,"empty");
-//                int count = cursor.getCount();
-//                if(count <=0){
-////                    getApplicationContext().getContentResolver().insert(UserContract.TestDetail.CONTENT_URI,contentValues);
-//                }
 
                 lastPageposition=position;
 
@@ -318,6 +335,11 @@ public class TestActivity extends AppCompatActivity implements RemoteCallHandler
                         e.printStackTrace();
                     }
                     break;
+                }
+                case SEND_QUESTION_RESPONSE:
+                {
+                    Intent intent=new Intent(this,Main_Activity.class);
+                    startActivity(intent);
                 }
             }
 
