@@ -115,6 +115,7 @@ public class TestActivity extends AppCompatActivity implements RemoteCallHandler
                 jsonObject1.put(getString(R.string.sendTimeTaken),cursor.getString(cursor.getColumnIndex(UserContract.TestDetail.COLUMN_TIME_SPEND)));
                 jsonArray.put(jsonObject1);
             }
+            cursor.close();
             jsonObject.put("data",jsonArray);
         }catch (Exception e)
         {
@@ -201,7 +202,7 @@ public class TestActivity extends AppCompatActivity implements RemoteCallHandler
                     );
                     if(cursor.getCount()>0)
                         diff = cursor.getColumnIndex(UserContract.TestDetail.COLUMN_TIME_SPEND);
-
+                    cursor.close();
                         endTime = System.currentTimeMillis();
 
                         ContentValues contentValues = new ContentValues();

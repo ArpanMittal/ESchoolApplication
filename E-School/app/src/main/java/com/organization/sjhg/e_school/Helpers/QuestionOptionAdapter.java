@@ -114,12 +114,17 @@ public class QuestionOptionAdapter extends RecyclerView.Adapter<QuestionOptionAd
             contentValues.put(UserContract.TestDetail.COLUMN_IS_CORRECT, is_correct);
 
             int count = cursor.getCount();
+            cursor.close();
             if (count > 0) {
 
                 int result = context.getContentResolver().update(UserContract.TestDetail.CONTENT_URI, contentValues,
                         UserContract.TestDetail.COLUMN_QUESTION_ID + "=?",
                         new String[]{questionId});
             }
+        }
+        else
+        {
+            lastChecked.setChecked(true);
         }
     }
 

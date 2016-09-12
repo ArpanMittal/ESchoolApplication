@@ -6,33 +6,77 @@ use Illuminate\Http\Request;
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Response;
 
 class receiveQuestionController extends Controller
 {
     //
     public function receiveQuestion(Request $request,$tag,$key)
     {
+
         switch ($tag) {
             case 'SamplePaper':
 
-                $data = $this->saveSamplePaperQuestion($key);
+                $data = $this->saveSamplePaperQuestion($key,$request);
                 break;
         }
 
-        return Response::json([
-            'success' => true,
-            'code' => 200,
-            'data' =>$data
+        if (!$data){
+            return Response::json([
+                'success' => false,
+                'code' => 401,
+                'message' => 'Content is not available'
+            ]);
+        }
+        else {
+            return Response::json([
+                'success' => true,
+                'code' => 200,
+                'title' => $tag,
 
-        ]);
+                'data' => $data
+
+            ]);
+        }
     }
 
-    public function saveSamplePaperQuestion($key)
+    public function saveSamplePaperQuestion($key,$request)
     {
-        $data=$_REQUEST['data'];
-        return $data;
-        $data=DB::table('user_attempt')
-            ->where('user_id',$_REQUEST['user_id'])
-            ->where('included_id',$_REQUEST['data']);
+        $data=\GuzzleHttp\json_decode($request->input('data'))->data;
+ //       $user_email=$request->input('user_id');
+        $user_email="test1@gmail.com";
+        $user_id = DB::table('user')
+            ->where('user.email',$user_email)
+            ->first();
+
+
+            DB::beginTransaction();
+
+            $attemptId = DB::table('user_attempt')->insertGetId(
+                ['user_id' => $user_id->id,'attempt_type_id'=>4,'included_id'=>$key]
+            );
+            if (!$attemptId>0) {
+                DB::rollback();
+                return null;
+            }
+      
+        foreach ($data as $da)
+        {
+
+            DB::table('user_attempt_response')->insert(
+                ['user_attempt_id'=> $attemptId,
+                    'time_taken'=>$da->time_taken,
+                    'response'=>$da->is_correct,
+                    'question_id'=>$da->question_id,
+//                    'option_id'=>$da->option_id
+                ]
+            );
+
+        }
+
+        DB::commit();
+        return "sucess";
+
     }
 }
