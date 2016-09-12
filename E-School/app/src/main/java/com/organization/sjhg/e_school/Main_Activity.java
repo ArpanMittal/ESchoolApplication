@@ -2,6 +2,7 @@ package com.organization.sjhg.e_school;
 
 
 import android.app.SearchManager;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -145,8 +146,7 @@ public class Main_Activity extends MainParentActivity{
                 (SearchManager) getSystemService(Context.SEARCH_SERVICE);
         SearchView searchView =
                 (SearchView) menu.findItem(R.id.menu_search).getActionView();
-        searchView.setSearchableInfo(
-                searchManager.getSearchableInfo(getComponentName()));
+        searchView.setSearchableInfo(searchManager.getSearchableInfo(new ComponentName(this,SearchActivity.class)));
 
         return true;
     }
@@ -189,10 +189,6 @@ public class Main_Activity extends MainParentActivity{
          */
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recycler);
         recyclerView.setHasFixedSize(true);
-
-
-
-
 
         Recycler_View_Adapter adapter = new Recycler_View_Adapter(dataList, this);
         recyclerView.setAdapter(adapter);

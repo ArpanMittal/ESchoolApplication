@@ -71,7 +71,7 @@ public class QuestGridAdapter extends RecyclerView.Adapter<QuestGridAdapter.Ques
         holder.progress.setText("Progress: "+detail.getProgress()+"%");
 
         if (position==0 ||(!detail.islock() && detail.isSubscribed())){
-            if(detail.video_path!="" && detail.video_path!="null"){
+            if(!detail.video_path.equals("") && !detail.video_path.equals("null")){
                 holder.video.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -91,7 +91,7 @@ public class QuestGridAdapter extends RecyclerView.Adapter<QuestGridAdapter.Ques
                 holder.video.setVisibility(View.INVISIBLE);
             }
 
-            if(detail.pdf_path!="" && detail.pdf_path!="null"){
+            if(!detail.pdf_path.equals("") && !detail.pdf_path.equals("null")){
                 holder.doc.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
