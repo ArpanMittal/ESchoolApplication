@@ -293,7 +293,7 @@ public class Provider extends ContentProvider {
         final SQLiteDatabase db = mOpenUserHelper.getWritableDatabase();
         final int match = sUriMatcher.match(uri);
         switch (match) {
-            case USER:
+            case USER: {
                 db.beginTransaction();
                 int returnCount = 0;
                 try {
@@ -309,8 +309,30 @@ public class Provider extends ContentProvider {
                 }
                 getContext().getContentResolver().notifyChange(uri, null);
                 return returnCount;
+            }
+            case TEST:
+            {
+                db.beginTransaction();
+                int returnCount = 0;
+                try {
+                    for (ContentValues value : values) {
+                        long _id = db.insert(UserContract.TestDetail.TABLE_NAME, null, value);
+                        if (_id != -1) {
+                            returnCount++;
+                        }
+                    }
+                    db.setTransactionSuccessful();
+                } finally {
+                    db.endTransaction();
+                }
+                getContext().getContentResolver().notifyChange(uri, null);
+                return returnCount;
+            }
+
+
             default:
                 return super.bulkInsert(uri, values);
+
         }
     }
 

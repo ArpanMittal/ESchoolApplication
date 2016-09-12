@@ -56,22 +56,24 @@
                                         <div class="control-group">
                                             <div>
                                                 @if(isset($question))
-                                                    <h4 class="controls"><strong>Q:&nbsp;</strong>{{strip_tags($question->question)}}</h4>
-                                                    @if(isset($question->image_path))
+                                                    <h4 class="controls"><strong>Q:&nbsp;</strong>{!! $question->question !!}</h4>
+                                                    @if(isset($question->image_path) && $question->image_path != "")
                                                         <img src="{!! asset($question->image_path) !!}">
                                                     @endif
                                                     <ol type="a">
                                                         @if(isset($options))
                                                             @foreach($options as $option)
-                                                                <li>
-                                                                    @if(isset($answer))
-                                                                        @if($option->id == $answer[0]->answer)
-                                                                            {{strip_tags($option->opt)}} <span class="icon-checkmark"></span>
-                                                                        @else
-                                                                            {{strip_tags($option->opt)}}
-                                                                        @endif
+                                                                @if(isset($answer))
+                                                                    @if($option->id == $answer[0]->answer)
+                                                                        <li style="background-color: rgba(0,255, 0, 0.5)">
+                                                                            {!! $option->opt !!}
+                                                                        </li>
+                                                                    @else
+                                                                        <li>
+                                                                            {!! $option->opt !!}
+                                                                        </li>
                                                                     @endif
-                                                                </li>
+                                                                @endif
                                                             @endforeach
                                                         @endif
                                                     </ol>
@@ -81,7 +83,7 @@
 
                                         <div class="control-group">
                                             <div class="controls" >
-                                                @if(isset($question))
+                                                @if(isset($question->solution_path) && $question->solution_path != "")
                                                     <h4>Solution</h4>
                                                     <img src="{!! asset($question->solution_path) !!}">
                                                 @endif

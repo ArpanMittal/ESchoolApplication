@@ -1,22 +1,23 @@
 package com.organization.sjhg.e_school.Content.NewTest;
 
-import android.app.Activity;
+import android.app.SearchManager;
+import android.content.ContentValues;
+import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
 import android.os.Bundle;
-import android.os.PersistableBundle;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.SearchView;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
-import android.widget.Toast;
 
-import com.organization.sjhg.e_school.Fragments.ExamListFragment;
-import com.organization.sjhg.e_school.Helpers.Grid_Exam_Fragment;
+import com.organization.sjhg.e_school.Database.contracts.UserContract;
 import com.organization.sjhg.e_school.Helpers.LogHelper;
 import com.organization.sjhg.e_school.Helpers.QuestionAdapter;
 import com.organization.sjhg.e_school.ListStructure.ChapterList;
 import com.organization.sjhg.e_school.ListStructure.QuestionList;
-
-import com.organization.sjhg.e_school.ListStructure.QuestionResponseList;
 
 import com.organization.sjhg.e_school.LoginActivity;
 import com.organization.sjhg.e_school.Main_Activity;
@@ -25,7 +26,6 @@ import com.organization.sjhg.e_school.Remote.RemoteCallHandler;
 import com.organization.sjhg.e_school.Remote.RemoteCalls;
 import com.organization.sjhg.e_school.Remote.RemoteHelper;
 import com.organization.sjhg.e_school.Structure.GlobalConstants;
-import com.organization.sjhg.e_school.Structure.Question;
 import com.organization.sjhg.e_school.Utils.ProgressBarActivity;
 import com.organization.sjhg.e_school.Utils.SharedPrefrence;
 import com.organization.sjhg.e_school.Utils.ToastActivity;
@@ -33,6 +33,7 @@ import com.organization.sjhg.e_school.Utils.ToastActivity;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -49,8 +50,12 @@ public class TestActivity extends AppCompatActivity implements RemoteCallHandler
     ProgressBarActivity progressBarActivity=new ProgressBarActivity();
     Bundle saveInstances;
     private View mProgressView;
+    double startTime=System.currentTimeMillis();
+    double endTime ;
+    int lastPageposition=0;
+    int pageOffset;
 
-    public List<QuestionResponseList>questionResponseLists=new ArrayList<>();
+
 
     private ViewPager mViewPagerView;
 
@@ -67,6 +72,58 @@ public class TestActivity extends AppCompatActivity implements RemoteCallHandler
         mViewPagerView=(ViewPager)findViewById(R.id.viewpager_fragment);
 
     }
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.test, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+
+        int id = item.getItemId();
+
+
+        //noinspection SimplifiableIfStatement
+        if (id == R.id.action_submit) {
+            new RemoteHelper(getApplicationContext()).sendQuestionResponse(this, RemoteCalls.SEND_QUESTION_RESPONSE,tag,this.id, access_token,makeResponseList());
+            progressBarActivity.showProgress(mViewPagerView,mProgressView,true,getApplicationContext());
+
+//            Intent intent=new Intent(this, Main_Activity.class);
+//            startActivity(intent);
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+    JSONObject makeResponseList()
+    {
+        JSONObject jsonObject=new JSONObject();
+        try{
+            JSONArray jsonArray=new JSONArray();
+            Cursor cursor=getApplicationContext().getContentResolver().query(UserContract.TestDetail.CONTENT_URI,null,null,null,null);
+            while(cursor.moveToNext())
+            {
+                JSONObject jsonObject1=new JSONObject();
+                jsonObject1.put(getString(R.string.sendQuestionId),cursor.getString(cursor.getColumnIndex(UserContract.TestDetail.COLUMN_QUESTION_ID)));
+                jsonObject1.put(getString(R.string.sendIsCorrect),cursor.getString(cursor.getColumnIndex(UserContract.TestDetail.COLUMN_IS_CORRECT)));
+                jsonObject1.put(getString(R.string.sendOptionId),cursor.getString(cursor.getColumnIndex(UserContract.TestDetail.COLUMN_OPTION_ID)));
+                jsonObject1.put(getString(R.string.sendTimeTaken),cursor.getString(cursor.getColumnIndex(UserContract.TestDetail.COLUMN_TIME_SPEND)));
+                jsonArray.put(jsonObject1);
+            }
+            jsonObject.put("data",jsonArray);
+        }catch (Exception e)
+        {
+            LogHelper logHelper=new LogHelper(e);
+            e.printStackTrace();
+        }
+        getApplicationContext().getContentResolver().delete(UserContract.TestDetail.CONTENT_URI,null,null);
+        return jsonObject;
+    }
 
     @Override
     protected void onResume() {
@@ -80,29 +137,85 @@ public class TestActivity extends AppCompatActivity implements RemoteCallHandler
                 new RemoteHelper(getApplicationContext()).getQuestion(this, RemoteCalls.GET_QUESTION, tag, id, access_token);
             }
         }
+        else
+        {
+            questionLists=(List<QuestionList>)saveInstances.getSerializable("Question List");
+            showView(questionLists);
+        }
     }
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        //TODO: save list
+        if(questionLists!=null) {
+            outState.putSerializable("Question List", (Serializable) questionLists);
+        }
+
+    }
+    private void insertIntoDatabse(List<QuestionList> questions)
+    {
+        ContentValues [] contentValues=new ContentValues[questions.size()];
+        for(int position=0;position<questions.size();position++) {
+            contentValues[position]=new ContentValues();
+            contentValues[position].put(UserContract.TestDetail.COLUMN_QUESTION_ID, questions.get(position).id);
+            contentValues[position].put(UserContract.TestDetail.COLUMN_OPTION_ID, "");
+            contentValues[position].put(UserContract.TestDetail.COLUMN_TIME_SPEND, 0.0);
+            contentValues[position].put(UserContract.TestDetail.COLUMN_IS_CORRECT, "empty");
+        }
+       int count= getApplicationContext().getContentResolver().bulkInsert(UserContract.TestDetail.CONTENT_URI,contentValues);
     }
 
-    private void showView(List<QuestionList> questions)
+    private void showView(final List<QuestionList> questions)
     {
 
 
         QuestionAdapter questionAdapter=new QuestionAdapter(getSupportFragmentManager(),questions,getApplicationContext());
-        //Grid_Exam_Fragment grid_exam_fragment=new Grid_Exam_Fragment(getSupportFragmentManager(),li,context);
+        insertIntoDatabse(questions);
         mViewPagerView.setAdapter(questionAdapter);
         mViewPagerView.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
 
             }
 
             @Override
             public void onPageSelected(int position) {
+
+                // to detect left or right scroll
+                if(position!=0||(position+1==1&&lastPageposition==1))
+                {
+                    if(position<lastPageposition)
+                        pageOffset=-1;
+                    else
+                        pageOffset=1;
+                    // for timer of each question
+                    double diff=0.0;
+                    Cursor cursor = getApplicationContext().getContentResolver().query(
+                            UserContract.TestDetail.CONTENT_URI, null,
+                            UserContract.TestDetail.COLUMN_QUESTION_ID+" =? ",
+                            new String[]{questionLists.get(position-pageOffset).id},
+                            null,
+                            null
+                    );
+                    if(cursor.getCount()>0)
+                        diff = cursor.getColumnIndex(UserContract.TestDetail.COLUMN_TIME_SPEND);
+
+                        endTime = System.currentTimeMillis();
+
+                        ContentValues contentValues = new ContentValues();
+                        contentValues.put(UserContract.TestDetail.COLUMN_TIME_SPEND,(endTime - startTime+diff));
+                    // insert time spend on previous question
+                        int result = getApplicationContext().getContentResolver().update(UserContract.TestDetail.CONTENT_URI, contentValues,
+                                UserContract.TestDetail.COLUMN_QUESTION_ID + "=?",
+                                new String[]{questionLists.get(position - pageOffset).id});
+
+                }
+
+                startTime=System.currentTimeMillis();
+
+                lastPageposition=position;
 
             }
 
@@ -222,6 +335,11 @@ public class TestActivity extends AppCompatActivity implements RemoteCallHandler
                         e.printStackTrace();
                     }
                     break;
+                }
+                case SEND_QUESTION_RESPONSE:
+                {
+                    Intent intent=new Intent(this,Main_Activity.class);
+                    startActivity(intent);
                 }
             }
 

@@ -217,6 +217,11 @@
     <string name="jsonanswer">answer</string>
     <string name="jsonoption">option</string>
     <string name="jsonquestiontext">question_text</string>
+    <string name="action_submit">submit test</string>
+    <string name="sendQuestionId">question_id</string>
+    <string name="sendIsCorrect">is_correct</string>
+    <string name="sendOptionId">option_id</string>
+    <string name="sendTimeTaken">time_taken</string>
 
 
 </resources>
