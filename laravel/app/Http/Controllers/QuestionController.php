@@ -466,6 +466,8 @@ class QuestionController extends Controller
         $data['selected_subject'] = $subject;
         $topic = Input::get('TopicId');
         $data['selected_topic'] = $topic;
+        $tag = Input::get('TagId');
+        $data['selected_tag'] = $tag;
 
         if ($user->role_id == 1){
             $query = DB::table('question');
@@ -483,6 +485,11 @@ class QuestionController extends Controller
         }
         if(isset($topic) && $topic != '') {
             $query->where('hash','LIKE',$topic);
+        }
+        if(isset($tag) && $tag != '') {
+            $query->join('questiontags','question.id','=','questiontags.question_id');
+            //$query->join('exam_state_year_rest_map','questiontags.tag_id','=','exam_state_year_rest_map.question_id');
+            $query->where('questiontags.tag_id','LIKE',$tag);
         }
 
         $data['question_list'] = $query->select('id','hash','question','question_type_id')
@@ -524,6 +531,16 @@ class QuestionController extends Controller
             ->join('streamchaptermap', 'chaptertopicmap.cl_su_st_ch_id', '=', 'streamchaptermap.cl_su_st_ch_id')
             ->join('chapter', 'streamchaptermap.chapter_id', '=', 'chapter.id')
             ->join('topic', 'chaptertopicmap.topic_id', '=', 'topic.id')
+            ->get();
+        $data['tags'] = DB::table('exam_state_year_rest_map')
+            ->select('exam_state_year_rest_map.id as id',
+                DB::raw('CONCAT(examtag.exam_name,\' \',state.state_name, \' \', year.year_name, \' \', rest_part.rest) as exam_name'))
+            ->join('exam_state_year_map','exam_state_year_rest_map.exam_state_year_id','=','exam_state_year_map.id')
+            ->join('exam_state_map','exam_state_year_map.exam_state_id','=','exam_state_map.id')
+            ->join('examtag','exam_state_map.exam_id','=','examtag.id')
+            ->join('state','exam_state_map.state_id','=','state.id')
+            ->join('year','exam_state_year_map.year_id','=','year.id')
+            ->join('rest_part','exam_state_year_rest_map.rest_id','=','rest_part.id')
             ->get();
         return view('question.list',$data);
     }

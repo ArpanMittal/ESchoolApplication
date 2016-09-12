@@ -67,6 +67,21 @@
                                             </div>
                                         </div>
                                     </td>
+                                    <td>
+                                        <div class="control-group">
+                                            <label class="control-label">Tag</label>
+                                            <div class="controls">
+                                                <select name="TagId" id="TagId" >
+                                                    <option value="">-- Select Tag --</option>
+                                                    @if(isset($tags))
+                                                        @foreach($tags as $tag)
+                                                            <option value="{{ $tag->id }}"> {{$tag->exam_name}}</option>
+                                                        @endforeach
+                                                    @endif
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </td>
                                 </tr>
                                 <tr colspan="3" style="float:right	">
                                     <td align="right" style="padding-right:85px">
@@ -131,6 +146,8 @@
                 "sPaginationType": "full_numbers"
             });
             $("#SubjectId").val('{{$selected_subject}}');
+            $("#TopicId").val('{{$selected_topic}}');
+            $("#TagId").val('{{$selected_tag}}');
             @if(isset($selected_question))
             $("#Question").val('{{$selected_question}}');
             @endif
