@@ -121,6 +121,10 @@ public class QuestionOptionAdapter extends RecyclerView.Adapter<QuestionOptionAd
                         new String[]{questionId});
             }
         }
+        else
+        {
+            lastChecked.setChecked(true);
+        }
     }
 
 
