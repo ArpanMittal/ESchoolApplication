@@ -81,7 +81,7 @@ class QuestController extends Controller
                 ->leftjoin('user_attempt_response','user_attempt.id',"=",'user_attempt_response.user_attempt_id')
                 ->where('user_attempt.user_id',$user->id)
                 ->where('user_attempt.included_id',$hash)
-                ->where('user_attempt_response.response',1)
+                ->where('user_attempt_response.response','true')
                 ->groupBy('user_attempt.id')
                 ->get();
 
