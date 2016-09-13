@@ -77,7 +77,7 @@ class receiveQuestionController extends Controller
                     'time_taken'=>$da->time_taken,
                     'response'=>$da->is_correct,
                     'question_id'=>$da->question_id,
-//                    'option_id'=>$da->option_id
+                   'option_id'=>$da->option_id
                 ]
             );
 

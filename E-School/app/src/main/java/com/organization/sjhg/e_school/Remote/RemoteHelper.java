@@ -54,6 +54,7 @@ public class RemoteHelper {
     String GET_SEARCH;
     String GET_QUEST_DETAILS;
     String GET_QUESTION;
+    String GET_TEST_SUMMARY;
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////
     String LOGIN_PAGE;
     String FETCH_CONTENT_PAGE;
@@ -85,6 +86,7 @@ public class RemoteHelper {
         GET_QUEST_DETAILS = "api/v1/topics/chapter";
         GET_QUESTION="api/v1/getQuestion";
         GET_SEARCH = "api/v1/search";
+        GET_TEST_SUMMARY=this.context.getResources().getString(R.string.get_test_summary);
         //////////////////////////////////////////////////////////////////////////////////////
         GET_SINGLEADAPTIVE_TEST=this.context.getResources().getString(R.string.get_single_adaptive_test);
         LOGIN_PAGE = this.context.getResources().getString(R.string.login_page);
@@ -147,7 +149,7 @@ public class RemoteHelper {
         new JSONParserAsync(url,params,header,caller,functionCalled);
     }
 
-
+    //fetch question
     public void getQuestion(RemoteCallHandler caller, RemoteCalls functionCalled,String tag,String key,String access_token)
     {
         String url=ServerAddress.getServerAddress(context)+GET_QUESTION+"/"+tag+"/"+key;
@@ -157,6 +159,18 @@ public class RemoteHelper {
         params.put("access_token",access_token);
         Map<String, String> header = new HashMap<String, String>();
        // header.put("Content-Type","application/x-www-form-urlencoded");
+        new JSONParserAsync(url,params,header,caller,functionCalled);
+    }
+    // get test summary
+    public void getTestSummary(RemoteCallHandler caller, RemoteCalls functionCalled,String tag,String key,String access_token)
+    {
+        String url=ServerAddress.getServerAddress(context)+GET_TEST_SUMMARY+"/"+tag+"/"+key;
+        Map<String, String> params = new HashMap<String, String>();
+        params.put("client_id",GlobalConstants.CLIENT_ID);
+        params.put("client_secret",GlobalConstants.CLINET_SECRET);
+        params.put("access_token",access_token);
+        Map<String, String> header = new HashMap<String, String>();
+        // header.put("Content-Type","application/x-www-form-urlencoded");
         new JSONParserAsync(url,params,header,caller,functionCalled);
     }
 
