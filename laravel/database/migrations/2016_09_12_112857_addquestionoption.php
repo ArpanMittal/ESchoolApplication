@@ -13,8 +13,7 @@ class Addquestionoption extends Migration
     public function up()
     {
         Schema::table('user_attempt_response', function ($table) {
-            $table->integer('option_id')->unsigned();
-            $table->foreign('option_id')->references('id')->on('option')->onDelete('cascade');
+            $table->string('option_id')->nullable();
             $table->string('response')->default("empty")->change();
         });
 

@@ -3,10 +3,12 @@ package com.organization.sjhg.e_school.Content.NewTest;
 import android.app.SearchManager;
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SearchView;
 import android.view.Menu;
@@ -72,6 +74,7 @@ public class TestActivity extends AppCompatActivity implements RemoteCallHandler
         mViewPagerView=(ViewPager)findViewById(R.id.viewpager_fragment);
 
     }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -90,8 +93,8 @@ public class TestActivity extends AppCompatActivity implements RemoteCallHandler
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_submit) {
-            new RemoteHelper(getApplicationContext()).sendQuestionResponse(this, RemoteCalls.SEND_QUESTION_RESPONSE,tag,this.id, access_token,makeResponseList());
-            progressBarActivity.showProgress(mViewPagerView,mProgressView,true,getApplicationContext());
+
+          showLocationDialog();
 
 //            Intent intent=new Intent(this, Main_Activity.class);
 //            startActivity(intent);
@@ -122,8 +125,43 @@ public class TestActivity extends AppCompatActivity implements RemoteCallHandler
             LogHelper logHelper=new LogHelper(e);
             e.printStackTrace();
         }
-        getApplicationContext().getContentResolver().delete(UserContract.TestDetail.CONTENT_URI,null,null);
+
         return jsonObject;
+    }
+
+    private void showLocationDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(TestActivity.this);
+        builder.setTitle(getString(R.string.test_submit_title));
+        builder.setMessage(getString(R.string.test_submit_message));
+
+        String positiveText = getString(android.R.string.ok);
+        builder.setPositiveButton(positiveText,
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        // positive button logic
+                        new RemoteHelper(getApplicationContext()).sendQuestionResponse(TestActivity.this, RemoteCalls.SEND_QUESTION_RESPONSE,tag,id, access_token,makeResponseList());
+                        progressBarActivity.showProgress(mViewPagerView,mProgressView,true,getApplicationContext());
+                    }
+                });
+
+        String negativeText = getString(android.R.string.cancel);
+        builder.setNegativeButton(negativeText,
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        // negative button logic
+                    }
+                });
+
+        AlertDialog dialog = builder.create();
+        // display dialog
+        dialog.show();
+    }
+
+    @Override
+    public void onBackPressed() {
+        showLocationDialog();
     }
 
     @Override
@@ -306,7 +344,7 @@ public class TestActivity extends AppCompatActivity implements RemoteCallHandler
                             questionLists=getList(response);
                             List<QuestionList>question=questionLists;
                             showView(question);
-                            //TODO: show test view
+
                         }
                     }catch (Exception e)
                     {
@@ -339,8 +377,34 @@ public class TestActivity extends AppCompatActivity implements RemoteCallHandler
                 }
                 case SEND_QUESTION_RESPONSE:
                 {
-                    Intent intent=new Intent(this,Main_Activity.class);
-                    startActivity(intent);
+                    try {
+                        if (response.get("code").toString().equals(GlobalConstants.EXPIRED_TOKEN)) {
+
+                            if (sharedPrefrence.getRefreshToken(getApplicationContext()) == null) {
+
+                                toastActivity.makeToastMessage(response, this);
+                                break;
+                            } else {
+                                // new RemoteHelper(getApplicationContext()).getAccessToken(this,RemoteCalls.GET_ACCESS_TOKEN,sharedPrefrence.getRefreshToken(getApplicationContext()));
+                                Intent intent = new Intent(this, LoginActivity.class);
+                                startActivity(intent);
+                            }
+
+                        } else if (response.get("code").toString().equals(GlobalConstants.INAVLID_TOKEN)) {
+                            toastActivity.makeUknownErrorMessage(this);
+
+                        } else {
+
+                            getApplicationContext().getContentResolver().delete(UserContract.TestDetail.CONTENT_URI, null, null);
+                            Intent intent = new Intent(this, Main_Activity.class);
+                            startActivity(intent);
+                        }
+                    }catch (Exception e)
+                    {
+                        LogHelper logHelper=new LogHelper(e);
+                        e.printStackTrace();
+                    }
+
                 }
             }
 
