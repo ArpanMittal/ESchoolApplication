@@ -69,6 +69,7 @@ class QuestController extends Controller
             ->where('order.user_id',$user->id)
             ->where('pack_subject_chapter_map.chapter_id',$id)
             ->first();
+        $flag = false;
         for ($i=0;$i<count($data);$i++){
             if (isset($subs)){
                 $data[$i]->is_subscribed = "true";
@@ -85,7 +86,6 @@ class QuestController extends Controller
                 ->groupBy('user_attempt.id')
                 ->get();
 
-            $flag = false;
             if(isset($attempt) && count($attempt)>0){
                 $max = 0;
                 foreach ($attempt as $atmpt){
