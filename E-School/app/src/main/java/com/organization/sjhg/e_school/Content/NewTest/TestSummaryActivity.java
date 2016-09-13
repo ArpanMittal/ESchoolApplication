@@ -9,6 +9,9 @@ import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.util.AttributeSet;
@@ -20,19 +23,28 @@ import android.view.ViewStub;
 import com.organization.sjhg.e_school.Fragments.Notes_Listing_Fragment;
 import com.organization.sjhg.e_school.Helpers.Custom_Pager_Adapter;
 import com.organization.sjhg.e_school.Helpers.LogHelper;
+import com.organization.sjhg.e_school.Helpers.Recycler_View_Adapter;
+import com.organization.sjhg.e_school.Helpers.SamplePaperListDataAdapter;
+import com.organization.sjhg.e_school.Helpers.TestPaperAttemptAdapter;
+import com.organization.sjhg.e_school.ListStructure.ChapterList;
+import com.organization.sjhg.e_school.LoginActivity;
 import com.organization.sjhg.e_school.MainParentActivity;
 import com.organization.sjhg.e_school.R;
 import com.organization.sjhg.e_school.Remote.RemoteCallHandler;
 import com.organization.sjhg.e_school.Remote.RemoteCalls;
 import com.organization.sjhg.e_school.Remote.RemoteHelper;
 import com.organization.sjhg.e_school.SearchActivity;
+import com.organization.sjhg.e_school.Structure.GlobalConstants;
 import com.organization.sjhg.e_school.Utils.ProgressBarActivity;
 import com.organization.sjhg.e_school.Utils.SharedPrefrence;
 import com.organization.sjhg.e_school.Utils.ToastActivity;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 import cn.trinea.android.view.autoscrollviewpager.AutoScrollViewPager;
 import me.relex.circleindicator.CircleIndicator;
@@ -49,7 +61,7 @@ public class TestSummaryActivity  extends MainParentActivity implements RemoteCa
     private String tag;
     private String id;
     private String access_token;
-
+    private List<ChapterList> chapterListList=new ArrayList<>();
     Context mContext;
 
     @Override
@@ -57,7 +69,6 @@ public class TestSummaryActivity  extends MainParentActivity implements RemoteCa
         super.onCreate(savedInstanceState);
 
         Intent intent=getIntent();
-        tag=intent.getStringExtra("Tag");
         id=intent.getStringExtra("Id");
         ViewStub view_Stub=(ViewStub)findViewById(R.id.viewstub);
         view_Stub.setLayoutResource(R.layout.app_bar_main);
@@ -103,7 +114,7 @@ public class TestSummaryActivity  extends MainParentActivity implements RemoteCa
         if(savedInstanceState==null)
         {
             progressBarActivity.showProgress(mDashboardView,mProgressView,true,getApplicationContext());
-            new RemoteHelper(getApplicationContext()).getTestSummary(this, RemoteCalls.GET_TEST_RESPONSE,tag,id, access_token);
+            new RemoteHelper(getApplicationContext()).getTestSummary(this, RemoteCalls.GET_TEST_RESPONSE,"Attempt_Number",id, access_token);
         }
 
     }
@@ -145,6 +156,41 @@ public class TestSummaryActivity  extends MainParentActivity implements RemoteCa
         super.onSaveInstanceState(outState);
     }
 
+    private void makeList(JSONObject response)
+    {
+        try
+        {
+            JSONArray jsonArray=response.getJSONArray(getString(R.string.data));
+            for(int i=0;i<jsonArray.length();i++)
+            {
+                JSONObject jsonObject=jsonArray.getJSONObject(i);
+                String id=jsonObject.getString(getString(R.string.jsonid));
+                chapterListList.add(new ChapterList(id,"Attempt number"+i));
+            }
+
+        }catch (Exception e)
+        {
+            LogHelper logHelper=new LogHelper(e);
+            e.printStackTrace();
+        }
+    }
+
+    private void showView()
+    {
+        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recycler);
+        recyclerView.setHasFixedSize(true);
+
+        TestPaperAttemptAdapter testPaperAttemptAdapter=new TestPaperAttemptAdapter(getApplicationContext(),chapterListList);
+        recyclerView.setAdapter(testPaperAttemptAdapter);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+
+        // for animation in listview
+        RecyclerView.ItemAnimator itemAnimator = new DefaultItemAnimator();
+        itemAnimator.setAddDuration(1000);
+        itemAnimator.setRemoveDuration(1000);
+        recyclerView.setItemAnimator(itemAnimator);
+
+    }
 
     @Override
     public void HandleRemoteCall(boolean isSuccessful, RemoteCalls callFor, JSONObject response, Exception exception) {
@@ -156,6 +202,60 @@ public class TestSummaryActivity  extends MainParentActivity implements RemoteCa
         }
         else
         {
+            switch (callFor){
+                case GET_TEST_RESPONSE:
+                {
+                    try {
+                        if (response.get("code").toString().equals(GlobalConstants.EXPIRED_TOKEN)) {
+
+                            if (sharedPrefrence.getRefreshToken(getApplicationContext()) == null) {
+
+                                toastActivity.makeToastMessage(response, this);
+                                break;
+                            } else {
+                                // new RemoteHelper(getApplicationContext()).getAccessToken(this,RemoteCalls.GET_ACCESS_TOKEN,sharedPrefrence.getRefreshToken(getApplicationContext()));
+                                Intent intent = new Intent(this, LoginActivity.class);
+                                startActivity(intent);
+                            }
+
+                        } else if (response.get("code").toString().equals(GlobalConstants.INAVLID_TOKEN)) {
+                            toastActivity.makeUknownErrorMessage(this);
+
+                        }
+                        else
+                        {
+                            makeList(response);
+                            showView();
+                        }
+                    }catch (Exception e)
+                    {
+                        LogHelper logHelper=new LogHelper(e);
+                        e.printStackTrace();
+                    }
+                        break;
+                    }
+                case GET_ACCESS_TOKEN:
+                {
+                    try{
+                        if(response.get("sucess").toString().equals("false"))
+                        {
+                            toastActivity.makeToastMessage(response,this);
+                        }
+
+                        else
+                        {
+                            sharedPrefrence.saveAccessToken(getApplicationContext(),response.get("access_token").toString(),response.get("refresh_token").toString());
+                            access_token=response.get("access_token").toString();
+                            new RemoteHelper(getApplicationContext()).getQuestion(this, RemoteCalls.GET_QUESTION, tag, id, access_token);
+                        }
+                    }catch (Exception e)
+                    {
+                        LogHelper logHelper=new LogHelper(e);
+                        e.printStackTrace();
+                    }
+                    break;
+                }
+            }
 
         }
     }
