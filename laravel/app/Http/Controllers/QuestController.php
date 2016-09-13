@@ -63,12 +63,13 @@ class QuestController extends Controller
             ->get();
         
         $subs = DB::table('order')
-            ->join('orderpackmap','order.id','=','orderpackmap.order_id')
-            ->join('pack_subject_map','orderpackmap.pack_id','=','pack_subject_map.pack_id')
-            ->join('pack_subject_chapter_map','pack_subject_map.id','=','pack_subject_chapter_map.pack_subject_id')
+            ->leftjoin('orderpackmap','order.id','=','orderpackmap.order_id')
+            ->leftjoin('pack_subject_map','orderpackmap.pack_id','=','pack_subject_map.pack_id')
+            ->leftjoin('pack_subject_chapter_map','pack_subject_map.id','=','pack_subject_chapter_map.pack_subject_id')
             ->where('order.user_id',$user->id)
             ->where('pack_subject_chapter_map.chapter_id',$id)
             ->first();
+        $flag = false;
         for ($i=0;$i<count($data);$i++){
             if (isset($subs)){
                 $data[$i]->is_subscribed = "true";
@@ -81,11 +82,10 @@ class QuestController extends Controller
                 ->leftjoin('user_attempt_response','user_attempt.id',"=",'user_attempt_response.user_attempt_id')
                 ->where('user_attempt.user_id',$user->id)
                 ->where('user_attempt.included_id',$hash)
-                ->where('user_attempt_response.response',1)
+                ->where('user_attempt_response.response','true')
                 ->groupBy('user_attempt.id')
                 ->get();
 
-            $flag = false;
             if(isset($attempt) && count($attempt)>0){
                 $max = 0;
                 foreach ($attempt as $atmpt){
@@ -95,7 +95,7 @@ class QuestController extends Controller
                 }
                 $percent = ($max/8)*100;
                 $data[$i]->is_locked = "false";
-                $data[$i]->progress = $percent;
+                $data[$i]->progress = (int)$percent;
                 $flag = true;
             }else if($i==0 || $flag){
                 $data[$i]->is_locked = "false";
