@@ -107,7 +107,7 @@ public class TestInstructionActivity extends MainParentActivity {
                     intent1.putExtra("Tag",tag);
                     intent1.putExtra("Id",id);
                     startActivity(intent1);
-
+                    finish();
                 }
             }
         });
