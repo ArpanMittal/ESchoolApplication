@@ -60,14 +60,14 @@ Route::group(['prefix'=>'api/v1','middleware'=>['oauth']],function(){
     Route::post('getAllAttempt','postController@getUserAttempt');
     Route::post('topics/chapter/{id}', array('uses' => 'QuestController@details'));
     Route::post('getQuestion/{tag}/{key}',array('uses'=>'fetchQuestionController@getQuestion'));
-
+    Route::post('saveQuestionResponse/{tag}/{key}',array('uses'=>'receiveQuestionController@receiveQuestion'));
 });
 
 Route::group(['prefix'=>'api/v1','middleware'=>['client']],function(){
     /*
      * @input client_id,client_secret,code,role_id
      */
-    Route::post('saveQuestionResponse/{tag}/{key}',array('uses'=>'receiveQuestionController@receiveQuestion'));
+    
     Route::post('doGoogleAuth','AuthGoogleIdToken@doAuth') ;
     Route::post('signup','SignUpController@doSignUp');
     Route::post('chart/{id}', array('uses' => 'DetailsController@getCharts'));
