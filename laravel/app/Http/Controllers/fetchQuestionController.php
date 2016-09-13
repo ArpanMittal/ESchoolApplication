@@ -21,6 +21,10 @@ class fetchQuestionController extends Controller
                 
                 $data = $this->getSamplePaperQuestion($key);
                 break;
+            case 'worksheet':
+
+                $data = $this->getWorksheetQuestion($key);
+                break;
         }
 
 
@@ -75,6 +79,31 @@ class fetchQuestionController extends Controller
                 'option.opt as option')
             ->where('option.question_id',$id)->get();
 
+    }
+
+    private function getWorksheetQuestion($key)
+    {
+        $questions= DB::table('question')
+            ->select('question.id as id',
+                'question.hash as hash',
+                'question.question_type_id as type_id',
+                'question.question as question_text',
+                'question.solution_path as solution_path',
+                'question.difficulty as difficulty',
+                'question.image_path as question_image_path',
+                'answer.answer as answer')
+            ->join('answer','answer.question_id','=','question.id')
+            ->where('question.hash',$key)
+            ->orderBy(DB::raw('RAND()'))
+            ->take(8)
+            ->get();
+
+        foreach ($questions as $question )
+        {
+            if($question->type_id==1)
+                $question->option=$this->getOption($question->id);
+        }
+        return $questions;
     }
 
 

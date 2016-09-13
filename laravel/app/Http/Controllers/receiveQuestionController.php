@@ -18,7 +18,11 @@ class receiveQuestionController extends Controller
         switch ($tag) {
             case 'SamplePaper':
 
-                $data = $this->saveSamplePaperQuestion($key,$request);
+                $data = $this->saveQuestion($key,$request,4);
+                break;
+            case 'worksheet':
+
+                $data = $this->saveQuestion($key,$request,2);
                 break;
         }
 
@@ -41,11 +45,11 @@ class receiveQuestionController extends Controller
         }
     }
 
-    public function saveSamplePaperQuestion($key,$request)
+    public function saveQuestion($key,$request,$attemptType)
     {
         $data=\GuzzleHttp\json_decode($request->input('data'))->data;
- //       $user_email=$request->input('user_id');
-        $user_email="test1@gmail.com";
+        $user_email=$request->input('user_id');
+//        $user_email="test1@gmail.com";
         $user_id = DB::table('user')
             ->where('user.email',$user_email)
             ->first();
@@ -54,7 +58,7 @@ class receiveQuestionController extends Controller
             DB::beginTransaction();
 
             $attemptId = DB::table('user_attempt')->insertGetId(
-                ['user_id' => $user_id->id,'attempt_type_id'=>4,'included_id'=>$key]
+                ['user_id' => $user_id->id,'attempt_type_id'=>$attemptType,'included_id'=>$key]
             );
             if (!$attemptId>0) {
                 DB::rollback();
