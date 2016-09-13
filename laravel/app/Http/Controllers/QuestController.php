@@ -63,9 +63,9 @@ class QuestController extends Controller
             ->get();
         
         $subs = DB::table('order')
-            ->join('orderpackmap','order.id','=','orderpackmap.order_id')
-            ->join('pack_subject_map','orderpackmap.pack_id','=','pack_subject_map.pack_id')
-            ->join('pack_subject_chapter_map','pack_subject_map.id','=','pack_subject_chapter_map.pack_subject_id')
+            ->leftjoin('orderpackmap','order.id','=','orderpackmap.order_id')
+            ->leftjoin('pack_subject_map','orderpackmap.pack_id','=','pack_subject_map.pack_id')
+            ->leftjoin('pack_subject_chapter_map','pack_subject_map.id','=','pack_subject_chapter_map.pack_subject_id')
             ->where('order.user_id',$user->id)
             ->where('pack_subject_chapter_map.chapter_id',$id)
             ->first();
