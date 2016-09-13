@@ -100,6 +100,10 @@
             android:theme="@style/AppTheme.NoActionBar"
             android:label="TestInstruction"/>
 
+        <activity android:name=".Content.NewTest.TestSummaryActivity"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:label="TestSummary"/>
+
         <activity android:name=".Content.NewTest.TestActivity"
             android:label="Test"/>
 

@@ -224,6 +224,8 @@
     <string name="sendTimeTaken">time_taken</string>
     <string name="test_submit_title">submit test</string>
     <string name="test_submit_message">Are you sure?</string>
+    <string name="TestSummary">TestSummary</string>
+    <string name="get_test_summary">api/v1/getTestSummary</string>
 
 
 </resources>

@@ -29,7 +29,6 @@ import android.widget.ImageView;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
-import com.ToxicBakery.viewpager.transforms.RotateUpTransformer;
 import com.astuetz.PagerSlidingTabStrip;
 import com.organization.sjhg.e_school.Fragments.Notes_Listing_Fragment;
 import com.organization.sjhg.e_school.Helpers.Custom_Pager_Adapter;
