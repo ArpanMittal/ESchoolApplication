@@ -95,7 +95,7 @@ class QuestController extends Controller
                 }
                 $percent = ($max/8)*100;
                 $data[$i]->is_locked = "false";
-                $data[$i]->progress = $percent;
+                $data[$i]->progress = (int)$percent;
                 $flag = true;
             }else if($i==0 || $flag){
                 $data[$i]->is_locked = "false";
