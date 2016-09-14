@@ -132,7 +132,7 @@ class fetchTestSummaryController extends Controller
             ->first();
 
         $attempt=DB::table('user_attempt')
-            ->select('user_attempt.id as id')
+            ->select('user_attempt.id as id','user_attempt.started_at as time')
             ->where('user_attempt.user_id',$user_id->id)
             ->where('user_attempt.included_id',$key)->get();
 

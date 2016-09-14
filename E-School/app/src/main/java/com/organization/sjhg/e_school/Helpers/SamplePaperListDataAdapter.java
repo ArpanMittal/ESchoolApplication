@@ -1,7 +1,9 @@
 package com.organization.sjhg.e_school.Helpers;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,11 +11,13 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.organization.sjhg.e_school.Content.NewTest.TestInstructionActivity;
+import com.organization.sjhg.e_school.Content.NewTest.TestActivity;
 import com.organization.sjhg.e_school.Fragments.SamplePaperListFragment;
 import com.organization.sjhg.e_school.ListStructure.ChapterList;
 import com.organization.sjhg.e_school.Main_Activity;
 import com.organization.sjhg.e_school.R;
+import com.organization.sjhg.e_school.Remote.RemoteCalls;
+import com.organization.sjhg.e_school.Remote.RemoteHelper;
 import com.organization.sjhg.e_school.Structure.GlobalConstants;
 import com.squareup.picasso.Picasso;
 
@@ -46,13 +50,44 @@ public class SamplePaperListDataAdapter extends RecyclerView.Adapter<SamplePaper
         viewHolder.tv_android.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent=new Intent(context, TestInstructionActivity.class);
-                intent.putExtra("Tag", GlobalConstants.SamplePaperTag);
-                intent.putExtra("Id",chapterLists.get(position).id);
-                context.startActivity(intent);
+                showLocationDialog(position);
             }
         });
         Picasso.with(context).load("https://s9.postimg.io/al1o9ip5r/image.jpg").resize(50,50).into(viewHolder.img_android);
+    }
+
+    private void showLocationDialog(final int position) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        builder.setTitle(context.getString(R.string.test_start_title));
+        builder.setMessage(context.getString(R.string.test_submit_message));
+
+        String positiveText = context.getString(android.R.string.ok);
+        builder.setPositiveButton(positiveText,
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Intent intent=new Intent(context, TestActivity.class);
+                        intent.putExtra("Tag", GlobalConstants.SamplePaperTag);
+                        intent.putExtra("Id",chapterLists.get(position).id);
+                        context.startActivity(intent);
+                        // positive button logic
+                       // new RemoteHelper(getApplicationContext()).sendQuestionResponse(TestActivity.this, RemoteCalls.SEND_QUESTION_RESPONSE,tag,id, access_token,makeResponseList());
+                       // progressBarActivity.showProgress(mViewPagerView,mProgressView,true,getApplicationContext());
+                    }
+                });
+
+        String negativeText = context.getString(android.R.string.cancel);
+        builder.setNegativeButton(negativeText,
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        // negative button logic
+                    }
+                });
+
+        AlertDialog dialog = builder.create();
+        // display dialog
+        dialog.show();
     }
 
 

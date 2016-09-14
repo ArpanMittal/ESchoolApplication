@@ -165,7 +165,7 @@ public class TestSummaryActivity  extends MainParentActivity implements RemoteCa
             {
                 JSONObject jsonObject=jsonArray.getJSONObject(i);
                 String id=jsonObject.getString(getString(R.string.jsonid));
-                chapterListList.add(new ChapterList(id,"Attempt number"+i));
+                chapterListList.add(new ChapterList(id,"Attempt number"+i+1));
             }
 
         }catch (Exception e)
@@ -246,7 +246,7 @@ public class TestSummaryActivity  extends MainParentActivity implements RemoteCa
                         {
                             sharedPrefrence.saveAccessToken(getApplicationContext(),response.get("access_token").toString(),response.get("refresh_token").toString());
                             access_token=response.get("access_token").toString();
-                            new RemoteHelper(getApplicationContext()).getQuestion(this, RemoteCalls.GET_QUESTION, tag, id, access_token);
+                            new RemoteHelper(getApplicationContext()).getTestSummary(this, RemoteCalls.GET_TEST_RESPONSE,"Attempt_Number",id, access_token);
                         }
                     }catch (Exception e)
                     {

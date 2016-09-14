@@ -96,9 +96,9 @@
             android:label="@string/title_activity_pdf_view"
             android:theme="@android:style/Theme.NoTitleBar.Fullscreen" />
 
-        <activity android:name=".Content.NewTest.TestInstructionActivity"
+        <activity android:name=".Content.NewTest.TestReportActivity"
             android:theme="@style/AppTheme.NoActionBar"
-            android:label="TestInstruction"/>
+            android:label="TestReport"/>
 
         <activity android:name=".Content.NewTest.TestSummaryActivity"
             android:theme="@style/AppTheme.NoActionBar"

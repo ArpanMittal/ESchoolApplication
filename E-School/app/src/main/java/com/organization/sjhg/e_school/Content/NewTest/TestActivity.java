@@ -14,6 +14,7 @@ import android.support.v7.widget.SearchView;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ProgressBar;
 
 import com.organization.sjhg.e_school.Database.contracts.UserContract;
 import com.organization.sjhg.e_school.Helpers.LogHelper;
@@ -56,6 +57,7 @@ public class TestActivity extends AppCompatActivity implements RemoteCallHandler
     double endTime ;
     int lastPageposition=0;
     int pageOffset;
+    ProgressBar progress;
 
 
 
@@ -72,7 +74,7 @@ public class TestActivity extends AppCompatActivity implements RemoteCallHandler
         setContentView(R.layout.activity_test);
         mProgressView=findViewById(R.id.dashboard_progress);
         mViewPagerView=(ViewPager)findViewById(R.id.viewpager_fragment);
-
+        progress = (ProgressBar) findViewById(R.id.progressBar); progress = (ProgressBar) findViewById(R.id.progressBar);
     }
 
     @Override
@@ -140,6 +142,7 @@ public class TestActivity extends AppCompatActivity implements RemoteCallHandler
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         // positive button logic
+                        access_token=sharedPrefrence.getAccessToken(getApplicationContext());
                         new RemoteHelper(getApplicationContext()).sendQuestionResponse(TestActivity.this, RemoteCalls.SEND_QUESTION_RESPONSE,tag,id, access_token,makeResponseList());
                         progressBarActivity.showProgress(mViewPagerView,mProgressView,true,getApplicationContext());
                     }
@@ -191,6 +194,7 @@ public class TestActivity extends AppCompatActivity implements RemoteCallHandler
         }
 
     }
+
     private void insertIntoDatabse(List<QuestionList> questions)
     {
         ContentValues [] contentValues=new ContentValues[questions.size()];
@@ -222,6 +226,9 @@ public class TestActivity extends AppCompatActivity implements RemoteCallHandler
             @Override
             public void onPageSelected(int position) {
 
+
+                progress.setMax(questionLists.size()-1);
+                progress.setProgress(position);
                 // to detect left or right scroll
                 if(position!=0||(position+1==1&&lastPageposition==1))
                 {

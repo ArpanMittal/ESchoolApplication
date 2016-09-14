@@ -17,9 +17,12 @@ import android.view.ViewStub;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.github.mikephil.charting.charts.BarChart;
+import com.github.mikephil.charting.data.BarData;
 import com.organization.sjhg.e_school.Fragments.Notes_Listing_Fragment;
 import com.organization.sjhg.e_school.Helpers.Custom_Pager_Adapter;
 import com.organization.sjhg.e_school.Helpers.LogHelper;
+import com.organization.sjhg.e_school.ListStructure.BarGraphList;
 import com.organization.sjhg.e_school.ListStructure.InternalList;
 import com.organization.sjhg.e_school.LoginActivity;
 import com.organization.sjhg.e_school.MainParentActivity;
@@ -32,7 +35,11 @@ import com.organization.sjhg.e_school.Utils.ProgressBarActivity;
 import com.organization.sjhg.e_school.Utils.SharedPrefrence;
 import com.organization.sjhg.e_school.Utils.ToastActivity;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import cn.trinea.android.view.autoscrollviewpager.AutoScrollViewPager;
 import me.relex.circleindicator.CircleIndicator;
@@ -40,22 +47,24 @@ import me.relex.circleindicator.CircleIndicator;
 /**
  * Created by arpan on 9/7/2016.
  */
-public class TestInstructionActivity extends MainParentActivity {
+public class TestReportActivity extends MainParentActivity {
 
     private View mDashboardView;
     private View mProgressView;
     private Button button;
-
+    List<BarGraphList> barGraphLists=new ArrayList<>();
     private ProgressBarActivity progressBarActivity=new ProgressBarActivity();
     private ToastActivity toastActivity=new ToastActivity();
     private SharedPrefrence sharedPrefrence=new SharedPrefrence();
+    private String access_token;
+    String id="";
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         final Intent intent=getIntent();
         final String tag=intent.getStringExtra("Tag");
-        final String id=intent.getStringExtra("Id");
+        id=intent.getStringExtra("Id");
         //framework code
         ViewStub view_Stub=(ViewStub)findViewById(R.id.viewstub);
         view_Stub.setLayoutResource(R.layout.app_bar_main);
@@ -71,7 +80,7 @@ public class TestInstructionActivity extends MainParentActivity {
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         collapsingToolbar = (CollapsingToolbarLayout) findViewById(R.id.collapse_toolbar);
-        collapsingToolbar.setTitle(getString(R.string.expand));
+        collapsingToolbar.setTitle(getString(R.string.testreport));
         AutoScrollViewPager viewPager = (AutoScrollViewPager) findViewById(R.id.viewpager);
         viewPager.setAdapter(new Custom_Pager_Adapter(getSupportFragmentManager()));
         viewPager.setInterval(5000);
@@ -111,6 +120,24 @@ public class TestInstructionActivity extends MainParentActivity {
 //                }
 //            }
 //        });
+        access_token=sharedPrefrence.getAccessToken(getApplicationContext());
+        if(savedInstanceState==null)
+        {
+            new RemoteHelper(getApplicationContext()).getTestSummary(this, RemoteCalls.GET_TEST_RESPONSE,"Attempt_Number",id, access_token);
+        }
+
+
+    }
+
+    private void showView()
+    {
+        BarChart chart = (BarChart) findViewById(R.id.chart);
+
+//        BarData data = new BarData(getXAxisValues(), getDataSet());
+//        chart.setData(data);
+        chart.setDescription("My Chart");
+        chart.animateXY(2000, 2000);
+        chart.invalidate();
 
     }
 
@@ -126,6 +153,30 @@ public class TestInstructionActivity extends MainParentActivity {
                 searchManager.getSearchableInfo(getComponentName()));
 
         return true;
+    }
+
+    private void makeList(JSONObject response)
+    {
+        try {
+            JSONArray jsonArray = response.getJSONArray(getString(R.string.data));
+            for(int i=0;i<jsonArray.length();i++){
+                JSONObject jsonObject=jsonArray.getJSONObject(i);
+                JSONArray jsonArray1=jsonObject.getJSONArray(getString(R.string.jsoneasy));
+                for(int j=0;j<jsonArray1.length();j++)
+                {
+                    JSONObject jsonObject1=jsonArray1.getJSONObject(j);
+                    int correct_attempt=jsonObject1.getInt(getString(R.string.jsoncorrectattempt));
+                    int attempt_question=jsonObject1.getInt(getString(R.string.jsonattemptquestion));
+                    int total_question=jsonObject1.getInt(getString(R.string.jsontotalquestion));
+     //               barGraphLists.add(new BarGraphList(correct_attempt,attempt_question,total_question));
+                }
+            }
+        }catch (Exception e)
+        {
+            new LogHelper(e);
+            e.printStackTrace();
+        }
+
     }
 
     @Override
@@ -152,7 +203,71 @@ public class TestInstructionActivity extends MainParentActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    public void HandleRemoteCall(boolean isSuccessful, RemoteCalls callFor, JSONObject response, Exception exception) {
+        super.HandleRemoteCall(isSuccessful,callFor,response,exception);
+        progressBarActivity.showProgress(mDashboardView,mProgressView,false,getApplicationContext());
+        if(!isSuccessful)
+        {
+            toastActivity.makeUknownErrorMessage(this);
+        }
+        else
+        {
+            switch (callFor){
+                case GET_TEST_RESPONSE:
+                {
+                    try {
+                        if (response.get("code").toString().equals(GlobalConstants.EXPIRED_TOKEN)) {
 
+                            if (sharedPrefrence.getRefreshToken(getApplicationContext()) == null) {
 
+                                toastActivity.makeToastMessage(response, this);
+                                break;
+                            } else {
+                                // new RemoteHelper(getApplicationContext()).getAccessToken(this,RemoteCalls.GET_ACCESS_TOKEN,sharedPrefrence.getRefreshToken(getApplicationContext()));
+                                Intent intent = new Intent(this, LoginActivity.class);
+                                startActivity(intent);
+                            }
 
+                        } else if (response.get("code").toString().equals(GlobalConstants.INAVLID_TOKEN)) {
+                            toastActivity.makeUknownErrorMessage(this);
+
+                        }
+                        else
+                        {
+                            makeList(response);
+                            showView();
+                        }
+                    }catch (Exception e)
+                    {
+                        LogHelper logHelper=new LogHelper(e);
+                        e.printStackTrace();
+                    }
+                    break;
+                }
+                case GET_ACCESS_TOKEN:
+                {
+                    try{
+                        if(response.get("sucess").toString().equals("false"))
+                        {
+                            toastActivity.makeToastMessage(response,this);
+                        }
+
+                        else
+                        {
+                            sharedPrefrence.saveAccessToken(getApplicationContext(),response.get("access_token").toString(),response.get("refresh_token").toString());
+                            access_token=response.get("access_token").toString();
+                            new RemoteHelper(getApplicationContext()).getTestSummary(this, RemoteCalls.GET_TEST_RESPONSE,"Attempt_Number",id, access_token);
+                        }
+                    }catch (Exception e)
+                    {
+                        LogHelper logHelper=new LogHelper(e);
+                        e.printStackTrace();
+                    }
+                    break;
+                }
+            }
+
+        }
+    }
 }

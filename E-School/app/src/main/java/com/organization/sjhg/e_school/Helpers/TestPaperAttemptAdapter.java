@@ -9,7 +9,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.organization.sjhg.e_school.Content.NewTest.TestInstructionActivity;
+import com.organization.sjhg.e_school.Content.NewTest.TestReportActivity;
+import com.organization.sjhg.e_school.Content.NewTest.TestSummaryActivity;
 import com.organization.sjhg.e_school.Fragments.SamplePaperListFragment;
 import com.organization.sjhg.e_school.ListStructure.ChapterList;
 import com.organization.sjhg.e_school.MainActivity;
@@ -47,9 +48,10 @@ public class TestPaperAttemptAdapter extends RecyclerView.Adapter<TestPaperAttem
         viewHolder.tv_android.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent=new Intent(context, MainActivity.class);
+                Intent intent=new Intent(context, TestReportActivity.class);
                 //intent.putExtra("Tag", GlobalConstants.SamplePaperTag);
                 intent.putExtra("Id",chapterLists.get(position).id);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 context.startActivity(intent);
             }
         });
