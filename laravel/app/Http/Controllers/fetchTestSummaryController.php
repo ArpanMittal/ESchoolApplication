@@ -126,7 +126,7 @@ class fetchTestSummaryController extends Controller
     {
 
         $user_email=$request->input('user_id');
-//        $user_email="test1@gmail.com";
+        $user_email="test1@gmail.com";
         $user_id = DB::table('user')
             ->where('user.email',$user_email)
             ->first();
@@ -153,31 +153,35 @@ class fetchTestSummaryController extends Controller
         $medium_attempt=$this->getMediumQuestionDetails($key);
         $hard_attempt=$this->getDifficultQuestionDetails($key);
         $total_attempt=$this->getTotalQuestionDetails($key);
-        $data=json_encode(array("easy"=>$easy_attempt,"medium"=>$medium_attempt,"hard"=>$hard_attempt,"total"=>$total_attempt));
+        $data=json_encode(array($easy_attempt,$medium_attempt,$hard_attempt,$total_attempt));
         return $data;
     }
     //get details for acccuracy chart
     private function getTotalQuestionDetails($key)
     {
-        return $this->helpful($key,[0,10]);
+        return $this->helpful($key,[0,10],"totalQuestion");
+
     }
 
     private function getDifficultQuestionDetails($key)
     {
-        return $this->helpful($key,[8,10]);
+        return $this->helpful($key,[8,10],"difficult");
+
     }
 
     private function getMediumQuestionDetails($key)
     {
-        return $this->helpful($key,[5,7]);
+        return $this->helpful($key,[5,7],"medium");
+
     }
 
     private function getEasyQuestionDetails($key)
     {
-        return $this->helpful($key,[0,4]);
+        return $this->helpful($key,[0,4],"easy");
+
     }
 
-    private function helpful($key,$val11)
+    private function helpful($key,$val11,$title)
     {
         $val=$this->getQuestion($key,$val11,"true");
         if(isset($val))
@@ -200,7 +204,7 @@ class fetchTestSummaryController extends Controller
             $total_attempt=0;
 
         $attempted_question=$total_attempt-$unattempted_question;
-        $data=json_encode(array('correct_attempt'=>$corrrect_attempt, 'attempt_question'=>$attempted_question, 'total_question'=>$total_attempt));
+        $data=json_encode(array('correct_attempt'=>$corrrect_attempt, 'attempt_question'=>$attempted_question, 'total_question'=>$total_attempt,'title'=>$title));
         return $data;
     }
 
