@@ -16,6 +16,7 @@ import android.view.View;
 import android.view.ViewStub;
 import android.widget.ProgressBar;
 
+import com.organization.sjhg.e_school.Content.NewTest.TestInstructionActivity;
 import com.organization.sjhg.e_school.Fragments.Notes_Listing_Fragment;
 import com.organization.sjhg.e_school.Helpers.ConnectivityReceiver;
 import com.organization.sjhg.e_school.Helpers.LogHelper;
@@ -54,6 +55,9 @@ public class QuestListActivity extends MainParentActivity {
         view_Stub.setLayoutResource(R.layout.activity_quest_list);
         view_Stub.inflate();
 
+        id = getIntent().getStringExtra("chapterId");
+        name = getIntent().getStringExtra("name");
+
         toolbar = (Toolbar)findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -74,11 +78,20 @@ public class QuestListActivity extends MainParentActivity {
             }
         });
 
+        findViewById(R.id.test).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                list = null;
+                Intent intent=new Intent(QuestListActivity.this, TestInstructionActivity.class);
+                intent.putExtra("Tag", GlobalConstants.ChapterTag);
+                intent.putExtra("Id",id);
+                startActivity(intent);
+            }
+        });
+
         mLoading = (ProgressBar) findViewById(R.id.progress);
         mProgress = (ProgressBar) findViewById(R.id.completeProgress);
         mProgressDialog = findViewById(R.id.progressDialog);
-        id = getIntent().getStringExtra("chapterId");
-        name = getIntent().getStringExtra("name");
         getSupportActionBar().setTitle(name);
         if (savedInstanceState != null) {
             list = (TopicList) savedInstanceState.getSerializable("INTERNAL LIST");

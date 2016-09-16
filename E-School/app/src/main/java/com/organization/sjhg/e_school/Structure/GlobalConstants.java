@@ -24,4 +24,6 @@ public class GlobalConstants {
     final public static String PASSWORD_GRANTTYPE="password";
     final public static String REFRESH_TOKEN_GRANTTYPE="refresh_token";
     final public static String SamplePaperTag="SamplePaper";
+    final public static String WorksheetTag="worksheet";
+    final public static String ChapterTag="chapter";
 }

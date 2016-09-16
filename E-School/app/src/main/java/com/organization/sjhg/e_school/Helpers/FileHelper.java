@@ -74,13 +74,13 @@ public class FileHelper {
     }
 
     public Boolean isExist(){
-        String path = root+"/."+file_path;
+        String path = root+"/"+file_path;
         File file = new File(path);
         return file.exists();
     }
 
     public String getInternalPath() {
-        String path = root+"/."+file_path;
+        String path = root+"/"+file_path;
         File file = new File(path);
         return String.valueOf(file.getAbsoluteFile());
     }
@@ -91,12 +91,12 @@ public class FileHelper {
     }
 
     public String getParent(){
-        File file = new File(root+"/."+file_path);
+        File file = new File(root+"/"+file_path);
         return file.getParent();
     }
 
     public String getFileName(){
-        String path = root+"/."+file_path;
+        String path = root+"/"+file_path;
         return path.substring(path.lastIndexOf("/")+1);
     }
 
@@ -112,7 +112,7 @@ public class FileHelper {
     }
 
     public boolean delete(){
-        File file = new File(root+"/."+file_path);
+        File file = new File(root+"/"+file_path);
         return file.delete();
     }
 
@@ -138,9 +138,27 @@ public class FileHelper {
                 contentValues.put(UserContract.ContentEntry.COLUMN_HASH,hash);
                 contentValues.put(UserContract.ContentEntry.CoLUMN_PATH,aurl[0]);
                 contentValues.put(UserContract.ContentEntry.CoLUMN_PROTECTION,protectionData);
-                context.getContentResolver().insert(
-                        UserContract.ContentEntry.CONTENT_URI, contentValues
+                Cursor cursor = context.getContentResolver().query(
+                        UserContract.ContentEntry.CONTENT_URI,
+                        null,
+                        UserContract.ContentEntry.COLUMN_HASH+" =? ",
+                        new String[]{hash},
+                        null,
+                        null
                 );
+                int count = cursor.getCount();
+                if(count >0){
+                    cursor.moveToFirst();
+                    context.getContentResolver().update(
+                            UserContract.ContentEntry.CONTENT_URI, contentValues,
+                            UserContract.ContentEntry.COLUMN_HASH+" =? ",
+                            new String[]{hash}
+                    );
+                }else{
+                    context.getContentResolver().insert(
+                            UserContract.ContentEntry.CONTENT_URI, contentValues
+                    );
+                }
                 return aurl[0];
             } catch ( Exception e) {
                 e.printStackTrace();

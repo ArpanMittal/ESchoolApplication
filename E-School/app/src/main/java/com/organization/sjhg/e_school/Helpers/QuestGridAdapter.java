@@ -6,9 +6,11 @@ import android.app.ProgressDialog;
 import android.content.ActivityNotFoundException;
 import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.net.Uri;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,6 +20,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.organization.sjhg.e_school.Content.AudioVideoPlayerActivity;
+import com.organization.sjhg.e_school.Content.NewTest.TestInstructionActivity;
 import com.organization.sjhg.e_school.Content.PdfDisplayActivity;
 import com.organization.sjhg.e_school.Content.Quest.QuestListActivity;
 import com.organization.sjhg.e_school.ListStructure.Topic;
@@ -25,6 +28,7 @@ import com.organization.sjhg.e_school.ListStructure.TopicList;
 import com.organization.sjhg.e_school.LoginActivity;
 import com.organization.sjhg.e_school.R;
 import com.organization.sjhg.e_school.Remote.ServerAddress;
+import com.organization.sjhg.e_school.Structure.GlobalConstants;
 import com.organization.sjhg.e_school.Utils.SharedPrefrence;
 import com.organization.sjhg.e_school.Utils.ToastActivity;
 
@@ -69,6 +73,11 @@ public class QuestGridAdapter extends RecyclerView.Adapter<QuestGridAdapter.Ques
         final Topic detail = list.topics.get(position);
         holder.name.setText( detail.name);
         holder.progress.setText("Progress: "+detail.getProgress()+"%");
+        final Boolean[] isRead = {false};
+        if (detail.getProgress()>0){
+            isRead[0] = true;
+        }
+
 
         if (position==0 ||(!detail.islock() && detail.isSubscribed())){
             if(!detail.video_path.equals("") && !detail.video_path.equals("null")){
@@ -81,6 +90,7 @@ public class QuestGridAdapter extends RecyclerView.Adapter<QuestGridAdapter.Ques
                             Intent intent = new Intent(context, LoginActivity.class);
                             context.startActivity(intent);
                         }else{
+                            isRead[0] = true;
                             Intent intent = new Intent(context, AudioVideoPlayerActivity.class);
                             intent.putExtra("path",detail.video_path);
                             context.startActivity(intent);
@@ -101,6 +111,7 @@ public class QuestGridAdapter extends RecyclerView.Adapter<QuestGridAdapter.Ques
                             Intent intent = new Intent(context, LoginActivity.class);
                             context.startActivity(intent);
                         }else{
+                            isRead[0] = true;
                             final FileHelper pdf = new FileHelper(context,detail.pdf_path,detail.pdf_hash,detail.hash);
                             if (pdf.isExist()){
                                 pdf.openFile();
@@ -110,11 +121,76 @@ public class QuestGridAdapter extends RecyclerView.Adapter<QuestGridAdapter.Ques
                         }
                     }
                 });
+
+                holder.worksheet.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        String token = new SharedPrefrence().getAccessToken(context);
+                        if(token==null){
+                            ((QuestListActivity)context).list = null;
+                            Intent intent = new Intent(context, LoginActivity.class);
+                            context.startActivity(intent);
+                        }else if (isRead[0]){
+                            ((QuestListActivity)context).list = null;
+                            Intent intent=new Intent(context, TestInstructionActivity.class);
+                            intent.putExtra("Tag", GlobalConstants.WorksheetTag);
+                            intent.putExtra("Id",detail.hash);
+                            context.startActivity(intent);
+                        }else{
+                            new AlertDialog.Builder(context)
+                                    .setTitle("WorkSheet")
+                                    .setMessage("Are you sure you want to attempt this worksheet without study?")
+                                    .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            Intent intent=new Intent(context, TestInstructionActivity.class);
+                                            intent.putExtra("Tag", GlobalConstants.WorksheetTag);
+                                            intent.putExtra("Id",detail.hash);
+                                            context.startActivity(intent);
+                                        }
+                                    })
+                                    .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            // do nothing
+                                        }
+                                    })
+                                    .setIcon(android.R.drawable.ic_dialog_alert)
+                                    .show();
+                        }
+                    }
+                });
+
             }else{
                 holder.doc.setVisibility(View.INVISIBLE);
+                holder.analytics.setVisibility(View.INVISIBLE);
+                holder.worksheet.setVisibility(View.INVISIBLE);
             }
-        } else{
-            holder.view.setVisibility(View.GONE);
+        }else if (!detail.islock() && !detail.isSubscribed()){
+            holder.video.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    new ToastActivity().showMessage("Subscribe for more content",(Activity) context);
+                }
+            });
+            holder.doc.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    new ToastActivity().showMessage("Subscribe for more content",(Activity) context);
+                }
+            });
+            holder.analytics.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    new ToastActivity().showMessage("Subscribe for more content",(Activity) context);
+                }
+            });
+            holder.worksheet.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    new ToastActivity().showMessage("Subscribe for more content",(Activity) context);
+                }
+            });
+        }else{
+            holder.view.setVisibility(View.INVISIBLE);
         }
 
 
