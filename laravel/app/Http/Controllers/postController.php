@@ -11,7 +11,12 @@ class postController extends Controller
     //
     public function getAllPost(Request $request)
     {
-        return response()->json(["email"=>$request->input("user_id")]);
+        $user = DB::table('user')
+            ->leftjoin('userdetail','user.id','=','userdetail.id')
+            ->leftjoin('school','userdetail.school_id','=','school.id')
+            ->where('user.email',$request->input('user_id'))
+            ->first();
+        return response()->json($user);
     }
 
     public  function getUserAttempt(Request $request)
