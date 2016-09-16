@@ -165,7 +165,7 @@ public class TestSummaryActivity  extends MainParentActivity implements RemoteCa
             {
                 JSONObject jsonObject=jsonArray.getJSONObject(i);
                 String id=jsonObject.getString(getString(R.string.jsonid));
-                chapterListList.add(new ChapterList(id,"Attempt number"+i+1));
+                chapterListList.add(new ChapterList(id,"Attempt number"+jsonObject.getString(getString(R.string.jsontime))));
             }
 
         }catch (Exception e)

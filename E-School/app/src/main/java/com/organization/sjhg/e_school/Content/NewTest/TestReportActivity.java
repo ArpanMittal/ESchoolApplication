@@ -123,7 +123,7 @@ public class TestReportActivity extends MainParentActivity {
         access_token=sharedPrefrence.getAccessToken(getApplicationContext());
         if(savedInstanceState==null)
         {
-            new RemoteHelper(getApplicationContext()).getTestSummary(this, RemoteCalls.GET_TEST_RESPONSE,"Attempt_Number",id, access_token);
+            new RemoteHelper(getApplicationContext()).getTestSummary(this, RemoteCalls.GET_TEST_RESPONSE,"Test_Detail",id, access_token);
         }
 
 
@@ -168,7 +168,8 @@ public class TestReportActivity extends MainParentActivity {
                     int correct_attempt=jsonObject1.getInt(getString(R.string.jsoncorrectattempt));
                     int attempt_question=jsonObject1.getInt(getString(R.string.jsonattemptquestion));
                     int total_question=jsonObject1.getInt(getString(R.string.jsontotalquestion));
-     //               barGraphLists.add(new BarGraphList(correct_attempt,attempt_question,total_question));
+                    String title=jsonObject1.get(getString(R.string.jsontitle)).toString();
+                    barGraphLists.add(new BarGraphList(correct_attempt,attempt_question,total_question,title));
                 }
             }
         }catch (Exception e)

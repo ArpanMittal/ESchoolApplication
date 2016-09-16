@@ -175,7 +175,11 @@ public class TestActivity extends AppCompatActivity implements RemoteCallHandler
                 progressBarActivity.showProgress(mViewPagerView,mProgressView,true,getApplicationContext());
 
                 access_token=sharedPrefrence.getAccessToken(getApplicationContext());
-
+                if(access_token==null)
+                {
+                    Intent intent=new Intent(this,LoginActivity.class);
+                    startActivity(intent);
+                }
                 new RemoteHelper(getApplicationContext()).getQuestion(this, RemoteCalls.GET_QUESTION, tag, id, access_token);
             }
         }
