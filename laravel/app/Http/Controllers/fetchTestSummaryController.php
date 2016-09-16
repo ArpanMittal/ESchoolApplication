@@ -153,7 +153,7 @@ class fetchTestSummaryController extends Controller
         $medium_attempt=$this->getMediumQuestionDetails($key);
         $hard_attempt=$this->getDifficultQuestionDetails($key);
         $total_attempt=$this->getTotalQuestionDetails($key);
-        $data=json_encode(array($easy_attempt,$medium_attempt,$hard_attempt,$total_attempt));
+        $data=array($easy_attempt,$medium_attempt,$hard_attempt,$total_attempt);
         return $data;
     }
     //get details for acccuracy chart
@@ -204,7 +204,7 @@ class fetchTestSummaryController extends Controller
             $total_attempt=0;
 
         $attempted_question=$total_attempt-$unattempted_question;
-        $data=json_encode(array('correct_attempt'=>$corrrect_attempt, 'attempt_question'=>$attempted_question, 'total_question'=>$total_attempt,'title'=>$title));
+        $data=array('correct_attempt'=>$corrrect_attempt, 'attempt_question'=>$attempted_question, 'total_question'=>$total_attempt,'title'=>$title);
         return $data;
     }
 
