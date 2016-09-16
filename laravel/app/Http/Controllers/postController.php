@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 
 use App\Http\Requests;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Response;
 
 class postController extends Controller
 {
@@ -17,7 +18,21 @@ class postController extends Controller
             ->leftjoin('school','userdetail.school_id','=','school.id')
             ->where('user.email',$request->input('user_id'))
             ->first();
-        return response()->json($user);
+        if (!$user){
+            return Response::json([
+                'success' => false,
+                'code' => 401,
+                'message' => 'Content is not available'
+            ]);
+        }
+        else {
+            return Response::json([
+                'success' => true,
+                'code' => 200,
+                'data' => $user
+
+            ]);
+        }
     }
 
     public  function getUserAttempt(Request $request)
