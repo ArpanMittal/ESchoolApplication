@@ -88,7 +88,7 @@ class receiveQuestionController extends Controller
         }
 
         DB::commit();
-        return "sucess";
+        return $attemptId;
 
     }
 }

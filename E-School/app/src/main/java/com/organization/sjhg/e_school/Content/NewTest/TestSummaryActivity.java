@@ -39,6 +39,7 @@ import com.organization.sjhg.e_school.Utils.ToastActivity;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -184,7 +185,7 @@ public class TestSummaryActivity  extends MainParentActivity implements RemoteCa
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recycler);
         recyclerView.setHasFixedSize(true);
 
-        TestPaperAttemptAdapter testPaperAttemptAdapter=new TestPaperAttemptAdapter(this,chapterListList,id);
+        TestPaperAttemptAdapter testPaperAttemptAdapter=new TestPaperAttemptAdapter(this,chapterListList,id,tag);
         recyclerView.setAdapter(testPaperAttemptAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 

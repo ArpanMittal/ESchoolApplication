@@ -407,10 +407,12 @@ public class TestActivity extends AppCompatActivity implements RemoteCallHandler
                         } else {
 
                             getApplicationContext().getContentResolver().delete(UserContract.TestDetail.CONTENT_URI, null, null);
-                            Intent intent = new Intent(this, TestSummaryActivity.class);
+                            Intent intent = new Intent(this, TestReportActivity.class);
                             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                            intent.putExtra("Tag",tag);
-                            intent.putExtra("Id",id);
+                            intent.putExtra("parent_tag",tag);
+                            intent.putExtra("parent_id",id);
+                            String id=(String)response.getJSONArray(getString(R.string.data)).get(0);
+                            intent.putExtra("Id",(String)response.getJSONArray(getString(R.string.data)).get(0));
                             startActivity(intent);
                             finish();
                         }
