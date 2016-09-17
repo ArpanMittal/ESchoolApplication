@@ -7,7 +7,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
 import com.organization.sjhg.e_school.Fragments.ExamListFragment;
-import com.organization.sjhg.e_school.Fragments.ExamPrepareFragment;
+import com.organization.sjhg.e_school.Fragments.ExamPracticeFragment;
 import com.organization.sjhg.e_school.Fragments.Image_View_Fragment;
 import com.organization.sjhg.e_school.Fragments.SamplePaperListFragment;
 import com.organization.sjhg.e_school.ListStructure.ChapterList;
@@ -67,7 +67,7 @@ public class Grid_Exam_Fragment extends FragmentStatePagerAdapter {
         {
             Bundle bundle=new Bundle();
             bundle.putString("Id",id);
-            ExamPrepareFragment fragment = new ExamPrepareFragment();
+            ExamPracticeFragment fragment = new ExamPracticeFragment();
             fragment.setArguments(bundle);
             return fragment;
         }

@@ -113,6 +113,7 @@ public class TestSummaryActivity  extends MainParentActivity implements RemoteCa
         if(access_token==null)
         {
             Toast.makeText(TestSummaryActivity.this, "no attempt found", Toast.LENGTH_SHORT).show();
+            finish();
         }
         else {
             if (savedInstanceState == null) {
