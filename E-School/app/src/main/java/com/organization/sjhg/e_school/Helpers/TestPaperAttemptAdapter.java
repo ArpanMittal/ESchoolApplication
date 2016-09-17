@@ -53,10 +53,12 @@ public class TestPaperAttemptAdapter extends RecyclerView.Adapter<TestPaperAttem
             @Override
             public void onClick(View v) {
                 Intent intent=new Intent(context, TestReportActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 intent.putExtra("parent_id", parent_id);
                 intent.putExtra("parent_tag",parent_tag);
                 intent.putExtra("Id",chapterLists.get(position).id);
                 context.startActivity(intent);
+
 
             }
         });
