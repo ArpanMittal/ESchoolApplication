@@ -22,13 +22,24 @@
         android:fitsSystemWindows="true"
         app:headerLayout="@layout/nav_header_main"
         app:menu="@menu/activity_main_drawer">
-        <ExpandableListView
-            android:id="@+id/navigationmenu"
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginTop="192dp"
-            android:background="@android:color/white">
-        </ExpandableListView>
+            android:layout_height="match_parent">
+            <ExpandableListView
+                android:id="@+id/navigationmenu"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_above="@+id/logout"
+                android:layout_marginTop="192dp"
+                android:background="@android:color/white">
+            </ExpandableListView>
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:id="@+id/logout"
+                android:text="@string/logout"/>
+        </RelativeLayout>
     </android.support.design.widget.NavigationView>
 
 </android.support.v4.widget.DrawerLayout>

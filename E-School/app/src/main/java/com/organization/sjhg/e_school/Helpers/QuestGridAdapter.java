@@ -23,6 +23,7 @@ import com.organization.sjhg.e_school.Content.AudioVideoPlayerActivity;
 import com.organization.sjhg.e_school.Content.NewTest.TestInstructionActivity;
 import com.organization.sjhg.e_school.Content.PdfDisplayActivity;
 import com.organization.sjhg.e_school.Content.Quest.QuestListActivity;
+import com.organization.sjhg.e_school.Content.NewTest.TestActivity;
 import com.organization.sjhg.e_school.ListStructure.Topic;
 import com.organization.sjhg.e_school.ListStructure.TopicList;
 import com.organization.sjhg.e_school.LoginActivity;
@@ -131,18 +132,33 @@ public class QuestGridAdapter extends RecyclerView.Adapter<QuestGridAdapter.Ques
                             Intent intent = new Intent(context, LoginActivity.class);
                             context.startActivity(intent);
                         }else if (isRead[0]){
-                            ((QuestListActivity)context).list = null;
-                            Intent intent=new Intent(context, TestInstructionActivity.class);
-                            intent.putExtra("Tag", GlobalConstants.WorksheetTag);
-                            intent.putExtra("Id",detail.hash);
-                            context.startActivity(intent);
+                            new AlertDialog.Builder(context)
+                                    .setTitle("WorkSheet")
+                                    .setMessage("Are you sure you want to attempt this worksheet?")
+                                    .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            ((QuestListActivity)context).list = null;
+                                            Intent intent=new Intent(context, TestActivity.class);
+                                            intent.putExtra("Tag", GlobalConstants.WorksheetTag);
+                                            intent.putExtra("Id",detail.hash);
+                                            context.startActivity(intent);
+                                        }
+                                    })
+                                    .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            // do nothing
+                                        }
+                                    })
+                                    .setIcon(android.R.drawable.ic_dialog_alert)
+                                    .show();
                         }else{
                             new AlertDialog.Builder(context)
                                     .setTitle("WorkSheet")
                                     .setMessage("Are you sure you want to attempt this worksheet without study?")
                                     .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                                         public void onClick(DialogInterface dialog, int which) {
-                                            Intent intent=new Intent(context, TestInstructionActivity.class);
+                                            ((QuestListActivity)context).list = null;
+                                            Intent intent=new Intent(context, TestActivity.class);
                                             intent.putExtra("Tag", GlobalConstants.WorksheetTag);
                                             intent.putExtra("Id",detail.hash);
                                             context.startActivity(intent);

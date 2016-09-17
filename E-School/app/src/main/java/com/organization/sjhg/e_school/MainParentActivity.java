@@ -21,6 +21,7 @@ import android.view.MenuItem;
 import android.view.SubMenu;
 import android.view.View;
 import android.view.ViewStub;
+import android.widget.Button;
 import android.widget.ExpandableListAdapter;
 import android.widget.ExpandableListView;
 import android.widget.TextView;
@@ -38,7 +39,9 @@ import com.organization.sjhg.e_school.Remote.RemoteCalls;
 import com.organization.sjhg.e_school.Remote.RemoteHelper;
 import com.organization.sjhg.e_school.Remote.VolleyController;
 import com.organization.sjhg.e_school.Utils.ProgressBarActivity;
+import com.organization.sjhg.e_school.Utils.SharedPrefrence;
 import com.organization.sjhg.e_school.Utils.ToastActivity;
+import com.squareup.picasso.Picasso;
 
 
 import org.json.JSONArray;
@@ -52,6 +55,7 @@ import java.util.List;
 import java.util.Map;
 
 import cn.trinea.android.view.autoscrollviewpager.AutoScrollViewPager;
+import de.hdodenhof.circleimageview.CircleImageView;
 import me.relex.circleindicator.CircleIndicator;
 
 /**
@@ -192,6 +196,66 @@ public class MainParentActivity extends AppCompatActivity implements NavigationV
                 return false;
             }
         });
+
+        Button logout =(Button) navigationView.findViewById(R.id.logout);
+        logout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                new SharedPrefrence().logout(getApplicationContext());
+                Intent intent = new Intent(MainParentActivity.this,Main_Activity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                startActivity(intent);
+                finish();
+            }
+        });
+
+        View.OnClickListener listener = new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainParentActivity.this,ProfileActivity.class);
+                startActivity(intent);
+            }
+        };
+
+        SharedPrefrence sharedPrefrence = new SharedPrefrence();
+        TextView username = (TextView)navigationView.findViewById(R.id.userName);
+        if (username!=null){
+            username.setVisibility(View.VISIBLE);
+            String user = sharedPrefrence.getUserName(getApplicationContext());
+            username.setText(user);
+            username.setOnClickListener(listener);
+        }
+
+
+        TextView email = (TextView)navigationView.findViewById(R.id.eMail);
+        Button login = (Button)navigationView.findViewById(R.id.login);
+        if (email!=null){
+            email.setVisibility(View.VISIBLE);
+            logout.setVisibility(View.VISIBLE);
+        }
+        CircleImageView profile_pic = (CircleImageView) navigationView.findViewById(R.id.profile_image);
+        if (sharedPrefrence.getUserEmail(getApplicationContext()) != null && email!=null){
+            email.setText(sharedPrefrence.getUserEmail(getApplicationContext()));
+            login.setVisibility(View.GONE);
+            Picasso.with(this)
+                    .load(sharedPrefrence.getUserPic(getApplicationContext()))
+                    .placeholder(R.drawable.ic_launcher)
+                    .resize(50,50)
+                    .into(profile_pic);
+            profile_pic.setOnClickListener(listener);
+            email.setOnClickListener(listener);
+        }else if (email!= null){
+            username.setVisibility(View.GONE);
+            email.setVisibility(View.GONE);
+            logout.setVisibility(View.GONE);
+            login.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(MainParentActivity.this, LoginActivity.class);
+                    startActivity(intent);
+                }
+            });
+        }
     }
 
     private void prepareListData(List<DashBoardList> dataList)
@@ -215,6 +279,10 @@ public class MainParentActivity extends AppCompatActivity implements NavigationV
     protected void onResume(){
         super.onResume();
         VolleyController.getInstance().setConnectivityListener(this);
+        if (dataList!=null){
+            fillNavigationDrawer(dataList, navigationView);
+
+        }
 
     }
     @Override

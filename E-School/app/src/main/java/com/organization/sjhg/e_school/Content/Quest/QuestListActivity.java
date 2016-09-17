@@ -199,8 +199,10 @@ public class QuestListActivity extends MainParentActivity {
         super.onResume();
         String token = new SharedPrefrence().getAccessToken(this);
         if (list==null && token==null){
+            mLoading.setVisibility(View.VISIBLE);
             new RemoteHelper(this).getFreeQuestDetails(this, RemoteCalls.GET_ITEM_DETAILS, id);
         }else if (list == null){
+            mLoading.setVisibility(View.VISIBLE);
             new RemoteHelper(this).getQuestDetails(this, RemoteCalls.GET_ITEM_DETAILS, id);
         }
     }
