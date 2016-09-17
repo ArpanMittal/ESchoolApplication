@@ -238,6 +238,14 @@
     <string name="login">Login</string>
     <string name="seeanswer">answers</string>
     <string name="show_attempts">Show Attempts</string>
+    <string name="jsontimetaken">time_taken</string>
+    <string name="jsonresponse">response</string>
+    <string name="jsonQuestionid">question_id</string>
+    <string name="jsonoptionid">option_id</string>
+    <string name="jsonanswerid">answer_id</string>
+    <string name="jsoncorrect">correct_option</string>
+    <string name="jsonuseroption">user_option</string>
+    <string name="jsonquestion_image">question_image</string>
 
 
 </resources>
