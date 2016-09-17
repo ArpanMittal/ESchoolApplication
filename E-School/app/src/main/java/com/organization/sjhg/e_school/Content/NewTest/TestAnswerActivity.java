@@ -7,6 +7,7 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
 
@@ -53,12 +54,14 @@ public class TestAnswerActivity extends AppCompatActivity implements RemoteCallH
     ProgressBar progress;
     private ViewPager mViewPagerView;
     private TabLayout tabLayout;
+    String parent_tag;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Intent intent=getIntent();
         parent_id=intent.getStringExtra("parent_id");
+        parent_tag=intent.getStringExtra("parent_tag");
         id=intent.getStringExtra("Id");
 
         saveInstances=savedInstanceState;
@@ -67,6 +70,27 @@ public class TestAnswerActivity extends AppCompatActivity implements RemoteCallH
         mProgressView=findViewById(R.id.dashboard_progress);
         mViewPagerView=(ViewPager)findViewById(R.id.viewpager_fragment);
         progress = (ProgressBar) findViewById(R.id.progressBar);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                if(parent_id!=null) {
+                    Intent intent = new Intent(this, TestReportActivity.class);
+                    intent.putExtra("Id", id);
+                    intent.putExtra("parent_id",parent_id);
+                    intent.putExtra("parent_tag",parent_tag);
+                    startActivity(intent);
+                    finish();
+                }else
+                {
+                    finish();
+                }
+                return  true;
+
+        }
+        return true;
     }
 
     @Override
@@ -82,7 +106,7 @@ public class TestAnswerActivity extends AppCompatActivity implements RemoteCallH
                     Intent intent=new Intent(this,LoginActivity.class);
                     startActivity(intent);
                 }
-                new RemoteHelper(getApplicationContext()).getTestSummary(this, RemoteCalls.GET_TEST_RESPONSE,"Attempt_Question", id, access_token);
+                new RemoteHelper(getApplicationContext()).getTestSummary(this, RemoteCalls.GET_TEST_RESPONSE,"1","Attempt_Question", id, access_token);
             }
         }
         else
@@ -221,7 +245,7 @@ public class TestAnswerActivity extends AppCompatActivity implements RemoteCallH
                         {
                             sharedPrefrence.saveAccessToken(getApplicationContext(),response.get("access_token").toString(),response.get("refresh_token").toString());
                             access_token=response.get("access_token").toString();
-                            new RemoteHelper(getApplicationContext()).getTestSummary(this, RemoteCalls.GET_TEST_RESPONSE,"Attempt_Question", id, access_token);
+                            new RemoteHelper(getApplicationContext()).getTestSummary(this, RemoteCalls.GET_TEST_RESPONSE,"1","Attempt_Question", id, access_token);
                            // new RemoteHelper(getApplicationContext()).getQuestion(this, RemoteCalls.GET_QUESTION, tag, id, access_token);
                         }
                     }catch (Exception e)

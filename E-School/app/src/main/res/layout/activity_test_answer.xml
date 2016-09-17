@@ -12,15 +12,12 @@
         android:theme="@style/AppTheme">
 
 
-
-            <android.support.design.widget.TabLayout
-                android:id="@+id/id_tabs"
-                android:layout_gravity="bottom"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-
-
-
+        <android.support.design.widget.TabLayout
+            android:id="@+id/id_tabs"
+            android:layout_gravity="bottom"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:tabMode="scrollable"/>
 
         <!--</android.support.design.widget.CollapsingToolbarLayout>-->
     </android.support.design.widget.AppBarLayout>
@@ -42,6 +39,7 @@
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
 
         >
+
 
     </android.support.v4.view.ViewPager>
 

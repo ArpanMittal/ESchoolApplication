@@ -26,6 +26,7 @@ import com.organization.sjhg.e_school.Utils.ToastActivity;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -44,6 +45,7 @@ public class TestReportActivity extends AppCompatActivity implements RemoteCallH
     private String access_token;
     String id="";
     String parent_id=null;
+    String parent_tag="";
     private Button btn;
 
     @Override
@@ -51,6 +53,7 @@ public class TestReportActivity extends AppCompatActivity implements RemoteCallH
         super.onCreate(savedInstanceState);
         final Intent intent=getIntent();
         id=intent.getStringExtra("Id");
+        parent_tag=intent.getStringExtra("parent_tag");
         parent_id=intent.getStringExtra("parent_id");
         setContentView(R.layout.activity_test_instruction_activity);
         mProgressView= findViewById(R.id.login_progress);
@@ -62,6 +65,7 @@ public class TestReportActivity extends AppCompatActivity implements RemoteCallH
                 Intent intent1=new Intent(TestReportActivity.this,TestAnswerActivity.class);
                 intent1.putExtra("Id",id);
                 intent1.putExtra("parent_id",parent_id);
+                intent1.putExtra("parent_tag",parent_tag);
                 startActivity(intent1);
             }
         });
@@ -70,10 +74,21 @@ public class TestReportActivity extends AppCompatActivity implements RemoteCallH
         {
             progressBarActivity.showProgress(mDashboardView,mProgressView,true,this);
            //showView();
-           new RemoteHelper(getApplicationContext()).getTestSummary(this, RemoteCalls.GET_TEST_RESPONSE,"" , "Test_Detail", id, access_token);
+           new RemoteHelper(getApplicationContext()).getTestSummary(this, RemoteCalls.GET_TEST_RESPONSE,"1" , "Test_Detail", id, access_token);
+        }
+        else
+        {
+            barGraphLists=(List<BarGraphList>)savedInstanceState.getSerializable("LIST");
+            showView();
         }
 
 
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putSerializable("LIST",(Serializable)barGraphLists);
     }
 
     @Override
@@ -83,6 +98,7 @@ public class TestReportActivity extends AppCompatActivity implements RemoteCallH
                 if(parent_id!=null) {
                     Intent intent = new Intent(this, TestSummaryActivity.class);
                     intent.putExtra("Id", parent_id);
+                    intent.putExtra("Tag",parent_tag);
                     startActivity(intent);
                     finish();
                 }else
@@ -190,7 +206,7 @@ public class TestReportActivity extends AppCompatActivity implements RemoteCallH
                         {
                             sharedPrefrence.saveAccessToken(getApplicationContext(),response.get("access_token").toString(),response.get("refresh_token").toString());
                             access_token=response.get("access_token").toString();
-                            new RemoteHelper(getApplicationContext()).getTestSummary(this, RemoteCalls.GET_TEST_RESPONSE,"" , "Attempt_Number", id, access_token);
+                            new RemoteHelper(getApplicationContext()).getTestSummary(this, RemoteCalls.GET_TEST_RESPONSE,"1" , "Test_Detail", id, access_token);
                         }
                     }catch (Exception e)
                     {
