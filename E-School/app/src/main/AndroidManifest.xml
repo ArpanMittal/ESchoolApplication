@@ -99,11 +99,13 @@
         <activity android:name=".Content.NewTest.TestReportActivity"
             android:parentActivityName=".Content.NewTest.TestSummaryActivity"
             android:label="TestReport"/>
+        <activity android:name=".Content.NewTest.TestAnswerActivity"
+            android:parentActivityName=".Content.NewTest.TestReportActivity"
+            android:label="TestAnswer"/>
 
         <activity android:name=".Content.NewTest.TestSummaryActivity"
             android:theme="@style/AppTheme.NoActionBar"
-            android:label="TestSummary"
-            android:launchMode= "singleInstance" />
+            android:label="TestSummary" />
 
         <activity android:name=".Content.NewTest.TestActivity"
             android:label="Test"/>

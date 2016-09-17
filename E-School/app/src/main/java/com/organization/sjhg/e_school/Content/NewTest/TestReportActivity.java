@@ -88,8 +88,8 @@ public class TestReportActivity extends AppCompatActivity implements RemoteCallH
             @Override
             public void onClick(View v) {
                 Intent intent1=new Intent(TestReportActivity.this,TestAnswerActivity.class);
-                intent.putExtra("Id",id);
-                intent.putExtra("parent_id",parent_id);
+                intent1.putExtra("Id",id);
+                intent1.putExtra("parent_id",parent_id);
                 startActivity(intent1);
             }
         });

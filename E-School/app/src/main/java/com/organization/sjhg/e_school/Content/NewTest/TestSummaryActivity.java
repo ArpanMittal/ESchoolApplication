@@ -27,6 +27,7 @@ import com.organization.sjhg.e_school.Helpers.Recycler_View_Adapter;
 import com.organization.sjhg.e_school.Helpers.SamplePaperListDataAdapter;
 import com.organization.sjhg.e_school.Helpers.TestPaperAttemptAdapter;
 import com.organization.sjhg.e_school.ListStructure.ChapterList;
+import com.organization.sjhg.e_school.ListStructure.ItemDataList;
 import com.organization.sjhg.e_school.LoginActivity;
 import com.organization.sjhg.e_school.MainParentActivity;
 import com.organization.sjhg.e_school.R;
@@ -116,6 +117,11 @@ public class TestSummaryActivity  extends MainParentActivity implements RemoteCa
             progressBarActivity.showProgress(mDashboardView,mProgressView,true,getApplicationContext());
             new RemoteHelper(getApplicationContext()).getTestSummary(this, RemoteCalls.GET_TEST_RESPONSE,"Attempt_Number",id, access_token);
         }
+        else
+        {
+            chapterListList = (List<ChapterList>) savedInstanceState.getSerializable("INTERNAL LIST");
+            showView();
+        }
 
     }
 
@@ -154,7 +160,9 @@ public class TestSummaryActivity  extends MainParentActivity implements RemoteCa
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
+        outState.putSerializable("INTERNAL LIST", (Serializable) chapterListList);
     }
+
 
     private void makeList(JSONObject response)
     {
