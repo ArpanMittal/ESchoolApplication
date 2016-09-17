@@ -143,7 +143,7 @@ class fetchQuestionController extends Controller
     {
         $noq = DB::table('exam_pattern_map')
                 ->where('exam_id',$key)
-                ->get;
+                ->get();
         $tags = DB::table('exam_state_year_rest_map')
             ->select('exam_state_year_rest_map.id as id')
             ->join('exam_state_year_map','exam_state_year_rest_map.exam_state_year_id','=','exam_state_year_map.id')
