@@ -105,7 +105,8 @@
 
         <activity android:name=".Content.NewTest.TestSummaryActivity"
             android:theme="@style/AppTheme.NoActionBar"
-            android:label="TestSummary" />
+            android:label="TestSummary"
+            android:launchMode="singleTask"/>
 
         <activity android:name=".Content.NewTest.TestActivity"
             android:label="Test"/>

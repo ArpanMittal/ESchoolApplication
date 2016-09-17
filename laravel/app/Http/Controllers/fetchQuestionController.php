@@ -167,7 +167,7 @@ class fetchQuestionController extends Controller
                 ->join("questiontags","question.id","=","questiontags.question_id")
                 ->join('answer','answer.question_id','=','question.id')
                 ->where('question.hash',"LIKE",$item->subject_id."%")
-                ->where(function($query,$tags){
+                ->where(function($query) use ($tags){
                     for ($i=0;$i<count($tags);$i++){
                         $query->orWhere('questiontags.tag_id',$tags[$i]->id);
                     }
