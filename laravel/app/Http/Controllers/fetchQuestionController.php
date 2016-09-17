@@ -15,6 +15,9 @@ class fetchQuestionController extends Controller
     //
     public function getQuestion(Request $request,$tag,$key)
     {
+        $user = DB::table('user')
+            ->where('user.email',$request->input('user_id'))
+            ->first();
 
         switch ($tag) {
             case 'SamplePaper':
@@ -31,7 +34,7 @@ class fetchQuestionController extends Controller
                 break;
             case 'practice':
 
-                $data = $this->getPracticeQuestion($key);
+                $data = $this->getPracticeQuestion($key,$user);
                 break;
         }
 
@@ -139,8 +142,8 @@ class fetchQuestionController extends Controller
         return $questions;
     }
 
-    private function getPracticeQuestion($key)
-    {
+    private function getPracticeQuestion($key, $user)
+        {
         $noq = DB::table('exam_pattern_map')
                 ->where('exam_id',$key)
                 ->get();
@@ -150,6 +153,13 @@ class fetchQuestionController extends Controller
             ->join('exam_state_map','exam_state_year_map.exam_state_id','=','exam_state_map.id')
             ->where('exam_state_map.exam_id',$key)
             ->get();
+
+        $subs = DB::table('order')
+            ->leftjoin('orderpackmap','order.id','=','orderpackmap.order_id')
+            ->leftjoin('exampackmap','orderpackmap.pack_id','=','exampackmap.pack_id')
+            ->where('order.user_id',$user->id)
+            ->where('exampackmap.exam_id',$key)
+            ->first();
         $data = array();
         if (count($tags)<=0){
             return $data;
@@ -172,9 +182,13 @@ class fetchQuestionController extends Controller
                         $query->orWhere('questiontags.tag_id',$tags[$i]->id);
                     }
                 });
+                if (isset($subs)){
+                    $temp->orderBy(DB::raw('RAND()'));
+                }else{
+                    $temp->orderBy('question.id','ASC');
+                }
 
-                $temp = $temp->orderBy(DB::raw('RAND()'))
-                ->take($item->no_of_questions)
+                $temp = $temp->take($item->no_of_questions)
                 ->get();
             
 
