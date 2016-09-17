@@ -17,6 +17,7 @@ import android.view.ViewStub;
 import android.widget.ProgressBar;
 
 import com.organization.sjhg.e_school.Content.NewTest.TestInstructionActivity;
+import com.organization.sjhg.e_school.Content.NewTest.TestActivity;
 import com.organization.sjhg.e_school.Fragments.Notes_Listing_Fragment;
 import com.organization.sjhg.e_school.Helpers.ConnectivityReceiver;
 import com.organization.sjhg.e_school.Helpers.LogHelper;
@@ -82,7 +83,7 @@ public class QuestListActivity extends MainParentActivity {
             @Override
             public void onClick(View v) {
                 list = null;
-                Intent intent=new Intent(QuestListActivity.this, TestInstructionActivity.class);
+                Intent intent=new Intent(QuestListActivity.this, TestActivity.class);
                 intent.putExtra("Tag", GlobalConstants.ChapterTag);
                 intent.putExtra("Id",id);
                 startActivity(intent);

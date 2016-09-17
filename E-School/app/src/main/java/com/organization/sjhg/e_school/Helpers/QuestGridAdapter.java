@@ -21,6 +21,7 @@ import android.widget.TextView;
 
 import com.organization.sjhg.e_school.Content.AudioVideoPlayerActivity;
 import com.organization.sjhg.e_school.Content.NewTest.TestInstructionActivity;
+import com.organization.sjhg.e_school.Content.NewTest.TestSummaryActivity;
 import com.organization.sjhg.e_school.Content.PdfDisplayActivity;
 import com.organization.sjhg.e_school.Content.Quest.QuestListActivity;
 import com.organization.sjhg.e_school.Content.NewTest.TestActivity;
@@ -172,6 +173,15 @@ public class QuestGridAdapter extends RecyclerView.Adapter<QuestGridAdapter.Ques
                                     .setIcon(android.R.drawable.ic_dialog_alert)
                                     .show();
                         }
+                    }
+                });
+
+                holder.analytics.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent = new Intent(context, TestSummaryActivity.class);
+                        intent.putExtra("Id",detail.hash);
+                        context.startActivity(intent);
                     }
                 });
 
