@@ -165,7 +165,7 @@ public class LoginActivity extends AppCompatActivity implements RemoteCallHandle
             }
         });
 
-        
+
     }
 
     /**
@@ -226,7 +226,7 @@ public class LoginActivity extends AppCompatActivity implements RemoteCallHandle
             password=shaGenrate.generate(password);
             //save user credentials
 
-            sharedPrefrence.saveUserCredentials(getApplicationContext(),email,password);
+            sharedPrefrence.saveUserCredentials(getApplicationContext(),email,password,null,null);
             //Do login process
             new RemoteHelper(getApplicationContext()).verifyLogin(this, RemoteCalls.CHECK_LOGIN_CREDENTIALS,email,password);
             //mAuthTask = new UserLoginTask(email, password);
@@ -279,9 +279,9 @@ public class LoginActivity extends AppCompatActivity implements RemoteCallHandle
                     if (opr.isDone()) {
                         // If the user's cached credentials are valid, the OptionalPendingResult will be "done"
                         // and the GoogleSignInResult will be available instantly.
-                        Log.d(TAG, "Got cached sign-in");
-                        GoogleSignInResult result = opr.get();
-                        handleSignInResult(result);
+//                        Log.d(TAG, "Got cached sign-in");
+//                        GoogleSignInResult result = opr.get();
+//                        handleSignInResult(result);
                     }
                     else if(sharedPrefrence.getUserEmail(getApplicationContext())!=null) {
                         // If the user has not previously signed in on this device or the sign-in has expired,
@@ -400,9 +400,8 @@ public class LoginActivity extends AppCompatActivity implements RemoteCallHandle
                     sharedPrefrence.saveAccessToken(getApplicationContext(),access_token,refresh_token);
                     progressBarActivity.showProgress(mLoginFormView,mProgressView,false,getApplicationContext());
                     toastActivity.makeToastMessage( response,this);
-                    finish();
-                   // new RemoteHelper(getApplicationContext()).getUserDetails(this,RemoteCalls.GET_USER_DETAILS,access_token);
-                    //new RemoteCallHandler(getApplicationContext(),RemoteCalls.GET_USER_DETAILS,)
+//                    finish();
+                    new RemoteHelper(getApplicationContext()).getUserDetails(this,RemoteCalls.GET_USER_DETAILS,access_token);
                    break;
                 }
                 case GET_USER_DETAILS:
@@ -433,6 +432,8 @@ public class LoginActivity extends AppCompatActivity implements RemoteCallHandle
                         {
                             progressBarActivity.showProgress(mLoginFormView,mProgressView,false,getApplicationContext());
                             Toast.makeText(this, response.toString(), Toast.LENGTH_LONG);
+                            JSONObject data = response.getJSONObject("data");
+                            sharedPrefrence.saveUserCredentials(getApplicationContext(),data.getString("email"),data.getString("password"),data.getString("name"),data.getString("photo_path"));
                             finish();
                         }
                     }catch (Exception e)

@@ -64,6 +64,7 @@
     <string name="title_activity_test_match_the_column">TestMatchTheColumn</string>
     <string name="title_activity_subject_content">SubjectContent</string>
     <string name="title_activity_login">login</string>
+    <string name="title_activity_profile">Profile</string>
     <string name="title_activity_module1">Dashboard</string>
     <string name="title_activity_display_image">DisplayImage</string>
     <string name="title_activity_books">BooksActivity</string>
@@ -233,6 +234,8 @@
     <string name="jsoncorrectattempt">correct_attempt</string>
     <string name="jsonattemptquestion">attempt_question</string>
     <string name="jsontotalquestion">total_question</string>
+    <string name="logout">Logout</string>
+    <string name="login">Login</string>
     <string name="seeanswer">answers</string>
     <string name="jsontimetaken">time_taken</string>
     <string name="jsonresponse">response</string>
