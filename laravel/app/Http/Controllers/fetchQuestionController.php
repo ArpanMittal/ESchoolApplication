@@ -141,6 +141,52 @@ class fetchQuestionController extends Controller
 
     private function getPracticeQuestion($key)
     {
+        $noq = DB::table('exam_pattern_map')
+                ->where('exam_id',$key)
+                ->get;
+        $tags = DB::table('exam_state_year_rest_map')
+            ->select('exam_state_year_rest_map.id as id')
+            ->join('exam_state_year_map','exam_state_year_rest_map.exam_state_year_id','=','exam_state_year_map.id')
+            ->join('exam_state_map','exam_state_year_map.exam_state_id','=','exam_state_map.id')
+            ->where('exam_state_map.exam_id',$key)
+            ->get();
+        $data = array();
+        if (count($tags)<=0){
+            return $data;
+        }
+        foreach ($noq as $item){
+            $temp = DB::table('question')
+                ->select('question.id as id',
+                    'question.hash as hash',
+                    'question.question_type_id as type_id',
+                    'question.question as question_text',
+                    'question.solution_path as solution_path',
+                    'question.difficulty as difficulty',
+                    'question.image_path as question_image_path',
+                    'answer.answer as answer')
+                ->join("questiontags","question.id","=","questiontags.question_id")
+                ->join('answer','answer.question_id','=','question.id')
+                ->where('question.hash',"LIKE",$noq->subject_id."%")
+                ->where(function($query,$tags){
+                    for ($i=0;$i<count($tags);$i++){
+                        $query->orWhere('questiontags.tag_id',$tags[$i]->id);
+                    }
+                });
+
+                $temp = $temp->orderBy(DB::raw('RAND()'))
+                ->take($item->no_of_questions)
+                ->get();
+            
+
+            foreach ($temp as $question )
+            {
+                if($question->type_id==1)
+                    $question->option=$this->getOption($question->id);
+            }
+
+            $data = array_merge($data, $temp);
+        }
+        return $data;
     }
 
 
