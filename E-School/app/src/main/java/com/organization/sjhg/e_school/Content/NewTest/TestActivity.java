@@ -411,8 +411,8 @@ public class TestActivity extends AppCompatActivity implements RemoteCallHandler
                             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                             intent.putExtra("parent_tag",tag);
                             intent.putExtra("parent_id",id);
-                            String id=(String)response.getJSONArray(getString(R.string.data)).get(0);
-                            intent.putExtra("Id",(String)response.getJSONArray(getString(R.string.data)).get(0));
+                            String id=(String)response.get("data").toString();
+                            intent.putExtra("Id",id);
                             startActivity(intent);
                             finish();
                         }
