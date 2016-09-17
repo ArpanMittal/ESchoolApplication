@@ -180,7 +180,7 @@ public class TestSummaryActivity  extends MainParentActivity implements RemoteCa
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recycler);
         recyclerView.setHasFixedSize(true);
 
-        TestPaperAttemptAdapter testPaperAttemptAdapter=new TestPaperAttemptAdapter(getApplicationContext(),chapterListList);
+        TestPaperAttemptAdapter testPaperAttemptAdapter=new TestPaperAttemptAdapter(this,chapterListList,id);
         recyclerView.setAdapter(testPaperAttemptAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 

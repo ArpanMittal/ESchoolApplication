@@ -64,7 +64,7 @@ public class JSONParserAsync
                     }
                 });
         //setting time out and retries
-        req.setRetryPolicy(new DefaultRetryPolicy(20 * 1000, 0, 1.0f));
+        req.setRetryPolicy(new DefaultRetryPolicy(40 * 1000, 0, 1.0f));
         // Adding request to request queue
         VolleyController.getInstance().addToRequestQueue(req, tag_json_obj);
     }

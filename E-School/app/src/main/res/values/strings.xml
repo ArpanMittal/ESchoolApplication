@@ -233,6 +233,7 @@
     <string name="jsoncorrectattempt">correct_attempt</string>
     <string name="jsonattemptquestion">attempt_question</string>
     <string name="jsontotalquestion">total_question</string>
+    <string name="seeanswer">answers</string>
 
 
 </resources>

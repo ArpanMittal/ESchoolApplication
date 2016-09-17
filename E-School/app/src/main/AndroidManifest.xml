@@ -97,12 +97,13 @@
             android:theme="@android:style/Theme.NoTitleBar.Fullscreen" />
 
         <activity android:name=".Content.NewTest.TestReportActivity"
-            android:theme="@style/AppTheme.NoActionBar"
+            android:parentActivityName=".Content.NewTest.TestSummaryActivity"
             android:label="TestReport"/>
 
         <activity android:name=".Content.NewTest.TestSummaryActivity"
             android:theme="@style/AppTheme.NoActionBar"
-            android:label="TestSummary"/>
+            android:label="TestSummary"
+            android:launchMode= "singleInstance" />
 
         <activity android:name=".Content.NewTest.TestActivity"
             android:label="Test"/>

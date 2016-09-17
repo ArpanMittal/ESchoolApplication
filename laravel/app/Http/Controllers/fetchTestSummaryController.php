@@ -27,7 +27,9 @@ class fetchTestSummaryController extends Controller
 
             case 'Attempt_Question':
             {
+
                 $data=$this->getAttemptedQuestionDetails($key);
+                break;
             }
 
             case 'Test_Detail':{
@@ -88,6 +90,7 @@ class fetchTestSummaryController extends Controller
                 'user_attempt_response.time_taken as time_taken',
                 'user_attempt_response.response as response',
                 'user_attempt_response.question_id as question_id',
+                'user_attempt_response.option_id as option_id',
                 'question.question as question_text',
                 'question.image_path as question_image',
                 'question.solution_path as solution_path',
@@ -106,15 +109,17 @@ class fetchTestSummaryController extends Controller
                 ->select('option.id as id', 'option.opt as name')
                 ->where('option.id',$at->answer_id)->get();
 
-            if(!strcmp($at->response,"empty"))
+            if(strcmp($at->response,"empty"))
             {
+
                $at-> user_option=DB::table('option')
                     ->select('option.id as id', 'option.opt as name')
-                    ->where('option.id',$at->response)->get();
+                    ->where('option.id',$at->option_id)->get();
+
             }
             else
             {
-                $at-> user_option="";
+                $at-> user_option=null;
             }
 
         }
@@ -126,7 +131,7 @@ class fetchTestSummaryController extends Controller
     {
 
         $user_email=$request->input('user_id');
-        $user_email="test1@gmail.com";
+//        $user_email="test1@gmail.com";
         $user_id = DB::table('user')
             ->where('user.email',$user_email)
             ->first();
