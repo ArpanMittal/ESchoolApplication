@@ -1,44 +1,19 @@
 package com.organization.sjhg.e_school.Content.NewTest;
 
-import android.app.SearchManager;
-import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
-import android.support.design.widget.CollapsingToolbarLayout;
-import android.support.design.widget.FloatingActionButton;
-import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.SearchView;
-import android.support.v7.widget.Toolbar;
-import android.util.AttributeSet;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewStub;
 import android.widget.Button;
-import android.widget.ProgressBar;
-import android.widget.Toast;
 
-import com.github.mikephil.charting.charts.BarChart;
-import com.github.mikephil.charting.components.XAxis;
-import com.github.mikephil.charting.data.BarData;
-import com.github.mikephil.charting.data.BarDataSet;
-import com.github.mikephil.charting.data.BarEntry;
-import com.github.mikephil.charting.utils.ColorTemplate;
-import com.organization.sjhg.e_school.Fragments.Notes_Listing_Fragment;
 import com.organization.sjhg.e_school.Helpers.BarGraphAdapter;
-import com.organization.sjhg.e_school.Helpers.Custom_Pager_Adapter;
 import com.organization.sjhg.e_school.Helpers.LogHelper;
-import com.organization.sjhg.e_school.Helpers.TestPaperAttemptAdapter;
 import com.organization.sjhg.e_school.ListStructure.BarGraphList;
-import com.organization.sjhg.e_school.ListStructure.InternalList;
 import com.organization.sjhg.e_school.LoginActivity;
-import com.organization.sjhg.e_school.MainParentActivity;
-import com.organization.sjhg.e_school.Main_Activity;
 import com.organization.sjhg.e_school.R;
 import com.organization.sjhg.e_school.Remote.RemoteCallHandler;
 import com.organization.sjhg.e_school.Remote.RemoteCalls;
@@ -53,9 +28,6 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import cn.trinea.android.view.autoscrollviewpager.AutoScrollViewPager;
-import me.relex.circleindicator.CircleIndicator;
 
 /**
  * Created by arpan on 9/7/2016.
@@ -98,7 +70,7 @@ public class TestReportActivity extends AppCompatActivity implements RemoteCallH
         {
             progressBarActivity.showProgress(mDashboardView,mProgressView,true,this);
            //showView();
-           new RemoteHelper(getApplicationContext()).getTestSummary(this, RemoteCalls.GET_TEST_RESPONSE,"Test_Detail",id, access_token);
+           new RemoteHelper(getApplicationContext()).getTestSummary(this, RemoteCalls.GET_TEST_RESPONSE,"" , "Test_Detail", id, access_token);
         }
 
 
@@ -218,7 +190,7 @@ public class TestReportActivity extends AppCompatActivity implements RemoteCallH
                         {
                             sharedPrefrence.saveAccessToken(getApplicationContext(),response.get("access_token").toString(),response.get("refresh_token").toString());
                             access_token=response.get("access_token").toString();
-                            new RemoteHelper(getApplicationContext()).getTestSummary(this, RemoteCalls.GET_TEST_RESPONSE,"Attempt_Number",id, access_token);
+                            new RemoteHelper(getApplicationContext()).getTestSummary(this, RemoteCalls.GET_TEST_RESPONSE,"" , "Attempt_Number", id, access_token);
                         }
                     }catch (Exception e)
                     {

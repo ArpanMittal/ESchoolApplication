@@ -14,14 +14,30 @@ class fetchTestSummaryController extends Controller
     /*
      * to get number of attempt
      */
-    public function getDetails(Request $request,$tag,$key)
+    public function getDetails(Request $request,$tag,$key,$attemptType)
     {
 
 
         switch ($tag) {
             case 'Attempt_Number':
+                switch ($attemptType){
+                    case 'SamplePaper':
 
-                $data = $this->getAttemptDetails($key, $request);
+                        $data = $this->getAttemptDetails($key,$request,4);
+                        break;
+                    case 'worksheet':
+
+                        $data = $this->getAttemptDetails($key,$request,2);
+                        break;
+                    case 'chapter':
+
+                        $data = $this->getAttemptDetails($key,$request,3);
+                        break;
+                    case 'practice':
+
+                        $data = $this->getAttemptDetails($key,$request,1);
+                        break;
+                }
                 break;
 
 
@@ -127,7 +143,7 @@ class fetchTestSummaryController extends Controller
         return $attempt;
     }
 
-    private function getAttemptDetails($key,$request)
+    private function getAttemptDetails($key,$request,$attemptType)
     {
 
         $user_email=$request->input('user_id');
@@ -139,6 +155,7 @@ class fetchTestSummaryController extends Controller
         $attempt=DB::table('user_attempt')
             ->select('user_attempt.id as id','user_attempt.started_at as time')
             ->where('user_attempt.user_id',$user_id->id)
+            ->where('user_attempt.attempt_type_id',$attemptType)
             ->where('user_attempt.included_id',$key)->get();
 
         return $attempt;

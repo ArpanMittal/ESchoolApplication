@@ -7,14 +7,12 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
-import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
-import android.util.AttributeSet;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -23,8 +21,6 @@ import android.view.ViewStub;
 import com.organization.sjhg.e_school.Fragments.Notes_Listing_Fragment;
 import com.organization.sjhg.e_school.Helpers.Custom_Pager_Adapter;
 import com.organization.sjhg.e_school.Helpers.LogHelper;
-import com.organization.sjhg.e_school.Helpers.Recycler_View_Adapter;
-import com.organization.sjhg.e_school.Helpers.SamplePaperListDataAdapter;
 import com.organization.sjhg.e_school.Helpers.TestPaperAttemptAdapter;
 import com.organization.sjhg.e_school.ListStructure.ChapterList;
 import com.organization.sjhg.e_school.LoginActivity;
@@ -42,7 +38,6 @@ import com.organization.sjhg.e_school.Utils.ToastActivity;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -70,6 +65,7 @@ public class TestSummaryActivity  extends MainParentActivity implements RemoteCa
 
         Intent intent=getIntent();
         id=intent.getStringExtra("Id");
+        tag = intent.getStringExtra("Tag");
         ViewStub view_Stub=(ViewStub)findViewById(R.id.viewstub);
         view_Stub.setLayoutResource(R.layout.app_bar_main);
         view_Stub.inflate();
@@ -114,7 +110,7 @@ public class TestSummaryActivity  extends MainParentActivity implements RemoteCa
         if(savedInstanceState==null)
         {
             progressBarActivity.showProgress(mDashboardView,mProgressView,true,getApplicationContext());
-            new RemoteHelper(getApplicationContext()).getTestSummary(this, RemoteCalls.GET_TEST_RESPONSE,"Attempt_Number",id, access_token);
+            new RemoteHelper(getApplicationContext()).getTestSummary(this, RemoteCalls.GET_TEST_RESPONSE,tag,"Attempt_Number",id, access_token);
         }
 
     }
@@ -246,7 +242,7 @@ public class TestSummaryActivity  extends MainParentActivity implements RemoteCa
                         {
                             sharedPrefrence.saveAccessToken(getApplicationContext(),response.get("access_token").toString(),response.get("refresh_token").toString());
                             access_token=response.get("access_token").toString();
-                            new RemoteHelper(getApplicationContext()).getTestSummary(this, RemoteCalls.GET_TEST_RESPONSE,"Attempt_Number",id, access_token);
+                            new RemoteHelper(getApplicationContext()).getTestSummary(this, RemoteCalls.GET_TEST_RESPONSE, tag, "Attempt_Number", id, access_token);
                         }
                     }catch (Exception e)
                     {

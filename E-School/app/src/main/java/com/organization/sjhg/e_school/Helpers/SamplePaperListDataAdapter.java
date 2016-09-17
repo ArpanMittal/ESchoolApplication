@@ -61,6 +61,7 @@ public class SamplePaperListDataAdapter extends RecyclerView.Adapter<SamplePaper
             @Override
             public void onClick(View v) {
                 Intent intent=new Intent(context, TestSummaryActivity.class);
+                intent.putExtra("Tag", GlobalConstants.SamplePaperTag);
                 intent.putExtra("Id",chapterLists.get(position).id);
                 context.startActivity(intent);
             }

@@ -162,9 +162,9 @@ public class RemoteHelper {
         new JSONParserAsync(url,params,header,caller,functionCalled);
     }
     // get test summary
-    public void getTestSummary(RemoteCallHandler caller, RemoteCalls functionCalled,String tag,String key,String access_token)
+    public void getTestSummary(RemoteCallHandler caller, RemoteCalls functionCalled, String attemptType, String tag, String key, String access_token)
     {
-        String url=ServerAddress.getServerAddress(context)+GET_TEST_SUMMARY+"/"+tag+"/"+key;
+        String url=ServerAddress.getServerAddress(context)+GET_TEST_SUMMARY+"/"+tag+"/"+key+"/"+attemptType;
         Map<String, String> params = new HashMap<String, String>();
         params.put("client_id",GlobalConstants.CLIENT_ID);
         params.put("client_secret",GlobalConstants.CLINET_SECRET);

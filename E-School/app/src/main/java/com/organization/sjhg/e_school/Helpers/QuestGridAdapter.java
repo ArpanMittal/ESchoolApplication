@@ -180,6 +180,7 @@ public class QuestGridAdapter extends RecyclerView.Adapter<QuestGridAdapter.Ques
                     @Override
                     public void onClick(View v) {
                         Intent intent = new Intent(context, TestSummaryActivity.class);
+                        intent.putExtra("Tag", GlobalConstants.WorksheetTag);
                         intent.putExtra("Id",detail.hash);
                         context.startActivity(intent);
                     }
