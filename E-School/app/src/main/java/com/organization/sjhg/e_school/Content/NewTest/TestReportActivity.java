@@ -3,10 +3,15 @@ package com.organization.sjhg.e_school.Content.NewTest;
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.util.AttributeSet;
@@ -15,19 +20,27 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewStub;
 import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.github.mikephil.charting.charts.BarChart;
+import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.data.BarData;
+import com.github.mikephil.charting.data.BarDataSet;
+import com.github.mikephil.charting.data.BarEntry;
+import com.github.mikephil.charting.utils.ColorTemplate;
 import com.organization.sjhg.e_school.Fragments.Notes_Listing_Fragment;
+import com.organization.sjhg.e_school.Helpers.BarGraphAdapter;
 import com.organization.sjhg.e_school.Helpers.Custom_Pager_Adapter;
 import com.organization.sjhg.e_school.Helpers.LogHelper;
+import com.organization.sjhg.e_school.Helpers.TestPaperAttemptAdapter;
 import com.organization.sjhg.e_school.ListStructure.BarGraphList;
 import com.organization.sjhg.e_school.ListStructure.InternalList;
 import com.organization.sjhg.e_school.LoginActivity;
 import com.organization.sjhg.e_school.MainParentActivity;
 import com.organization.sjhg.e_school.Main_Activity;
 import com.organization.sjhg.e_school.R;
+import com.organization.sjhg.e_school.Remote.RemoteCallHandler;
 import com.organization.sjhg.e_school.Remote.RemoteCalls;
 import com.organization.sjhg.e_school.Remote.RemoteHelper;
 import com.organization.sjhg.e_school.Structure.GlobalConstants;
@@ -47,7 +60,7 @@ import me.relex.circleindicator.CircleIndicator;
 /**
  * Created by arpan on 9/7/2016.
  */
-public class TestReportActivity extends MainParentActivity {
+public class TestReportActivity extends AppCompatActivity implements RemoteCallHandler{
 
     private View mDashboardView;
     private View mProgressView;
@@ -58,119 +71,90 @@ public class TestReportActivity extends MainParentActivity {
     private SharedPrefrence sharedPrefrence=new SharedPrefrence();
     private String access_token;
     String id="";
+    String parent_id=null;
+    private Button btn;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         final Intent intent=getIntent();
-        final String tag=intent.getStringExtra("Tag");
         id=intent.getStringExtra("Id");
-        //framework code
-        ViewStub view_Stub=(ViewStub)findViewById(R.id.viewstub);
-        view_Stub.setLayoutResource(R.layout.app_bar_main);
-        view_Stub.inflate();
-        toolbar = (Toolbar)findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-
-        // code repeted in all activity
-        toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawer.setDrawerListener(toggle);
-        toggle.syncState();
-
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        collapsingToolbar = (CollapsingToolbarLayout) findViewById(R.id.collapse_toolbar);
-        collapsingToolbar.setTitle(getString(R.string.testreport));
-        AutoScrollViewPager viewPager = (AutoScrollViewPager) findViewById(R.id.viewpager);
-        viewPager.setAdapter(new Custom_Pager_Adapter(getSupportFragmentManager()));
-        viewPager.setInterval(5000);
-        viewPager.startAutoScroll();
-        indicator = (CircleIndicator) findViewById(R.id.indicator);
-        indicator.setViewPager(viewPager);
-
-        fab.setOnClickListener(new View.OnClickListener() {
+        parent_id=intent.getStringExtra("parent_id");
+        setContentView(R.layout.activity_test_instruction_activity);
+        mProgressView= findViewById(R.id.login_progress);
+        mDashboardView=findViewById(R.id.dashboard_form);
+        btn=(Button)findViewById(R.id.btn);
+        btn.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
-//                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-//                        .setAction("Action", null).show();
-                Intent intent=new Intent(getApplicationContext(), Notes_Listing_Fragment.class);
-                startActivity(intent);
+            public void onClick(View v) {
+                Intent intent1=new Intent(TestReportActivity.this,TestAnswerActivity.class);
+                intent.putExtra("Id",id);
+                intent.putExtra("parent_id",parent_id);
+                startActivity(intent1);
             }
         });
-        ViewStub viewStub = (ViewStub) findViewById(R.id.view_stub_bar);
-        viewStub.setLayoutResource(R.layout.activity_test_instruction_activity);
-        viewStub.inflate();
-
-//        button=(Button)findViewById(R.id.btn);
-//        button.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                if(sharedPrefrence.getAccessToken(getApplicationContext())==null)
-//                {
-//                    Intent intent1=new Intent(getApplicationContext(), LoginActivity.class);
-//                    startActivity(intent1);
-//                }
-//                else
-//                {
-//                    Intent intent1=new Intent(getApplicationContext(),TestActivity.class);
-//                    intent1.putExtra("Tag",tag);
-//                    intent1.putExtra("Id",id);
-//                    startActivity(intent1);
-//
-//                }
-//            }
-//        });
         access_token=sharedPrefrence.getAccessToken(getApplicationContext());
         if(savedInstanceState==null)
         {
-            new RemoteHelper(getApplicationContext()).getTestSummary(this, RemoteCalls.GET_TEST_RESPONSE,"Test_Detail",id, access_token);
+            progressBarActivity.showProgress(mDashboardView,mProgressView,true,this);
+           //showView();
+           new RemoteHelper(getApplicationContext()).getTestSummary(this, RemoteCalls.GET_TEST_RESPONSE,"Test_Detail",id, access_token);
         }
 
 
     }
 
-    private void showView()
-    {
-        BarChart chart = (BarChart) findViewById(R.id.chart);
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                if(parent_id!=null) {
+                    Intent intent = new Intent(this, TestSummaryActivity.class);
+                    intent.putExtra("Id", parent_id);
+                    startActivity(intent);
+                    finish();
+                }else
+                {
+                    finish();
+                }
+                return  true;
 
-//        BarData data = new BarData(getXAxisValues(), getDataSet());
-//        chart.setData(data);
-        chart.setDescription("My Chart");
-        chart.animateXY(2000, 2000);
-        chart.invalidate();
-
+        }
+        return true;
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.main, menu);
-        SearchManager searchManager =
-                (SearchManager) getSystemService(Context.SEARCH_SERVICE);
-        SearchView searchView =
-                (SearchView) menu.findItem(R.id.menu_search).getActionView();
-        searchView.setSearchableInfo(
-                searchManager.getSearchableInfo(getComponentName()));
+    private void showView()
+    {
 
-        return true;
+        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recycler);
+        recyclerView.setHasFixedSize(true);
+
+        BarGraphAdapter barGraphAdapter=new BarGraphAdapter(barGraphLists,this);
+        recyclerView.setAdapter(barGraphAdapter);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+
+        // for animation in listview
+        RecyclerView.ItemAnimator itemAnimator = new DefaultItemAnimator();
+        itemAnimator.setAddDuration(1000);
+        itemAnimator.setRemoveDuration(1000);
+        recyclerView.setItemAnimator(itemAnimator);
+
     }
 
     private void makeList(JSONObject response)
     {
+
         try {
-            JSONArray jsonArray = response.getJSONArray(getString(R.string.data));
+            String hj=response.getString("success");
+            //JSONObject jsonObject1=response.getJSONObject(getString(R.string.data));
+            JSONArray jsonArray = response.getJSONArray("data");
             for(int i=0;i<jsonArray.length();i++){
                 JSONObject jsonObject=jsonArray.getJSONObject(i);
-                JSONArray jsonArray1=jsonObject.getJSONArray(getString(R.string.jsoneasy));
-                for(int j=0;j<jsonArray1.length();j++)
-                {
-                    JSONObject jsonObject1=jsonArray1.getJSONObject(j);
-                    int correct_attempt=jsonObject1.getInt(getString(R.string.jsoncorrectattempt));
-                    int attempt_question=jsonObject1.getInt(getString(R.string.jsonattemptquestion));
-                    int total_question=jsonObject1.getInt(getString(R.string.jsontotalquestion));
-                    String title=jsonObject1.get(getString(R.string.jsontitle)).toString();
-                    barGraphLists.add(new BarGraphList(correct_attempt,attempt_question,total_question,title));
-                }
+                int correct_attempt=jsonObject.getInt(getString(R.string.jsoncorrectattempt));
+                int attempt_question=jsonObject.getInt(getString(R.string.jsonattemptquestion));
+                int total_question=jsonObject.getInt(getString(R.string.jsontotalquestion));
+                String title=jsonObject.get(getString(R.string.jsontitle)).toString();
+                barGraphLists.add(new BarGraphList(correct_attempt,attempt_question,total_question,title));
             }
         }catch (Exception e)
         {
@@ -180,33 +164,9 @@ public class TestReportActivity extends MainParentActivity {
 
     }
 
-    @Override
-    protected void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-
-        int id = item.getItemId();
-
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        } else if (id == R.id.menu_search) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
 
     @Override
     public void HandleRemoteCall(boolean isSuccessful, RemoteCalls callFor, JSONObject response, Exception exception) {
-        super.HandleRemoteCall(isSuccessful,callFor,response,exception);
         progressBarActivity.showProgress(mDashboardView,mProgressView,false,getApplicationContext());
         if(!isSuccessful)
         {

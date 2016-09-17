@@ -8,10 +8,12 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.organization.sjhg.e_school.Content.NewTest.TestActivity;
+import com.organization.sjhg.e_school.Content.NewTest.TestSummaryActivity;
 import com.organization.sjhg.e_school.Fragments.SamplePaperListFragment;
 import com.organization.sjhg.e_school.ListStructure.ChapterList;
 import com.organization.sjhg.e_school.Main_Activity;
@@ -54,6 +56,15 @@ public class SamplePaperListDataAdapter extends RecyclerView.Adapter<SamplePaper
             }
         });
         Picasso.with(context).load("https://s9.postimg.io/al1o9ip5r/image.jpg").resize(50,50).into(viewHolder.img_android);
+
+        viewHolder.button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(context, TestSummaryActivity.class);
+                intent.putExtra("Id",chapterLists.get(position).id);
+                context.startActivity(intent);
+            }
+        });
     }
 
     private void showLocationDialog(final int position) {
@@ -99,11 +110,14 @@ public class SamplePaperListDataAdapter extends RecyclerView.Adapter<SamplePaper
     public class ViewHolder extends RecyclerView.ViewHolder{
         private TextView tv_android;
         private ImageView img_android;
+        public Button button;
         public ViewHolder(View view) {
             super(view);
 
             tv_android = (TextView)view.findViewById(R.id.tv_android);
             img_android = (ImageView) view.findViewById(R.id.img_android);
+            button=(Button) view.findViewById(R.id.btn);
+            button.setVisibility(View.VISIBLE);
         }
     }
 

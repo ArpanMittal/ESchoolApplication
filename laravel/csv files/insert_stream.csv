@@ -13,3 +13,7 @@ ST,Statistics,NULL,NULL
 TR,Trigonometry,NULL,NULL
 VT,Verbal Test,NULL,NULL
 NT,Non-Verbal Test,NULL,NULL
+HS,History,NULL,NULL
+GE,Geography,NULL,NULL
+EC,Economics,NULL,NULL
+PS,Political Science,NULL,NULL

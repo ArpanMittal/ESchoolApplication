@@ -236,6 +236,7 @@
     <string name="jsontotalquestion">total_question</string>
     <string name="logout">Logout</string>
     <string name="login">Login</string>
+    <string name="seeanswer">answers</string>
 
 
 </resources>

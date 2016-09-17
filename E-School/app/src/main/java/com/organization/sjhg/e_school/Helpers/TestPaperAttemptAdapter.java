@@ -28,10 +28,12 @@ import java.util.List;
 public class TestPaperAttemptAdapter extends RecyclerView.Adapter<TestPaperAttemptAdapter.ViewHolder> {
     private List<ChapterList> chapterLists;
     private Context context;
+    private String parent_id;
 
-    public TestPaperAttemptAdapter(Context context,List<ChapterList> android) {
+    public TestPaperAttemptAdapter(Context context,List<ChapterList> android,String parent_id) {
         this.chapterLists = android;
         this.context = context;
+        this.parent_id=parent_id;
     }
 
     @Override
@@ -49,10 +51,10 @@ public class TestPaperAttemptAdapter extends RecyclerView.Adapter<TestPaperAttem
             @Override
             public void onClick(View v) {
                 Intent intent=new Intent(context, TestReportActivity.class);
-                //intent.putExtra("Tag", GlobalConstants.SamplePaperTag);
+                intent.putExtra("parent_id", parent_id);
                 intent.putExtra("Id",chapterLists.get(position).id);
-                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 context.startActivity(intent);
+
             }
         });
         Picasso.with(context).load("https://s9.postimg.io/al1o9ip5r/image.jpg").resize(50,50).into(viewHolder.img_android);
