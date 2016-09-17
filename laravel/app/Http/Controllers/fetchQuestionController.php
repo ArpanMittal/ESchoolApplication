@@ -29,6 +29,10 @@ class fetchQuestionController extends Controller
 
                 $data = $this->getChapterQuestion($key);
                 break;
+            case 'practice':
+
+                $data = $this->getPracticeQuestion($key);
+                break;
         }
 
 
@@ -133,6 +137,10 @@ class fetchQuestionController extends Controller
                 $question->option=$this->getOption($question->id);
         }
         return $questions;
+    }
+
+    private function getPracticeQuestion($key)
+    {
     }
 
 

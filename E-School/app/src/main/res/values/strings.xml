@@ -237,6 +237,7 @@
     <string name="logout">Logout</string>
     <string name="login">Login</string>
     <string name="seeanswer">answers</string>
+    <string name="show_attempts">Show Attempts</string>
 
 
 </resources>

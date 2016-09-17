@@ -28,6 +28,10 @@ class receiveQuestionController extends Controller
 
                 $data = $this->saveQuestion($key,$request,3);
                 break;
+            case 'practice':
+
+                $data = $this->saveQuestion($key,$request,1);
+                break;
         }
 
         if (!$data){

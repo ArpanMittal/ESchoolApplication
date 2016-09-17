@@ -26,4 +26,5 @@ public class GlobalConstants {
     final public static String SamplePaperTag="SamplePaper";
     final public static String WorksheetTag="worksheet";
     final public static String ChapterTag="chapter";
+    final public static String PracticeTag="practice";
 }

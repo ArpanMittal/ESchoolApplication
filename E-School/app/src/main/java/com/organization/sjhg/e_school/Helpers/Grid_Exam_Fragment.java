@@ -7,6 +7,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
 import com.organization.sjhg.e_school.Fragments.ExamListFragment;
+import com.organization.sjhg.e_school.Fragments.ExamPrepareFragment;
 import com.organization.sjhg.e_school.Fragments.Image_View_Fragment;
 import com.organization.sjhg.e_school.Fragments.SamplePaperListFragment;
 import com.organization.sjhg.e_school.ListStructure.ChapterList;
@@ -23,18 +24,20 @@ import java.util.List;
  */
 public class Grid_Exam_Fragment extends FragmentStatePagerAdapter {
 
+    String id;
     List<DashBoardList> list;
     List<ChapterList> chapterLists;
     Context context;
     List<ExamPrepareList> examPrepareLists=new ArrayList<>();
 
 
-    public Grid_Exam_Fragment(FragmentManager fm, List<DashBoardList> list,Context context) {
+    public Grid_Exam_Fragment(FragmentManager fm, List<DashBoardList> list,Context context,String id) {
         super(fm);
         this.list=list;
         this.chapterLists=list.get(0).chapterLists;
         this.examPrepareLists=list.get(0).examPrepareLists;
         this.context=context;
+        this.id = id;
     }
 
 
@@ -62,7 +65,11 @@ public class Grid_Exam_Fragment extends FragmentStatePagerAdapter {
         }
         else if(position==0)
         {
-            return new Image_View_Fragment();
+            Bundle bundle=new Bundle();
+            bundle.putString("Id",id);
+            ExamPrepareFragment fragment = new ExamPrepareFragment();
+            fragment.setArguments(bundle);
+            return fragment;
         }
         else
         {
