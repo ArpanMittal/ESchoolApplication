@@ -17,6 +17,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewStub;
+import android.widget.Toast;
 
 import com.organization.sjhg.e_school.Fragments.Notes_Listing_Fragment;
 import com.organization.sjhg.e_school.Helpers.Custom_Pager_Adapter;
@@ -109,15 +110,18 @@ public class TestSummaryActivity  extends MainParentActivity implements RemoteCa
             }
         });
         access_token=sharedPrefrence.getAccessToken(getApplicationContext());
-        if(savedInstanceState==null)
+        if(access_token==null)
         {
-            progressBarActivity.showProgress(mDashboardView,mProgressView,true,getApplicationContext());
-            new RemoteHelper(getApplicationContext()).getTestSummary(this, RemoteCalls.GET_TEST_RESPONSE,tag,"Attempt_Number",id, access_token);
+            Toast.makeText(TestSummaryActivity.this, "no attempt found", Toast.LENGTH_SHORT).show();
         }
-        else
-        {
-            chapterListList = (List<ChapterList>) savedInstanceState.getSerializable("INTERNAL LIST");
-            showView();
+        else {
+            if (savedInstanceState == null) {
+                progressBarActivity.showProgress(mDashboardView, mProgressView, true, getApplicationContext());
+                new RemoteHelper(getApplicationContext()).getTestSummary(this, RemoteCalls.GET_TEST_RESPONSE, tag, "Attempt_Number", id, access_token);
+            } else {
+                chapterListList = (List<ChapterList>) savedInstanceState.getSerializable("INTERNAL LIST");
+                showView();
+            }
         }
 
     }
