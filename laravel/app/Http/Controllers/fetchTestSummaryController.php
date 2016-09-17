@@ -14,7 +14,7 @@ class fetchTestSummaryController extends Controller
     /*
      * to get number of attempt
      */
-    public function getDetails(Request $request,$tag,$key,$attemptType)
+    public function getDetails(Request $request,$tag,$key,$attemptType = null)
     {
 
 

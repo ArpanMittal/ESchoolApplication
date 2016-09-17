@@ -61,7 +61,7 @@ Route::group(['prefix'=>'api/v1','middleware'=>['oauth']],function(){
     Route::post('topics/chapter/{id}', array('uses' => 'QuestController@details'));
     Route::post('getQuestion/{tag}/{key}',array('uses'=>'fetchQuestionController@getQuestion'));
     Route::post('saveQuestionResponse/{tag}/{key}',array('uses'=>'receiveQuestionController@receiveQuestion'));
-    Route::post('getTestSummary/{tag}/{key}/{attemptType}',array('uses'=>'fetchTestSummaryController@getDetails'));
+    Route::post('getTestSummary/{tag}/{key}/{attemptType?}',array('uses'=>'fetchTestSummaryController@getDetails'));
 });
 
 Route::group(['prefix'=>'api/v1','middleware'=>['client']],function(){
