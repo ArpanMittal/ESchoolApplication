@@ -66,6 +66,7 @@ public class TestActivity extends AppCompatActivity implements RemoteCallHandler
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getApplicationContext().getContentResolver().delete(UserContract.TestDetail.CONTENT_URI, null, null);
         Intent intent=getIntent();
          tag=intent.getStringExtra("Tag");
          id=intent.getStringExtra("Id");
@@ -406,7 +407,7 @@ public class TestActivity extends AppCompatActivity implements RemoteCallHandler
 
                         } else {
 
-                            getApplicationContext().getContentResolver().delete(UserContract.TestDetail.CONTENT_URI, null, null);
+
                             Intent intent = new Intent(this, TestReportActivity.class);
                             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                             intent.putExtra("parent_tag",tag);

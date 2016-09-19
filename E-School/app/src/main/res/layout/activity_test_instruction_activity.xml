@@ -13,10 +13,12 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
         android:visibility="gone" />
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/dashboard_form">
+
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -24,11 +26,29 @@
             android:text="@string/seeanswer"/>
         <android.support.v7.widget.RecyclerView
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="400dp"
             android:layout_below="@+id/btn"
             android:id="@+id/recycler">
 
         </android.support.v7.widget.RecyclerView>
+            <com.numetriclabz.numandroidcharts.StackBarChart
+                android:layout_height="400dp"
+                android:layout_width="match_parent"
+                android:id="@+id/stackbarchart"
+                android:layout_below="@+id/recycler">
+            </com.numetriclabz.numandroidcharts.StackBarChart>
+
+
+        <!--<org.eazegraph.lib.charts.StackedBarChart-->
+            <!--xmlns:app="http://schemas.android.com/apk/res-auto"-->
+            <!--android:id="@+id/stackedbarchart"-->
+            <!--android:layout_below="@+id/recycler"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="256dp"-->
+            <!--android:padding="10dp"-->
+            <!--app:egFixedBarWidth="true"-->
+            <!--app:egBarWidth="20dp"-->
+            <!--app:egLegendHeight="40dp"/>-->
 
         <!--<com.github.mikephil.charting.charts.BarChart-->
             <!--android:id="@+id/charth"-->
@@ -37,5 +57,7 @@
 
 
     </RelativeLayout>
+
+
 
 </RelativeLayout>
