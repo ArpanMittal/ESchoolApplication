@@ -104,7 +104,7 @@ class fetchQuestionController extends Controller
                 'question.image_path as question_image_path',
                 'answer.answer as answer')
             ->join('answer','answer.question_id','=','question.id')
-            ->where('question.hash',$key)
+//            ->where('question.hash',$key)
             ->orderBy(DB::raw('RAND()'))
             ->take(8)
             ->get();
@@ -129,7 +129,7 @@ class fetchQuestionController extends Controller
                 'question.image_path as question_image_path',
                 'answer.answer as answer')
             ->join('answer','answer.question_id','=','question.id')
-            ->where('question.hash',"LIKE",$key."%")
+//            ->where('question.hash',"LIKE",$key."%")
             ->orderBy(DB::raw('RAND()'))
             ->take(30)
             ->get();
@@ -176,7 +176,7 @@ class fetchQuestionController extends Controller
                     'answer.answer as answer')
                 ->join("questiontags","question.id","=","questiontags.question_id")
                 ->join('answer','answer.question_id','=','question.id')
-                ->where('question.hash',"LIKE",$item->subject_id."%")
+//                ->where('question.hash',"LIKE",$item->subject_id."%")
                 ->where(function($query) use ($tags){
                     for ($i=0;$i<count($tags);$i++){
                         $query->orWhere('questiontags.tag_id',$tags[$i]->id);
