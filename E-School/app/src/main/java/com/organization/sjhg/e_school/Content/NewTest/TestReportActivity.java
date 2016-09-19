@@ -10,9 +10,13 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 
+import com.numetriclabz.numandroidcharts.ChartData;
+import com.numetriclabz.numandroidcharts.StackBarChart;
 import com.organization.sjhg.e_school.Helpers.BarGraphAdapter;
 import com.organization.sjhg.e_school.Helpers.LogHelper;
 import com.organization.sjhg.e_school.ListStructure.BarGraphList;
+import com.organization.sjhg.e_school.ListStructure.CountList;
+import com.organization.sjhg.e_school.ListStructure.StackGraphList;
 import com.organization.sjhg.e_school.LoginActivity;
 import com.organization.sjhg.e_school.R;
 import com.organization.sjhg.e_school.Remote.RemoteCallHandler;
@@ -47,6 +51,7 @@ public class TestReportActivity extends AppCompatActivity implements RemoteCallH
     String parent_id=null;
     String parent_tag="";
     private Button btn;
+    List<StackGraphList>stackGraphLists=new ArrayList<>();
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -79,6 +84,7 @@ public class TestReportActivity extends AppCompatActivity implements RemoteCallH
         else
         {
             barGraphLists=(List<BarGraphList>)savedInstanceState.getSerializable("LIST");
+            stackGraphLists=(List<StackGraphList>)savedInstanceState.getSerializable("Ser_List");
             showView();
         }
 
@@ -89,6 +95,7 @@ public class TestReportActivity extends AppCompatActivity implements RemoteCallH
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putSerializable("LIST",(Serializable)barGraphLists);
+        outState.putSerializable("Ser_List",(Serializable)stackGraphLists);
     }
 
     @Override
@@ -126,6 +133,28 @@ public class TestReportActivity extends AppCompatActivity implements RemoteCallH
         itemAnimator.setRemoveDuration(1000);
         recyclerView.setItemAnimator(itemAnimator);
 
+        StackBarChart stackBarChart=(StackBarChart)findViewById(R.id.stackbarchart);
+        List<ChartData> value = new ArrayList<>();
+
+        Float[] value1 = {2f,3f,6f,5f };
+        Float[] value2 = {3f,5f,7f,9f };
+
+        value.add(new ChartData(value1, "Jone"));
+        value.add(new ChartData(value2, "Joe"));
+
+        List<String> h_lables = new ArrayList<>();
+        h_lables.add("sun");
+        h_lables.add("mon");
+        h_lables.add("tue");
+        h_lables.add("wed");
+
+        stackBarChart.setHorizontal_label(h_lables);
+
+        stackBarChart.setData(value);
+
+        stackBarChart.setDescription("Stacked bar Chart");
+
+
     }
 
     private void makeList(JSONObject response)
@@ -137,11 +166,32 @@ public class TestReportActivity extends AppCompatActivity implements RemoteCallH
             JSONArray jsonArray = response.getJSONArray("data");
             for(int i=0;i<jsonArray.length();i++){
                 JSONObject jsonObject=jsonArray.getJSONObject(i);
-                int correct_attempt=jsonObject.getInt(getString(R.string.jsoncorrectattempt));
-                int attempt_question=jsonObject.getInt(getString(R.string.jsonattemptquestion));
-                int total_question=jsonObject.getInt(getString(R.string.jsontotalquestion));
-                String title=jsonObject.get(getString(R.string.jsontitle)).toString();
-                barGraphLists.add(new BarGraphList(correct_attempt,attempt_question,total_question,title));
+                JSONArray jsonArray1=jsonObject.getJSONArray(getString(R.string.groupdata));
+                for(int j=0;j<jsonArray1.length();j++) {
+                    JSONObject jsonObject1=jsonArray1.getJSONObject(j);
+                    int correct_attempt = jsonObject.getInt(getString(R.string.jsoncorrectattempt));
+                    int attempt_question = jsonObject.getInt(getString(R.string.jsonattemptquestion));
+                    int total_question = jsonObject.getInt(getString(R.string.jsontotalquestion));
+                    String title = jsonObject.get(getString(R.string.jsontitle)).toString();
+                    barGraphLists.add(new BarGraphList(correct_attempt, attempt_question, total_question, title));
+                }
+                JSONArray jsonArray2=jsonObject.getJSONArray(getString(R.string.stackgraphdata));
+
+                for(int j=0;j<jsonArray2.length();j++)
+                {
+                    JSONObject jsonObject1=jsonArray2.getJSONObject(j);
+                    String head=jsonObject1.getString(getString(R.string.jsonhead));
+                    JSONArray jsonArray3=jsonObject1.getJSONArray(getString(R.string.jsonesy_count));
+                    List<CountList>countLists=new ArrayList<>();
+                    for(int k=0;k<jsonArray3.length();k++)
+                    {
+                        JSONObject jsonObject2=jsonArray3.getJSONObject(k);
+                        int count=jsonObject2.getInt(getString(R.string.jsoncount));
+                        String title=jsonObject2.getString(getString(R.string.jsontitle));
+                        countLists.add(new CountList(count,title));
+                    }
+                    stackGraphLists.add(new StackGraphList(countLists,head));
+                }
             }
         }catch (Exception e)
         {

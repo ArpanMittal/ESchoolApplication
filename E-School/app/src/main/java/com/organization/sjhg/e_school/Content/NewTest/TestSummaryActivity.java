@@ -234,8 +234,15 @@ public class TestSummaryActivity  extends MainParentActivity implements RemoteCa
                         }
                         else
                         {
-                            makeList(response);
-                            showView();
+                            if(response==null)
+                            {
+                                Toast.makeText(TestSummaryActivity.this, "no attempt found", Toast.LENGTH_SHORT).show();
+                                finish();
+                            }
+                            else {
+                                makeList(response);
+                                showView();
+                            }
                         }
                     }catch (Exception e)
                     {

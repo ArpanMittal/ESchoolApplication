@@ -164,8 +164,45 @@ class fetchTestSummaryController extends Controller
 
     private function getData($key)
     {
-        $accuracygraphdata=$this->getAccuracyData($key);
-        return $accuracygraphdata;
+        $accuracygraphdata = $this->getAccuracyData($key);
+
+        $stackgraphdata = $this->getStackGraphData($key);
+
+        $data = array('groupedbarchart' => $accuracygraphdata, 'stackgraphdata' => $stackgraphdata);
+        return $data;
+    }
+    private function getStackGraphData($key)
+    {
+
+        $question_paper=$this->getStackData($key,"","question_paper");
+        $right_question=$this->getStackData($key,"true","right_question");
+        $wrong_question=$this->getStackData($key,"false","wrong_question");
+        $unattempted_question=$this->getStackData($key,"empty","unattempted_question");
+        $data=array($question_paper, $right_question,$wrong_question,$unattempted_question);
+        return $data;
+    }
+    private function getStackData($key,$val,$head)
+    {
+        $easy_count=$this->getCountStackData($key,$val,[0,4],"easy_count");
+        $medium_count=$this->getCountStackData($key,$val,[5,7],"medium_count");
+        $hard_count=$this->getCountStackData($key,$val,[8,10],"hard_count");
+        $data=array("eay_count"=>$easy_count,"medium_count"=>$medium_count,"hard_count"=>$hard_count,"head"=>$head);
+        return $data;
+    }
+
+    private function getCountStackData($key,$val,$val2,$title)
+    {
+        $data=$attempt=DB::table('user_attempt_response')
+            ->select(DB::raw('count(*) as count'))
+            ->join('question','user_attempt_response.question_id','=','question.id')
+
+            ->where('user_attempt_response.user_attempt_id',$key)
+            ->whereBetween('question.difficulty',$val2);
+            if($val!="")
+               $data ->where('user_attempt_response.response',$val);
+        $data1=$data->first();
+        $data1->title=$title;
+        return $data1;
     }
     private function getAccuracyData($key)
     {

@@ -73,6 +73,8 @@ dependencies {
         exclude module: 'support-v4'
     }
     compile 'com.github.PhilJay:MPAndroidChart:v2.0.9'
+    compile 'com.numetriclabz.numandroidcharts:numandroidcharts:1.0.7'
 
 
+    compile 'com.google.android.gms:play-services-appindexing:9.0.0'
 }
