@@ -147,7 +147,7 @@ class fetchTestSummaryController extends Controller
     {
 
         $user_email=$request->input('user_id');
-//        $user_email="test1@gmail.com";
+ //       $user_email="test1@gmail.com";
         $user_id = DB::table('user')
             ->where('user.email',$user_email)
             ->first();
@@ -186,7 +186,7 @@ class fetchTestSummaryController extends Controller
         $easy_count=$this->getCountStackData($key,$val,[0,4],"easy_count");
         $medium_count=$this->getCountStackData($key,$val,[5,7],"medium_count");
         $hard_count=$this->getCountStackData($key,$val,[8,10],"hard_count");
-        $data=array("eay_count"=>$easy_count,"medium_count"=>$medium_count,"hard_count"=>$hard_count,"head"=>$head);
+        $data=array($easy_count,$medium_count,$hard_count,"head"=>$head);
         return $data;
     }
 
