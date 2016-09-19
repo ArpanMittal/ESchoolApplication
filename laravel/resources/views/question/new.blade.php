@@ -14,7 +14,7 @@
                             <div class="container-fluid">
                                 <div class="row-fluid">
                                     <div class="span9">
-                                        <form class="form-horizontal" action="{{ isset($question)?url('/question/update'):url('/question/add') }}" method="POST" enctype="multipart/form-data" id="frmquestion"   >
+                                        <form class="form-horizontal" action="{{ isset($question)?url('/question/update'):url('/question/add') }}" method="POST" enctype="multipart/form-data" id="frmquestion" onsubmit="return formSubmit()" >
                                             {{ csrf_field() }}
                                             <input class="span6" type="hidden"  name="TeacherId"   id="TeacherId"   style="width:95%;"  value="{{$user->id}}" >
                                             <h5>Create Question </h5>
@@ -190,7 +190,7 @@
                                                 @if(isset($question))
                                                     <button type="button" class="btn btn-info" id="nextButton" name="nextButton" >Next</button>
                                                 @endif
-                                                <button type="submit" class="btn btn-info" id="epSave" name="epSave"  onclick="formSubmit()">Save</button>
+                                                <button type="submit" class="btn btn-info" id="epSave" name="epSave">Save</button>
                                                 <button type="reset" id="cancleForm" class="btn">Cancel</button>
                                             </div>
                                         </form>
