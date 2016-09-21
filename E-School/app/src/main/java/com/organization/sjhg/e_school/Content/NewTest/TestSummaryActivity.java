@@ -116,29 +116,15 @@ public class TestSummaryActivity  extends MainParentActivity implements RemoteCa
             finish();
         }
         else {
-            if (savedInstanceState != null) {
-
+            if (savedInstanceState == null) {
+                progressBarActivity.showProgress(mDashboardView, mProgressView, true, getApplicationContext());
+                new RemoteHelper(getApplicationContext()).getTestSummary(this, RemoteCalls.GET_TEST_RESPONSE, tag, "Attempt_Number", id, access_token);
+            } else {
                 chapterListList = (List<ChapterList>) savedInstanceState.getSerializable("INTERNAL LIST");
                 showView();
             }
         }
 
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        if(chapterListList.isEmpty())
-        {
-            access_token=sharedPrefrence.getAccessToken(getApplicationContext());
-            progressBarActivity.showProgress(mDashboardView, mProgressView, true, getApplicationContext());
-            new RemoteHelper(getApplicationContext()).getTestSummary(this, RemoteCalls.GET_TEST_RESPONSE, tag, "Attempt_Number", id, access_token);
-        }
-        else
-        {
-           // chapterListList = (List<ChapterList>) savedInstanceState.getSerializable("INTERNAL LIST");
-            showView();
-        }
     }
 
     @Override

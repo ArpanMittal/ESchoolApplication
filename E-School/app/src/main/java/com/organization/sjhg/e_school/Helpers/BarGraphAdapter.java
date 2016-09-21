@@ -17,7 +17,6 @@ import com.github.mikephil.charting.utils.ColorTemplate;
 import com.organization.sjhg.e_school.ListStructure.BarGraphList;
 import com.organization.sjhg.e_school.ListStructure.ChapterList;
 import com.organization.sjhg.e_school.R;
-import com.organization.sjhg.e_school.Utils.ValueFormatter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -47,7 +46,6 @@ public class BarGraphAdapter extends RecyclerView.Adapter<BarGraphAdapter.ViewHo
             barChart.setData(data);
             barChart.setDescription("My Chart");
             barChart.animateXY(2000, 2000);
-            data.setValueFormatter(new ValueFormatter());
             barChart.invalidate();
     }
 
@@ -75,7 +73,7 @@ public class BarGraphAdapter extends RecyclerView.Adapter<BarGraphAdapter.ViewHo
             valueSet1.add(v1e1);
             BarEntry v1e2 = new BarEntry((dataList.get(i).attempt_question), i); // Jan
             valueSet2.add(v1e2);
-            BarEntry v1e3 = new BarEntry(new float[]{(dataList.get(i).total_question)}, i); // Jan
+            BarEntry v1e3 = new BarEntry((dataList.get(i).total_question), i); // Jan
             valueSet3.add(v1e3);
         }
 
