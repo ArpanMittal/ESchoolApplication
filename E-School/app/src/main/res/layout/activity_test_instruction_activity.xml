@@ -13,7 +13,10 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
         android:visibility="gone" />
-
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scrollbars="horizontal|vertical">
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -31,32 +34,26 @@
             android:id="@+id/recycler">
 
         </android.support.v7.widget.RecyclerView>
-            <com.numetriclabz.numandroidcharts.StackBarChart
-                android:layout_height="400dp"
-                android:layout_width="match_parent"
-                android:id="@+id/stackbarchart"
-                android:layout_below="@+id/recycler">
-            </com.numetriclabz.numandroidcharts.StackBarChart>
+
+        <com.github.mikephil.charting.charts.BarChart
+            android:id="@+id/chart"
+            android:layout_below="@+id/recycler"
+            android:layout_width="match_parent"
+            android:layout_height="400dp" />
+
+        <com.github.mikephil.charting.charts.HorizontalBarChart
+            android:layout_width="match_parent"
+            android:layout_height="400dp"
+            android:layout_below="@+id/chart"
+            android:id="@+id/horizontalchart">
+
+        </com.github.mikephil.charting.charts.HorizontalBarChart>
 
 
-        <!--<org.eazegraph.lib.charts.StackedBarChart-->
-            <!--xmlns:app="http://schemas.android.com/apk/res-auto"-->
-            <!--android:id="@+id/stackedbarchart"-->
-            <!--android:layout_below="@+id/recycler"-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="256dp"-->
-            <!--android:padding="10dp"-->
-            <!--app:egFixedBarWidth="true"-->
-            <!--app:egBarWidth="20dp"-->
-            <!--app:egLegendHeight="40dp"/>-->
-
-        <!--<com.github.mikephil.charting.charts.BarChart-->
-            <!--android:id="@+id/charth"-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="700dp" />-->
 
 
     </RelativeLayout>
+    </ScrollView>
 
 
 
