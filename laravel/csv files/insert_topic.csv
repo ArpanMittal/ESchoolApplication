@@ -481,16 +481,88 @@ WIS,What is Sound?,NULL,NULL
 WOC,Concept of Work,NULL,NULL
 WRK,Work,NULL,NULL
 ZEO,Zeroes of Polynomial,NULL,NULL
-MIS,Miscellaneous,NULL,NULL
-MIA,Miscellaneous,NULL,NULL
-MIB,Miscellaneous,NULL,NULL
-MIC,Miscellaneous,NULL,NULL
-MID,Miscellaneous,NULL,NULL
-MIE,Miscellaneous,NULL,NULL
-MIF,Miscellaneous,NULL,NULL
-MIG,Miscellaneous,NULL,NULL
-MIH,Miscellaneous,NULL,NULL
-MII,Miscellaneous,NULL,NULL
-MIJ,Miscellaneous,NULL,NULL
-MIK,Miscellaneous,NULL,NULL
-MIL,Miscellaneous,NULL,NULL
+FAF,Fabirc and Fibre,NULL,NULL
+YTF,Yarn to Fabric,NULL,NULL
+OAT,Objects and Types,NULL,NULL
+MPO,Properties of Material,NULL,NULL
+MOS,Methods of Separation,NULL,NULL
+TOC,Types of Changes,NULL,NULL
+WFC,Ways to bring change,NULL,NULL
+DUS,Daily Use and Source,NULL,NULL
+WTC,Water Cycle,NULL,NULL
+COW,Water Conservation,NULL,NULL
+AAC,Air around us & its components,NULL,NULL
+OPA,Oxygen for Plants and Animals,NULL,NULL
+DWG,Dealing with Garbage,NULL,NULL
+VEC,Vermicomposting,NULL,NULL
+REC,Recycling,NULL,NULL
+ANF,Animal Fobres,NULL,NULL
+SLK,Silk,NULL,NULL
+ABI,Acid Bases and their Indicators,NULL,NULL
+NIE,Neutralisaton in everyday life,NULL,NULL
+PHC,Physical Change,NULL,NULL
+CHC,Chemical Change,NULL,NULL
+AAP,Air and Pressure,NULL,NULL
+AAH,Air and Heat,NULL,NULL
+TAC,Thunderstorms and Cyclones,NULL,NULL
+SAT,Soil and Types,NULL,NULL
+POS,Properties of Soil,NULL,NULL
+SAC,Soil and Crops,NULL,NULL
+WAF,"Water, availability and its forms",NULL,NULL
+GDW,Groundwater and depletion of water table,NULL,NULL
+WDM,"Water ditribution, management and coservation",NULL,NULL
+VTF,Visit to a Forest,NULL,NULL
+WTW,Water to Wasterwater,NULL,NULL
+TOW,Treatment of Wasterwater,NULL,NULL
+SDS,Sewage Disposal and Sanitation,NULL,NULL
+TSF,Synthetic Fibres and Types,NULL,NULL
+PCE,Plastics & its characteristcs and effect of environemnt,NULL,NULL
+PMN,Physical Properties of Metals and Non Metals,NULL,NULL
+CMN,Chemical Properties of Metals and Non Metals,NULL,NULL
+UMN,Uses of Metals and Non metals,NULL,NULL
+EIT,Exhaustible & Inexhaustible Resources with types of Exhaustible,NULL,NULL
+CAT,Combustion and types,NULL,NULL
+FFE,Fuel and Fuel efficiency,NULL,NULL
+APO,Air Pollution,NULL,NULL
+WPO,Water Pollution,NULL,NULL
+MIC,Matter and its Characteristics,NULL,NULL
+SOM,States of Matter,NULL,NULL
+CSM,Changing state of matter,NULL,NULL
+MAT,Mixture and Its Types,NULL,NULL
+SAP,Solution and Properties,NULL,NULL
+SEM,Separating Mixtures,NULL,NULL
+PCC,Physical and Chemical Changes,NULL,NULL
+LCC,Laws of Chemical Combination,NULL,NULL
+AAM,Atom and Molecule,NULL,NULL
+WCF,Writing Chemical Formulae,NULL,NULL
+MMM,Molecular Mass and Mole Concept,NULL,NULL
+SOA,Structure of an Atom,NULL,NULL
+EDO,Electron Distribution in Orbits,NULL,NULL
+ANM,Atomic Number and Atomic Mass,NULL,NULL
+AIR,Air,NULL,NULL
+WAT,Water,NULL,NULL
+SOL,Soil,NULL,NULL
+BIC,Biogeochemical Cycle,NULL,NULL
+OZL,Ozone Layer,NULL,NULL
+CET,Chemical Equations and types,NULL,NULL
+PAB,Properties of Acids and Bases,NULL,NULL
+ANB,Acid and Base Strength,NULL,NULL
+SLT,Salts,NULL,NULL
+PPS,Physical Properties,NULL,NULL
+CPS,Chemical Properties,NULL,NULL
+RMN,Reaction between metals and non metals,NULL,NULL
+OOM,Occurrence of metals,NULL,NULL
+CAB,Bonding in Carbon,NULL,NULL
+NOC,nature of carbon,NULL,NULL
+CPC,Chemical Properties of Carbon,NULL,NULL
+EEA,Ethanol and Ethanoic Acid,NULL,NULL
+SAD,Soaps and Detergents,NULL,NULL
+ECA,Early Classification Attempts,NULL,NULL
+MPT,Mendeleev's Periodic Table,NULL,NULL
+MOP,Modern Periodic Table,NULL,NULL
+ECO,Ecosystem,NULL,NULL
+HAE,Human Activities and Environment,NULL,NULL
+FWL,Forests and Wild Life,NULL,NULL
+WFA,Water for all,NULL,NULL
+CAP,Coal and Petroleum,NULL,NULL
+NMR,Need to Manage Resources,NULL,NULL
