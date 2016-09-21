@@ -145,9 +145,8 @@ class fetchTestSummaryController extends Controller
 
     private function getAttemptDetails($key,$request,$attemptType)
     {
-
         $user_email=$request->input('user_id');
- //       $user_email="test1@gmail.com";
+//        $user_email="test1@gmail.com";
         $user_id = DB::table('user')
             ->where('user.email',$user_email)
             ->first();
@@ -168,8 +167,92 @@ class fetchTestSummaryController extends Controller
 
         $stackgraphdata = $this->getStackGraphData($key);
 
-        $data = array('groupedbarchart' => $accuracygraphdata, 'stackgraphdata' => $stackgraphdata);
+        $timegraphdata=$this->getTimeGraphData($key);
+
+        $data = array('groupedbarchart' => $accuracygraphdata, 'stackgraphdata' => $stackgraphdata,'timegraphdata'=>$timegraphdata);
         return $data;
+    }
+    private function getTimeGraphData($key)
+    {
+        $easyQuestion=$this->getTotalQuestionTime($key,true,[0,4]);
+        $totalQuestion=$this->getTotalQuestionTime($key,"","");
+        $mediumQuestion=$this->getTotalQuestionTime($key,true,[5,7]);
+        $hardQuestion=$this->getTotalQuestionTime($key,true,[8,10]);
+
+        return array($totalQuestion,$easyQuestion,$mediumQuestion,$hardQuestion);
+    }
+    private function getTotalQuestionTime($key,$choice,$para)
+    {
+
+        $count_data=DB::table('user_attempt_response')->where('user_attempt_response.user_attempt_id',$key);
+            if($choice==true)
+            {
+
+                $count_data=$count_data->join('question','user_attempt_response.question_id','=','question.id')
+                    ->whereBetween('question.difficulty',$para);
+            }
+        $count_data=$count_data->get();
+
+        if($count_data==null)
+        {
+            return array('total avg'=>0,'user_avg'=>0);
+        }
+        $attempts=DB::table('user_attempt_response')
+            ->whereIn('user_attempt_response.question_id',function($join) use($key){
+                $join->select(DB::raw('t.question_id'))
+                    ->from('user_attempt_response as t')
+                    ->where('t.user_attempt_id',$key);
+
+            })
+            ->get();
+
+
+        $array1=array();
+        $countarray1=array();
+
+
+        for($i=0;$i<count($count_data);$i++)
+        {
+
+            for($j=0;$j<count($attempts);$j++)
+            {
+
+                    if ($count_data[$i]->question_id == $attempts[$j]->question_id) {
+                        if (isset($array1[$i])) {
+                           $array1[$i] =$array1[$i]+ $attempts[$j]->time_taken;
+
+                            $countarray1[$i]++;
+                        } else {
+                            $array1[$i] = $attempts[$j]->time_taken;
+                            $countarray1[$i] = 1;
+                        }
+                    }
+
+            }
+            $array1[$i]=$array1[$i]/$countarray1[$i];
+        }
+        $avg_test=0;
+        //return $array1;
+        for($i=0;$i<count($array1);$i++)
+        {
+            $avg_test=$avg_test+$array1[$i];
+        }
+
+
+       // return $attempts;
+        $avg_test=$avg_test/count($count_data);
+
+        $user_attempts_avg=DB::table('user_attempt_response')
+            ->where('user_attempt_response.user_attempt_id',$key);
+        if($choice==true)
+        {
+            $user_attempts_avg=$user_attempts_avg->join('question','user_attempt_response.question_id',"=",'question.id')
+                ->whereBetween('question.difficulty',$para);
+        }
+        $user_attempts_avg=$user_attempts_avg->avg('user_attempt_response.time_taken');
+        return array('total avg'=>$avg_test,'user_avg'=>$user_attempts_avg);
+
+
     }
     private function getStackGraphData($key)
     {
