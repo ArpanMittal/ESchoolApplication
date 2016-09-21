@@ -78,35 +78,44 @@ VSS,Visualising Solid Shapes,NULL,NULL
 WHN,Whole Numbers,NULL,NULL
 MAT,Motion and Time,NULL,NULL
 LTE,Light,NULL,NULL
-FTF,Fibre to Fabric,NULL,NULL
-MSO,Sorting Materials into Groups,NULL,NULL
-SOS,Separation of Substances,NULL,NULL
-CAS,Changes Around Us,NULL,NULL
-HTO,Water,NULL,NULL
-AAS,Air Around Us,NULL,NULL
-GAR,"Garbage in, Garbage Out",NULL,NULL
-FAF,Fibre to Fabric,NULL,NULL
-ABS,"Acids, Bases and Salts",NULL,NULL
-PCC,Physical & Chemical Changes,NULL,NULL
-WSC,"Wind, Storms and Cyclones",NULL,NULL
-SOL,Soil,NULL,NULL
-WPR,Water: A Precious Resource,NULL,NULL
-FOL,Forests our Lifeline,NULL,NULL
-WWS,Wastewater Story,NULL,NULL
-SFP,Synthetic Fibres and Plastic,NULL,NULL
-MNM,Materials: Metals and Non Metals,NULL,NULL
-CAP,Coal and Petroleum,NULL,NULL
-CAF,Combustion and Flame,NULL,NULL
-PAW,Pollution of Air and Water,NULL,NULL
-MOS,Matter in our Surroundings,NULL,NULL
-MAP,Is Matter around us Pure,NULL,NULL
-AAM,Atoms and Molecules,NULL,NULL
-SOA,Structure of the Atom,NULL,NULL
-NAR,Natural Resources,NULL,NULL
-CRE,Chemical Reactions and Equations,NULL,NULL
-ASB,"Acids, Bases and Salts",NULL,NULL
-MAN,Metals and Non Metals,NULL,NULL
-CAC,Carbon and its Compounds,NULL,NULL
-PCE,Periodic Classification of Elements,NULL,NULL
-OEV,Our Environment,NULL,NULL
-MNR,Management of Natural Resources,NULL,NULL
+ALP,Alphabet Test,NULL,NULL
+ANR,Analatical reasoning ,NULL,NULL
+ANA,Analogy,NULL,NULL
+ART,Arithmetical Reasoning Test,NULL,NULL
+BOR,Blood Relations,NULL,NULL
+CLS,Classification,NULL,NULL
+CAC,Clocks and Calendars,NULL,NULL
+COD,Coding-Decoading,NULL,NULL
+DRT,Direction Test,NULL,NULL
+IMC,Inserting The Missing Character,NULL,NULL
+LSW,Logical Sequence of words,NULL,NULL
+LVD,Logical Vann Diagram Test,NULL,NULL
+MEO,Mathematical Operation,NULL,NULL
+PDT,Problem on Distance and Time ,NULL,NULL
+PUT,Puzzle Test,NULL,NULL
+SCT,Series Comparison Test,NULL,NULL
+SLM,Syllogism,NULL,NULL
+TES,"Test (Number,Ranking,Time sequence Test)",NULL,NULL
+ATR,Analytical Reasoning,NULL,NULL
+DFS,Dot fixing Situation,NULL,NULL
+EBF,Embedded Figures,NULL,NULL
+FPC,Folding paper Cutting,NULL,NULL
+FFA,Formation of Figure Analysis,NULL,NULL
+ICF,Incomplete Figures,NULL,NULL
+MII,Mirror Images,NULL,NULL
+PCD,Problems on Cubes and Dice,NULL,NULL
+SER,Series,NULL,NULL
+TPF,Transparent Paper Folding,NULL,NULL
+WAI,Water Images,NULL,NULL
+AIN,Ancient India,NULL,NULL
+MIN,Medieval India,NULL,NULL
+MON,Modern India,NULL,NULL
+WHI,World History,NULL,NULL
+GGE,General Geography,NULL,NULL
+IGE,Indian Geography,NULL,NULL
+WGE,World Geography,NULL,NULL
+IEC,Indian Economics,NULL,NULL
+ICD,Indian Constitution and Democracy,NULL,NULL
+GCS,Government at Centre and State,NULL,NULL
+IJU,Indian Judiciary,NULL,NULL
+PRP,Panchayati Raj and Planning Commission,NULL,NULL
