@@ -73,7 +73,6 @@
         <activity
             android:name=".Content.AudioVideoPlayerActivity"
             android:label="@string/title_activity_audio_video_player"
-            android:screenOrientation="sensorLandscape"
             android:theme="@style/AppTheme.NoActionBar" />
         <receiver
             android:name=".Helpers.ConnectivityReceiver"

@@ -26,7 +26,7 @@
                                                         <option value="">-- Select --</option>
                                                         @if(isset($subjects))
                                                             @foreach($subjects as $subject)
-                                                                    <option value="{{ $subject->cl_su_id }}"> {{$subject->class_name ." - ". $subject->subject_name}}</option>
+                                                                <option value="{{ $subject->cl_su_id }}"> {{$subject->class_name ." - ". $subject->subject_name}}</option>
                                                             @endforeach
                                                         @endif
                                                     </select>
@@ -71,9 +71,9 @@
                                                                         @endif
                                                                     @endforeach
                                                                 @endif
-                                                            @if($flag==false)
-                                                                <option value="{{ $tag->id }}">{{$tag->exam_name}}</option>
-                                                            @endif
+                                                                @if($flag==false)
+                                                                    <option value="{{ $tag->id }}">{{$tag->exam_name}}</option>
+                                                                @endif
                                                             @endforeach
                                                         @endif
                                                     </select>
@@ -174,17 +174,17 @@
                                                 </div>
                                             </div>
                                             @if(!isset($question))
-                                            <div class="control-group">
-                                                <label class="control-label">Level</label>
-                                                <div class="controls" >
-                                                    <select name="Level" id="Level" style="width:220px;">
-                                                        <option value="">-- Select Level of Question --</option>
-                                                        <option value="2">Easy</option>
-                                                        <option value="5" selected="selected">Medium</option>
-                                                        <option value="8">Hard</option>
-                                                    </select>
+                                                <div class="control-group">
+                                                    <label class="control-label">Level</label>
+                                                    <div class="controls" >
+                                                        <select name="Level" id="Level" style="width:220px;">
+                                                            <option value="">-- Select Level of Question --</option>
+                                                            <option value="2">Easy</option>
+                                                            <option value="5" selected="selected">Medium</option>
+                                                            <option value="8">Hard</option>
+                                                        </select>
+                                                    </div>
                                                 </div>
-                                            </div>
                                             @endif
                                             <div class="form-actions">
                                                 @if(isset($question))
@@ -273,9 +273,10 @@
                 @foreach($answer as $ans)
                 @if($options[$i]->id == $ans->answer)
                     $('#rad{{$i+1}}').prop('checked', true);
-                @endif
-                @endforeach
-        CKEDITOR.instances.Option{{$i+1}}.setData('{{$options[$i]->opt}}');
+            @endif
+            @endforeach
+    CKEDITOR.instances.Option{{$i+1}}.setData('{{$options[$i]->opt}}');
+            $("#Option{!!$i+1!!}").val('{{$options[$i]->opt}}');
             @endfor
             document.getElementById("ideal_time").value = '{{$question->ideal_attempt_time}}';
         }
@@ -293,6 +294,21 @@
         $("#nextButton").click(function() {
             window.location = '{{ url('/question/next?QuestionId='.$question->id) }}';
         });
+        $("#epSave").click(function() {
+            var opt1 = CKEDITOR.instances.Option1.getData();
+            var opt2 = CKEDITOR.instances.Option2.getData();
+            var opt3 = CKEDITOR.instances.Option3.getData();
+            var opt4 = CKEDITOR.instances.Option4.getData();
+            if (opt1=='' || opt2=='' || opt3=='' || opt4=='') {
+                alert("Please fill all options");
+                return false;
+            }
+            $("#question").val(question);
+            $("#Option1").val(opt1);
+            $("#Option2").val(opt2);
+            $("#Option3").val(opt3);
+            $("#Option4").val(opt4);
+        });
         @endif
 
         @if(isset($hash))
@@ -305,6 +321,7 @@
             $('#TopicId').val('{{$hash}}');
         }
         @endif
+
 
         function formSubmit(){
             if(!$('#frmquestion').valid())
@@ -337,6 +354,9 @@
             $("#Option4").val(opt4);
             return true;
         }
+        $('#frmquestion').submit(function() {
+            return formSubmit();
+        });
 
         function clearFields() {
             CKEDITOR.instances.question.setData('');
