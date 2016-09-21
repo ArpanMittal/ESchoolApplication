@@ -23,6 +23,7 @@ import com.organization.sjhg.e_school.Helpers.LogHelper;
 import com.organization.sjhg.e_school.ListStructure.BarGraphList;
 import com.organization.sjhg.e_school.ListStructure.CountList;
 import com.organization.sjhg.e_school.ListStructure.StackGraphList;
+import com.organization.sjhg.e_school.ListStructure.TimeGraphList;
 import com.organization.sjhg.e_school.LoginActivity;
 import com.organization.sjhg.e_school.R;
 import com.organization.sjhg.e_school.Remote.RemoteCallHandler;
@@ -50,6 +51,7 @@ public class TestReportActivity extends AppCompatActivity implements RemoteCallH
     private View mProgressView;
     private Button button;
     List<BarGraphList> barGraphLists=new ArrayList<>();
+    List<TimeGraphList> timeGraphLists=new ArrayList<>();
     private ProgressBarActivity progressBarActivity=new ProgressBarActivity();
     private ToastActivity toastActivity=new ToastActivity();
     private SharedPrefrence sharedPrefrence=new SharedPrefrence();
@@ -95,6 +97,7 @@ public class TestReportActivity extends AppCompatActivity implements RemoteCallH
         {
             barGraphLists=(List<BarGraphList>)savedInstanceState.getSerializable("LIST");
             stackGraphLists=(List<StackGraphList>)savedInstanceState.getSerializable("Ser_List");
+            timeGraphLists=(List<TimeGraphList>)savedInstanceState.getSerializable("Tim_List");
             showView();
 //            stackBarChart.setVisibility(View.VISIBLE);
         }
@@ -115,6 +118,7 @@ public class TestReportActivity extends AppCompatActivity implements RemoteCallH
         super.onSaveInstanceState(outState);
         outState.putSerializable("LIST",(Serializable)barGraphLists);
         outState.putSerializable("Ser_List",(Serializable)stackGraphLists);
+        outState.putSerializable("Tim_List",(Serializable)timeGraphLists);
 
     }
 
@@ -153,9 +157,11 @@ public class TestReportActivity extends AppCompatActivity implements RemoteCallH
         itemAnimator.setRemoveDuration(1000);
         recyclerView.setItemAnimator(itemAnimator);
 
+
         // for stack graph
         ArrayList<BarDataSet> dataSets = new ArrayList<>();
         ArrayList<BarEntry> valueSet1 = new ArrayList<>();
+        ArrayList<BarEntry> valueSet2 = new ArrayList<>();
         for(int i=0;i<stackGraphLists.size();i++) {
             valueSet1.add(new BarEntry(stackGraphLists.get(i).getArray(), i));
         }
@@ -175,14 +181,31 @@ public class TestReportActivity extends AppCompatActivity implements RemoteCallH
         data.setValueFormatter(new ValueFormatter());
         barChart.invalidate();
 
+
+
         // for horizontal chart
+        ArrayList<BarDataSet> dataSets2 = new ArrayList<>();
+        ArrayList<BarEntry> valueSet11 = new ArrayList<>();
+        ArrayList<BarEntry> valueSet21 = new ArrayList<>();
+        for(int i=0;i<timeGraphLists.size();i++)
+        {
+            valueSet11.add(new BarEntry((float)timeGraphLists.get(i).total_avg/1000,i));
+            valueSet21.add(new BarEntry((float)timeGraphLists.get(i).user_avg/1000,i));
+        }
+        BarDataSet barDataSet1 = new BarDataSet(valueSet11, "total_avg(in sec))");
+        barDataSet1.setColor(Color.rgb(0, 155, 0));
+        BarDataSet barDataSet2 = new BarDataSet(valueSet21, "user_avg(in sec)");
+        barDataSet2.setColor(Color.rgb(255 ,0,0));
+        dataSets2.add(barDataSet1);
+        dataSets2.add(barDataSet2);
+        String[] str1={"total","easy","medium","hard"};
         HorizontalBarChart horizontalBarChart=(HorizontalBarChart)findViewById(R.id.horizontalchart);
-        horizontalBarChart.setData(data);
-        barChart.setDescription("My Chart");
-        barChart.animateXY(2000, 2000);
-        barChart.invalidate();
-        data.setValueFormatter(new ValueFormatter());
-        barChart.setHighlightEnabled(false);
+        BarData data1 = new BarData(str1,dataSets2);
+        horizontalBarChart.setData(data1);
+        horizontalBarChart.setDescription("My Chart");
+        horizontalBarChart.animateXY(2000, 2000);
+        horizontalBarChart.invalidate();
+
 
 
     }
@@ -220,6 +243,15 @@ public class TestReportActivity extends AppCompatActivity implements RemoteCallH
 
 
                 stackGraphLists.add(new StackGraphList(head,easy_count,medium_count,hard_count));
+            }
+
+            JSONArray jsonArray3=jsonObject.getJSONArray(getString(R.string.jsontimegraphdata));
+            for(int j=0;j<jsonArray3.length();j++)
+            {
+                JSONObject jsonObject1=jsonArray3.getJSONObject(j);
+                double total_avg=jsonObject1.getDouble(getString(R.string.jsontotal_avg));
+                double user_avg=jsonObject1.getDouble(getString(R.string.jsonuser_avg));
+                timeGraphLists.add(new TimeGraphList(total_avg,user_avg));
             }
 
         }catch (Exception e)
