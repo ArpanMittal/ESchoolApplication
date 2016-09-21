@@ -64,4 +64,27 @@ class postController extends Controller
         
 
     }
+
+    public function getProfileData(Request $request)
+    {
+        $state = DB::table('userdetail')
+            ->select(DB::raw('DISTINCT userdetail.state as state_name'))
+            ->get();
+        $city = DB::table('userdetail')
+            ->select(DB::raw('DISTINCT userdetail.city as city_name'))
+            ->get();
+        $school = DB::table('school')
+            ->get();
+        $data = array(
+            "state" => $state,
+            "city" => $city,
+            "school" => $school
+        );
+            return Response::json([
+                'success' => true,
+                'code' => 200,
+                'data' => $data
+
+            ]);
+    }
 }
