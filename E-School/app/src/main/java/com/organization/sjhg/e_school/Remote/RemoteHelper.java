@@ -7,10 +7,12 @@ import android.net.wifi.WifiManager;
 import android.os.AsyncTask;
 import android.provider.Settings;
 import android.util.Log;
+import android.view.View;
 
 import com.organization.sjhg.e_school.Content.Quest.QuestListActivity;
 import com.organization.sjhg.e_school.ExaminationParent;
 import com.organization.sjhg.e_school.Helpers.LogHelper;
+import com.organization.sjhg.e_school.Profile.ProfileEditActivity;
 import com.organization.sjhg.e_school.Structure.LaughguruContentDetailBase;
 import com.organization.sjhg.e_school.Sync.FileManager;
 import com.organization.sjhg.e_school.Helpers.StudentApplicationUserData;
@@ -55,6 +57,8 @@ public class RemoteHelper {
     String GET_QUEST_DETAILS;
     String GET_QUESTION;
     String GET_TEST_SUMMARY;
+    String GET_PROFILE_DETAIL;
+    String SAVE_PROFILE_DETAIL;
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////
     String LOGIN_PAGE;
     String FETCH_CONTENT_PAGE;
@@ -86,6 +90,8 @@ public class RemoteHelper {
         GET_QUEST_DETAILS = "api/v1/topics/chapter";
         GET_QUESTION="api/v1/getQuestion";
         GET_SEARCH = "api/v1/search";
+        GET_PROFILE_DETAIL = "api/v1/profile/detail";
+        SAVE_PROFILE_DETAIL =  "api/v1/profile/save";
         GET_TEST_SUMMARY=this.context.getResources().getString(R.string.get_test_summary);
         //////////////////////////////////////////////////////////////////////////////////////
         GET_SINGLEADAPTIVE_TEST=this.context.getResources().getString(R.string.get_single_adaptive_test);
@@ -290,7 +296,25 @@ public class RemoteHelper {
         new JSONParserAsync(url,params,header,caller,functionCalled);
     }
 
+    public void getProfileDetails(RemoteCallHandler caller,RemoteCalls functionCalled,String access_token) {
+        String url=ServerAddress.getServerAddress(context)+GET_PROFILE_DETAIL;
+        Map<String, String> params = new HashMap<String, String>();
+        params.put("client_id",GlobalConstants.CLIENT_ID);
+        params.put("client_secret",GlobalConstants.CLINET_SECRET);
+        params.put("access_token",access_token);
+        Map<String, String> header = new HashMap<String, String>();
+        new JSONParserAsync(url,params,header,caller,functionCalled);
+    }
 
+
+    public void saveProfile(RemoteCallHandler caller,RemoteCalls functionCaller, Map<String, String> params, String accessToken) {
+        String url=ServerAddress.getServerAddress(context)+SAVE_PROFILE_DETAIL;
+        params.put("client_id",GlobalConstants.CLIENT_ID);
+        params.put("client_secret",GlobalConstants.CLINET_SECRET);
+        params.put("access_token",accessToken);
+        Map<String, String> header = new HashMap<String, String>();
+        new JSONParserAsync(url,params,header,caller,functionCaller);
+    }
 
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 

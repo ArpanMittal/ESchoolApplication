@@ -1,4 +1,4 @@
-package com.organization.sjhg.e_school;
+package com.organization.sjhg.e_school.Profile;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -17,6 +17,9 @@ import android.widget.Toast;
 import com.organization.sjhg.e_school.Fragments.Notes_Listing_Fragment;
 import com.organization.sjhg.e_school.Helpers.LogHelper;
 import com.organization.sjhg.e_school.ListStructure.TopicList;
+import com.organization.sjhg.e_school.LoginActivity;
+import com.organization.sjhg.e_school.MainParentActivity;
+import com.organization.sjhg.e_school.R;
 import com.organization.sjhg.e_school.Remote.RemoteCalls;
 import com.organization.sjhg.e_school.Remote.RemoteHelper;
 import com.organization.sjhg.e_school.Structure.GlobalConstants;
@@ -61,7 +64,7 @@ public class ProfileActivity extends MainParentActivity {
             public void onClick(View view) {
 //                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
 //                        .setAction("Action", null).show();
-                Intent intent=new Intent(getApplicationContext(), Notes_Listing_Fragment.class);
+                Intent intent=new Intent(getApplicationContext(), ProfileEditActivity.class);
                 startActivity(intent);
             }
         });
