@@ -158,11 +158,15 @@ public class TestReportActivity extends AppCompatActivity implements RemoteCallH
         label.add("Correct");
         label.add("Wrong");
         label.add("unattempted");
-        PieDataSet pieDataSet=new PieDataSet(entries,"label");
+        PieDataSet pieDataSet=new PieDataSet(entries,"Test_result");
         int[] color={Color.BLUE,Color.RED,Color.GREEN};
         pieDataSet.setColors(color);
         PieData data = new PieData(label, pieDataSet);
         pieChart.setData(data);
+        pieChart.animateY(2000);
+        pieChart.animateX(2000);
+        data.setValueFormatter(new ValueFormatter());
+        pieChart.setDrawSliceText(false);
         pieChart.setDescription("pie chart");
     }
     private void loadStackGraph()
