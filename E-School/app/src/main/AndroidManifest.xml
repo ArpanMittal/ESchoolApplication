@@ -121,11 +121,15 @@
                 android:resource="@xml/searchable"/>
         </activity>
         <activity
-            android:name=".ProfileActivity"
+            android:name=".Profile.ProfileActivity"
             android:theme="@style/AppTheme.NoActionBar"
             android:label="@string/title_activity_profile"
             />
-
+        <activity
+            android:name=".Profile.ProfileEditActivity"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:label="@string/title_activity_profile"
+            />
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         <activity
             android:name=".MainActivity"
