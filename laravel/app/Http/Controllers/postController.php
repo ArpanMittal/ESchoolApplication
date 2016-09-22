@@ -87,4 +87,76 @@ class postController extends Controller
 
             ]);
     }
+
+    public function saveProfileData(Request $request)
+    {
+        $user = DB::table('user')
+            ->where('user.email',$request->input('user_id'))
+            ->first();
+        $status = 0;
+        $status += DB::table('userdetail')->where('id',$user->id)
+            ->update([
+                'name'              =>  $request->get("name"),
+                'date_of_birth'     =>  $request->get("date_of_birth"),
+                'country'           =>  $request->get("country"),
+                'state'             =>  $request->get("state"),
+                'city'              =>  $request->get("city"),
+                'phone_number'      =>  $request->get("phone_number")
+            ]);
+
+        if ($request->exists("profile_pic")){
+            $data = $request->get("profile_pic");
+            $directory = 'profile/';
+            if (!file_exists($directory)) {
+                mkdir($directory, 0777, true);
+            }
+            $filePath = $directory .$user->id.".jpg";
+            $path = public_path($filePath);
+            if (file_exists($path)) {
+                unlink($path);
+            }
+            $file = $this->base64_to_jpeg($data,$path);
+            $url = asset($filePath);
+            $status += DB::table('userdetail')->where('id',$user->id)
+                ->update([
+                    'photo_path'              =>  $url
+                ]);
+        }
+        if ($request->get("school")!=""){
+            $temp = DB::table("school")->where('school_name',$request->get("school"))->first();
+            if (!isset($temp)){
+                $temp = DB::table('school')->insertGetId([
+                            'school_name'              =>  $request->get("school")
+                        ]);
+            }else{
+                $temp = $temp->id;
+            }
+            $status += DB::table('userdetail')->where('id',$user->id)
+                ->update([
+                    'school_id'              =>  $temp
+                ]);
+        }
+
+        if ($status <=0){
+            return Response::json([
+                'success' => false,
+                'code' => 417
+            ]);
+        }
+        return Response::json([
+            'success' => true,
+            'code' => 200
+        ]);
+    }
+
+    private function base64_to_jpeg($base64_string, $output_file) {
+        $ifp = fopen($output_file, "wb");
+
+
+
+        fwrite($ifp, base64_decode($base64_string));
+        fclose($ifp);
+
+        return $output_file;
+    }
 }
