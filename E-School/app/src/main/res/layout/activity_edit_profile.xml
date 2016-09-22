@@ -12,7 +12,9 @@
         android:layout_height="match_parent"
         android:id="@+id/progress"
         />
-
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" >
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -125,13 +127,13 @@
             android:layout_height="wrap_content"
             android:text="Save"
             android:id="@+id/save"
-            android:layout_above="@+id/cancel"/>
+            android:layout_below="@+id/user_school"/>
         <Button
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Cancel"
             android:id="@+id/cancel"
-            android:layout_alignParentBottom="true"/>
+            android:layout_below="@+id/save"/>
     </RelativeLayout>
-
+    </ScrollView>
 </android.support.design.widget.CoordinatorLayout>

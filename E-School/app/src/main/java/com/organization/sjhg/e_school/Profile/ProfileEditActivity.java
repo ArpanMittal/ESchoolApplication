@@ -48,6 +48,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
+import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -160,18 +161,10 @@ public class ProfileEditActivity extends MainParentActivity {
             }
         });
 
-//        if (savedInstanceState != null) {
-//            try {
-//                response = new JSONObject(savedInstanceState.getString("INTERNAL LIST"));
-//                showView();
-//            } catch (JSONException e) {
-//                e.printStackTrace();
-//            }
-//
-//        }else{
-        new RemoteHelper(getApplicationContext()).getUserDetails(this, RemoteCalls.GET_USER_DETAILS, sharedPrefrence.getAccessToken(this));
-        new RemoteHelper(getApplicationContext()).getProfileDetails(this, RemoteCalls.GET_PROFILE_EDIT_DATA, sharedPrefrence.getAccessToken(this));
-//        }
+
+            new RemoteHelper(getApplicationContext()).getUserDetails(this, RemoteCalls.GET_USER_DETAILS, sharedPrefrence.getAccessToken(this));
+            new RemoteHelper(getApplicationContext()).getProfileDetails(this, RemoteCalls.GET_PROFILE_EDIT_DATA, sharedPrefrence.getAccessToken(this));
+
 
 
     }
@@ -179,9 +172,21 @@ public class ProfileEditActivity extends MainParentActivity {
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-//        if(response!=null ) {
-//            outState.putString("INTERNAL LIST", response.toString());
-//        }
+        if(data!=null ) {
+            outState.putSerializable("DATA LIST", (Serializable)data);
+        }
+        if(country!=null ) {
+            outState.putSerializable("COUNTRY LIST", (Serializable)country);
+        }
+        if(state!=null ) {
+            outState.putSerializable("STATE LIST", (Serializable)state);
+        }
+        if(city!=null ) {
+            outState.putSerializable("CITY LIST", (Serializable)city);
+        }
+        if(school!=null ) {
+            outState.putSerializable("SCHOOL LIST", (Serializable)school);
+        }
     }
 
     @Override
@@ -250,7 +255,7 @@ public class ProfileEditActivity extends MainParentActivity {
                 case SAVE_PROFILE: {
                     try {
                          if (response.get("code").toString().equals(GlobalConstants.SUCCESS)) {
-                            finish();
+                             finish();
                         }else{
                             toastActivity.makeUknownErrorMessage(this);
                         }
@@ -392,7 +397,7 @@ public class ProfileEditActivity extends MainParentActivity {
         adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, school);
         userSchool.setAdapter(adapter);
         for (int i = 0; i < school.size(); i++) {
-            if (school.get(i).equals(data.get("school"))) {
+            if (school.get(i).equals(data.get("school_name"))) {
                 userSchool.setSelection(i);
             }
         }
@@ -430,6 +435,7 @@ public class ProfileEditActivity extends MainParentActivity {
         });
 
         if (!data.get("photo_path").equals("null")) {
+            Picasso.with(this).invalidate(data.get("photo_path"));
             Picasso.with(this)
                     .load(data.get("photo_path"))
                     .placeholder(R.drawable.ic_launcher)
@@ -454,7 +460,7 @@ public class ProfileEditActivity extends MainParentActivity {
                 DatePickerDialog dialog = new DatePickerDialog(ProfileEditActivity.this, new DatePickerDialog.OnDateSetListener() {
 
                     public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-                        SimpleDateFormat parser = new SimpleDateFormat("dd:MM:yyyy");
+                        SimpleDateFormat parser = new SimpleDateFormat("yyyy-MM-dd");
                         Calendar newDate = Calendar.getInstance();
                         newDate.set(year, monthOfYear, dayOfMonth);
                         userDob.setText(parser.format(newDate.getTime()));

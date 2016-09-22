@@ -121,6 +121,7 @@ class postController extends Controller
                 ->update([
                     'photo_path'              =>  $url
                 ]);
+            $status+=1;
         }
         if ($request->get("school")!=""){
             $temp = DB::table("school")->where('school_name',$request->get("school"))->first();
