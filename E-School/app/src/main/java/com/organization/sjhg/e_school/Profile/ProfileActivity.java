@@ -87,17 +87,6 @@ public class ProfileActivity extends MainParentActivity {
         userPnumber= (TextView) findViewById(R.id.user_pnumber);
         userSchool= (TextView) findViewById(R.id.user_school);
 
-        if (savedInstanceState != null) {
-            try {
-                response = new JSONObject(savedInstanceState.getString("INTERNAL LIST"));
-                showView();
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-
-        }else{
-            new RemoteHelper(getApplicationContext()).getUserDetails(this, RemoteCalls.GET_USER_DETAILS,sharedPrefrence.getAccessToken(this));
-        }
 
 
     }
@@ -108,6 +97,11 @@ public class ProfileActivity extends MainParentActivity {
         if(response!=null ) {
             outState.putString("INTERNAL LIST", response.toString());
         }
+    }
+
+    protected void onResume() {
+        super.onResume();
+        new RemoteHelper(getApplicationContext()).getUserDetails(this, RemoteCalls.GET_USER_DETAILS,new SharedPrefrence().getAccessToken(this));
     }
 
     @Override
@@ -153,6 +147,8 @@ public class ProfileActivity extends MainParentActivity {
                             mLoading.setVisibility(View.GONE);
                             Toast.makeText(this, response.toString(), Toast.LENGTH_LONG);
                             this.response = response;
+                            JSONObject data = response.getJSONObject("data");
+                            sharedPrefrence.saveUserCredentials(getApplicationContext(),data.getString("email"),data.getString("password"),data.getString("name"),data.getString("photo_path"));
                             showView();
                         }
                     }catch (Exception e)
@@ -194,6 +190,20 @@ public class ProfileActivity extends MainParentActivity {
         String school_name = data.getString("school_name");
         if (!school_name.equals("null")){
             userSchool.setText(school_name);
+        }
+
+        String profile_pic = data.getString("photo_path");
+        if (!profile_pic.equals("null")){
+            Picasso.with(this).invalidate(profile_pic);
+            Picasso.with(this)
+                    .load(profile_pic)
+                    .placeholder(R.drawable.ic_launcher)
+                    .into(profilePic);
+        }
+
+        String name = data.getString("name");
+        if (!name.equals("null")){
+            userName.setText(name);
         }
     }
 }
