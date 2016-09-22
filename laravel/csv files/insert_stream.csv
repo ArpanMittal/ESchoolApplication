@@ -17,3 +17,7 @@ HS,History,NULL,NULL
 GE,Geography,NULL,NULL
 EC,Economics,NULL,NULL
 PS,Political Science,NULL,NULL
+DC,Everyday Chemistry,NULL,NULL
+IC,Inorganic Chemistry,NULL,NULL
+EC,Environmental Chemistry,NULL,NULL
+PC,Physical Chemistry,NULL,NULL

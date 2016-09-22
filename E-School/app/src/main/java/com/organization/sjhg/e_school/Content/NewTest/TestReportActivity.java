@@ -14,9 +14,13 @@ import android.widget.Button;
 
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.charts.HorizontalBarChart;
+import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
+import com.github.mikephil.charting.data.Entry;
+import com.github.mikephil.charting.data.PieData;
+import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.utils.ColorTemplate;
 import com.organization.sjhg.e_school.Helpers.BarGraphAdapter;
 import com.organization.sjhg.e_school.Helpers.LogHelper;
@@ -140,25 +144,29 @@ public class TestReportActivity extends AppCompatActivity implements RemoteCallH
         }
         return true;
     }
-
-    private void showView()
+    private void loadPieChart()
     {
+        //pie chart data
+        PieChart pieChart=(PieChart)findViewById(R.id.piechart);
+        ArrayList<Entry> entries=new ArrayList<>();
 
-        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recycler);
-        recyclerView.setHasFixedSize(true);
+        entries.add(new Entry(barGraphLists.get(3).correct_attempt,0));
+        entries.add(new Entry((barGraphLists.get(3).attempt_question-barGraphLists.get(3).correct_attempt),1));
+        entries.add(new Entry((barGraphLists.get(3).total_question-barGraphLists.get(3).attempt_question),2));
 
-        BarGraphAdapter barGraphAdapter=new BarGraphAdapter(barGraphLists,this);
-        recyclerView.setAdapter(barGraphAdapter);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-
-        // for animation in listview
-        RecyclerView.ItemAnimator itemAnimator = new DefaultItemAnimator();
-        itemAnimator.setAddDuration(1000);
-        itemAnimator.setRemoveDuration(1000);
-        recyclerView.setItemAnimator(itemAnimator);
-
-
-        // for stack graph
+        ArrayList<String> label=new ArrayList<>();
+        label.add("Correct");
+        label.add("Wrong");
+        label.add("unattempted");
+        PieDataSet pieDataSet=new PieDataSet(entries,"label");
+        int[] color={Color.BLUE,Color.RED,Color.GREEN};
+        pieDataSet.setColors(color);
+        PieData data = new PieData(label, pieDataSet);
+        pieChart.setData(data);
+        pieChart.setDescription("pie chart");
+    }
+    private void loadStackGraph()
+    {
         ArrayList<BarDataSet> dataSets = new ArrayList<>();
         ArrayList<BarEntry> valueSet1 = new ArrayList<>();
         ArrayList<BarEntry> valueSet2 = new ArrayList<>();
@@ -180,10 +188,10 @@ public class TestReportActivity extends AppCompatActivity implements RemoteCallH
         barChart.animateXY(2000, 2000);
         data.setValueFormatter(new ValueFormatter());
         barChart.invalidate();
+    }
 
-
-
-        // for horizontal chart
+    private void loadHorizontalGraph()
+    {
         ArrayList<BarDataSet> dataSets2 = new ArrayList<>();
         ArrayList<BarEntry> valueSet11 = new ArrayList<>();
         ArrayList<BarEntry> valueSet21 = new ArrayList<>();
@@ -206,6 +214,33 @@ public class TestReportActivity extends AppCompatActivity implements RemoteCallH
         horizontalBarChart.animateXY(2000, 2000);
         horizontalBarChart.invalidate();
 
+    }
+
+    private void showView()
+    {
+
+        loadPieChart();
+        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recycler);
+        recyclerView.setHasFixedSize(true);
+
+        BarGraphAdapter barGraphAdapter=new BarGraphAdapter(barGraphLists,this);
+        recyclerView.setAdapter(barGraphAdapter);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+
+        // for animation in listview
+        RecyclerView.ItemAnimator itemAnimator = new DefaultItemAnimator();
+        itemAnimator.setAddDuration(1000);
+        itemAnimator.setRemoveDuration(1000);
+        recyclerView.setItemAnimator(itemAnimator);
+
+
+        // for stack graph
+       loadStackGraph();
+
+
+
+        // for horizontal chart
+       loadHorizontalGraph();
 
 
     }
