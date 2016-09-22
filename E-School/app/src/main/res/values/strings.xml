@@ -249,7 +249,10 @@
     <string name="groupdata">groupedbarchart</string>
     <string name="stackgraphdata">stackgraphdata</string>
     <string name="jsonhead">head</string>
-    <string name="jsonesy_count">easy_count</string>
+    <string name="jsoneasy_count">easy_count</string>
+    <string name="jsontimegraphdata">timegraphdata</string>
+    <string name="jsontotal_avg">total avg</string>
+    <string name="jsonuser_avg">user_avg</string>
 
 
 </resources>
