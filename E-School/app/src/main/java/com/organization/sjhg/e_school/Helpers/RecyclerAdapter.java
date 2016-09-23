@@ -55,10 +55,10 @@ public class RecyclerAdapter extends RecyclerView.Adapter<View_Holder> implement
         viewHolder.name.setText(item.name);
         viewHolder.count.setText(item.count);
         // to download images
-        Picasso.with((Activity)mContext)
-                .load("https://s9.postimg.io/al1o9ip5r/image.jpg")
-                .resize(50,50)
-                .into(viewHolder.imageView);
+//        Picasso.with((Activity)mContext)
+//                .load("https://s9.postimg.io/al1o9ip5r/image.jpg")
+//                .resize(50,50)
+//                .into(viewHolder.imageView);
         viewHolder.view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
