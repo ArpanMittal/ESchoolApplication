@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 
+import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -111,14 +112,6 @@ public class Main_Activity extends MainParentActivity{
             }
         });
 
-
-
-
-//        AutoScrollViewPager viewPager=(AutoScrollViewPager) findViewById(R.id.viewpager);
-//
-//        viewPager.setAdapter(new Custom_Pager_Adapter(getSupportFragmentManager(),getApplicationContext()));
-//        viewPager.setInterval(5000);
-//        viewPager.startAutoScroll();
         //remote call to access data from server
         if(savedInstanceState!=null)
         {
