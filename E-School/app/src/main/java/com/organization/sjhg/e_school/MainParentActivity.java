@@ -226,11 +226,13 @@ public class MainParentActivity extends AppCompatActivity implements NavigationV
         if (sharedPrefrence.getUserEmail(getApplicationContext()) != null && email!=null){
             email.setText(sharedPrefrence.getUserEmail(getApplicationContext()));
             login.setVisibility(View.GONE);
-            Picasso.with(this)
-                    .load(sharedPrefrence.getUserPic(getApplicationContext()))
-                    .placeholder(R.drawable.ic_launcher)
-                    .resize(50,50)
-                    .into(profile_pic);
+            if (!sharedPrefrence.getUserPic(getApplicationContext()).equals("")){
+                Picasso.with(this)
+                        .load(sharedPrefrence.getUserPic(getApplicationContext()))
+                        .placeholder(R.drawable.ic_launcher)
+                        .resize(50,50)
+                        .into(profile_pic);
+            }
             profile_pic.setOnClickListener(listener);
             email.setOnClickListener(listener);
         }else if (email!= null){
