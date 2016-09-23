@@ -52,6 +52,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<View_Holder> implement
     @Override
     public void onBindViewHolder(View_Holder viewHolder, int position) {
         final InternalList item = itemList.get(position);
+
         viewHolder.name.setText(item.name);
         viewHolder.count.setText(item.count);
         // to download images
@@ -59,33 +60,50 @@ public class RecyclerAdapter extends RecyclerView.Adapter<View_Holder> implement
                 .load(R.drawable.logo)
                .resize(100,100)
                 .into(viewHolder.imageView);
-        viewHolder.view.setOnClickListener(new View.OnClickListener() {
+
+        viewHolder.cv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                if(item.id.equals(pre))
-//                {
-//                    recyclerView.setVisibility(View.GONE);
-//                    pre=null;
-//                }
-//                else {
-                    if(title.equals("Exams"))
-                    {
-                        Intent intent = new Intent(mContext.getApplicationContext(), ExaminationParent.class);
-                        intent.putExtra(mContext.getString(R.string.jsontitle), title);
-                        intent.putExtra(mContext.getString(R.string.jsonid), item.id);
-                        mContext.startActivity(intent);
-                    }
-                else {
-                        Intent intent = new Intent(mContext.getApplicationContext(), ListActivity.class);
-                        intent.putExtra(mContext.getString(R.string.title), title);
-                        intent.putExtra(mContext.getString(R.string.jsonid), item.id);
-                        mContext.startActivity(intent);
-                    }
-                  //  new RemoteHelper(mContext).getItemDetails(RecyclerAdapter.this, RemoteCalls.GET_ITEM_DETAILS, title, item.id);
-//                }
-
+               takeAction(item);
             }
         });
+        viewHolder.count.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                takeAction(item);
+            }
+        });
+        viewHolder.name.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                takeAction(item);
+            }
+        });
+        viewHolder.imageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                takeAction(item);
+            }
+        });
+
+
+    }
+
+    private void takeAction(InternalList item)
+    {
+        if(title.equals("Exams"))
+        {
+            Intent intent = new Intent(mContext.getApplicationContext(), ExaminationParent.class);
+            intent.putExtra(mContext.getString(R.string.jsontitle), title);
+            intent.putExtra(mContext.getString(R.string.jsonid), item.id);
+            mContext.startActivity(intent);
+        }
+        else {
+            Intent intent = new Intent(mContext.getApplicationContext(), ListActivity.class);
+            intent.putExtra(mContext.getString(R.string.title), title);
+            intent.putExtra(mContext.getString(R.string.jsonid), item.id);
+            mContext.startActivity(intent);
+        }
     }
 
     @Override

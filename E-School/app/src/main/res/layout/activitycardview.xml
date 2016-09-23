@@ -8,35 +8,42 @@
     app:cardCornerRadius="2dp"
     app:cardElevation="2dp"
     android:layout_margin="5dp"
+    android:nestedScrollingEnabled="true"
     >
 
     <RelativeLayout
-        android:layout_width="150px"
-        android:layout_height="200px">
+        android:layout_width="100dp"
+        android:layout_height="150dp">
         <RelativeLayout
-            android:layout_width="150px"
-            android:layout_height="100px"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
             android:background="#e91e63"
             android:id="@+id/relativeLayout">
         <ImageView
             android:id="@+id/imageView"
             android:layout_centerInParent="true"
-            android:layout_width="100px"
-            android:layout_height="100px" />
+            android:layout_width="100dp"
+            android:layout_height="100dp" />
         </RelativeLayout>
 
         <TextView
             android:id="@+id/name"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_below="@+id/relativeLayout"
+            android:inputType="textMultiLine"
+            android:scrollHorizontally="false"
             android:text="Name"
+            android:maxLines="1"
             android:textStyle="bold" />
 
         <TextView
             android:id="@+id/count"
+            android:inputType="textMultiLine"
+            android:scrollHorizontally="false"
+            android:maxLines="2"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_below="@+id/name"
             android:text="Description" />
 
