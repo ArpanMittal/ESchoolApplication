@@ -253,6 +253,7 @@
     <string name="jsontimegraphdata">timegraphdata</string>
     <string name="jsontotal_avg">total avg</string>
     <string name="jsonuser_avg">user_avg</string>
+    <string name="jsonimage">image</string>
 
 
 </resources>

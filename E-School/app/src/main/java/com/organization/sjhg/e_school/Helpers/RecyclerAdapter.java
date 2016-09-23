@@ -57,7 +57,8 @@ public class RecyclerAdapter extends RecyclerView.Adapter<View_Holder> implement
         viewHolder.count.setText(item.count);
         // to download images
         Picasso.with((Activity)mContext)
-                .load(R.drawable.logo)
+                .load("http://s10.postimg.org/5ra5n2afd/app_books_xhdpi.png")
+           //     .load(item.image)
                .resize(100,100)
                 .into(viewHolder.imageView);
 
