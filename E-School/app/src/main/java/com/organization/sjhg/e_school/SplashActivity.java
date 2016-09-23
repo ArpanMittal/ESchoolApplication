@@ -63,9 +63,9 @@ public class SplashActivity extends Activity implements LoginStatusHandler {
         decorView.setSystemUiVisibility(uiOptions);
         startTime = System.currentTimeMillis();
         setContentView(R.layout.activity_splash);
-       // WebView wv = (WebView) findViewById(R.id.splash);
-       // wv.loadUrl("file:///android_asset/splash.gif");
-       // wv.setScrollBarStyle(WebView.SCROLLBARS_OUTSIDE_INSET);
+        // WebView wv = (WebView) findViewById(R.id.splash);
+        // wv.loadUrl("file:///android_asset/splash.gif");
+        // wv.setScrollBarStyle(WebView.SCROLLBARS_OUTSIDE_INSET);
 
         String spUsername = StudentApplicationUserData.getPrefUsername(this);
         String spPassword = StudentApplicationUserData.getPrefPassword(this);
@@ -83,7 +83,7 @@ public class SplashActivity extends Activity implements LoginStatusHandler {
         } else
             proceedToLogin();
 
-       // startSync();
+        // startSync();
     }
     public void callLoginBackground()
     {
@@ -98,14 +98,14 @@ public class SplashActivity extends Activity implements LoginStatusHandler {
     public void HandleLoginStatus(boolean isLoginSuccessful) {
         //long currentTime = System.currentTimeMillis();
         //long waitTime = 1500 - ((currentTime - startTime));
-      //  waitTime = waitTime < 0 ? 0 : waitTime;
+        //  waitTime = waitTime < 0 ? 0 : waitTime;
         Boolean isLoggedOut = StudentApplicationUserData.getLogoutStatus(this);
         if (isLoginSuccessful && !isLoggedOut)
-       {
+        {
             StudentApplicationUserData.SaveLogoutStatus(this, false);
-           Intent splashToMain = new Intent(SplashActivity.this, MainActivity.class);
-           startActivity(splashToMain);
-           finish();
+            Intent splashToMain = new Intent(SplashActivity.this, MainActivity.class);
+            startActivity(splashToMain);
+            finish();
            /* new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {

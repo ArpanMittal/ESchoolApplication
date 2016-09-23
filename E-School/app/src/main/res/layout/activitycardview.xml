@@ -1,42 +1,44 @@
 <android.support.v7.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/cardView"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:layout_marginBottom="@dimen/activity_vertical_margin"
-
-
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    android:focusableInTouchMode="true"
+    app:cardCornerRadius="2dp"
+    app:cardElevation="2dp"
+    android:layout_margin="5dp"
+    >
 
     <RelativeLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:padding="16dp">
-
+        android:layout_width="150px"
+        android:layout_height="200px">
+        <RelativeLayout
+            android:layout_width="150px"
+            android:layout_height="100px"
+            android:background="#e91e63"
+            android:id="@+id/relativeLayout">
         <ImageView
             android:id="@+id/imageView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentTop="true"
-            android:layout_marginRight="16dp"
-            />
+            android:src="@drawable/logo"
+            android:layout_centerInParent="true"
+            android:layout_width="100px"
+            android:layout_height="100px" />
+        </RelativeLayout>
 
         <TextView
             android:id="@+id/name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:layout_toRightOf="@+id/imageView"
+            android:layout_below="@+id/relativeLayout"
             android:text="Name"
-            android:textSize="30sp" />
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/count"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/name"
-            android:layout_toRightOf="@+id/imageView"
             android:text="Description" />
 
     </RelativeLayout>

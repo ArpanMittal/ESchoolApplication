@@ -63,8 +63,10 @@ public class Main_Activity extends MainParentActivity{
     private ProgressBarActivity progressBarActivity=new ProgressBarActivity();
     private ToastActivity toastActivity=new ToastActivity();
 
+    @Override
+    public void onBackPressed() {
 
-
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState)

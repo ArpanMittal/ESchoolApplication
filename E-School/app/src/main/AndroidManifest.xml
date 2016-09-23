@@ -30,7 +30,7 @@
     <application
         android:name=".Remote.VolleyController"
         android:allowBackup="true"
-        android:icon="@drawable/eurovision"
+        android:icon="@drawable/logo"
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:screenOrientation="sensorLandscape"
@@ -58,10 +58,7 @@
             android:parentActivityName=".LoginActivity"
             android:label="@string/title_activity_module1"
             android:theme="@style/AppTheme.NoActionBar">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+
         <meta-data android:name="android.app.default_searchable"
             android:value=".Main_Activity" />
         </activity>
@@ -130,6 +127,19 @@
             android:theme="@style/AppTheme.NoActionBar"
             android:label="@string/title_activity_profile"
             />
+
+        <activity
+            android:name=".Splash_Activity"
+            android:label="@string/app_name"
+            android:theme="@style/AppTheme.NoActionBar">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+
+        </activity>
+
+
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         <activity
             android:name=".MainActivity"
@@ -153,14 +163,7 @@
             android:screenOrientation="sensorLandscape"
             android:theme="@android:style/Theme.NoTitleBar.Fullscreen"
             android:windowSoftInputMode="stateHidden" />
-        <activity
-            android:name=".SplashActivity"
-            android:label="@string/app_name"
-            android:screenOrientation="sensorLandscape"
-            android:theme="@android:style/Theme.NoTitleBar.Fullscreen">
 
-
-        </activity>
 
         <activity
             android:name=".Content.Laughguru.LaughGuruActivity"
