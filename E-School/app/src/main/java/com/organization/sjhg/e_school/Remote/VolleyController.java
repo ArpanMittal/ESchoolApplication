@@ -8,6 +8,7 @@ import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.Volley;
 import com.organization.sjhg.e_school.Helpers.ConnectivityReceiver;
+import com.organization.sjhg.e_school.Helpers.FontsOverride;
 
 /**
  * Created by Punit Chhajer on 11-07-2016.
@@ -25,6 +26,10 @@ public class VolleyController extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+        FontsOverride.setDefaultFont(this, "DEFAULT", "TitilliumWeb-LightItalic.ttf");
+        FontsOverride.setDefaultFont(this, "MONOSPACE", "TitilliumWeb-LightItalic.ttf");
+        FontsOverride.setDefaultFont(this, "SERIF", "TitilliumWeb-LightItalic.ttf");
+        FontsOverride.setDefaultFont(this, "SANS_SERIF", "TitilliumWeb-LightItalic.ttf");
         mInstance = this;
     }
 
