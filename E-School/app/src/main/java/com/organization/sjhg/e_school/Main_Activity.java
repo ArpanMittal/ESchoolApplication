@@ -83,6 +83,7 @@ public class Main_Activity extends MainParentActivity{
 
 
         toolbar = (Toolbar)findViewById(R.id.toolbar);
+
         setSupportActionBar(toolbar);
 
         // code repeated in all activity
@@ -92,7 +93,7 @@ public class Main_Activity extends MainParentActivity{
         toggle.syncState();
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         collapsingToolbar = (CollapsingToolbarLayout) findViewById(R.id.collapse_toolbar);
-        collapsingToolbar.setTitle(getString(R.string.expand));
+
         AutoScrollViewPager viewPager = (AutoScrollViewPager) findViewById(R.id.viewpager);
         viewPager.setAdapter(new Custom_Pager_Adapter(getSupportFragmentManager()));
         viewPager.setInterval(5000);

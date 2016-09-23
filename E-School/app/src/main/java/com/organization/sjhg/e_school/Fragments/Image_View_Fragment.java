@@ -26,10 +26,10 @@ public class Image_View_Fragment extends Fragment {
         //TextView tv = (TextView) v.findViewById(R.id.tvFragFirst);
         ImageView imageView=(ImageView) v.findViewById(R.id.imageView);
 
-//        Picasso.with(context)
-//                .load("https://s9.postimg.io/al1o9ip5r/image.jpg")
-//                .resize(200,200)
-//                .into(imageView);
+        Picasso.with(context)
+                .load("http://s13.postimg.org/qlhcwou2v/logo.png")
+                .resize(200,200)
+                .into(imageView);
         //tv.setText(getArguments().getString("msg"));
 
         return v;

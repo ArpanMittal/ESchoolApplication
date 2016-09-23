@@ -56,7 +56,7 @@
         <activity
             android:name=".Main_Activity"
             android:parentActivityName=".LoginActivity"
-            android:label="@string/title_activity_module1"
+
             android:theme="@style/AppTheme.NoActionBar">
 
         <meta-data android:name="android.app.default_searchable"
