@@ -7,11 +7,15 @@
     android:fitsSystemWindows="true"
     tools:context="com.organization.sjhg.e_school.MainActivity">
 
+
+
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="210dp"
         android:fitsSystemWindows="true"
+        android:id="@+id/appBarLayout"
         android:theme="@style/AppTheme">
+
 
         <android.support.design.widget.CollapsingToolbarLayout
             android:id="@+id/collapse_toolbar"
@@ -19,7 +23,9 @@
             android:layout_height="match_parent"
             app:contentScrim="?attr/colorPrimary"
             android:fitsSystemWindows="true"
+            app:titleEnabled="false"
             app:layout_scrollFlags="scroll|exitUntilCollapsed">
+
             <cn.trinea.android.view.autoscrollviewpager.AutoScrollViewPager
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -34,14 +40,15 @@
                 android:layout_height="48dp"
                 android:layout_gravity="bottom">
             </me.relex.circleindicator.CircleIndicator>
-
-
             <android.support.v7.widget.Toolbar
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
                 android:elevation="4dp"
                 app:layout_collapseMode="pin"/>
+
+
+
         </android.support.design.widget.CollapsingToolbarLayout>
     </android.support.design.widget.AppBarLayout>
 
