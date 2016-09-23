@@ -30,7 +30,7 @@
     <application
         android:name=".Remote.VolleyController"
         android:allowBackup="true"
-        android:icon="@drawable/logo"
+        android:icon="@drawable/kwiklearn_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:screenOrientation="sensorLandscape"

@@ -65,11 +65,6 @@ public class Main_Activity extends MainParentActivity{
     private ToastActivity toastActivity=new ToastActivity();
 
     @Override
-    public void onBackPressed() {
-
-    }
-
-    @Override
     public void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
