@@ -62,6 +62,7 @@ public class RemoteHelper {
     String GET_TEST_SUMMARY;
     String GET_PROFILE_DETAIL;
     String SAVE_PROFILE_DETAIL;
+    String GET_DASHBOARD_IMAGE_LIST;
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////
     String LOGIN_PAGE;
     String FETCH_CONTENT_PAGE;
@@ -82,6 +83,7 @@ public class RemoteHelper {
 
     public RemoteHelper(Context context) {
         this.context = context;
+        GET_DASHBOARD_IMAGE_LIST="api/v1/getDashBoardImageDetails";
         SEND_QUESTION_RESPONSE="api/v1/saveQuestionResponse";
         SIGNUP_PAGE=this.context.getResources().getString(R.string.get_sign_up_page);
         GET_ACESS_TOKEN=this.context.getResources().getString(R.string.getaccesstoken);
@@ -112,6 +114,16 @@ public class RemoteHelper {
         SUBSCRIPTION_SUBJECTS = this.context.getResources().getString(R.string.subscription_subjects);
         EVENT_DETAILS = this.context.getResources().getString(R.string.event_details);
         ADAPTIVE_TEST_PAGE=this.context.getResources().getString(R.string.adaptive_test_page);
+    }
+
+    public void getDashBoardImageDetails(RemoteCalls remoteCalls,RemoteCallHandler remoteCallHandler)
+    {
+        final Map<String, String> params = new HashMap<String, String>();
+
+        String URL = ServerAddress.getServerAddress(context) + "/" + GET_DASHBOARD_IMAGE_LIST;
+        params.put("client_id",GlobalConstants.CLIENT_ID);
+        params.put("client_secret",GlobalConstants.CLINET_SECRET);
+        new JSONParserAsync(URL, params, null, remoteCallHandler, remoteCalls);
     }
 
     public void signUp(RemoteCalls remoteCalls,RemoteCallHandler remoteCallHandler,String email,String password,String name)

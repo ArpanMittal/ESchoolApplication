@@ -7,6 +7,10 @@
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
         <item name="android:typeface">monospace</item>
+        <item name="android:actionBarStyle">@style/MyActionBar</item>
+    </style>
+    <style name="MyActionBar" parent="@android:style/Widget.Holo.Light.ActionBar">
+        <item name="android:textColor">@color/white</item>
     </style>
     <style name="AppTheme.NoActionBar" parent="@style/AppTheme">
         <item name="windowActionBar">false</item>
@@ -58,12 +62,12 @@
         <item name="android:titleTextStyle">@style/TitleTextStyle</item>
         <item name="android:displayOptions">showHome|homeAsUp|showTitle</item>
     </style>
-    <style name="MyActionBar" parent="@android:style/Widget.Holo.ActionBar">
-        <item name="android:background">@drawable/test_page</item>
-        <item name="android:icon">@drawable/settings</item>
-        <item name="android:titleTextStyle">@style/TitleTextStyle</item>
-        <item name="android:displayOptions">showHome|homeAsUp|showTitle</item>
-    </style>
+    <!--<style name="MyActionBar" parent="@android:style/Widget.Holo.ActionBar">-->
+        <!--<item name="android:background">@drawable/test_page</item>-->
+        <!--<item name="android:icon">@drawable/settings</item>-->
+        <!--<item name="android:titleTextStyle">@style/TitleTextStyle</item>-->
+        <!--<item name="android:displayOptions">showHome|homeAsUp|showTitle</item>-->
+    <!--</style>-->
     <style name="TitleTextStyle" parent="@android:style/TextAppearance.Holo.Widget.ActionBar.Title">
         <item name="android:textColor">@android:color/white</item>
     </style>

@@ -9,6 +9,10 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.organization.sjhg.e_school.Fragments.Image_View_Fragment;
+import com.organization.sjhg.e_school.ListStructure.ChapterList;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 /**
@@ -16,28 +20,29 @@ import com.organization.sjhg.e_school.Fragments.Image_View_Fragment;
  */
 public class Custom_Pager_Adapter extends FragmentStatePagerAdapter {
     private Context mContext;
+    private List<ChapterList> imageList=new ArrayList<>();
 
 
-    public Custom_Pager_Adapter(FragmentManager fm)
+    public Custom_Pager_Adapter(FragmentManager fm,List<ChapterList>chapterLists)
     {
         super(fm);
+        this.imageList=chapterLists;
     }
     @Override
     public Fragment getItem(int position) {
-        switch(position) {
-
-            case 0: return Image_View_Fragment.newInstance("FirstFragment, Instance 1");
-            case 1: return Image_View_Fragment.newInstance("SecondFragment, Instance 1");
-            case 2: return Image_View_Fragment.newInstance("ThirdFragment, Instance 1");
-            case 3: return Image_View_Fragment.newInstance("ThirdFragment, Instance 2");
-            case 4: return Image_View_Fragment.newInstance("ThirdFragment, Instance 3");
-            default: return Image_View_Fragment.newInstance("ThirdFragment, Default");
+        if(position==0)
+        {
+            return Image_View_Fragment.newInstance();
         }
+        else {
+            return Image_View_Fragment.newInstance(imageList.get(position-1).id, imageList.get(position-1).name);
+        }
+
 
     }
 
     @Override
     public int getCount() {
-        return 5;
+        return imageList.size()+1;
     }
 }
