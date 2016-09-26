@@ -135,6 +135,7 @@ public class TestReportActivity extends AppCompatActivity implements RemoteCallH
                     intent.putExtra("Id", parent_id);
                     intent.putExtra("Tag",parent_tag);
                     startActivity(intent);
+                    finish();
                 }else
                 {
                     finish();
