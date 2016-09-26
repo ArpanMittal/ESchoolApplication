@@ -17,7 +17,7 @@ class DashBoardImage extends Migration
             $table->engine='InnoDB';
             $table->increments('id');
             $table->string('image_path');
-            $table->datetime('text');
+            $table->string('text');
             $table->timestamp('updated_at')->default(DB::raw('CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP'));
         });
     }
