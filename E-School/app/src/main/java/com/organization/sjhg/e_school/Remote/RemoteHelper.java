@@ -10,10 +10,12 @@ import android.util.Log;
 import android.view.View;
 
 import com.organization.sjhg.e_school.Content.Quest.QuestListActivity;
+import com.organization.sjhg.e_school.Database.old.DatabaseOperations;
 import com.organization.sjhg.e_school.ExaminationParent;
 import com.organization.sjhg.e_school.Helpers.LogHelper;
 import com.organization.sjhg.e_school.Profile.ProfileEditActivity;
 import com.organization.sjhg.e_school.Structure.LaughguruContentDetailBase;
+import com.organization.sjhg.e_school.Structure.NotesDetail;
 import com.organization.sjhg.e_school.Sync.FileManager;
 import com.organization.sjhg.e_school.Helpers.StudentApplicationUserData;
 import com.organization.sjhg.e_school.R;
@@ -32,6 +34,7 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.security.MessageDigest;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -93,6 +96,7 @@ public class RemoteHelper {
         GET_PROFILE_DETAIL = "api/v1/profile/detail";
         SAVE_PROFILE_DETAIL =  "api/v1/profile/save";
         GET_TEST_SUMMARY=this.context.getResources().getString(R.string.get_test_summary);
+        FETCH_NOTES_PAGE = this.context.getResources().getString(R.string.fetch_notes_page);
         //////////////////////////////////////////////////////////////////////////////////////
         GET_SINGLEADAPTIVE_TEST=this.context.getResources().getString(R.string.get_single_adaptive_test);
         LOGIN_PAGE = this.context.getResources().getString(R.string.login_page);
@@ -103,7 +107,6 @@ public class RemoteHelper {
         UPDATE_SESSION_STATUS = this.context.getResources().getString(R.string.update_session_status);
         TEST_AVAILABLE_PAGE = context.getResources().getString(R.string.test_available_page);
         FETCH_LAUGHGURU_PAGE=this.context.getResources().getString(R.string.fetch_laughguru_page);
-        FETCH_NOTES_PAGE = this.context.getResources().getString(R.string.fetch_notes_page);
         GET_SINGLE_TEST = this.context.getResources().getString(R.string.get_single_test);
         GET_STUDENT_STATUS = this.context.getResources().getString(R.string.get_student_status);
         SUBSCRIPTION_SUBJECTS = this.context.getResources().getString(R.string.subscription_subjects);
@@ -314,6 +317,36 @@ public class RemoteHelper {
         params.put("access_token",accessToken);
         Map<String, String> header = new HashMap<String, String>();
         new JSONParserAsync(url,params,header,caller,functionCaller);
+    }
+
+    public void backupNotes(RemoteCallHandler caller, RemoteCalls getNotes) throws JSONException, IOException, NetworkErrorException, SQLException {
+        String NOTES_INSERT_PAGE = context.getResources().getString(R.string.notes_insert_page);
+        String URL = ServerAddress.getServerAddress(context) + "/" + NOTES_INSERT_PAGE;
+
+        List<NotesDetail> notes = DatabaseOperations.getLocalNotesList(context);
+
+        Map<String, String> params = new HashMap<String, String>();
+        params.put("client_id",GlobalConstants.CLIENT_ID);
+        params.put("client_secret",GlobalConstants.CLINET_SECRET);
+        params.put("access_token",new SharedPrefrence().getAccessToken(context));
+
+        params.put("NotesLength",String.valueOf( notes.size()));
+        for (int i=0;i<notes.size();i++) {
+            NotesDetail note = notes.get(i);
+            params.put("Notes"+i,String.valueOf( note.getJsonObject()));
+        }
+        new JSONParserAsync(URL, params,null, caller, getNotes);
+    }
+
+    //Get remote notes
+    public void getServerNotes(RemoteCallHandler caller, RemoteCalls functionCalled) {
+
+        String notesURL = ServerAddress.getServerAddress(context) + "/" + FETCH_NOTES_PAGE;
+        Map<String, String> params = new HashMap<String, String>();
+        params.put("client_id",GlobalConstants.CLIENT_ID);
+        params.put("client_secret",GlobalConstants.CLINET_SECRET);
+        params.put("access_token",new SharedPrefrence().getAccessToken(context));
+        new JSONParserAsync(notesURL, params, null, caller, functionCalled);
     }
 
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -613,15 +646,6 @@ public class RemoteHelper {
         new JSONParserAsync(sendStatusUrl, params, null, caller, functionCalled);
     }
 
-
-
-    //Get remote notes
-    public void getServerNotes(RemoteCallHandler caller, RemoteCalls functionCalled) {
-
-        String notesURL = ServerAddress.getServerAddress(context) + "/" + FETCH_NOTES_PAGE;
-        Map<String, String> params = new HashMap<String, String>();
-        new JSONParserAsync(notesURL, params, null, caller, functionCalled);
-    }
 
 
     // Get subscription subject list
