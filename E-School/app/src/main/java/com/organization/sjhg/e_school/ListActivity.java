@@ -67,9 +67,8 @@ public class ListActivity extends MainParentActivity implements RemoteCallHandle
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         ViewStub view_Stub=(ViewStub)findViewById(R.id.viewstub);
-        view_Stub.setLayoutResource(R.layout.app_bar_main);
+        view_Stub.setLayoutResource(R.layout.normal_app_bar);
         view_Stub.inflate();
-
         ViewStub viewStub = (ViewStub) findViewById(R.id.view_stub_bar);
         viewStub.setLayoutResource(R.layout.content_main);
         viewStub.inflate();
@@ -92,14 +91,15 @@ public class ListActivity extends MainParentActivity implements RemoteCallHandle
         toggle.syncState();
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        collapsingToolbar = (CollapsingToolbarLayout) findViewById(R.id.collapse_toolbar);
-        collapsingToolbar.setTitle(getString(R.string.expand));
-        AutoScrollViewPager viewPager = (AutoScrollViewPager) findViewById(R.id.viewpager);
-        viewPager.setAdapter(new Custom_Pager_Adapter(getSupportFragmentManager()));
-        viewPager.setInterval(5000);
-        viewPager.startAutoScroll();
-        indicator = (CircleIndicator) findViewById(R.id.indicator);
-        indicator.setViewPager(viewPager);
+//        collapsingToolbar = (CollapsingToolbarLayout) findViewById(R.id.collapse_toolbar);
+//        collapsingToolbar.setTitle(getString(R.string.expand));
+//        collapsingToolbar.setVisibility(View.INVISIBLE);
+//        AutoScrollViewPager viewPager = (AutoScrollViewPager) findViewById(R.id.viewpager);
+//        viewPager.setAdapter(new Custom_Pager_Adapter(getSupportFragmentManager()));
+//        viewPager.setInterval(5000);
+//        viewPager.startAutoScroll();
+//        indicator = (CircleIndicator) findViewById(R.id.indicator);
+//        indicator.setViewPager(viewPager);
 
         fab.setOnClickListener(new View.OnClickListener() {
             @Override

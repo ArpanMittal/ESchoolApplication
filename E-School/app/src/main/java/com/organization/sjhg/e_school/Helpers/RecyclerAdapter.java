@@ -68,10 +68,14 @@ public class RecyclerAdapter extends RecyclerView.Adapter<View_Holder> implement
         {
             viewHolder.relativeLayout.setBackgroundColor(Color.parseColor("#2196f3"));
         }
+        else
+        {
+            viewHolder.relativeLayout.setBackgroundColor(Color.parseColor("#2196f3"));
+        }
         // to download images
         Picasso.with((Activity)mContext)
-                .load("http://s10.postimg.org/5ra5n2afd/app_books_xhdpi.png")
-           //     .load(item.image)
+            //    .load("http://s10.postimg.org/5ra5n2afd/app_books_xhdpi.png")
+               .load(item.image)
                .resize(100,100)
                 .into(viewHolder.imageView);
 

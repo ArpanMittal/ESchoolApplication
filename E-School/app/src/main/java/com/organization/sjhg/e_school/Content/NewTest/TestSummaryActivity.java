@@ -70,7 +70,7 @@ public class TestSummaryActivity  extends MainParentActivity implements RemoteCa
         id=intent.getStringExtra("Id");
         tag = intent.getStringExtra("Tag");
         ViewStub view_Stub=(ViewStub)findViewById(R.id.viewstub);
-        view_Stub.setLayoutResource(R.layout.app_bar_main);
+        view_Stub.setLayoutResource(R.layout.normal_app_bar);
         view_Stub.inflate();
 
         ViewStub viewStub = (ViewStub) findViewById(R.id.view_stub_bar);
@@ -91,14 +91,14 @@ public class TestSummaryActivity  extends MainParentActivity implements RemoteCa
         toggle.syncState();
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        collapsingToolbar = (CollapsingToolbarLayout) findViewById(R.id.collapse_toolbar);
-        collapsingToolbar.setTitle(getString(R.string.TestSummary));
-        AutoScrollViewPager viewPager = (AutoScrollViewPager) findViewById(R.id.viewpager);
-        viewPager.setAdapter(new Custom_Pager_Adapter(getSupportFragmentManager()));
-        viewPager.setInterval(5000);
-        viewPager.startAutoScroll();
-        indicator = (CircleIndicator) findViewById(R.id.indicator);
-        indicator.setViewPager(viewPager);
+//        collapsingToolbar = (CollapsingToolbarLayout) findViewById(R.id.collapse_toolbar);
+//        collapsingToolbar.setTitle(getString(R.string.TestSummary));
+//        AutoScrollViewPager viewPager = (AutoScrollViewPager) findViewById(R.id.viewpager);
+//        viewPager.setAdapter(new Custom_Pager_Adapter(getSupportFragmentManager()));
+//        viewPager.setInterval(5000);
+//        viewPager.startAutoScroll();
+//        indicator = (CircleIndicator) findViewById(R.id.indicator);
+//        indicator.setViewPager(viewPager);
 
         fab.setOnClickListener(new View.OnClickListener() {
             @Override

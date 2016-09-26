@@ -41,6 +41,29 @@ class DetailsController extends Controller
         ]);
     }
 
+    public function getDashBoardImage(Request $request)
+    {
+        $data= DB::table('dashboard_image')
+            ->select('dashboard_image.image_path as image', 'dashboard_image.text as text')
+            ->get();
+        if($data!=null)
+        {
+            return Response::json([
+                'success' => true,
+                'code' => 200,
+                'data' => $data
+            ]);
+        }
+        else
+        {
+            return Response::json([
+                'success' => false,
+                'code' => 401,
+                'message' => 'Content is not available'
+            ]);
+        }
+    }
+
 
     public function getDetails(Request $request, $tag, $id){
         switch ($tag){
@@ -108,8 +131,8 @@ class DetailsController extends Controller
     private function getSubject()
     {
         return DB::table('subjectstreammap')
-            ->select('subject.id as id', 'subject.subject_name as name', DB::raw('CONCAT(\'No. of streams \',count(DISTINCT subjectstreammap.stream_id)) as count',
-                'subject.image as image'))
+            ->select('subject.id as id', 'subject.subject_name as name', DB::raw('CONCAT(\'No. of streams \',count(DISTINCT subjectstreammap.stream_id)) as count'),
+                'subject.image as image')
             ->leftjoin('classsubjectmap','subjectstreammap.cl_su_id','=','classsubjectmap.cl_su_id')
             ->leftjoin('subject','classsubjectmap.subject_id','=','subject.id')
             ->groupBy('subject.id')

@@ -64,10 +64,6 @@ public class NoteListingActivity extends ListFragment implements RemoteCallHandl
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view=super.onCreateView(inflater, container, savedInstanceState);
         context=getActivity();
-        int padding_in_dp = 50;  // 6 dps
-        final float scale = getResources().getDisplayMetrics().density;
-        int padding_in_px = (int) (padding_in_dp * scale + 0.5f);
-        view.setPadding(0,padding_in_px,0,0);
         return view;
 
     }
@@ -94,52 +90,52 @@ public class NoteListingActivity extends ListFragment implements RemoteCallHandl
         });*/
 
         ImageButton RestoreBtn;
-        RestoreBtn = (ImageButton) getActivity().findViewById(R.id.restore);
-        RestoreBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                AlertDialog.Builder builder = new AlertDialog.Builder(new ContextThemeWrapper( context, android.R.style.Theme_Holo_Light_Dialog));
-                builder.setMessage(getResources().getString(R.string.restore_warning));
-                builder.setTitle(getResources().getString(R.string.attention));
-                builder.setCancelable(true);
-                builder.setPositiveButton("YES",
-                        new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int id) {
-
-                                new RemoteHelper(context).getServerNotes(NoteListingActivity.this, RemoteCalls.GET_NOTES);
-                                Toast.makeText(context,"Notes restore in progress",Toast.LENGTH_LONG).show();
-                            }
-                        });
-                builder.setNegativeButton("NO",
-                        new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int id) {
-                                dialog.cancel();
-                            }
-                        });
-                AlertDialog alert11 = builder.create();
-                alert11.show();
-            }
-        });
-        ImageButton BackupBtn;
-        BackupBtn = (ImageButton) getActivity().findViewById(R.id.backup);
-        BackupBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-//                try {
-//                    //new RemoteHelper(context).backupNotes(NoteListingActivity.this, RemoteCalls.BACKUP_NOTES);
-//                    Toast.makeText(context,"Notes backup in progress",Toast.LENGTH_LONG).show();
-//                } catch (JSONException e) {
-//                    e.printStackTrace();
-//                } catch (IOException e) {
-//                    e.printStackTrace();
-//                } catch (NetworkErrorException e) {
-//                    e.printStackTrace();
-//                } catch (SQLException e) {
-//                    e.printStackTrace();
-//                }
-            }
-        });
+//        RestoreBtn = (ImageButton) getActivity().findViewById(R.id.restore);
+//        RestoreBtn.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                AlertDialog.Builder builder = new AlertDialog.Builder(new ContextThemeWrapper( context, android.R.style.Theme_Holo_Light_Dialog));
+//                builder.setMessage(getResources().getString(R.string.restore_warning));
+//                builder.setTitle(getResources().getString(R.string.attention));
+//                builder.setCancelable(true);
+//                builder.setPositiveButton("YES",
+//                        new DialogInterface.OnClickListener() {
+//                            public void onClick(DialogInterface dialog, int id) {
+//
+//                                new RemoteHelper(context).getServerNotes(NoteListingActivity.this, RemoteCalls.GET_NOTES);
+//                                Toast.makeText(context,"Notes restore in progress",Toast.LENGTH_LONG).show();
+//                            }
+//                        });
+//                builder.setNegativeButton("NO",
+//                        new DialogInterface.OnClickListener() {
+//                            public void onClick(DialogInterface dialog, int id) {
+//                                dialog.cancel();
+//                            }
+//                        });
+//                AlertDialog alert11 = builder.create();
+//                alert11.show();
+//            }
+//        });
+//        ImageButton BackupBtn;
+//        BackupBtn = (ImageButton) getActivity().findViewById(R.id.backup);
+//        BackupBtn.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//
+////                try {
+////                    //new RemoteHelper(context).backupNotes(NoteListingActivity.this, RemoteCalls.BACKUP_NOTES);
+////                    Toast.makeText(context,"Notes backup in progress",Toast.LENGTH_LONG).show();
+////                } catch (JSONException e) {
+////                    e.printStackTrace();
+////                } catch (IOException e) {
+////                    e.printStackTrace();
+////                } catch (NetworkErrorException e) {
+////                    e.printStackTrace();
+////                } catch (SQLException e) {
+////                    e.printStackTrace();
+////                }
+//            }
+//        });
     }
 
    /* @Override

@@ -328,6 +328,7 @@ public class MainParentActivity extends AppCompatActivity implements NavigationV
                 {
                     JSONObject internalListObject=list.getJSONObject(j);
                     String image=internalListObject.getString(getString(R.string.jsonimage));
+
                     internalLists.add(new InternalList(internalListObject.getString(getString(R.string.jsonid)),internalListObject.getString(getString(R.string.jsonname)),internalListObject.getString(getString(R.string.jsoncount)),internalListObject.getString(getString(R.string.jsonimage))));
 
                 }
