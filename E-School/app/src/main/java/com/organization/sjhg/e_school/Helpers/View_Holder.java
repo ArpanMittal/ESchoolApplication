@@ -7,6 +7,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.organization.sjhg.e_school.ListStructure.DashBoardList;
@@ -37,10 +38,12 @@ public class View_Holder  extends RecyclerView.ViewHolder{
     TextView count;
     ImageView imageView;
     View view;
+    RelativeLayout relativeLayout;
 
     View_Holder( View itemView) {
         super(itemView);
         view = itemView;
+        relativeLayout=(RelativeLayout)itemView.findViewById(R.id.relativeLayout);
         cv = (CardView) itemView.findViewById(R.id.cardView);
         name = (TextView) itemView.findViewById(R.id.name);
         count = (TextView) itemView.findViewById(R.id.count);

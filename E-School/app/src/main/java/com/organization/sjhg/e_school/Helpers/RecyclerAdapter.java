@@ -2,6 +2,7 @@ package com.organization.sjhg.e_school.Helpers;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -55,9 +56,22 @@ public class RecyclerAdapter extends RecyclerView.Adapter<View_Holder> implement
 
         viewHolder.name.setText(item.name);
         viewHolder.count.setText(item.count);
+        if(title.equals("Exams"))
+        {
+            viewHolder.relativeLayout.setBackgroundColor(Color.parseColor("#e91e63"));
+        }
+        else if(title.equals("Subjects"))
+        {
+            viewHolder.relativeLayout.setBackgroundColor(Color.parseColor("#4caf50"));
+        }
+        else if(title.equals("Classes"))
+        {
+            viewHolder.relativeLayout.setBackgroundColor(Color.parseColor("#2196f3"));
+        }
         // to download images
         Picasso.with((Activity)mContext)
-                .load(R.drawable.logo)
+                .load("http://s10.postimg.org/5ra5n2afd/app_books_xhdpi.png")
+           //     .load(item.image)
                .resize(100,100)
                 .into(viewHolder.imageView);
 

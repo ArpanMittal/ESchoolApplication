@@ -7,7 +7,7 @@ UN,Universe,NULL,NULL
 AL,Algebra,NULL,NULL
 CG,Coordinate Geometry,NULL,NULL
 GE,Geometry ,NULL,NULL
-ME,Mensuration,NULL,NULL
+MN,Mensuration,NULL,NULL
 NS,Number System,NULL,NULL
 ST,Statistics,NULL,NULL
 TR,Trigonometry,NULL,NULL
@@ -19,5 +19,5 @@ EC,Economics,NULL,NULL
 PS,Political Science,NULL,NULL
 DC,Everyday Chemistry,NULL,NULL
 IC,Inorganic Chemistry,NULL,NULL
-EC,Environmental Chemistry,NULL,NULL
+ES,Environmental Chemistry,NULL,NULL
 PC,Physical Chemistry,NULL,NULL

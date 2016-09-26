@@ -27,7 +27,7 @@ public class Image_View_Fragment extends Fragment {
         ImageView imageView=(ImageView) v.findViewById(R.id.imageView);
 
         Picasso.with(context)
-                .load("http://s13.postimg.org/qlhcwou2v/logo.png")
+                .load("http://s10.postimg.org/5ra5n2afd/app_books_xhdpi.png")
                 .resize(200,200)
                 .into(imageView);
         //tv.setText(getArguments().getString("msg"));
