@@ -60,6 +60,7 @@ Route::group(['prefix'=>'api/v1','middleware'=>['oauth']],function(){
     Route::post('getAllAttempt','postController@getUserAttempt');
     Route::post('profile/detail','postController@getProfileData');
     Route::post('profile/save','postController@saveProfileData');
+    Route::post('note','NotesController@get');
     Route::post('topics/chapter/{id}', array('uses' => 'QuestController@details'));
     Route::post('getQuestion/{tag}/{key}',array('uses'=>'fetchQuestionController@getQuestion'));
     Route::post('saveQuestionResponse/{tag}/{key}',array('uses'=>'receiveQuestionController@receiveQuestion'));
