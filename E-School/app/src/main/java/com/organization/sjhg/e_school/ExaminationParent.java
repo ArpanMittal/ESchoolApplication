@@ -247,8 +247,8 @@ public class ExaminationParent extends MainParentActivity {
                                 list = getList(response);
                                 if(sharedPrefrence.getAccessToken(context)!=null)
                                 {
-                                    progressBarActivity.showProgress(viewPager,mProgressView,true,getApplicationContext());
-                                    new RemoteHelper(context).getUserAttemptDetails(this,RemoteCalls.GET_USER_ATTEMPT_DETAILS,sharedPrefrence.getAccessToken(context));
+//                                    progressBarActivity.showProgress(viewPager,mProgressView,true,getApplicationContext());
+//                                    new RemoteHelper(context).getUserAttemptDetails(this,RemoteCalls.GET_USER_ATTEMPT_DETAILS,sharedPrefrence.getAccessToken(context));
                                 }
                                 else {
                                     showView(list);
@@ -306,7 +306,7 @@ public class ExaminationParent extends MainParentActivity {
                         {
                             sharedPrefrence.saveAccessToken(getApplicationContext(),response.get("access_token").toString(),response.get("refresh_token").toString());
                             progressBarActivity.showProgress(viewPager,mProgressView,true,getApplicationContext());
-                            new RemoteHelper(context).getUserAttemptDetails(this,RemoteCalls.GET_USER_ATTEMPT_DETAILS,sharedPrefrence.getAccessToken(context));
+                            //new RemoteHelper(context).getUserAttemptDetails(this,RemoteCalls.GET_USER_ATTEMPT_DETAILS,sharedPrefrence.getAccessToken(context));
                         }
                     }catch (Exception e)
                     {
