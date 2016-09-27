@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
@@ -96,20 +97,20 @@ public class Main_Activity extends MainParentActivity{
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.setDrawerListener(toggle);
         toggle.syncState();
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+//        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         collapsingToolbar = (CollapsingToolbarLayout) findViewById(R.id.collapse_toolbar);
 
 
 
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-//                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-//                        .setAction("Action", null).show();
-                Intent intent=new Intent(getApplicationContext(), Notes_Listing_Fragment.class);
-                startActivity(intent);
-            }
-        });
+//        fab.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+////                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+////                        .setAction("Action", null).show();
+//                Intent intent=new Intent(getApplicationContext(), Notes_Listing_Fragment.class);
+//                startActivity(intent);
+//            }
+//        });
 
         //remote call to access data from server
         if(savedInstanceState!=null)
@@ -133,8 +134,7 @@ public class Main_Activity extends MainParentActivity{
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main, menu);
-        SearchManager searchManager =
-                (SearchManager) getSystemService(Context.SEARCH_SERVICE);
+        SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
         SearchView searchView =
                 (SearchView) menu.findItem(R.id.menu_search).getActionView();
         searchView.setSearchableInfo(searchManager.getSearchableInfo(new ComponentName(this,SearchActivity.class)));
@@ -195,11 +195,12 @@ public class Main_Activity extends MainParentActivity{
         recyclerView.setItemAnimator(itemAnimator);
 
 
-
-        AutoScrollViewPager viewPager = (AutoScrollViewPager) findViewById(R.id.viewpager);
+        ViewPager viewPager=(ViewPager)findViewById(R.id.viewpager);
         viewPager.setAdapter(new Custom_Pager_Adapter(getSupportFragmentManager(),imageList));
-        viewPager.setInterval(5000);
-        viewPager.startAutoScroll();
+//        AutoScrollViewPager viewPager = (AutoScrollViewPager) findViewById(R.id.viewpager);
+//        viewPager.setAdapter(new Custom_Pager_Adapter(getSupportFragmentManager(),imageList));
+//        viewPager.setInterval(5000);
+//        viewPager.startAutoScroll();
         indicator = (CircleIndicator) findViewById(R.id.indicator);
         indicator.setViewPager(viewPager);
 
