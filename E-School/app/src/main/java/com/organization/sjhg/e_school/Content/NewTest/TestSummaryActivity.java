@@ -100,15 +100,15 @@ public class TestSummaryActivity  extends MainParentActivity implements RemoteCa
 //        indicator = (CircleIndicator) findViewById(R.id.indicator);
 //        indicator.setViewPager(viewPager);
 
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-//                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-//                        .setAction("Action", null).show();
-                Intent intent=new Intent(getApplicationContext(), Notes_Listing_Fragment.class);
-                startActivity(intent);
-            }
-        });
+//        fab.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+////                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+////                        .setAction("Action", null).show();
+//                Intent intent=new Intent(getApplicationContext(), Notes_Listing_Fragment.class);
+//                startActivity(intent);
+//            }
+//        });
         access_token=sharedPrefrence.getAccessToken(getApplicationContext());
         if(access_token==null)
         {

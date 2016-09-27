@@ -63,12 +63,12 @@ public class Question_Answer_Fragment extends Fragment {
 
         String code=questionAnswerLists.get(0).question_text;
         textLoader(code,question_text);
-        code=questionAnswerLists.get(0).correctoption.get(0).name;
-        textLoader(code,answer_text);
+       String  code1=questionAnswerLists.get(0).correctoption.get(0).name;
+        textLoader(code1,answer_text);
         if(!questionAnswerLists.get(0).response.equals("empty"))
         {
-            code=questionAnswerLists.get(0).useroption.get(0).name;
-            textLoader(code,user_option_text);
+            String code2=questionAnswerLists.get(0).useroption.get(0).name;
+            textLoader(code2,user_option_text);
         }
 
         return rootView;
