@@ -81,7 +81,7 @@
     <!-- for notes -->
     <string name="app_name_note">Note</string>
     <string name="about">About</string>
-    <string name="title">Title : </string>
+    <string name="title">Title</string>
     <string name="menu_delete">Delete note</string>
     <string name="no_body">No Content</string>
     <string name="no_title">No Title</string>
@@ -258,6 +258,8 @@
     <string name="menu_restore">Restore</string>
     <string name="menu_backup">Backup</string>
     <string name="jsonimage">image</string>
+    <string name="exit">Exit</string>
+    <string name="save_note">Do you want to save this note</string>
 
 
 </resources>

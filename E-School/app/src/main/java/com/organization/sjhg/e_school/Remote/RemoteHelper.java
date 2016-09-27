@@ -346,7 +346,8 @@ public class RemoteHelper {
         params.put("client_id",GlobalConstants.CLIENT_ID);
         params.put("client_secret",GlobalConstants.CLINET_SECRET);
         params.put("access_token",new SharedPrefrence().getAccessToken(context));
-        new JSONParserAsync(notesURL, params, null, caller, functionCalled);
+        Map<String, String> header = new HashMap<String, String>();
+        new JSONParserAsync(notesURL, params, header, caller, functionCalled);
     }
 
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
