@@ -77,7 +77,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<View_Holder> implement
         Picasso.with((Activity)mContext)
             //    .load("http://s10.postimg.org/5ra5n2afd/app_books_xhdpi.png")
                .load(ServerAddress.getServerAddress(mContext)+item.image)
-               .resize(100,100)
+
                 .into(viewHolder.imageView);
 
         viewHolder.cv.setOnClickListener(new View.OnClickListener() {
