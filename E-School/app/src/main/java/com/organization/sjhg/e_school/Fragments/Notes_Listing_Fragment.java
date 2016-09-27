@@ -17,8 +17,12 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewStub;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Toast;
 
+import com.github.clans.fab.FloatingActionButton;
+import com.github.clans.fab.FloatingActionMenu;
 import com.organization.sjhg.e_school.Helpers.LogHelper;
 import com.organization.sjhg.e_school.LoginActivity;
 import com.organization.sjhg.e_school.MainParentActivity;
@@ -44,23 +48,39 @@ import java.sql.SQLException;
 /**
  * Created by arpan on 8/25/2016.
  */
-public class Notes_Listing_Fragment extends AppCompatActivity implements RemoteCallHandler{
+public class Notes_Listing_Fragment extends AppCompatActivity implements View.OnClickListener{
+    private Boolean isFabOpen = false;
+    private FloatingActionButton fab1,fab2;
+    private FloatingActionMenu fab;
+    private Animation fab_open,fab_close,rotate_forward,rotate_backward;
+    private View simpleNote,whiteBoard;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.notes_listing_activity);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
 
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getFragmentManager().beginTransaction().replace(R.id.notesfragment, new NoteListingActivity()).commit();
+
+        fab = (FloatingActionMenu)findViewById(R.id.fab);
+        fab1 = (FloatingActionButton)findViewById(R.id.fabSimpleNote);
+        fab2 = (FloatingActionButton)findViewById(R.id.fabWhiteBoard);
+        fab_open = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fab_open);
+        fab_close = AnimationUtils.loadAnimation(getApplicationContext(),R.anim.fab_close);
+        rotate_forward = AnimationUtils.loadAnimation(getApplicationContext(),R.anim.rotate_forward);
+        rotate_backward = AnimationUtils.loadAnimation(getApplicationContext(),R.anim.rotate_backward);
+        fab.setOnClickListener(this);
+        fab1.setOnClickListener(this);
+        fab2.setOnClickListener(this);
 
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
 
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_note_listing, menu);
         return true;
     }
 
@@ -70,129 +90,31 @@ public class Notes_Listing_Fragment extends AppCompatActivity implements RemoteC
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-        if (id == R.id.action_new) {
-            Intent intent=new Intent(getApplicationContext(), AddSmallNotesActivity.class);
-            startActivity(intent);
-            return true;
-        }else if(id == R.id.action_whiteboard){
-            Intent intent=new Intent(getApplicationContext(), WhiteBoardActivity.class);
-            startActivity(intent);
-            return true;
-        }else if (id == R.id.action_restore){
-            AlertDialog.Builder builder = new AlertDialog.Builder(new ContextThemeWrapper( this, android.R.style.Theme_Holo_Light_Dialog));
-                builder.setMessage(getResources().getString(R.string.restore_warning));
-                builder.setTitle(getResources().getString(R.string.attention));
-                builder.setCancelable(true);
-                builder.setPositiveButton("YES",
-                        new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int id) {
-
-                                new RemoteHelper(Notes_Listing_Fragment.this).getServerNotes(Notes_Listing_Fragment.this, RemoteCalls.GET_NOTES);
-                                Toast.makeText(Notes_Listing_Fragment.this,"Notes restore in progress",Toast.LENGTH_LONG).show();
-                            }
-                        });
-                builder.setNegativeButton("NO",
-                        new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int id) {
-                                dialog.cancel();
-                            }
-                        });
-                AlertDialog alert11 = builder.create();
-                alert11.show();
-            return true;
-        }else if(id == R.id.action_backup){
-            try {
-                    new RemoteHelper(this).backupNotes(this, RemoteCalls.BACKUP_NOTES);
-                    Toast.makeText(this,"Notes backup in progress",Toast.LENGTH_LONG).show();
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                } catch (NetworkErrorException e) {
-                    e.printStackTrace();
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
+        if (id == R.id.home){
+            this.finish();
             return true;
         }
         return super.onOptionsItemSelected(item);
     }
 
+
+
     @Override
-    public void HandleRemoteCall(boolean isSuccessful, RemoteCalls callFor, JSONObject response, Exception exception) {
-        if (!isSuccessful) {
-            new LogHelper(exception);
-            exception.printStackTrace();
-        } else {
-            SharedPrefrence sharedPrefrence = new SharedPrefrence();
-            ToastActivity toastActivity = new ToastActivity();
-            try {
-                if (response.get("code").toString().equals(GlobalConstants.EXPIRED_TOKEN)) {
+    public void onClick(View v) {
+        int id = v.getId();
+        switch (id){
+            case R.id.fab:
 
-                    if (sharedPrefrence.getRefreshToken(getApplicationContext()) == null) {
 
-                        toastActivity.makeToastMessage(response, this);
-                        return;
-                    } else {
-                        Intent intent = new Intent(this, LoginActivity.class);
-                        startActivity(intent);
-                    }
-
-                } else if (response.get("code").toString().equals(GlobalConstants.INAVLID_TOKEN)) {
-                    toastActivity.makeToastMessage(response, this);
-                }
-            } catch (JSONException e) {
-                LogHelper logHelper = new LogHelper(e);
-                e.printStackTrace();
-            }
-            switch (callFor) {
-                case GET_NOTES:
-                    if (isSuccessful && response != null) {
-                        NotesDetailTable table_obj;
-                        table_obj = new NotesDetailTable(this);
-                        table_obj.open();
-
-                        // Delete local notes
-                        table_obj.deleteAllNotes();
-                        // Enter remote notes into local db
-                        if (response.has("FetchNotes")) {
-                            JSONArray noteArray = null;
-                            try {
-                                noteArray = response.getJSONArray("FetchNotes");
-                            } catch (JSONException e) {
-                                e.printStackTrace();
-                            }
-
-                            assert noteArray != null;
-                            int lengthOfArray = noteArray.length();
-                            for (int i = 0; i < lengthOfArray; i++) {
-
-                                JSONObject notesDetailAsJson = null;
-                                try {
-                                    notesDetailAsJson = noteArray.getJSONObject(i);
-                                } catch (JSONException e) {
-                                    e.printStackTrace();
-                                }
-                                try {
-                                    table_obj.insertNote(notesDetailAsJson);
-                                } catch (Exception e) {
-                                    e.printStackTrace();
-                                }
-                            }
-                        } else if (response.has("NoNotes")) {
-                            Toast.makeText(this,
-                                    "No backup found!",
-                                    Toast.LENGTH_LONG)
-                                    .show();
-                        }
-                    } else {
-                        Toast.makeText(this,
-                                "Restoration failed! Try again",
-                                Toast.LENGTH_LONG)
-                                .show();
-                    }
-                    break;
-            }
+                break;
+            case R.id.fabSimpleNote:
+                Intent intent=new Intent(getApplicationContext(), AddSmallNotesActivity.class);
+                startActivity(intent);
+                break;
+            case R.id.fabWhiteBoard:
+                intent=new Intent(getApplicationContext(), WhiteBoardActivity.class);
+                startActivity(intent);
+                break;
         }
     }
 }

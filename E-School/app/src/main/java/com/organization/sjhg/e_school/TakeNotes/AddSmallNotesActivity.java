@@ -4,13 +4,24 @@ package com.organization.sjhg.e_school.TakeNotes;
  * Created by Arpan on 5/21/2016.
  */
 import android.app.Activity;
+import android.content.DialogInterface;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.support.design.widget.AppBarLayout;
+import android.support.design.widget.CoordinatorLayout;
+import android.support.design.widget.Snackbar;
+import android.support.v7.app.AlertDialog;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+
+import java.sql.RowId;
 import java.util.Date;
 
 import com.organization.sjhg.e_school.HideNavigationBar;
@@ -19,17 +30,17 @@ import com.organization.sjhg.e_school.deviceadmin.DeviceAdminUtil;
 
 import java.text.SimpleDateFormat;
 
-public class AddSmallNotesActivity extends Activity
+public class AddSmallNotesActivity extends AppCompatActivity
 {
     public static String curDate = "";
     public static String curText = "";
 
     private EditText mTitleText;
     private EditText mBodyText;
-    private TextView mDateText;
     private Button saveNote;
     private Button deleteNote;
     private Long mRowId;
+    private CoordinatorLayout coordinatorLayout;
 
     private Cursor note;
 
@@ -46,15 +57,19 @@ public class AddSmallNotesActivity extends Activity
 
         setContentView(R.layout.activity_note_edit);
 
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
         mTitleText = (EditText) findViewById(R.id.title);
         mBodyText = (EditText) findViewById(R.id.body);
+        coordinatorLayout = (CoordinatorLayout) findViewById(R.id.coordinatorLayout);
 
-        mDateText = (TextView) findViewById(R.id.notelist_date);
         long msTime = System.currentTimeMillis();
         Date curDateTime = new Date(msTime);
         SimpleDateFormat formatter = new SimpleDateFormat("d'/'M'/'y");
         curDate = formatter.format(curDateTime);
-        mDateText.setText(""+curDate);
 
         mRowId = (savedInstanceState == null) ? null : (Long) savedInstanceState.getSerializable(NotesDetailTable.KEY_ROWID);
         if (mRowId == null)
@@ -63,49 +78,112 @@ public class AddSmallNotesActivity extends Activity
             mRowId = extras != null ? extras.getLong(NotesDetailTable.KEY_ROWID) : null;
         }
         populateNoteEditWindow();
-
-        saveNote = (Button)findViewById(R.id.save);
-        saveNote.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                saveNoteState();
-                finish();
-            }
-        });
-
-        deleteNote = (Button)findViewById(R.id.delete);
-        deleteNote.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(note != null){
-                    note.close();
-                    note = null;
-                }
-                if(mRowId != null){
-                    table_obj.deleteNote(mRowId);
-                }
-                finish();
-            }
-        });
+        if (savedInstanceState !=null){
+            String title = savedInstanceState.getString(NotesDetailTable.KEY_TITLE);
+            String body  = savedInstanceState.getString(NotesDetailTable.KEY_BODY);
+            mTitleText.setText(title);
+            mBodyText.setText(body);
+        }
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        populateNoteEditWindow();
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        saveNoteState();
-    }
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-        saveNoteState();
         outState.putSerializable(NotesDetailTable.KEY_ROWID, mRowId);
+        outState.putString(NotesDetailTable.KEY_TITLE, String.valueOf(mTitleText.getText()));
+        outState.putString(NotesDetailTable.KEY_BODY, String.valueOf(mBodyText.getText()));
+        super.onSaveInstanceState(outState);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_note_edit, menu);
+        return true;
+    }
+
+    @Override
+    public void onBackPressed() {
+        showMessage();
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+        switch (id){
+            case android.R.id.home:
+                showMessage();
+                break;
+            case R.id.action_delete:
+                if (mRowId == null){
+                    Snackbar snackbar = Snackbar
+                            .make(coordinatorLayout, "Note not yet saved", Snackbar.LENGTH_LONG);
+
+                    snackbar.show();
+                    break;
+                }else{
+                    AlertDialog.Builder alert = new AlertDialog.Builder(this);
+                    alert.setTitle(R.string.delete_menu_noteedit);
+                    alert.setMessage(R.string.test_submit_message);
+                    alert.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int whichButton) {
+                            if(note != null){
+                                note.close();
+                                note = null;
+                            }
+                            if(mRowId != null){
+                                table_obj.deleteNote(mRowId);
+                            }
+                            finish();
+                        }
+                    });
+
+                    alert.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int whichButton) {
+                        }
+                    });
+
+                    alert.show();
+                    break;
+                }
+
+            case R.id.action_save:
+                saveNoteState();
+                finish();
+                break;
+        }
+        return false;
+    }
+    private void showMessage(){
+        String title = mTitleText.getText().toString();
+        String body = mBodyText.getText().toString();
+
+        if((!title.equals("") && !body.equals("")) || (!title.equals("") || !body.equals(""))) {
+            AlertDialog.Builder alert = new AlertDialog.Builder(this);
+            alert.setTitle(R.string.exit);
+            alert.setMessage(R.string.save_note);
+            alert.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int whichButton) {
+                    saveNoteState();
+                    finish();
+                }
+            });
+            alert.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int whichButton) {
+                    finish();
+                }
+            });
+
+            alert.show();
+        }else{
+            finish();
+        }
+
+
     }
 
     // DATABASE OPERATIONS
@@ -150,6 +228,10 @@ public class AddSmallNotesActivity extends Activity
             mTitleText.setText(note.getString(note.getColumnIndexOrThrow(NotesDetailTable.KEY_TITLE)));
             mBodyText.setText(note.getString(note.getColumnIndexOrThrow(NotesDetailTable.KEY_BODY)));
             curText = note.getString(note.getColumnIndexOrThrow(NotesDetailTable.KEY_BODY));
+            Date curDateTime = new Date(note.getString(note.getColumnIndexOrThrow(NotesDetailTable.KEY_DATE)));
+            SimpleDateFormat formatter = new SimpleDateFormat("d'/'M'/'y");
+            curDate = formatter.format(curDateTime);
+            getSupportActionBar().setTitle("last saved "+curDate);
         }
     }
 }

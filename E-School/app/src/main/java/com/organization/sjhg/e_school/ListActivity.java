@@ -90,26 +90,26 @@ public class ListActivity extends MainParentActivity implements RemoteCallHandle
         drawer.setDrawerListener(toggle);
         toggle.syncState();
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-//        collapsingToolbar = (CollapsingToolbarLayout) findViewById(R.id.collapse_toolbar);
-//        collapsingToolbar.setTitle(getString(R.string.expand));
-//        collapsingToolbar.setVisibility(View.INVISIBLE);
-//        AutoScrollViewPager viewPager = (AutoScrollViewPager) findViewById(R.id.viewpager);
-//        viewPager.setAdapter(new Custom_Pager_Adapter(getSupportFragmentManager()));
-//        viewPager.setInterval(5000);
-//        viewPager.startAutoScroll();
-//        indicator = (CircleIndicator) findViewById(R.id.indicator);
-//        indicator.setViewPager(viewPager);
-
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-//                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-//                        .setAction("Action", null).show();
-                Intent intent=new Intent(getApplicationContext(), Notes_Listing_Fragment.class);
-                startActivity(intent);
-            }
-        });
+//        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+////        collapsingToolbar = (CollapsingToolbarLayout) findViewById(R.id.collapse_toolbar);
+////        collapsingToolbar.setTitle(getString(R.string.expand));
+////        collapsingToolbar.setVisibility(View.INVISIBLE);
+////        AutoScrollViewPager viewPager = (AutoScrollViewPager) findViewById(R.id.viewpager);
+////        viewPager.setAdapter(new Custom_Pager_Adapter(getSupportFragmentManager()));
+////        viewPager.setInterval(5000);
+////        viewPager.startAutoScroll();
+////        indicator = (CircleIndicator) findViewById(R.id.indicator);
+////        indicator.setViewPager(viewPager);
+//
+//        fab.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+////                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+////                        .setAction("Action", null).show();
+//                Intent intent=new Intent(getApplicationContext(), Notes_Listing_Fragment.class);
+//                startActivity(intent);
+//            }
+//        });
 
 
         if (savedInstanceState != null) {

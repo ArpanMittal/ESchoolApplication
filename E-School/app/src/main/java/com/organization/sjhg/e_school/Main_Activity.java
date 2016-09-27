@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
@@ -26,12 +27,14 @@ import android.support.v7.widget.RecyclerView;
 
 import android.view.MenuItem;
 import android.view.ViewStub;
+import android.widget.ImageView;
 
 import com.organization.sjhg.e_school.Fragments.Notes_Listing_Fragment;
 import com.organization.sjhg.e_school.Helpers.Custom_Pager_Adapter;
 import com.organization.sjhg.e_school.Helpers.LogHelper;
 import com.organization.sjhg.e_school.Helpers.RecyclerAdapter;
 import com.organization.sjhg.e_school.Helpers.Recycler_View_Adapter;
+import com.organization.sjhg.e_school.ListStructure.ChapterList;
 import com.organization.sjhg.e_school.ListStructure.DashBoardList;
 import com.organization.sjhg.e_school.ListStructure.InternalList;
 
@@ -39,8 +42,10 @@ import com.organization.sjhg.e_school.Remote.RemoteCallHandler;
 import com.organization.sjhg.e_school.Remote.RemoteCalls;
 import com.organization.sjhg.e_school.Remote.RemoteHelper;
 
+import com.organization.sjhg.e_school.Remote.ServerAddress;
 import com.organization.sjhg.e_school.Utils.ProgressBarActivity;
 import com.organization.sjhg.e_school.Utils.ToastActivity;
+import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -92,35 +97,31 @@ public class Main_Activity extends MainParentActivity{
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.setDrawerListener(toggle);
         toggle.syncState();
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+//        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         collapsingToolbar = (CollapsingToolbarLayout) findViewById(R.id.collapse_toolbar);
 
-        AutoScrollViewPager viewPager = (AutoScrollViewPager) findViewById(R.id.viewpager);
-        viewPager.setAdapter(new Custom_Pager_Adapter(getSupportFragmentManager()));
-        viewPager.setInterval(5000);
-        viewPager.startAutoScroll();
-        indicator = (CircleIndicator) findViewById(R.id.indicator);
-        indicator.setViewPager(viewPager);
 
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-//                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-//                        .setAction("Action", null).show();
-                Intent intent=new Intent(getApplicationContext(), Notes_Listing_Fragment.class);
-                startActivity(intent);
-            }
-        });
+
+//        fab.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+////                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+////                        .setAction("Action", null).show();
+//                Intent intent=new Intent(getApplicationContext(), Notes_Listing_Fragment.class);
+//                startActivity(intent);
+//            }
+//        });
 
         //remote call to access data from server
         if(savedInstanceState!=null)
         {
             dataList=(List<DashBoardList>) savedInstanceState.getSerializable("LIST");
-            showView(dataList);
+            imageList=(List<ChapterList>) savedInstanceState.getSerializable("IMAGELIST");
+            showView(dataList,imageList);
         }
         else {
             progressBarActivity.showProgress(mDashboardView,mProgressView,true,getApplicationContext());
-            //new RemoteHelper(getApplicationContext()).getDashBoardDetails(this, RemoteCalls.GET_DASHBOARD_LIST);
+            new RemoteHelper(getApplicationContext()).getDashBoardImageDetails(RemoteCalls.GET_DASHBOARD_IMAGE_LIST,this);
         }
 
 
@@ -133,8 +134,7 @@ public class Main_Activity extends MainParentActivity{
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main, menu);
-        SearchManager searchManager =
-                (SearchManager) getSystemService(Context.SEARCH_SERVICE);
+        SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
         SearchView searchView =
                 (SearchView) menu.findItem(R.id.menu_search).getActionView();
         searchView.setSearchableInfo(searchManager.getSearchableInfo(new ComponentName(this,SearchActivity.class)));
@@ -173,7 +173,7 @@ public class Main_Activity extends MainParentActivity{
 
 
 
-    private void showView(List<DashBoardList> dataList)
+    private void showView(List<DashBoardList> dataList, List<ChapterList> imageList)
     {
         /*
         show recycler view
@@ -195,6 +195,16 @@ public class Main_Activity extends MainParentActivity{
         recyclerView.setItemAnimator(itemAnimator);
 
 
+        ViewPager viewPager=(ViewPager)findViewById(R.id.viewpager);
+        viewPager.setAdapter(new Custom_Pager_Adapter(getSupportFragmentManager(),imageList));
+//        AutoScrollViewPager viewPager = (AutoScrollViewPager) findViewById(R.id.viewpager);
+//        viewPager.setAdapter(new Custom_Pager_Adapter(getSupportFragmentManager(),imageList));
+//        viewPager.setInterval(5000);
+//        viewPager.startAutoScroll();
+        indicator = (CircleIndicator) findViewById(R.id.indicator);
+        indicator.setViewPager(viewPager);
+
+
     }
 
     @Override
@@ -206,6 +216,7 @@ public class Main_Activity extends MainParentActivity{
         }
         else
         {
+
             try {
                 progressBarActivity.showProgress(mDashboardView,mProgressView,false,getApplicationContext());
                 if (response.get("success").toString().equals("false")) {
@@ -213,7 +224,9 @@ public class Main_Activity extends MainParentActivity{
                 }
                 else
                 {
-                    showView(dataList);
+                    if(imageList!=null&&dataList!=null)
+                    showView(dataList,imageList);
+
                 }
             }catch (Exception e)
             {

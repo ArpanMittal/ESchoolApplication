@@ -12,15 +12,5 @@
         android:title="@string/menu_whiteboard"
         android:icon="@drawable/scketching"
         app:showAsAction="always" />
-    <item
-        android:id="@+id/action_restore"
-        android:title="@string/menu_restore"
-        android:icon="@drawable/ic_history_black_48dp"
-        app:showAsAction="always" />
-    <item
-        android:id="@+id/action_backup"
-        android:title="@string/menu_backup"
-        android:icon="@drawable/ic_backup_black_48dp"
-        app:showAsAction="always" />
 
 </menu>
