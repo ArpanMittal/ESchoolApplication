@@ -20,6 +20,7 @@ public enum RemoteCalls {
     UPLOAD_ADAPTIVE_TEST,
     UPLOAD_LIVE_VOTING_ANSWER,
     CHECK_REMOTE_CALL,
+
     ////////////////////////////////////////////////////////////
     CHECK_LOGIN_CREDENTIALS,
     GET_ACCESS_TOKEN,
@@ -34,5 +35,6 @@ public enum RemoteCalls {
     SEND_QUESTION_RESPONSE,
     GET_TEST_RESPONSE,
     GET_PROFILE_EDIT_DATA,
-    BACKUP_NOTES, SAVE_PROFILE
+    BACKUP_NOTES, SAVE_PROFILE,
+    GET_DASHBOARD_IMAGE_LIST
 }

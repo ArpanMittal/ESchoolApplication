@@ -16,6 +16,7 @@ import com.organization.sjhg.e_school.R;
 import com.organization.sjhg.e_school.Remote.RemoteCallHandler;
 import com.organization.sjhg.e_school.Remote.RemoteCalls;
 import com.organization.sjhg.e_school.Remote.RemoteHelper;
+import com.organization.sjhg.e_school.Remote.ServerAddress;
 import com.organization.sjhg.e_school.Utils.ToastActivity;
 import com.squareup.picasso.Picasso;
 
@@ -75,7 +76,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<View_Holder> implement
         // to download images
         Picasso.with((Activity)mContext)
             //    .load("http://s10.postimg.org/5ra5n2afd/app_books_xhdpi.png")
-               .load(item.image)
+               .load(ServerAddress.getServerAddress(mContext)+item.image)
                .resize(100,100)
                 .into(viewHolder.imageView);
 

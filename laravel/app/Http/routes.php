@@ -81,6 +81,7 @@ Route::group(['prefix'=>'api/v1','middleware'=>['client']],function(){
     Route::post('search', array('uses' => 'SearchController@search'));
     Route::post('search/{key}', array('uses' => 'SearchController@search'));
     Route::post('freetopics/chapter/{id}', array('uses' => 'QuestController@freeDetails'));
+    Route::post('getDashBoardImageDetails','DetailsController@getDashBoardImage');
 });
 
 

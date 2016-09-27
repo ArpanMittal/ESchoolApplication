@@ -41,6 +41,29 @@ class DetailsController extends Controller
         ]);
     }
 
+    public function getDashBoardImage(Request $request)
+    {
+        $data= DB::table('dashboard_image')
+            ->select('dashboard_image.image_path as image', 'dashboard_image.text as text')
+            ->get();
+        if($data!=null)
+        {
+            return Response::json([
+                'success' => true,
+                'code' => 200,
+                'data' => $data
+            ]);
+        }
+        else
+        {
+            return Response::json([
+                'success' => false,
+                'code' => 401,
+                'message' => 'Content is not available'
+            ]);
+        }
+    }
+
 
     public function getDetails(Request $request, $tag, $id){
         switch ($tag){

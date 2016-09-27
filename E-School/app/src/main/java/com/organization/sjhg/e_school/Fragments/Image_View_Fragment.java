@@ -11,8 +11,11 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.organization.sjhg.e_school.R;
+import com.organization.sjhg.e_school.Remote.ServerAddress;
 import com.organization.sjhg.e_school.Remote.VolleyController;
 import com.squareup.picasso.Picasso;
+
+import java.util.Calendar;
 
 /**
  * Created by arpan on 8/18/2016.
@@ -23,24 +26,64 @@ public class Image_View_Fragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.imageview_fragment, container, false);
         Context context=v.getContext();
+        String image=null;
+        String text=null;
         //TextView tv = (TextView) v.findViewById(R.id.tvFragFirst);
+        if(getArguments().getString("first").equals("true"))
+        {
+            int hour= Calendar.HOUR_OF_DAY;
+            if(hour>5&&hour<12)
+            {
+                image="img/app_morning.png";
+                text="morning";
+            }
+            else if(hour>=12&&hour<16)
+            {
+                image="img/app_afternoon.png";
+                text="afternoon";
+            }
+            else if(hour>=16&&hour<22)
+            {
+                image="img/app_evening.png";
+                text="Evening";
+            }
+            else
+            {
+                image="img/midnight.png";
+                text="Night";
+            }
+        }
+        else
+        {
+            image=getArguments().getString("image");
+            text=getArguments().getString("text");
+        }
         ImageView imageView=(ImageView) v.findViewById(R.id.imageView);
-
+        TextView textView=(TextView)v.findViewById(R.id.text);
         Picasso.with(context)
-                .load("http://s10.postimg.org/5ra5n2afd/app_books_xhdpi.png")
-                .resize(200,200)
+                .load(ServerAddress.getServerAddress(getContext())+image)
                 .into(imageView);
+        textView.setText(text);
         //tv.setText(getArguments().getString("msg"));
 
         return v;
     }
 
-    public static Image_View_Fragment newInstance(String text) {
+    public static Image_View_Fragment newInstance() {
 
         Image_View_Fragment f = new Image_View_Fragment();
         Bundle b = new Bundle();
-        b.putString("msg", text);
-
+        b.putString("first","true");
+        f.setArguments(b);
+        return f;
+    }
+    public static  Image_View_Fragment newInstance(String image,String text)
+    {
+        Image_View_Fragment f = new Image_View_Fragment();
+        Bundle b = new Bundle();
+        b.putString("first","false");
+        b.putString("image", image);
+        b.putString("text", text);
 
         f.setArguments(b);
 

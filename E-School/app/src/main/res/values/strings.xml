@@ -260,6 +260,7 @@
     <string name="jsonimage">image</string>
     <string name="exit">Exit</string>
     <string name="save_note">Do you want to save this note</string>
+    <string name="jsonText">text</string>
 
 
 </resources>

@@ -22,6 +22,7 @@ import android.widget.TextView;
 import com.organization.sjhg.e_school.Helpers.ConnectivityReceiver;
 import com.organization.sjhg.e_school.Helpers.ExpandListAdapter;
 import com.organization.sjhg.e_school.Helpers.LogHelper;
+import com.organization.sjhg.e_school.ListStructure.ChapterList;
 import com.organization.sjhg.e_school.ListStructure.DashBoardList;
 import com.organization.sjhg.e_school.ListStructure.InternalList;
 import com.organization.sjhg.e_school.Profile.ProfileActivity;
@@ -61,6 +62,7 @@ public class MainParentActivity extends AppCompatActivity implements NavigationV
     protected Toolbar toolbar;
     private NavigationView navigationView;
     protected static List<DashBoardList> dataList=new ArrayList<>();
+    protected List<ChapterList>imageList =new ArrayList<>();
     ExpandableListAdapter listAdapter;
     ExpandableListView expListView;
     Map content = new HashMap();
@@ -106,6 +108,7 @@ public class MainParentActivity extends AppCompatActivity implements NavigationV
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putSerializable("LIST", (Serializable) dataList);
+        outState.putSerializable("IMAGELIST",(Serializable)imageList);
     }
 
     private void fillNavigationDrawer(final List<DashBoardList> dataList, NavigationView navigationView) {
@@ -364,6 +367,24 @@ public class MainParentActivity extends AppCompatActivity implements NavigationV
         textView.setTextColor(color);
         snackbar.show();
     }
+    private void fetchImageData(JSONObject response) {
+        try {
+            JSONArray data = response.getJSONArray(getString(R.string.data));
+            for(int i=0;i<data.length();i++)
+            {
+                JSONObject jsonObject=data.getJSONObject(i);
+                String image=jsonObject.getString(getString(R.string.jsonimage));
+                String text=jsonObject.getString(getString(R.string.jsonText));
+                imageList.add(new ChapterList(image,text));
+            }
+
+        }catch (Exception e)
+        {
+            new ToastActivity().makeJsonException(this);
+            LogHelper logHelper = new LogHelper(e);
+            e.printStackTrace();
+        }
+    }
 
     @Override
     public void onNetworkConnectionChanged(boolean isConnected) {
@@ -393,6 +414,27 @@ public class MainParentActivity extends AppCompatActivity implements NavigationV
                         e.printStackTrace();
                     }
                     break;
+                }
+                case GET_DASHBOARD_IMAGE_LIST:
+                {
+                    try {
+                        if ((response.get("success").toString()).equals("true")) {
+
+                            if(response.getString(getString(R.string.jsoncode)).equals(getString(R.string.nocontentcode)))
+                            {
+                                new ToastActivity().makeToastMessage(response,this);
+                            }
+                            else {
+                                fetchImageData(response);
+                                //fillNavigationDrawer(dataList, navigationView);
+                            }
+                        }
+                    } catch (Exception e) {
+                        LogHelper logHelper = new LogHelper(e);
+                        e.printStackTrace();
+                    }
+                    break;
+
                 }
 
             }
