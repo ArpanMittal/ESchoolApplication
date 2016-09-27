@@ -162,9 +162,9 @@ public class TestAnswerActivity extends AppCompatActivity implements RemoteCallH
                 {
                     JSONArray jsonArray1=jsonObject.getJSONArray(getString(R.string.jsonuseroption));
 
-                    for(int j=0;j<jsonArray.length();j++)
+                    for(int j=0;j<jsonArray1.length();j++)
                     {
-                        JSONObject jsonObject1=jsonArray.getJSONObject(j);
+                        JSONObject jsonObject1=jsonArray1.getJSONObject(j);
                         String id1=jsonObject1.getString(getString(R.string.jsonid));
                         String option=jsonObject1.getString(getString(R.string.jsonname));
                         chapterLists1.add(new ChapterList(id1,option));

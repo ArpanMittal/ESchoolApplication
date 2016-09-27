@@ -48,7 +48,8 @@
                 android:id="@+id/indicator"
                 android:layout_width="match_parent"
                 android:layout_height="48dp"
-                android:layout_gravity="bottom">
+                android:layout_gravity="end|bottom"
+                >
             </me.relex.circleindicator.CircleIndicator>
             <android.support.v7.widget.Toolbar
                 android:id="@+id/toolbar"

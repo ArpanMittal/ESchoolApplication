@@ -14,26 +14,37 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:scaleType="centerCrop"
+           android:src="@drawable/ic_eraser"
             android:id="@+id/imageView"
             />
-        <View
+
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@drawable/dashboard_scrim" />
+            android:layout_height="100dp"
+            android:layout_gravity="center_horizontal|bottom"
+            android:background="@drawable/dashboard_scrim">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textStyle="bold"
+
+                android:layout_centerInParent="true"
+                android:textColor="@color/white"
+                android:id="@+id/text"/>
+        </RelativeLayout>
 
 
     </FrameLayout>
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior"
-        android:textStyle="bold"
-        android:textColor="@color/white"
-        android:text="gvhjbklm;,'./;lkjhgfc"
-        android:layout_centerHorizontal="true"
-        android:layout_alignBottom="@+id/frameLayout2"
-        android:layout_marginBottom="60dp"
-        android:id="@+id/text"/>
+    <!--<TextView-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--app:layout_behavior="@string/appbar_scrolling_view_behavior"-->
+        <!--android:textStyle="bold"-->
+        <!--android:textColor="@color/white"-->
+        <!--android:text="gvhjbklm;,'./;lkjhgfc"-->
+        <!--android:layout_centerHorizontal="true"-->
+        <!--android:layout_alignBottom="@+id/frameLayout2"-->
+        <!--android:id="@+id/text"/>-->
 
 
     <!--<TextView-->
