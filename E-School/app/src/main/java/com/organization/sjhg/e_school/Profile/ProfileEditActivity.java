@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
 import android.media.Image;
 import android.net.Uri;
 import android.os.Bundle;
@@ -48,6 +49,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -71,25 +73,18 @@ public class ProfileEditActivity extends MainParentActivity {
     private Spinner userCountry, userState, userCity, userSchool;
     private HashMap<String, String> data;
     private List<String> state, city, school, country;
-    private Bitmap pic;
+    private static final int MAX_SIZE = 1024;
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == RESULT_LOAD_IMAGE && resultCode == RESULT_OK && null != data) {
             Uri selectedImage = data.getData();
-            String[] filePathColumn = { MediaStore.Images.Media.DATA };
-
-            Cursor cursor = getContentResolver().query(selectedImage,
-                    filePathColumn, null, null, null);
-            cursor.moveToFirst();
-
-            int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
-            String picturePath = cursor.getString(columnIndex);
-            cursor.close();
-            
-            profilePic.setImageBitmap(BitmapFactory.decodeFile(picturePath));
-            pic = BitmapFactory.decodeFile(picturePath);
+            Picasso.with(this)
+                    .load(selectedImage)
+                    .resize(MAX_SIZE, MAX_SIZE  )
+                    .centerInside()
+                    .into(profilePic);
         }
     }
 
@@ -143,13 +138,12 @@ public class ProfileEditActivity extends MainParentActivity {
             @Override
             public void onClick(View v) {
                 Map<String, String> params = new HashMap<String, String>();
-                if (pic != null){
-                    ByteArrayOutputStream stream = new ByteArrayOutputStream();
-                    pic.compress(Bitmap.CompressFormat.JPEG, 100, stream);
-                    byte[] bitmapdata = stream.toByteArray();
-                    String profile_pic = Base64.encodeToString(bitmapdata, Base64.DEFAULT);
-                    params.put("profile_pic",profile_pic);
-                }
+                ByteArrayOutputStream stream = new ByteArrayOutputStream();
+                Bitmap pic = ((BitmapDrawable)profilePic.getDrawable()).getBitmap();
+                pic.compress(Bitmap.CompressFormat.JPEG, 100, stream);
+                byte[] bitmapdata = stream.toByteArray();
+                String profile_pic = Base64.encodeToString(bitmapdata, Base64.DEFAULT);
+                params.put("profile_pic",profile_pic);
                 params.put("name", String.valueOf(userName.getText()));
                 params.put("date_of_birth", String.valueOf(userDob.getText()));
                 params.put("country",country.get(userCountry.getSelectedItemPosition()));
