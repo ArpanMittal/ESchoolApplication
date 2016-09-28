@@ -209,7 +209,8 @@ public class MainParentActivity extends AppCompatActivity implements NavigationV
         };
 
         SharedPrefrence sharedPrefrence = new SharedPrefrence();
-        TextView username = (TextView)navigationView.findViewById(R.id.userName);
+        View headerLayout = navigationView.getHeaderView(0);
+        TextView username = (TextView)headerLayout.findViewById(R.id.userName);
         if (username!=null){
             username.setVisibility(View.VISIBLE);
             String user = sharedPrefrence.getUserName(getApplicationContext());
@@ -218,13 +219,13 @@ public class MainParentActivity extends AppCompatActivity implements NavigationV
         }
 
 
-        TextView email = (TextView)navigationView.findViewById(R.id.eMail);
-        Button login = (Button)navigationView.findViewById(R.id.login);
+        TextView email = (TextView)headerLayout.findViewById(R.id.eMail);
+        Button login = (Button)headerLayout.findViewById(R.id.login);
         if (email!=null){
             email.setVisibility(View.VISIBLE);
             logout.setVisibility(View.VISIBLE);
         }
-        CircleImageView profile_pic = (CircleImageView) navigationView.findViewById(R.id.profile_image);
+        CircleImageView profile_pic = (CircleImageView) headerLayout.findViewById(R.id.profile_image);
         if (sharedPrefrence.getUserEmail(getApplicationContext()) != null && email!=null){
             email.setText(sharedPrefrence.getUserEmail(getApplicationContext()));
             login.setVisibility(View.GONE);
