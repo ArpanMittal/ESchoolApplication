@@ -5,7 +5,7 @@
     android:id="@+id/drawer_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fitsSystemWindows="true"
+
     tools:openDrawer="start">
 
     <ViewStub
@@ -16,31 +16,53 @@
 
     <android.support.design.widget.NavigationView
         android:id="@+id/nav_view"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_gravity="start"
-        android:fitsSystemWindows="true"
-        app:headerLayout="@layout/nav_header_main"
-        app:menu="@menu/activity_main_drawer">
+        app:headerLayout="@layout/nav_header_main">
 
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
-            <ExpandableListView
-                android:id="@+id/navigationmenu"
+            <FrameLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="192dp"
+                android:id="@+id/home">
+
+                <Button
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/transparent"
+                    android:layout_marginTop="170dp"
+                    android:textColor="#000000"
+                    android:text="@string/home"/>
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/add_note"
+                    android:layout_gravity="left|bottom" />
+            </FrameLayout>
+            <ExpandableListView
+                android:layout_below="@+id/home"
+                android:id="@+id/navigationmenu"
+                android:groupIndicator="@null"
+                android:childDivider="@color/transparent"
+                android:layout_width="match_parent"
+                android:maxWidth="320dp"
+                android:layout_height="match_parent"
+                android:layout_above="@+id/logout"
                 android:background="@android:color/white">
             </ExpandableListView>
             <Button
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/navigationmenu"
+                android:layout_alignParentBottom="true"
+                android:background="@color/transparent"
                 android:id="@+id/logout"
+                android:textColor="@color/darkgrey"
                 android:text="@string/logout"/>
-
         </RelativeLayout>
 
 

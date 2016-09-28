@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.organization.sjhg.e_school.R;
@@ -146,12 +147,20 @@ public class ExpandListAdapter extends BaseExpandableListAdapter {
             LayoutInflater infalInflater = (LayoutInflater) this._context
                     .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             convertView = infalInflater.inflate(R.layout.list_group, null);
+
         }
 
         TextView lblListHeader = (TextView) convertView
                 .findViewById(R.id.lblListHeader);
-        lblListHeader.setTypeface(null, Typeface.BOLD);
         lblListHeader.setText(headerTitle);
+        ImageView imageView=(ImageView)convertView.findViewById(R.id.imageView);
+        if(headerTitle.equals("Classes"))
+            imageView.setImageResource(R.drawable.blackboard);
+        else if(headerTitle.equals("Subjects"))
+            imageView.setImageResource(R.drawable.book);
+        else if(headerTitle.equals("Exams"))
+            imageView.setImageResource(R.drawable.exam);
+
 
         return convertView;
     }
