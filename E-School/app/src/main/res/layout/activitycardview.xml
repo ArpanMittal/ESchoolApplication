@@ -29,6 +29,7 @@
             android:id="@+id/name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:paddingRight="@dimen/activity_right_padding"
             android:layout_below="@+id/relativeLayout"
             android:inputType="textMultiLine"
             android:scrollHorizontally="false"
@@ -39,6 +40,7 @@
         <TextView
             android:id="@+id/count"
             android:inputType="textMultiLine"
+            android:paddingRight="@dimen/activity_right_padding"
             android:scrollHorizontally="false"
             android:maxLines="2"
             android:layout_width="match_parent"
