@@ -9,7 +9,9 @@
         <item name="android:typeface">monospace</item>
         <item name="android:textColorPrimary">@color/white</item>
         <item name="android:textColorSecondary">@color/white</item>
-        <item name="android:statusBarColor">@color/colorPrimaryDark</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
+
+        <item name="spinBars">true</item>
 
     </style>
     <style name="AppTheme.NoActionBar" parent="@style/AppTheme">
@@ -17,4 +19,13 @@
         <item name="windowNoTitle">true</item>
         <item name="android:titleTextStyle">@style/AppTheme.TitleTextStyle</item>
     </style>
+    <style name="AppThemesplash.NoActionBar" parent="@style/AppTheme">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+        <item name="android:titleTextStyle">@style/AppTheme.TitleTextStyle</item>
+        <item name="android:statusBarColor">@color/transparent</item>
+        <item name="colorPrimary">@android:color/transparent</item>
+    </style>
+
+
 </resources>

@@ -5,7 +5,7 @@
     android:id="@+id/drawer_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fitsSystemWindows="true"
+
     tools:openDrawer="start">
 
     <ViewStub
@@ -19,9 +19,7 @@
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_gravity="start"
-        android:fitsSystemWindows="true"
-        app:headerLayout="@layout/nav_header_main"
-        app:menu="@menu/activity_main_drawer">
+        app:headerLayout="@layout/nav_header_main">
 
 
         <RelativeLayout
@@ -30,17 +28,17 @@
             <ExpandableListView
                 android:id="@+id/navigationmenu"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="192dp"
+                android:layout_height="match_parent"
+                android:layout_above="@+id/logout"
+                android:layout_marginTop="170dp"
                 android:background="@android:color/white">
             </ExpandableListView>
             <Button
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/navigationmenu"
+                android:layout_alignParentBottom="true"
                 android:id="@+id/logout"
                 android:text="@string/logout"/>
-
         </RelativeLayout>
 
 
