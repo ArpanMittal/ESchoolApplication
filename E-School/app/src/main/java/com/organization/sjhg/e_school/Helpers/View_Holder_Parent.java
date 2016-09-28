@@ -34,11 +34,6 @@ public class View_Holder_Parent extends RecyclerView.ViewHolder {
         recyclerView.setLayoutManager(mLayoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
 
-        recyclerChildView = (RecyclerView) view.findViewById(R.id.recycler_child);
-        recyclerChildView.setNestedScrollingEnabled(false);
-        RecyclerView.LayoutManager mChildLayoutManager = new LinearLayoutManager(mContext.getApplicationContext(),LinearLayoutManager.HORIZONTAL,false);
-        recyclerChildView.setLayoutManager(mChildLayoutManager);
-        recyclerChildView.setItemAnimator(new DefaultItemAnimator());
     }
 
     public void addList(List<InternalList> list){

@@ -5,6 +5,7 @@ package com.organization.sjhg.e_school.Helpers;
  */
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -46,7 +47,6 @@ public class GridDataAdapter extends RecyclerView.Adapter<GridDataAdapter.ViewHo
     public void onBindViewHolder(GridDataAdapter.ViewHolder viewHolder, final int i) {
 
         viewHolder.tv_android.setText((String) chapterLists.get(i).name);
-        Picasso.with(context).load("https://s9.postimg.io/al1o9ip5r/image.jpg").resize(50,50).into(viewHolder.img_android);
         viewHolder.view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -59,6 +59,7 @@ public class GridDataAdapter extends RecyclerView.Adapter<GridDataAdapter.ViewHo
                 context.startActivity(intent);
             }
         });
+
     }
 
     @Override
