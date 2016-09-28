@@ -15,7 +15,11 @@ import com.organization.sjhg.e_school.Remote.ServerAddress;
 import com.organization.sjhg.e_school.Remote.VolleyController;
 import com.squareup.picasso.Picasso;
 
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
+import java.util.Locale;
+import java.util.TimeZone;
 
 /**
  * Created by arpan on 8/18/2016.
@@ -28,10 +32,13 @@ public class Image_View_Fragment extends Fragment {
         Context context=v.getContext();
         String image=null;
         String text=null;
+        long millis=System.currentTimeMillis();
+        Calendar calendar=Calendar.getInstance();
+        calendar.setTimeInMillis(millis);
         //TextView tv = (TextView) v.findViewById(R.id.tvFragFirst);
         if(getArguments().getString("first").equals("true"))
         {
-            int hour= Calendar.HOUR_OF_DAY;
+            int hour=calendar.get(Calendar.HOUR_OF_DAY);
             if(hour>5&&hour<12)
             {
                 image="img/app_morning.png";
