@@ -9,7 +9,6 @@
         android:layout_width="match_parent"
         android:src="@drawable/logo"
         android:id="@+id/splash"
-        android:scaleType="fitXY"
         android:layout_centerVertical="true"
         android:layout_centerHorizontal="true" />
 
