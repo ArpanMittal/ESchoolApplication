@@ -261,6 +261,7 @@
     <string name="exit">Exit</string>
     <string name="save_note">Do you want to save this note</string>
     <string name="jsonText">text</string>
+    <string name="home">Home</string>
 
 
 </resources>
