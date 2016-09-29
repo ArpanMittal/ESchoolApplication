@@ -127,7 +127,7 @@ class postController extends Controller
             $temp = DB::table("school")->where('school_name',$request->get("school"))->first();
             if (!isset($temp)){
                 $temp = DB::table('school')->insertGetId([
-                            'school_name'              =>  ""+$request->get("school")
+                            'school_name'              =>  $request->get("school")
                         ]);
             }else{
                 $temp = $temp->id;
