@@ -1,8 +1,10 @@
 package com.organization.sjhg.e_school.Fragments;
 
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -40,8 +42,12 @@ public class SamplePaperListFragment extends Fragment {
         RecyclerView rv = (RecyclerView) rootView.findViewById(R.id.recycler);
         //GridDataAdapter gridDataAdapter=new GridDataAdapter(getContext(),chapterLists);
         SamplePaperListDataAdapter samplePaperListDataAdapter=new SamplePaperListDataAdapter(getContext(),chapterLists);
-        LinearLayoutManager llm = new LinearLayoutManager(getActivity());
-        rv.setLayoutManager(llm);
+        if(getActivity().getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT){
+            rv.setLayoutManager(new GridLayoutManager(getActivity().getApplicationContext(),2));
+        }
+        else{
+            rv.setLayoutManager(new GridLayoutManager(getActivity().getApplicationContext(),4));
+        }
         rv.setAdapter(samplePaperListDataAdapter);
         rv.setHasFixedSize(true);
 

@@ -100,6 +100,14 @@ public class MainParentActivity extends AppCompatActivity implements NavigationV
 
             new RemoteHelper(getApplicationContext()).getDashBoardDetails(this, RemoteCalls.GET_DASHBOARD_LIST);
         }
+        View view=findViewById(R.id.home);
+        view.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(MainParentActivity.this,Main_Activity.class);
+                startActivity(intent);
+            }
+        });
 
 
     }

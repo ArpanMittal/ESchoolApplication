@@ -115,12 +115,14 @@ public class RecyclerAdapter extends RecyclerView.Adapter<View_Holder> implement
             Intent intent = new Intent(mContext.getApplicationContext(), ExaminationParent.class);
             intent.putExtra(mContext.getString(R.string.jsontitle), title);
             intent.putExtra(mContext.getString(R.string.jsonid), item.id);
+            intent.putExtra(mContext.getString(R.string.jsonname), item.name);
             mContext.startActivity(intent);
         }
         else {
             Intent intent = new Intent(mContext.getApplicationContext(), ListActivity.class);
             intent.putExtra(mContext.getString(R.string.title), title);
             intent.putExtra(mContext.getString(R.string.jsonid), item.id);
+            intent.putExtra(mContext.getString(R.string.jsonname), item.name);
             mContext.startActivity(intent);
         }
     }

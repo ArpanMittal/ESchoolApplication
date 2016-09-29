@@ -56,7 +56,7 @@ public class Image_View_Fragment extends Fragment {
             }
             else
             {
-                image="img/midnight.png";
+                image="img/app_midnight.png";
                 text="Night";
             }
         }
