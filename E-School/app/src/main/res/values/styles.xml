@@ -30,12 +30,11 @@
         <!--<item name="android:titleTextStyle">@style/AppTheme.TitleTextStyle</item>-->
     <!--</style>-->
 
-    <style name="AppThemesplash.NoActionBar" parent="@style/AppTheme">
+    <style name="AppThemeExam.NoActionBar" parent="@style/AppTheme">
         <item name="android:windowContentOverlay">@null</item>
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
         <item name="windowActionBarOverlay">true</item>
-        <item name="colorPrimary">@android:color/transparent</item>
     </style>
 
 

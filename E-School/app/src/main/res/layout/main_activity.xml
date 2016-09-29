@@ -65,8 +65,10 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentBottom="true"
                 android:background="@color/transparent"
+                android:textSize="16sp"
+                android:fontFamily="sans-serif"
                 android:id="@+id/logout"
-                android:textColor="@color/darkgrey"
+                android:textColor="#DB000000"
                 android:text="@string/logout"/>
         </RelativeLayout>
 

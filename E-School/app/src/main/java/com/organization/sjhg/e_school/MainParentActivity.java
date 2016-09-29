@@ -241,7 +241,6 @@ public class MainParentActivity extends AppCompatActivity implements NavigationV
                 Picasso.with(this)
                         .load(sharedPrefrence.getUserPic(getApplicationContext()))
                         .placeholder(R.drawable.ic_launcher)
-                        .resize(50,50)
                         .into(profile_pic);
             }
             profile_pic.setOnClickListener(listener);

@@ -89,7 +89,7 @@
             android:label="List"
            />
         <activity android:name=".ExaminationParent"
-            android:theme="@style/AppTheme.NoActionBar"
+            android:theme="@style/AppThemeExam.NoActionBar"
             android:parentActivityName=".Main_Activity"
             android:label="Exam"/>
         <activity
