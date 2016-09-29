@@ -136,6 +136,11 @@ class postController extends Controller
                 ->update([
                     'school_id'              =>  $temp
                 ]);
+        }else{
+            $status += DB::table('userdetail')->where('id',$user->id)
+                ->update([
+                    'school_id'              =>  null
+                ]);
         }
 
         if ($status <=0){
