@@ -76,14 +76,14 @@ public class ListActivity extends MainParentActivity implements RemoteCallHandle
         mContext = getApplicationContext();
         String title = (String) intent.getExtras().get(mContext.getString(R.string.title));
         String id = (String) intent.getExtras().get(mContext.getString(R.string.jsonid));
-
+        String name = (String) intent.getExtras().get(mContext.getString(R.string.jsonname));
         mDashboardView = findViewById(R.id.dashboard_form);
         mProgressView = findViewById(R.id.dashboard_progress);
 
 
         toolbar = (Toolbar)findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
+        setTitle(name);
         // code repeted in all activity
         toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -172,9 +172,7 @@ public class ListActivity extends MainParentActivity implements RemoteCallHandle
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recycler);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        TextView textView=(TextView) findViewById(R.id.maintitle);
-        textView.setText(list.get(0).title);
-
+        recyclerView.setNestedScrollingEnabled(false);
         internalListDatas=list.get(0).internalListDatas;
 //        ArrayList<AndroidVersion> androidVersions = prepareData();
         GridParentDataAdapter adapter = new GridParentDataAdapter(getApplicationContext(),internalListDatas);
