@@ -29,5 +29,6 @@
     <dimen name="toolbar">10dp</dimen>
     <dimen name="list_top_padding">4dp</dimen>
     <dimen name="list_top_parent_padding">8dp</dimen>
+    <dimen name="button_margin">24dp</dimen>
 
 </resources>

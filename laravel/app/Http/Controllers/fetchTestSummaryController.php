@@ -146,16 +146,18 @@ class fetchTestSummaryController extends Controller
     private function getAttemptDetails($key,$request,$attemptType)
     {
         $user_email=$request->input('user_id');
-//        $user_email="test1@gmail.com";
+ //       $user_email="test1@gmail.com";
         $user_id = DB::table('user')
             ->where('user.email',$user_email)
             ->first();
 
         $attempt=DB::table('user_attempt')
-            ->select('user_attempt.id as id','user_attempt.started_at as time')
+            ->select('user_attempt.id as id',DB::raw('UNIX_TIMESTAMP(user_attempt.started_at) AS time'))
             ->where('user_attempt.user_id',$user_id->id)
             ->where('user_attempt.attempt_type_id',$attemptType)
             ->where('user_attempt.included_id',$key)->get();
+
+        
 
         return $attempt;
 

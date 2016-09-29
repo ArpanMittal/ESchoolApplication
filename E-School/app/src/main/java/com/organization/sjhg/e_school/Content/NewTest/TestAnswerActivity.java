@@ -55,6 +55,7 @@ public class TestAnswerActivity extends AppCompatActivity implements RemoteCallH
     private ViewPager mViewPagerView;
     private TabLayout tabLayout;
     String parent_tag;
+    String parent_title;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -62,6 +63,7 @@ public class TestAnswerActivity extends AppCompatActivity implements RemoteCallH
         Intent intent=getIntent();
         parent_id=intent.getStringExtra("parent_id");
         parent_tag=intent.getStringExtra("parent_tag");
+        parent_title=intent.getStringExtra("parent_title");
         id=intent.getStringExtra("Id");
 
         saveInstances=savedInstanceState;
@@ -81,6 +83,7 @@ public class TestAnswerActivity extends AppCompatActivity implements RemoteCallH
                     intent.putExtra("Id", id);
                     intent.putExtra("parent_id",parent_id);
                     intent.putExtra("parent_tag",parent_tag);
+                    intent.putExtra("parent_title",parent_title);
                     startActivity(intent);
                     finish();
                 }else

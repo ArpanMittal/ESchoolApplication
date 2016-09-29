@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.organization.sjhg.e_school.Content.NewTest.TestActivity;
@@ -21,6 +22,7 @@ import com.organization.sjhg.e_school.R;
 import com.organization.sjhg.e_school.Remote.RemoteCalls;
 import com.organization.sjhg.e_school.Remote.RemoteHelper;
 import com.organization.sjhg.e_school.Structure.GlobalConstants;
+import com.organization.sjhg.e_school.Utils.SharedPrefrence;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -38,6 +40,7 @@ public class SamplePaperListDataAdapter extends RecyclerView.Adapter<SamplePaper
         this.context = context;
     }
 
+
     @Override
     public SamplePaperListDataAdapter.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
         View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.grid_row, viewGroup, false);
@@ -47,15 +50,25 @@ public class SamplePaperListDataAdapter extends RecyclerView.Adapter<SamplePaper
     @Override
     public void onBindViewHolder(SamplePaperListDataAdapter.ViewHolder viewHolder, final int position) {
 
-
+        SharedPrefrence sharedPrefrence=new SharedPrefrence();
+        if(sharedPrefrence.getAccessToken(context)!=null)
+        {
+            viewHolder.button.setVisibility(View.VISIBLE);
+        }
         viewHolder.tv_android.setText((String) chapterLists.get(position).name);
-        viewHolder.tv_android.setOnClickListener(new View.OnClickListener() {
+//        viewHolder.tv_android.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                showLocationDialog(position);
+//            }
+//        });
+        viewHolder.view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 showLocationDialog(position);
             }
         });
-        Picasso.with(context).load("https://s9.postimg.io/al1o9ip5r/image.jpg").resize(50,50).into(viewHolder.img_android);
+
 
         viewHolder.button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -63,6 +76,7 @@ public class SamplePaperListDataAdapter extends RecyclerView.Adapter<SamplePaper
                 Intent intent=new Intent(context, TestSummaryActivity.class);
                 intent.putExtra("Tag", GlobalConstants.SamplePaperTag);
                 intent.putExtra("Id",chapterLists.get(position).id);
+                intent.putExtra("Title",chapterLists.get(position).name);
                 context.startActivity(intent);
             }
         });
@@ -112,13 +126,14 @@ public class SamplePaperListDataAdapter extends RecyclerView.Adapter<SamplePaper
         private TextView tv_android;
         private ImageView img_android;
         public Button button;
+        public RelativeLayout view;
         public ViewHolder(View view) {
             super(view);
-
+            this.view=(RelativeLayout)view.findViewById(R.id.relativeLayout);
             tv_android = (TextView)view.findViewById(R.id.tv_android);
             img_android = (ImageView) view.findViewById(R.id.img_android);
+            img_android.setImageResource(R.drawable.sample_icon);
             button=(Button) view.findViewById(R.id.btn);
-            button.setVisibility(View.VISIBLE);
         }
     }
 

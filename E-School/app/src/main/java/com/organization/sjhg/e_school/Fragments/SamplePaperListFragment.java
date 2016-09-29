@@ -10,6 +10,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.organization.sjhg.e_school.Helpers.GridDataAdapter;
 import com.organization.sjhg.e_school.Helpers.SamplePaperListDataAdapter;
@@ -40,6 +41,8 @@ public class SamplePaperListFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.list_view_helper, container, false);
         RecyclerView rv = (RecyclerView) rootView.findViewById(R.id.recycler);
+        TextView textView=(TextView)rootView.findViewById(R.id.title);
+        textView.setVisibility(View.GONE);
         //GridDataAdapter gridDataAdapter=new GridDataAdapter(getContext(),chapterLists);
         SamplePaperListDataAdapter samplePaperListDataAdapter=new SamplePaperListDataAdapter(getContext(),chapterLists);
         if(getActivity().getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT){

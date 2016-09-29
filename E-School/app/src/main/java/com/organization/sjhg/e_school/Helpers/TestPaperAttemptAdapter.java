@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.organization.sjhg.e_school.Content.NewTest.TestReportActivity;
@@ -30,12 +31,14 @@ public class TestPaperAttemptAdapter extends RecyclerView.Adapter<TestPaperAttem
     private Context context;
     private String parent_id;
     private String parent_tag;
+    private String parent_title;
 
-    public TestPaperAttemptAdapter(Context context,List<ChapterList> android,String parent_id,String parent_tag) {
+    public TestPaperAttemptAdapter(Context context,List<ChapterList> android,String parent_id,String parent_tag,String parent_title) {
         this.chapterLists = android;
         this.context = context;
         this.parent_id=parent_id;
         this.parent_tag=parent_tag;
+        this.parent_title=parent_title;
     }
 
     @Override
@@ -49,20 +52,21 @@ public class TestPaperAttemptAdapter extends RecyclerView.Adapter<TestPaperAttem
 
 
         viewHolder.tv_android.setText((String) chapterLists.get(position).name);
-        viewHolder.tv_android.setOnClickListener(new View.OnClickListener() {
+        viewHolder.relativeLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent=new Intent(context, TestReportActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 intent.putExtra("parent_id", parent_id);
                 intent.putExtra("parent_tag",parent_tag);
+                intent.putExtra("parent_title",parent_title);
                 intent.putExtra("Id",chapterLists.get(position).id);
                 context.startActivity(intent);
 
 
             }
         });
-        Picasso.with(context).load("https://s9.postimg.io/al1o9ip5r/image.jpg").resize(50,50).into(viewHolder.img_android);
+
     }
 
 
@@ -74,11 +78,13 @@ public class TestPaperAttemptAdapter extends RecyclerView.Adapter<TestPaperAttem
     public class ViewHolder extends RecyclerView.ViewHolder{
         private TextView tv_android;
         private ImageView img_android;
+        public RelativeLayout relativeLayout;
         public ViewHolder(View view) {
             super(view);
-
+            relativeLayout=(RelativeLayout)view.findViewById(R.id.relativeLayout);
             tv_android = (TextView)view.findViewById(R.id.tv_android);
             img_android = (ImageView) view.findViewById(R.id.img_android);
+            img_android.setImageResource(R.drawable.sample_icon);
         }
     }
 

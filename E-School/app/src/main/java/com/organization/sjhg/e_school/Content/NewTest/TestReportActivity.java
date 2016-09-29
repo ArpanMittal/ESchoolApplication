@@ -63,6 +63,7 @@ public class TestReportActivity extends AppCompatActivity implements RemoteCallH
     String id="";
     String parent_id=null;
     String parent_tag="";
+    String parent_title="";
     private Button btn;
 
     List<StackGraphList>stackGraphLists=new ArrayList<>();
@@ -74,6 +75,7 @@ public class TestReportActivity extends AppCompatActivity implements RemoteCallH
         id=intent.getStringExtra("Id");
         parent_tag=intent.getStringExtra("parent_tag");
         parent_id=intent.getStringExtra("parent_id");
+        parent_title=intent.getStringExtra("parent_title");
         setContentView(R.layout.activity_test_instruction_activity);
         mProgressView= findViewById(R.id.login_progress);
         mDashboardView=findViewById(R.id.dashboard_form);
@@ -87,6 +89,7 @@ public class TestReportActivity extends AppCompatActivity implements RemoteCallH
                 intent1.putExtra("Id",id);
                 intent1.putExtra("parent_id",parent_id);
                 intent1.putExtra("parent_tag",parent_tag);
+                intent1.putExtra("parent_title",parent_title);
                 startActivity(intent1);
             }
         });
@@ -134,6 +137,7 @@ public class TestReportActivity extends AppCompatActivity implements RemoteCallH
                     Intent intent = new Intent(this, TestSummaryActivity.class);
                     intent.putExtra("Id", parent_id);
                     intent.putExtra("Tag",parent_tag);
+                    intent.putExtra("Title",parent_title);
                     startActivity(intent);
                     finish();
                 }else

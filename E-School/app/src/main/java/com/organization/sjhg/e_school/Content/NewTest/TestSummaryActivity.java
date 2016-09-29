@@ -41,8 +41,12 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import cn.trinea.android.view.autoscrollviewpager.AutoScrollViewPager;
 import me.relex.circleindicator.CircleIndicator;
@@ -59,6 +63,7 @@ public class TestSummaryActivity  extends MainParentActivity implements RemoteCa
     private String tag;
     private String id;
     private String access_token;
+    private String title;
     private List<ChapterList> chapterListList=new ArrayList<>();
     Context mContext;
 
@@ -69,6 +74,7 @@ public class TestSummaryActivity  extends MainParentActivity implements RemoteCa
         Intent intent=getIntent();
         id=intent.getStringExtra("Id");
         tag = intent.getStringExtra("Tag");
+        title=intent.getStringExtra("Title");
         ViewStub view_Stub=(ViewStub)findViewById(R.id.viewstub);
         view_Stub.setLayoutResource(R.layout.normal_app_bar);
         view_Stub.inflate();
@@ -82,7 +88,9 @@ public class TestSummaryActivity  extends MainParentActivity implements RemoteCa
 
 
         toolbar = (Toolbar)findViewById(R.id.toolbar);
+        toolbar.setTitle(title);
         setSupportActionBar(toolbar);
+
 
         // code repeted in all activity
         toggle = new ActionBarDrawerToggle(
@@ -189,7 +197,10 @@ public class TestSummaryActivity  extends MainParentActivity implements RemoteCa
             {
                 JSONObject jsonObject=jsonArray.getJSONObject(i);
                 String id=jsonObject.getString(getString(R.string.jsonid));
-                chapterListList.add(new ChapterList(id,"Attempt number"+jsonObject.getString(getString(R.string.jsontime))));
+                String time=jsonObject.getString(getString(R.string.jsontime));
+
+
+                chapterListList.add(new ChapterList(id,"Attempted on"+time));
             }
 
         }catch (Exception e)
@@ -204,7 +215,7 @@ public class TestSummaryActivity  extends MainParentActivity implements RemoteCa
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recycler);
         recyclerView.setHasFixedSize(true);
 
-        TestPaperAttemptAdapter testPaperAttemptAdapter=new TestPaperAttemptAdapter(this,chapterListList,id,tag);
+        TestPaperAttemptAdapter testPaperAttemptAdapter=new TestPaperAttemptAdapter(this,chapterListList,id,tag,title);
         recyclerView.setAdapter(testPaperAttemptAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
@@ -248,11 +259,12 @@ public class TestSummaryActivity  extends MainParentActivity implements RemoteCa
                         }
                         else
                         {
-                            if(response==null)
+                            if(response.get("code").toString().equals("401"))
                             {
                                 Toast.makeText(TestSummaryActivity.this, "no attempt found", Toast.LENGTH_SHORT).show();
                                 finish();
                             }
+
                             else {
                                 makeList(response);
                                 showView();

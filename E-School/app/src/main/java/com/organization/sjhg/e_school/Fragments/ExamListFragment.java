@@ -50,6 +50,8 @@ public class ExamListFragment extends Fragment {
 
         RecyclerView rv = (RecyclerView) rootView.findViewById(R.id.recycler);
         rv.setHasFixedSize(true);
+        TextView textView=(TextView)rootView.findViewById(R.id.title);
+        textView.setVisibility(View.GONE);
         List<InternalListData> internalListDatas=new ArrayList<>();
         for(int i=0;i<list.size();i++)
         internalListDatas.addAll(list.get(i).internalListDatas);

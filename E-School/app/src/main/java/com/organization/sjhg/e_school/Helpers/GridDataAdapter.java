@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.android.volley.toolbox.Volley;
@@ -73,7 +74,7 @@ public class GridDataAdapter extends RecyclerView.Adapter<GridDataAdapter.ViewHo
         private View view;
         public ViewHolder(View view) {
             super(view);
-            this.view = view;
+            this.view = (RelativeLayout)view.findViewById(R.id.relativeLayout);
             tv_android = (TextView)view.findViewById(R.id.tv_android);
             img_android = (ImageView) view.findViewById(R.id.img_android);
         }

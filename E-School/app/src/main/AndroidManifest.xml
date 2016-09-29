@@ -102,11 +102,11 @@
             android:label="TestReport"/>
         <activity android:name=".Content.NewTest.TestAnswerActivity"
             android:parentActivityName=".Content.NewTest.TestReportActivity"
+            android:theme="@style/AppThemeExam.NoActionBar"
             android:label="TestAnswer"/>
 
         <activity android:name=".Content.NewTest.TestSummaryActivity"
-            android:theme="@style/AppTheme.NoActionBar"
-            android:label="TestSummary"
+            android:theme="@style/AppThemeExam.NoActionBar"
             android:launchMode="singleTask"/>
 
         <activity android:name=".Content.NewTest.TestActivity"
