@@ -121,7 +121,7 @@ class DetailsController extends Controller
         return DB::table('class')
             ->select('class.id as id',
                 DB::raw('CONCAT(\'class \',class.class_name) as name'),
-                DB::raw('CONCAT(\'No. of subjects \',count(DISTINCT classsubjectmap.cl_su_id)) as count'),
+                DB::raw('CONCAT(\'Subjects: \',count(DISTINCT classsubjectmap.cl_su_id)) as count'),
                 'class.image as image')
             ->leftjoin('classsubjectmap','class.id','=','classsubjectmap.class_id')
             ->groupBy('class.id')
@@ -131,7 +131,7 @@ class DetailsController extends Controller
     private function getSubject()
     {
         return DB::table('subjectstreammap')
-            ->select('subject.id as id', 'subject.subject_name as name', DB::raw('CONCAT(\'No. of streams \',count(DISTINCT subjectstreammap.stream_id)) as count'),
+            ->select('subject.id as id', 'subject.subject_name as name', DB::raw('CONCAT(\'Streams: \',count(DISTINCT subjectstreammap.stream_id)) as count'),
                 'subject.image as image')
             ->leftjoin('classsubjectmap','subjectstreammap.cl_su_id','=','classsubjectmap.cl_su_id')
             ->leftjoin('subject','classsubjectmap.subject_id','=','subject.id')
