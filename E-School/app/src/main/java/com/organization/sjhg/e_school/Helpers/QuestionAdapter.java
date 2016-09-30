@@ -49,6 +49,14 @@ public class QuestionAdapter extends FragmentStatePagerAdapter {
         return question_fragment;
 
     }
+    @Override
+    public CharSequence getPageTitle(int position) {
+        // Generate title based on item position
+        //return "hello";
+        // String val=Integer.toString(position);
+        return Integer.toString(position+1);
+    }
+
 
     @Override
     public int getCount() {

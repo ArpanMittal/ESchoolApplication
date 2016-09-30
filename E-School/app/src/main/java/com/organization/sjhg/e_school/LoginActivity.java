@@ -24,6 +24,7 @@ import android.provider.ContactsContract;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.KeyEvent;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.inputmethod.EditorInfo;
@@ -36,6 +37,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.organization.sjhg.e_school.Content.NewTest.TestSummaryActivity;
 import com.organization.sjhg.e_school.Helpers.LogHelper;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.auth.api.signin.GoogleSignInResult;
@@ -489,5 +491,18 @@ public class LoginActivity extends AppCompatActivity implements RemoteCallHandle
     public void onConnectionFailed(ConnectionResult connectionResult) {
         Log.d(GlobalConstants.LOG_TAG,"Connection failed");
     }
+
+            @Override
+            public boolean onOptionsItemSelected(MenuItem item) {
+                switch (item.getItemId()) {
+                    case android.R.id.home:
+                        {
+                            finish();
+                        }
+                        return  true;
+
+                }
+                return true;
+            }
 
 }

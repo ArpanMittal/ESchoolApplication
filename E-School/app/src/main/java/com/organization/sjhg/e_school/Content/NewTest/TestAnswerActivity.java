@@ -7,6 +7,8 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
@@ -56,6 +58,7 @@ public class TestAnswerActivity extends AppCompatActivity implements RemoteCallH
     private TabLayout tabLayout;
     String parent_tag;
     String parent_title;
+    private Toolbar toolbar;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -72,7 +75,20 @@ public class TestAnswerActivity extends AppCompatActivity implements RemoteCallH
         mProgressView=findViewById(R.id.dashboard_progress);
         mViewPagerView=(ViewPager)findViewById(R.id.viewpager_fragment);
         progress = (ProgressBar) findViewById(R.id.progressBar);
+        toolbar=(Toolbar)findViewById(R.id.toolbar);
+        toolbar.setTitle("TestAnswer");
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        //getSupportActionBar().setIcon(R.drawable.ic_launcher);
     }
+
+//    @Override
+//    public boolean onCreateOptionsMenu(Menu menu) {
+//        // Inflate the menu; this adds items to the action bar if it is present.
+//        getMenuInflater().inflate(R.menu.test, menu);
+//        return true;
+//    }
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {

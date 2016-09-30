@@ -77,7 +77,7 @@ public class QuestionOptionAdapter extends RecyclerView.Adapter<QuestionOptionAd
             {
                 cb.setChecked(true);
                 chapterLists.get(position).checked_option_id=clickId;
-                chapterLists.get(position).checkBox=cb;
+                //chapterLists.get(position).checkBox=cb;
                 lastCheckedId=clickId;
                 lastcheckposition=position;
                 lastChecked=cb;
@@ -87,9 +87,9 @@ public class QuestionOptionAdapter extends RecyclerView.Adapter<QuestionOptionAd
 
                 cb.setChecked(true);
                 chapterLists.get(lastcheckposition).checked_option_id=null;
-                chapterLists.get(lastcheckposition).checkBox=null;
+                //chapterLists.get(lastcheckposition).checkBox=null;
                 chapterLists.get(position).checked_option_id = clickId;
-                chapterLists.get(position).checkBox = cb;
+                //chapterLists.get(position).checkBox = cb;
                 lastCheckedId=clickId;
                 lastChecked=cb;
                 lastcheckposition=position;

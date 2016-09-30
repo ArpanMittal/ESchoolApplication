@@ -5,6 +5,7 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:focusableInTouchMode="true"
+    android:background="@drawable/button_background"
     app:cardCornerRadius="2dp"
     app:cardElevation="2dp"
     android:layout_margin="5dp"
@@ -13,7 +14,8 @@
 
     <RelativeLayout
         android:layout_width="100dp"
-        android:layout_height="150dp">
+        android:layout_height="150dp"
+        android:background="@drawable/button_background">
         <RelativeLayout
             android:layout_width="100dp"
             android:layout_height="100dp"
