@@ -110,7 +110,7 @@ public class MainParentActivity extends AppCompatActivity implements NavigationV
             }
         });
 
-
+        ConnectivityReceiver.isConnected();
     }
 
     @Override
@@ -361,16 +361,18 @@ public class MainParentActivity extends AppCompatActivity implements NavigationV
     protected void showSnack(boolean isConnected) {
         String message;
         int color;
+        Snackbar snackbar;
         if (isConnected) {
             message = "Good! Connected to Internet";
             color = Color.WHITE;
+            snackbar = Snackbar
+                    .make(findViewById(R.id.coordinatorLayout), message, Snackbar.LENGTH_LONG);
         } else {
             message = "Sorry! Not connected to internet";
             color = Color.RED;
+            snackbar = Snackbar
+                    .make(findViewById(R.id.coordinatorLayout), message, Snackbar.LENGTH_INDEFINITE);
         }
-
-        Snackbar snackbar = Snackbar
-                .make(findViewById(R.id.fab), message, Snackbar.LENGTH_LONG);
 
         View sbView = snackbar.getView();
         TextView textView = (TextView) sbView.findViewById(android.support.design.R.id.snackbar_text);

@@ -6,7 +6,9 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -15,8 +17,10 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import com.organization.sjhg.e_school.Database.contracts.UserContract;
+import com.organization.sjhg.e_school.Helpers.ConnectivityReceiver;
 import com.organization.sjhg.e_school.Helpers.LogHelper;
 import com.organization.sjhg.e_school.Helpers.QuestionAdapter;
 import com.organization.sjhg.e_school.ListStructure.ChapterList;
@@ -43,7 +47,7 @@ import java.util.List;
 /**
  * Created by arpan on 9/7/2016.
  */
-public class TestActivity extends AppCompatActivity implements RemoteCallHandler {
+public class TestActivity extends AppCompatActivity implements RemoteCallHandler, ConnectivityReceiver.ConnectivityReceiverListener {
     private ToastActivity toastActivity=new ToastActivity();
     private SharedPrefrence sharedPrefrence=new SharedPrefrence();
     private String access_token;
@@ -76,6 +80,7 @@ public class TestActivity extends AppCompatActivity implements RemoteCallHandler
         mProgressView=findViewById(R.id.dashboard_progress);
         mViewPagerView=(ViewPager)findViewById(R.id.viewpager_fragment);
         progress = (ProgressBar) findViewById(R.id.progressBar); progress = (ProgressBar) findViewById(R.id.progressBar);
+        ConnectivityReceiver.isConnected();
     }
 
     @Override
@@ -432,4 +437,30 @@ public class TestActivity extends AppCompatActivity implements RemoteCallHandler
 
     }
 
+    @Override
+    public void onNetworkConnectionChanged(boolean isConnected) {
+        showSnack(isConnected);
+    }
+
+    protected void showSnack(boolean isConnected) {
+        String message;
+        int color;
+        Snackbar snackbar;
+        if (isConnected) {
+            message = "Good! Connected to Internet";
+            color = Color.WHITE;
+            snackbar = Snackbar
+                    .make(findViewById(R.id.coordinatorLayout), message, Snackbar.LENGTH_LONG);
+        } else {
+            message = "Sorry! Not connected to internet";
+            color = Color.RED;
+            snackbar = Snackbar
+                    .make(findViewById(R.id.coordinatorLayout), message, Snackbar.LENGTH_INDEFINITE);
+        }
+
+        View sbView = snackbar.getView();
+        TextView textView = (TextView) sbView.findViewById(android.support.design.R.id.snackbar_text);
+        textView.setTextColor(color);
+        snackbar.show();
+    }
 }

@@ -122,8 +122,7 @@ public class QuestListActivity extends MainParentActivity {
 
     // Method to manually check connection status
     private void checkConnection() {
-        boolean isConnected = ConnectivityReceiver.isConnected();
-        showSnack(isConnected);
+        ConnectivityReceiver.isConnected();
     }
 
     private void showView()
