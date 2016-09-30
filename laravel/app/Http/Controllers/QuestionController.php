@@ -358,7 +358,10 @@ class QuestionController extends Controller
         $correct_option = Input::get("optionsRadioG");
         $ideal_time = Input::get('ideal_time');
         $level = Input::get("Level");
-
+        if (!isset($hash) || $hash ==null || $hash==""){
+            $error = 'Error in selecting topic';
+            return redirect('question/'.$questionId)->with('status', $error);
+        }
         try{
             DB::beginTransaction();
             $status =0;

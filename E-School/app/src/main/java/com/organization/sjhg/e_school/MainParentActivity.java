@@ -32,6 +32,7 @@ import com.organization.sjhg.e_school.Remote.RemoteHelper;
 import com.organization.sjhg.e_school.Remote.VolleyController;
 import com.organization.sjhg.e_school.Utils.SharedPrefrence;
 import com.organization.sjhg.e_school.Utils.ToastActivity;
+import com.squareup.picasso.MemoryPolicy;
 import com.squareup.picasso.Picasso;
 
 
@@ -240,7 +241,8 @@ public class MainParentActivity extends AppCompatActivity implements NavigationV
             if (!sharedPrefrence.getUserPic(getApplicationContext()).equals("")){
                 Picasso.with(this)
                         .load(sharedPrefrence.getUserPic(getApplicationContext()))
-                        .placeholder(R.drawable.ic_launcher)
+                        .placeholder(R.drawable.ic_account_circle_white_24dp)
+                        .memoryPolicy(MemoryPolicy.NO_CACHE, MemoryPolicy.NO_STORE)
                         .into(profile_pic);
             }
             profile_pic.setOnClickListener(listener);

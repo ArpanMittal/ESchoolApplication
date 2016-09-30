@@ -139,4 +139,13 @@
         <item name="android:maxLines">2</item>
         <item name="android:ellipsize">end</item>
     </style>
+    <style name="AppTheme.AlertDialog" parent="Theme.AppCompat.Light.Dialog.Alert">
+        <!-- Used for the buttons -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <!-- Used for the title and text -->
+        <item name="android:textColorPrimary">@color/common_google_signin_btn_text_light</item>
+        <item name="android:textColor">@color/common_google_signin_btn_text_light</item>
+    </style>
 </resources>
