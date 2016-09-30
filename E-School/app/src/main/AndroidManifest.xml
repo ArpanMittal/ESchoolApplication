@@ -49,19 +49,18 @@
             android:theme="@style/AppTheme.NoActionBar"/>
         <activity
             android:name=".LoginActivity"
-            android:theme="@style/AppTheme"
+            android:theme="@style/AppThemeExam"
             android:label="@string/title_activity_login"
+            android:parentActivityName=".Main_Activity"
              />
         <activity android:name=".SignupActivity"
             android:label="@string/signup"
             android:parentActivityName=".LoginActivity"
-            android:theme="@style/AppTheme">
+            android:theme="@style/AppThemeExam">
         </activity>
 
         <activity
             android:name=".Main_Activity"
-            android:parentActivityName=".LoginActivity"
-
             android:theme="@style/AppTheme.NoActionBar">
 
         <meta-data android:name="android.app.default_searchable"
@@ -99,9 +98,10 @@
 
         <activity android:name=".Content.NewTest.TestReportActivity"
             android:parentActivityName=".Content.NewTest.TestSummaryActivity"
+            android:theme="@style/AppThemeExam"
             android:label="TestReport"/>
         <activity android:name=".Content.NewTest.TestAnswerActivity"
-            android:parentActivityName=".Content.NewTest.TestReportActivity"
+            android:parentActivityName=".Content.NewTest.TestSummaryActivity"
             android:theme="@style/AppThemeExam.NoActionBar"
             android:label="TestAnswer"/>
 

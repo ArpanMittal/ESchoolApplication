@@ -7,6 +7,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -58,6 +59,7 @@ public class TestActivity extends AppCompatActivity implements RemoteCallHandler
     int lastPageposition=0;
     int pageOffset;
     ProgressBar progress;
+    private TabLayout tabLayout;
 
 
 
@@ -75,7 +77,8 @@ public class TestActivity extends AppCompatActivity implements RemoteCallHandler
         setContentView(R.layout.activity_test);
         mProgressView=findViewById(R.id.dashboard_progress);
         mViewPagerView=(ViewPager)findViewById(R.id.viewpager_fragment);
-        progress = (ProgressBar) findViewById(R.id.progressBar); progress = (ProgressBar) findViewById(R.id.progressBar);
+        progress = (ProgressBar) findViewById(R.id.progressBar);
+        tabLayout=(TabLayout)findViewById(R.id.id_tabs);
     }
 
     @Override
@@ -86,7 +89,8 @@ public class TestActivity extends AppCompatActivity implements RemoteCallHandler
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
+    public boolean onOptionsItemSelected(MenuItem item)
+    {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
@@ -220,6 +224,8 @@ public class TestActivity extends AppCompatActivity implements RemoteCallHandler
         QuestionAdapter questionAdapter=new QuestionAdapter(getSupportFragmentManager(),questions,getApplicationContext());
         insertIntoDatabse(questions);
         mViewPagerView.setAdapter(questionAdapter);
+        tabLayout = (TabLayout) findViewById(R.id.id_tabs);
+        tabLayout.setupWithViewPager(mViewPagerView);
         mViewPagerView.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
 
             @Override
@@ -237,16 +243,16 @@ public class TestActivity extends AppCompatActivity implements RemoteCallHandler
                 // to detect left or right scroll
                 if(position!=0||(position+1==1&&lastPageposition==1))
                 {
-                    if(position<lastPageposition)
-                        pageOffset=-1;
-                    else
-                        pageOffset=1;
+//                    if(position<lastPageposition)
+//                        pageOffset=-1;
+//                    else
+//                        pageOffset=1;
                     // for timer of each question
                     double diff=0.0;
                     Cursor cursor = getApplicationContext().getContentResolver().query(
                             UserContract.TestDetail.CONTENT_URI, null,
                             UserContract.TestDetail.COLUMN_QUESTION_ID+" =? ",
-                            new String[]{questionLists.get(position-pageOffset).id},
+                            new String[]{questionLists.get(lastPageposition).id},
                             null,
                             null
                     );
@@ -260,7 +266,7 @@ public class TestActivity extends AppCompatActivity implements RemoteCallHandler
                     // insert time spend on previous question
                         int result = getApplicationContext().getContentResolver().update(UserContract.TestDetail.CONTENT_URI, contentValues,
                                 UserContract.TestDetail.COLUMN_QUESTION_ID + "=?",
-                                new String[]{questionLists.get(position - pageOffset).id});
+                                new String[]{questionLists.get(lastPageposition).id});
 
                 }
 
