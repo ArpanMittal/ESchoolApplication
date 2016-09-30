@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.media.Image;
 import android.net.Uri;
@@ -42,6 +43,7 @@ import com.organization.sjhg.e_school.Remote.RemoteHelper;
 import com.organization.sjhg.e_school.Structure.GlobalConstants;
 import com.organization.sjhg.e_school.Utils.SharedPrefrence;
 import com.organization.sjhg.e_school.Utils.ToastActivity;
+import com.squareup.picasso.MemoryPolicy;
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
@@ -67,8 +69,7 @@ public class ProfileEditActivity extends MainParentActivity {
     private static int RESULT_LOAD_IMAGE = 1;
     private ProgressBar mLoading;
     private ImageView profilePic;
-    private EditText userName, userPnumber;
-    private TextView userEmail, userDob;
+    private EditText userName, userPnumber, userDob;
     private ImageButton editProPic, editDOB;
     private Spinner userCountry, userState, userCity, userSchool;
     private HashMap<String, String> data;
@@ -83,6 +84,8 @@ public class ProfileEditActivity extends MainParentActivity {
             Picasso.with(this)
                     .load(selectedImage)
                     .resize(MAX_SIZE, MAX_SIZE  )
+                    .placeholder(R.drawable.ic_account_circle_white_24dp)
+                    .memoryPolicy(MemoryPolicy.NO_CACHE, MemoryPolicy.NO_STORE)
                     .centerInside()
                     .into(profilePic);
         }
@@ -91,13 +94,16 @@ public class ProfileEditActivity extends MainParentActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        ViewStub view_Stub = (ViewStub) findViewById(R.id.viewstub);
-        view_Stub.setLayoutResource(R.layout.activity_edit_profile);
+        ViewStub view_Stub=(ViewStub)findViewById(R.id.viewstub);
+        view_Stub.setLayoutResource(R.layout.normal_app_bar);
         view_Stub.inflate();
+        ViewStub viewStub = (ViewStub) findViewById(R.id.view_stub_bar);
+        viewStub.setLayoutResource(R.layout.activity_edit_profile);
+        viewStub.inflate();
 
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         // code repeted in all activity
         toggle = new ActionBarDrawerToggle(
@@ -111,21 +117,54 @@ public class ProfileEditActivity extends MainParentActivity {
         profilePic = (ImageView) findViewById(R.id.profile_pic);
         Picasso.with(this)
                 .load(sharedPrefrence.getUserPic(getApplicationContext()))
-                .placeholder(R.drawable.ic_launcher)
+                .placeholder(R.drawable.ic_account_circle_white_24dp)
+                .memoryPolicy(MemoryPolicy.NO_CACHE, MemoryPolicy.NO_STORE)
                 .into(profilePic);
         userName = (EditText) findViewById(R.id.user_name);
         userName.setText(sharedPrefrence.getUserName(getApplicationContext()));
-        userEmail = (TextView) findViewById(R.id.user_email);
-        userEmail.setText(sharedPrefrence.getUserEmail(getApplicationContext()));
-        userDob = (TextView) findViewById(R.id.user_dob);
+        userDob = (EditText) findViewById(R.id.user_dob);
         userCountry = (Spinner) findViewById(R.id.user_country);
         userState = (Spinner) findViewById(R.id.user_state);
         userCity = (Spinner) findViewById(R.id.user_city);
         userPnumber = (EditText) findViewById(R.id.user_pnumber);
         userSchool = (Spinner) findViewById(R.id.user_school);
         editProPic = (ImageButton) findViewById(R.id.edit_pro_pic);
-        editDOB = (ImageButton) findViewById(R.id.edit_user_dob);
         Button cancel = (Button) findViewById(R.id.cancel);
+        View view = findViewById(R.id.user_dob_block);
+        view.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Calendar newCalendar = Calendar.getInstance();
+                DatePickerDialog dialog = new DatePickerDialog(ProfileEditActivity.this, new DatePickerDialog.OnDateSetListener() {
+
+                    public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+                        SimpleDateFormat parser = new SimpleDateFormat("yyyy-MM-dd");
+                        Calendar newDate = Calendar.getInstance();
+                        newDate.set(year, monthOfYear, dayOfMonth);
+                        userDob.setText(parser.format(newDate.getTime()));
+                    }
+
+                }, newCalendar.get(Calendar.YEAR), newCalendar.get(Calendar.MONTH), newCalendar.get(Calendar.DAY_OF_MONTH));
+                dialog.show();
+            }
+        });
+        userDob.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Calendar newCalendar = Calendar.getInstance();
+                DatePickerDialog dialog = new DatePickerDialog(ProfileEditActivity.this, new DatePickerDialog.OnDateSetListener() {
+
+                    public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+                        SimpleDateFormat parser = new SimpleDateFormat("yyyy-MM-dd");
+                        Calendar newDate = Calendar.getInstance();
+                        newDate.set(year, monthOfYear, dayOfMonth);
+                        userDob.setText(parser.format(newDate.getTime()));
+                    }
+
+                }, newCalendar.get(Calendar.YEAR), newCalendar.get(Calendar.MONTH), newCalendar.get(Calendar.DAY_OF_MONTH));
+                dialog.show();
+            }
+        });
         cancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -137,6 +176,7 @@ public class ProfileEditActivity extends MainParentActivity {
         save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                mLoading.setVisibility(View.VISIBLE);
                 Map<String, String> params = new HashMap<String, String>();
                 ByteArrayOutputStream stream = new ByteArrayOutputStream();
                 Bitmap pic = ((BitmapDrawable)profilePic.getDrawable()).getBitmap();
@@ -146,10 +186,33 @@ public class ProfileEditActivity extends MainParentActivity {
                 params.put("profile_pic",profile_pic);
                 params.put("name", String.valueOf(userName.getText()));
                 params.put("date_of_birth", String.valueOf(userDob.getText()));
-                params.put("country",country.get(userCountry.getSelectedItemPosition()));
-                params.put("state",state.get(userState.getSelectedItemPosition()));
-                params.put("city",city.get(userCity.getSelectedItemPosition()));
-                params.put("school",school.get(userSchool.getSelectedItemPosition()));
+                String c = country.get(userCountry.getSelectedItemPosition());
+                if (!c.equals("Chose Country")){
+                    params.put("country",c);
+                }else{
+                    params.put("country","");
+                }
+                String s = state.get(userState.getSelectedItemPosition());
+                if (!s.equals("Chose State")){
+                    params.put("state",s);
+                }else{
+                    params.put("state","");
+                }
+
+                String cy = city.get(userCity.getSelectedItemPosition());
+                if (!cy.equals("Chose City")){
+                    params.put("city",cy);
+                }else{
+                    params.put("city","");
+                }
+
+                String sh = school.get(userSchool.getSelectedItemPosition());
+                if (!sh.equals("Chose School")){
+                    params.put("school",sh);
+                }else{
+                    params.put("school","");
+                }
+
                 params.put("phone_number", String.valueOf(userPnumber.getText()));
                 new RemoteHelper(getApplicationContext()).saveProfile(ProfileEditActivity.this, RemoteCalls.SAVE_PROFILE,params, sharedPrefrence.getAccessToken(ProfileEditActivity.this));
             }
@@ -277,8 +340,10 @@ public class ProfileEditActivity extends MainParentActivity {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 if (country.get(position).equals("Add")) {
-                    AlertDialog.Builder alert = new AlertDialog.Builder(ProfileEditActivity.this);
+                    AlertDialog.Builder alert = new AlertDialog.Builder(ProfileEditActivity.this,R.style.AppTheme_AlertDialog);
                     final EditText edittext = new EditText(getApplicationContext());
+                    edittext.setTextColor(Color.parseColor("#7c7c7c"));
+                    edittext.setTextColor(Color.BLACK);
                     alert.setTitle("Enter");
 
                     alert.setView(edittext);
@@ -319,8 +384,9 @@ public class ProfileEditActivity extends MainParentActivity {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 if (state.get(position).equals("Add")) {
-                    AlertDialog.Builder alert = new AlertDialog.Builder(ProfileEditActivity.this);
+                    AlertDialog.Builder alert = new AlertDialog.Builder(ProfileEditActivity.this,R.style.AppTheme_AlertDialog);
                     final EditText edittext = new EditText(getApplicationContext());
+                    edittext.setTextColor(Color.parseColor("#7c7c7c"));
                     alert.setTitle("Enter");
 
                     alert.setView(edittext);
@@ -359,8 +425,9 @@ public class ProfileEditActivity extends MainParentActivity {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 if (city.get(position).equals("Add")) {
-                    AlertDialog.Builder alert = new AlertDialog.Builder(ProfileEditActivity.this);
+                    AlertDialog.Builder alert = new AlertDialog.Builder(ProfileEditActivity.this,R.style.AppTheme_AlertDialog);
                     final EditText edittext = new EditText(getApplicationContext());
+                    edittext.setTextColor(Color.parseColor("#7c7c7c"));
                     alert.setTitle("Enter");
 
                     alert.setView(edittext);
@@ -399,8 +466,9 @@ public class ProfileEditActivity extends MainParentActivity {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 if (school.get(position).equals("Add")) {
-                    AlertDialog.Builder alert = new AlertDialog.Builder(ProfileEditActivity.this);
+                    AlertDialog.Builder alert = new AlertDialog.Builder(ProfileEditActivity.this,R.style.AppTheme_AlertDialog);
                     final EditText edittext = new EditText(getApplicationContext());
+                    edittext.setTextColor(Color.parseColor("#7c7c7c"));
                     alert.setTitle("Enter");
 
                     alert.setView(edittext);
@@ -432,14 +500,12 @@ public class ProfileEditActivity extends MainParentActivity {
             Picasso.with(this).invalidate(data.get("photo_path"));
             Picasso.with(this)
                     .load(data.get("photo_path"))
-                    .placeholder(R.drawable.ic_launcher)
+                    .placeholder(R.drawable.ic_account_circle_white_24dp)
+                    .memoryPolicy(MemoryPolicy.NO_CACHE, MemoryPolicy.NO_STORE)
                     .into(profilePic);
         }
         if (!data.get("name").equals("null")) {
             userName.setText(data.get("name"));
-        }
-        if (!data.get("email").equals("null")) {
-            userEmail.setText(data.get("email"));
         }
         if (!data.get("phone_number").equals("null")) {
             userPnumber.setText(data.get("phone_number"));
@@ -447,23 +513,6 @@ public class ProfileEditActivity extends MainParentActivity {
         if (!data.get("date_of_birth").equals("null")) {
             userDob.setText(data.get("date_of_birth"));
         }
-        editDOB.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Calendar newCalendar = Calendar.getInstance();
-                DatePickerDialog dialog = new DatePickerDialog(ProfileEditActivity.this, new DatePickerDialog.OnDateSetListener() {
-
-                    public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-                        SimpleDateFormat parser = new SimpleDateFormat("yyyy-MM-dd");
-                        Calendar newDate = Calendar.getInstance();
-                        newDate.set(year, monthOfYear, dayOfMonth);
-                        userDob.setText(parser.format(newDate.getTime()));
-                    }
-
-                }, newCalendar.get(Calendar.YEAR), newCalendar.get(Calendar.MONTH), newCalendar.get(Calendar.DAY_OF_MONTH));
-                dialog.show();
-            }
-        });
 
         editProPic.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -482,7 +531,6 @@ public class ProfileEditActivity extends MainParentActivity {
         Locale[] locale = Locale.getAvailableLocales();
         ArrayList<String> countries = new ArrayList<String>();
         String country;
-        countries.add("");
         for (Locale loc : locale) {
             country = loc.getDisplayCountry();
             if (country.length() > 0 && !countries.contains(country)) {
@@ -490,14 +538,15 @@ public class ProfileEditActivity extends MainParentActivity {
             }
         }
         Collections.sort(countries, String.CASE_INSENSITIVE_ORDER);
+        countries.add(0,"Chose Country");
         this.country = countries;
 
         JSONArray arr = data.getJSONArray("state");
         ArrayList<String> list = new ArrayList<>();
-        list.add("");
+        list.add("Chose State");
         for (int i = 0; i < arr.length(); i++) {
             String temp = arr.getJSONObject(i).getString("state_name");
-            if (!temp.equals("null")) {
+            if (!temp.equals("null")  && !temp.equals("")) {
                 list.add(temp);
             }
         }
@@ -507,10 +556,10 @@ public class ProfileEditActivity extends MainParentActivity {
 
         arr = data.getJSONArray("city");
         list = new ArrayList<>();
-        list.add("");
+        list.add("Chose City");
         for (int i = 0; i < arr.length(); i++) {
             String temp = arr.getJSONObject(i).getString("city_name");
-            if (!temp.equals("null")) {
+            if (!temp.equals("null")  && !temp.equals("")) {
                 list.add(temp);
             }
         }
@@ -519,10 +568,10 @@ public class ProfileEditActivity extends MainParentActivity {
 
         arr = data.getJSONArray("school");
         list = new ArrayList<>();
-        list.add("");
+        list.add("Chose School");
         for (int i = 0; i < arr.length(); i++) {
             String temp = arr.getJSONObject(i).getString("school_name");
-            if (!temp.equals("null")) {
+            if (!temp.equals("null") && !temp.equals("")) {
                 list.add(temp);
             }
         }

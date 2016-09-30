@@ -27,7 +27,7 @@ public class VolleyController extends Application {
     public void onCreate() {
         super.onCreate();
 //        FontsOverride.setDefaultFont(this, "DEFAULT", "TitilliumWeb-LightItalic.ttf");
-        FontsOverride.setDefaultFont(this, "MONOSPACE", "TitilliumWeb-LightItalic.ttf");
+        FontsOverride.setDefaultFont(this, "MONOSPACE", "TitilliumWeb-Light.ttf");
 //        FontsOverride.setDefaultFont(this, "SERIF", "TitilliumWeb-LightItalic.ttf");
 //        FontsOverride.setDefaultFont(this, "SANS_SERIF", "TitilliumWeb-LightItalic.ttf");
         mInstance = this;
