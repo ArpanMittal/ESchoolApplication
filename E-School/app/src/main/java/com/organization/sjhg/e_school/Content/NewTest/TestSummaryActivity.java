@@ -37,10 +37,13 @@ import com.organization.sjhg.e_school.Utils.ProgressBarActivity;
 import com.organization.sjhg.e_school.Utils.SharedPrefrence;
 import com.organization.sjhg.e_school.Utils.ToastActivity;
 
+import net.sf.andpdf.utils.Utils;
+
 import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.io.Serializable;
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -198,9 +201,12 @@ public class TestSummaryActivity  extends MainParentActivity implements RemoteCa
                 JSONObject jsonObject=jsonArray.getJSONObject(i);
                 String id=jsonObject.getString(getString(R.string.jsonid));
                 String time=jsonObject.getString(getString(R.string.jsontime));
-
-
-                chapterListList.add(new ChapterList(id,"Attempted on"+time));
+                Date date = new Date(Integer.parseInt(time)*1000L);
+                SimpleDateFormat localDateFormat = new SimpleDateFormat("HH:mm:ss");
+                String times = localDateFormat.format(date);
+                DateFormat outputFormatter = new SimpleDateFormat("dd/MMMM/yyyy");
+                String output = outputFormatter.format(date);
+                chapterListList.add(new ChapterList(id,"Attempted on "+output+" At "+times));
             }
 
         }catch (Exception e)

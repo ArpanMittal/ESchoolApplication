@@ -10,5 +10,11 @@
         <color name="transparent">#00000000</color>
         <color name="translucent_primary">#7703A9F4</color>
 
+    <!-- Green -->
+    <color name="green_temp">#f816a463</color>
+    <color name="green_dark">#159204</color>
+    <color name="bright_green">#02D8B0</color>
+    <color name="button_green">#10a54a</color>
+
     </resources>
 
