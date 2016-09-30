@@ -263,6 +263,9 @@
     <string name="jsonText">text</string>
     <string name="home">Home</string>
     <string name="view_attempts">VIEW ATTEMPTS</string>
+    <string name="question">Question:</string>
+    <string name="correctanswer">Correct Answer:</string>
+    <string name="useroption">Your Answer:</string>
 
 
 </resources>

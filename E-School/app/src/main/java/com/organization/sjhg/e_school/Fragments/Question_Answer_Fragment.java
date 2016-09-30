@@ -59,7 +59,7 @@ public class Question_Answer_Fragment extends Fragment {
         imageLoader(url,imageView);
         String url1=ServerAddress.getServerAddress(getContext())+questionAnswerLists.get(0).solution_path;
         imageLoader(url1,imageView1);
-        time_taken.setText(questionAnswerLists.get(0).time_taken);
+        time_taken.setText("Time Taken : "+questionAnswerLists.get(0).time_taken);
 
         String code=questionAnswerLists.get(0).question_text;
         textLoader(code,question_text);
