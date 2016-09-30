@@ -11,7 +11,7 @@ public class ChapterList implements Serializable {
     public String id;
     public String name;
     public String checked_option_id=null;
-    public CheckBox checkBox=null;
+    //public CheckBox checkBox=null;
     public ChapterList(String id,String name)
     {
         this.id=id;
