@@ -269,9 +269,9 @@
     <string name="useroption">Your Answer:</string>
 
     <string name="cancel">Cancel</string>
-    <string name="dob">Date od birth</string>
+    <string name="dob">Date of birth</string>
     <string name="phone_number">Enter Phone Number</string>
-
+    <string name="title_activity_profile_edit">Profile Edit</string>
 
 
 </resources>

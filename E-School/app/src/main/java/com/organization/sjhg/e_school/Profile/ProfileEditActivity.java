@@ -1,5 +1,6 @@
 package com.organization.sjhg.e_school.Profile;
 
+import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -12,15 +13,19 @@ import android.media.Image;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.util.Base64;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewStub;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -29,17 +34,22 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.organization.sjhg.e_school.Content.ImageDisplayActivity;
 import com.organization.sjhg.e_school.Fragments.Notes_Listing_Fragment;
+import com.organization.sjhg.e_school.Helpers.ConnectivityReceiver;
 import com.organization.sjhg.e_school.Helpers.LogHelper;
 import com.organization.sjhg.e_school.LoginActivity;
 import com.organization.sjhg.e_school.MainParentActivity;
 import com.organization.sjhg.e_school.R;
+import com.organization.sjhg.e_school.Remote.RemoteCallHandler;
 import com.organization.sjhg.e_school.Remote.RemoteCalls;
 import com.organization.sjhg.e_school.Remote.RemoteHelper;
+import com.organization.sjhg.e_school.Remote.VolleyController;
 import com.organization.sjhg.e_school.Structure.GlobalConstants;
 import com.organization.sjhg.e_school.Utils.SharedPrefrence;
 import com.organization.sjhg.e_school.Utils.ToastActivity;
@@ -65,7 +75,7 @@ import java.util.Map;
 /**
  * Created by Punit Chhajer on 21-09-2016.
  */
-public class ProfileEditActivity extends MainParentActivity {
+public class ProfileEditActivity extends AppCompatActivity implements ConnectivityReceiver.ConnectivityReceiverListener,RemoteCallHandler {
     private static int RESULT_LOAD_IMAGE = 1;
     private ProgressBar mLoading;
     private ImageView profilePic;
@@ -81,6 +91,7 @@ public class ProfileEditActivity extends MainParentActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == RESULT_LOAD_IMAGE && resultCode == RESULT_OK && null != data) {
             Uri selectedImage = data.getData();
+            this.data.put("photo_path", String.valueOf(selectedImage));
             Picasso.with(this)
                     .load(selectedImage)
                     .resize(MAX_SIZE, MAX_SIZE  )
@@ -94,23 +105,14 @@ public class ProfileEditActivity extends MainParentActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        ViewStub view_Stub=(ViewStub)findViewById(R.id.viewstub);
-        view_Stub.setLayoutResource(R.layout.normal_app_bar);
-        view_Stub.inflate();
+        setContentView(R.layout.normal_app_bar);
         ViewStub viewStub = (ViewStub) findViewById(R.id.view_stub_bar);
         viewStub.setLayoutResource(R.layout.activity_edit_profile);
         viewStub.inflate();
 
-        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
-        // code repeted in all activity
-        toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawer.setDrawerListener(toggle);
-        toggle.syncState();
-
 
         mLoading = (ProgressBar) findViewById(R.id.progress);
         final SharedPrefrence sharedPrefrence = new SharedPrefrence();
@@ -135,7 +137,7 @@ public class ProfileEditActivity extends MainParentActivity {
             @Override
             public void onClick(View v) {
                 Calendar newCalendar = Calendar.getInstance();
-                DatePickerDialog dialog = new DatePickerDialog(ProfileEditActivity.this, new DatePickerDialog.OnDateSetListener() {
+                DatePickerDialog dialog = new DatePickerDialog(ProfileEditActivity.this ,new DatePickerDialog.OnDateSetListener() {
 
                     public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
                         SimpleDateFormat parser = new SimpleDateFormat("yyyy-MM-dd");
@@ -218,12 +220,30 @@ public class ProfileEditActivity extends MainParentActivity {
             }
         });
 
+        View Screen= findViewById(R.id.root_layout);
+        Screen.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                if(!(v instanceof EditText))
+                {
+                    hideSoftKeyboard(ProfileEditActivity.this);
+                    return false;
+                }
+                return true;
+            }
+        });
 
             new RemoteHelper(getApplicationContext()).getUserDetails(this, RemoteCalls.GET_USER_DETAILS, sharedPrefrence.getAccessToken(this));
             new RemoteHelper(getApplicationContext()).getProfileDetails(this, RemoteCalls.GET_PROFILE_EDIT_DATA, sharedPrefrence.getAccessToken(this));
 
 
 
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        VolleyController.getInstance().setConnectivityListener(this);
     }
 
     @Override
@@ -248,7 +268,6 @@ public class ProfileEditActivity extends MainParentActivity {
 
     @Override
     public void HandleRemoteCall(boolean isSuccessful, RemoteCalls callFor, JSONObject response, Exception exception) {
-        super.HandleRemoteCall(isSuccessful, callFor, response, exception);
         if (!isSuccessful) {
             mLoading.setVisibility(View.GONE);
             new LogHelper(exception);
@@ -594,4 +613,35 @@ public class ProfileEditActivity extends MainParentActivity {
         return d;
     }
 
+    @Override
+    public void onNetworkConnectionChanged(boolean isConnected) {
+        showSnack(isConnected);
+    }
+
+    protected void showSnack(boolean isConnected) {
+        String message;
+        int color;
+        Snackbar snackbar;
+        if (isConnected) {
+            message = "Good! Connected to Internet";
+            color = Color.WHITE;
+            snackbar = Snackbar
+                    .make(findViewById(R.id.coordinatorLayout), message, Snackbar.LENGTH_LONG);
+        } else {
+            message = "Sorry! Not connected to internet";
+            color = Color.RED;
+            snackbar = Snackbar
+                    .make(findViewById(R.id.coordinatorLayout), message, Snackbar.LENGTH_INDEFINITE);
+        }
+
+        View sbView = snackbar.getView();
+        TextView textView = (TextView) sbView.findViewById(android.support.design.R.id.snackbar_text);
+        textView.setTextColor(color);
+        snackbar.show();
+    }
+
+    public static void hideSoftKeyboard(Activity activity) {
+        InputMethodManager inputMethodManager = (InputMethodManager)  activity.getSystemService(Activity.INPUT_METHOD_SERVICE);
+        inputMethodManager.hideSoftInputFromWindow(activity.getCurrentFocus().getWindowToken(), 0);
+    }
 }

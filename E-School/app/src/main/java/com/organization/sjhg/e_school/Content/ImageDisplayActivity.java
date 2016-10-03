@@ -1,20 +1,29 @@
 package com.organization.sjhg.e_school.Content;
 
+import android.app.Activity;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.graphics.Matrix;
 import android.graphics.PointF;
+import android.graphics.drawable.ColorDrawable;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.util.FloatMath;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.ImageView;
 
 import com.organization.sjhg.e_school.HideNavigationBar;
 import com.organization.sjhg.e_school.R;
 import com.organization.sjhg.e_school.Structure.GlobalConstants;
 import com.organization.sjhg.e_school.deviceadmin.DeviceAdminUtil;
+import com.squareup.picasso.MemoryPolicy;
+import com.squareup.picasso.Picasso;
 
 import java.io.File;
 
@@ -24,101 +33,34 @@ import java.io.File;
  * Organization: St. Joseph's Hitech Gurukul.
  */
 
-public class ImageDisplayActivity extends ContentViewer
+public class ImageDisplayActivity extends AppCompatActivity
 {
-    Matrix matrix = new Matrix();
-    Matrix savedMatrix = new Matrix();
 
-    // We can be in one of these 3 states
-    static final int NONE = 0;
-    static final int DRAG = 1;
-    static final int ZOOM = 2;
-    int mode = NONE;
-
-    // Remember some things for zooming
-    PointF start = new PointF();
-    PointF mid = new PointF();
-    float oldDist = 1f;
-    String savedItemClicked;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        DeviceAdminUtil.checkAndPrompt(this);
-        HideNavigationBar hideNavigationBar = new HideNavigationBar();
-        hideNavigationBar.hideNavigationBar(getWindow());
         setContentView(R.layout.activity_display_image);
-
-        super.onResume();
-        imageView(localFilePath);
+        getSupportActionBar().setBackgroundDrawable(new ColorDrawable(Color.BLACK));
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            Window window = getWindow();
+            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+            window.setStatusBarColor(Color.BLACK);
+        }
+        String title= getIntent().getStringExtra("title");
+        if (title!=null){
+            setTitle(title);
+        }
+        imageView(getIntent().getStringExtra("path"));
     }
 
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        HideNavigationBar hideNavigationBar = new HideNavigationBar();
-        hideNavigationBar.hideNavigationBar(getWindow());
-    }
-
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-    }
-
-    private void imageView(String localFilePath) {
-        File imgFile = new File(localFilePath);
-        if (imgFile.exists()) {
-            Bitmap myBitmap = BitmapFactory.decodeFile(imgFile.getAbsolutePath());
+    private void imageView(String filePath) {
             ImageView imageView = (ImageView) findViewById(R.id.imageView);
-            imageView.setImageBitmap(myBitmap);
-
-        }
-    }
-
-    private void dumpEvent(MotionEvent event) {
-        String names[] = {"DOWN", "UP", "MOVE", "CANCEL", "OUTSIDE",
-                "POINTER_DOWN", "POINTER_UP", "7?", "8?", "9?"};
-        StringBuilder sb = new StringBuilder();
-        int action = event.getAction();
-        int actionCode = action & MotionEvent.ACTION_MASK;
-        sb.append("event ACTION_").append(names[actionCode]);
-        if (actionCode == MotionEvent.ACTION_POINTER_DOWN
-                || actionCode == MotionEvent.ACTION_POINTER_UP) {
-            sb.append("(pid ").append(
-                    action >> MotionEvent.ACTION_POINTER_ID_SHIFT);
-            sb.append(")");
-        }
-        sb.append("[");
-        for (int i = 0; i < event.getPointerCount(); i++) {
-            sb.append("#").append(i);
-            sb.append("(pid ").append(event.getPointerId(i));
-            sb.append(")=").append((int) event.getX(i));
-            sb.append(",").append((int) event.getY(i));
-            if (i + 1 < event.getPointerCount())
-                sb.append(";");
-        }
-        sb.append("]");
-        Log.d(GlobalConstants.LOG_TAG, sb.toString());
-    }
-
-    /**
-     * Determine the space between the first two fingers
-     */
-    private float spacing(MotionEvent event) {
-        float x = event.getX(0) - event.getX(1);
-        float y = event.getY(0) - event.getY(1);
-        return (float)Math.sqrt(x * x + y * y);
-    }
-
-    /**
-     * Calculate the mid point of the first two fingers
-     */
-    private void midPoint(PointF point, MotionEvent event) {
-        float x = event.getX(0) + event.getX(1);
-        float y = event.getY(0) + event.getY(1);
-        point.set(x / 2, y / 2);
+            Picasso.with(this)
+                    .load(filePath)
+                    .placeholder(R.drawable.ic_account_circle_white_24dp)
+                    .memoryPolicy(MemoryPolicy.NO_CACHE, MemoryPolicy.NO_STORE)
+                    .into(imageView);
     }
 }
 
