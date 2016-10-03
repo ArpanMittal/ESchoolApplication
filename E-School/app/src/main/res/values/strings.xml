@@ -228,7 +228,7 @@
     <string name="TestSummary">TestSummary</string>
     <string name="get_test_summary">api/v1/getTestSummary</string>
     <string name="jsontime">time</string>
-    <string name="test_start_title">start test</string>
+    <string name="test_start_title">Attempt Test</string>
     <string name="testreport">test report</string>
     <string name="jsoneasy">easy</string>
     <string name="jsoncorrectattempt">correct_attempt</string>
@@ -271,7 +271,7 @@
     <string name="cancel">Cancel</string>
     <string name="dob">Date od birth</string>
     <string name="phone_number">Enter Phone Number</string>
-
+    <string name="samplepaper">Sample Paper</string>
 
 
 </resources>

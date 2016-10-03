@@ -32,13 +32,15 @@ public class TestPaperAttemptAdapter extends RecyclerView.Adapter<TestPaperAttem
     private String parent_id;
     private String parent_tag;
     private String parent_title;
+    private String grand_parent_title;
 
-    public TestPaperAttemptAdapter(Context context,List<ChapterList> android,String parent_id,String parent_tag,String parent_title) {
+    public TestPaperAttemptAdapter(Context context,List<ChapterList> android,String parent_id,String parent_tag,String parent_title,String grand_parent_title) {
         this.chapterLists = android;
         this.context = context;
         this.parent_id=parent_id;
         this.parent_tag=parent_tag;
         this.parent_title=parent_title;
+        this.grand_parent_title=grand_parent_title;
     }
 
     @Override
@@ -61,6 +63,7 @@ public class TestPaperAttemptAdapter extends RecyclerView.Adapter<TestPaperAttem
                 intent.putExtra("parent_tag",parent_tag);
                 intent.putExtra("parent_title",parent_title);
                 intent.putExtra("Id",chapterLists.get(position).id);
+                intent.putExtra("Grand_Parent_Title",grand_parent_title);
                 context.startActivity(intent);
 
 

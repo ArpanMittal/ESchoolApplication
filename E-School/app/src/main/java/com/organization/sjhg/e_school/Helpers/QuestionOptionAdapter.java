@@ -7,6 +7,7 @@ import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.LevelListDrawable;
@@ -69,7 +70,7 @@ public class QuestionOptionAdapter extends RecyclerView.Adapter<QuestionOptionAd
     private void makeCheckbox(View v,int position)
     {
         CheckBox cb = (CheckBox) v.findViewById(R.id.chkSelected);
-//               // cb.setChecked(true);
+
         String clickId=chapterLists.get(position).id;
         if(lastCheckedId!=clickId)
         {
@@ -87,7 +88,7 @@ public class QuestionOptionAdapter extends RecyclerView.Adapter<QuestionOptionAd
 
                 cb.setChecked(true);
                 chapterLists.get(lastcheckposition).checked_option_id=null;
-                //chapterLists.get(lastcheckposition).checkBox=null;
+
                 chapterLists.get(position).checked_option_id = clickId;
                 //chapterLists.get(position).checkBox = cb;
                 lastCheckedId=clickId;
@@ -133,6 +134,7 @@ public class QuestionOptionAdapter extends RecyclerView.Adapter<QuestionOptionAd
     @Override
     public void onBindViewHolder(final QuestionOptionAdapter.ViewHolder holder, final int position) {
         String code=chapterLists.get(position).name;
+
         Spanned spanned = Html.fromHtml(code, new Html.ImageGetter() {
             @Override
             public Drawable getDrawable(String source) {
@@ -145,12 +147,11 @@ public class QuestionOptionAdapter extends RecyclerView.Adapter<QuestionOptionAd
             }
         }, null);
         holder.option_text.setText(spanned);
-        //holder.option_text.setText(Html.fromHtml(chapterLists.get(position).name));
+        Typeface face= Typeface.createFromAsset(context.getAssets(), "latin-modern-sans/lmsans8-regular.otf");
+        holder.option_text.setTypeface(face);
 
         if(chapterLists.get(position).checked_option_id!=null)
         {
-           // chapterLists.get(position).checkBox.setChecked(true);
-           //holder.chkSelected.setChecked(true);
             lastcheckposition=position;
            lastChecked=holder.chkSelected;
             lastCheckedId=chapterLists.get(position).checked_option_id;
@@ -163,7 +164,6 @@ public class QuestionOptionAdapter extends RecyclerView.Adapter<QuestionOptionAd
             public void onClick(View v) {
                 makeCheckbox(v,position);
                holder.chkSelected.setBackgroundColor(0);
-               // notifyDataSetChanged();
 
             }
         });
@@ -174,9 +174,12 @@ public class QuestionOptionAdapter extends RecyclerView.Adapter<QuestionOptionAd
             {
                 makeCheckbox(v,position);
                 holder.chkSelected.setBackgroundColor(0);
-                //notifyDataSetChanged();
+
             }
         });
+
+        if(chapterLists.size()==position+1)
+            holder.horizontalLine.setVisibility(View.INVISIBLE);
     }
 
 
@@ -185,19 +188,6 @@ public class QuestionOptionAdapter extends RecyclerView.Adapter<QuestionOptionAd
         return chapterLists.size();
     }
 
-//    @Override
-//    public Drawable getDrawable(String source) {
-//        LevelListDrawable d = new LevelListDrawable();
-//        Drawable empty = context.getResources().getDrawable(R.drawable.ic_launcher);
-//        d.addLevel(0, 0, empty);
-//        d.setBounds(0, 0, empty.getIntrinsicWidth(), empty.getIntrinsicHeight());
-//        new LoadImage().execute(source, d,textView);
-//        return d;
-//    }
-
-
-
-
 
     public class ViewHolder extends RecyclerView.ViewHolder{
         public TextView option_text;
@@ -205,6 +195,7 @@ public class QuestionOptionAdapter extends RecyclerView.Adapter<QuestionOptionAd
 
         public CheckBox chkSelected;
         public RelativeLayout view;
+        public View horizontalLine;
 
 
         public ViewHolder(View itemLayoutView) {
@@ -215,6 +206,7 @@ public class QuestionOptionAdapter extends RecyclerView.Adapter<QuestionOptionAd
             chkSelected = (CheckBox) itemLayoutView.findViewById(R.id.chkSelected);
 
             view=(RelativeLayout) itemLayoutView.findViewById(R.id.option);
+            horizontalLine=itemLayoutView.findViewById(R.id.horizontalLine);
         }
 
     }

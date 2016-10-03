@@ -6,16 +6,23 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SearchView;
+import android.support.v7.widget.Toolbar;
+import android.text.SpannableString;
+import android.text.style.ForegroundColorSpan;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import com.organization.sjhg.e_school.Database.contracts.UserContract;
 import com.organization.sjhg.e_school.Helpers.LogHelper;
@@ -60,9 +67,11 @@ public class TestActivity extends AppCompatActivity implements RemoteCallHandler
     int pageOffset;
     ProgressBar progress;
     private TabLayout tabLayout;
+    private String title;
+    private Toolbar toolbar;
 
 
-
+    private TextView submit_btn;
     private ViewPager mViewPagerView;
 
     @Override
@@ -72,43 +81,60 @@ public class TestActivity extends AppCompatActivity implements RemoteCallHandler
         Intent intent=getIntent();
          tag=intent.getStringExtra("Tag");
          id=intent.getStringExtra("Id");
+        title=intent.getStringExtra("Title");
 
         saveInstances=savedInstanceState;
         setContentView(R.layout.activity_test);
         mProgressView=findViewById(R.id.dashboard_progress);
+
         mViewPagerView=(ViewPager)findViewById(R.id.viewpager_fragment);
         progress = (ProgressBar) findViewById(R.id.progressBar);
         tabLayout=(TabLayout)findViewById(R.id.id_tabs);
+        toolbar=(Toolbar)findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        submit_btn=(TextView)toolbar.findViewById(R.id.submitButton);
+        submit_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showLocationDialog();
+            }
+        });
+       progress.getProgressDrawable().setColorFilter(Color.parseColor("#ff5722"), PorterDuff.Mode.SRC_IN);
+
     }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.test, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item)
-    {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-
-        int id = item.getItemId();
-
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_submit) {
-
-          showLocationDialog();
-
-//            Intent intent=new Intent(this, Main_Activity.class);
-//            startActivity(intent);
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
+//
+//    @Override
+//    public boolean onCreateOptionsMenu(Menu menu) {
+//        // Inflate the menu; this adds items to the action bar if it is present.
+//        getMenuInflater().inflate(R.menu.test, menu);
+//
+//
+//
+//        return true;
+//    }
+//
+////
+//
+//    @Override
+//    public boolean onOptionsItemSelected(MenuItem item)
+//    {
+//        // Handle action bar item clicks here. The action bar will
+//        // automatically handle clicks on the Home/Up button, so long
+//        // as you specify a parent activity in AndroidManifest.xml.
+//
+//        int id = item.getItemId();
+//
+//
+//        //noinspection SimplifiableIfStatement
+//        if (id == R.id.action_submit) {
+//
+//          showLocationDialog();
+//
+//
+//        }
+//
+//        return super.onOptionsItemSelected(item);
+//    }
 
     JSONObject makeResponseList()
     {
@@ -418,6 +444,7 @@ public class TestActivity extends AppCompatActivity implements RemoteCallHandler
                             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                             intent.putExtra("parent_tag",tag);
                             intent.putExtra("parent_id",id);
+                            intent.putExtra("parent_title",title);
                             String id=(String)response.get("data").toString();
                             intent.putExtra("Id",id);
                             startActivity(intent);

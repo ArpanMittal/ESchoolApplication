@@ -25,6 +25,8 @@ import java.util.List;
  */
 public class SamplePaperListFragment extends Fragment {
     List<ChapterList> chapterLists =new ArrayList<>();
+    String parent_title;
+    String parent_id;
     public SamplePaperListFragment(){
 
     }
@@ -33,6 +35,8 @@ public class SamplePaperListFragment extends Fragment {
         super.onCreate(savedInstanceState);
         Bundle bundle=this.getArguments();
         chapterLists= (List<ChapterList>) bundle.getSerializable(getString(R.string.sendlist));
+        parent_title=bundle.getString("PARENT_TITLE");
+        parent_id=bundle.getString("PARENT_ID");
 
     }
 
@@ -44,7 +48,7 @@ public class SamplePaperListFragment extends Fragment {
         TextView textView=(TextView)rootView.findViewById(R.id.title);
         textView.setVisibility(View.GONE);
         //GridDataAdapter gridDataAdapter=new GridDataAdapter(getContext(),chapterLists);
-        SamplePaperListDataAdapter samplePaperListDataAdapter=new SamplePaperListDataAdapter(getContext(),chapterLists);
+        SamplePaperListDataAdapter samplePaperListDataAdapter=new SamplePaperListDataAdapter(getContext(),chapterLists,parent_title,parent_id);
         if(getActivity().getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT){
             rv.setLayoutManager(new GridLayoutManager(getActivity().getApplicationContext(),2));
         }

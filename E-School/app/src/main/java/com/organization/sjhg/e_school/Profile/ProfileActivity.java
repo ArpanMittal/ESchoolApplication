@@ -79,7 +79,7 @@ public class ProfileActivity extends MainParentActivity {
         profilePic = (ImageView) findViewById(R.id.profile_pic);
         Picasso.with(this)
                 .load(sharedPrefrence.getUserPic(getApplicationContext()))
-                .placeholder(R.drawable.ic_account_circle_white_24dp)
+                .placeholder(R.drawable.ic_account_circle_white_48dp)
                 .memoryPolicy(MemoryPolicy.NO_CACHE, MemoryPolicy.NO_STORE)
                 .into(profilePic);
         userName = (TextView) findViewById(R.id.user_name);
