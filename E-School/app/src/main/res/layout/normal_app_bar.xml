@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:id="@+id/coordinatorLayout"
     android:fitsSystemWindows="true"
     tools:context="com.organization.sjhg.e_school.MainActivity">
 
@@ -48,6 +49,6 @@
         android:layout_gravity="bottom|end"
         android:layout_margin="@dimen/fab_margin"
         android:visibility="gone"
-        android:src="@android:drawable/ic_menu_edit" />
+        android:src="@drawable/ic_edit_white_24dp" />
 
 </android.support.design.widget.CoordinatorLayout>

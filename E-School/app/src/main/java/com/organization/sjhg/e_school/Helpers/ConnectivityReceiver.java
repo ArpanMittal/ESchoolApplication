@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.os.Handler;
 
 import com.organization.sjhg.e_school.Remote.VolleyController;
 
@@ -24,26 +25,35 @@ public class ConnectivityReceiver
 
     @Override
     public void onReceive(Context context, Intent arg1) {
-        ConnectivityManager cm = (ConnectivityManager) context
-                .getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
-        boolean isConnected = activeNetwork != null
-                && activeNetwork.isConnected()
-                && isOnline();
-
-        if (connectivityReceiverListener != null) {
-            connectivityReceiverListener.onNetworkConnectionChanged(isConnected);
-        }
+        isConnected();
     }
 
-    public static boolean isConnected() {
+    public static void isConnected() {
         ConnectivityManager
                 cm = (ConnectivityManager) VolleyController.getInstance().getApplicationContext()
                 .getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
-        return activeNetwork != null
-                && activeNetwork.isConnected()
-                && isOnline();
+        final boolean isConnected = activeNetwork != null
+                && activeNetwork.isConnected();
+
+        Thread thread = new Thread() {
+            @Override
+            public void run() {
+                if (isConnected==true){
+                    Boolean isOnline = isOnline();
+                    if (connectivityReceiverListener != null) {
+                        connectivityReceiverListener.onNetworkConnectionChanged(isOnline);
+                    }
+                }else{
+                    if (connectivityReceiverListener != null) {
+                        connectivityReceiverListener.onNetworkConnectionChanged(isConnected);
+                    }
+                }
+            }
+        };
+
+        thread.start();
+
     }
 
 

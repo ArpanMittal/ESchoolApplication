@@ -1,10 +1,14 @@
 package com.organization.sjhg.e_school.Profile;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -15,14 +19,18 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.organization.sjhg.e_school.Content.ImageDisplayActivity;
 import com.organization.sjhg.e_school.Fragments.Notes_Listing_Fragment;
+import com.organization.sjhg.e_school.Helpers.ConnectivityReceiver;
 import com.organization.sjhg.e_school.Helpers.LogHelper;
 import com.organization.sjhg.e_school.ListStructure.TopicList;
 import com.organization.sjhg.e_school.LoginActivity;
 import com.organization.sjhg.e_school.MainParentActivity;
 import com.organization.sjhg.e_school.R;
+import com.organization.sjhg.e_school.Remote.RemoteCallHandler;
 import com.organization.sjhg.e_school.Remote.RemoteCalls;
 import com.organization.sjhg.e_school.Remote.RemoteHelper;
+import com.organization.sjhg.e_school.Remote.VolleyController;
 import com.organization.sjhg.e_school.Structure.GlobalConstants;
 import com.organization.sjhg.e_school.Utils.SharedPrefrence;
 import com.organization.sjhg.e_school.Utils.ToastActivity;
@@ -37,7 +45,7 @@ import java.io.Serializable;
 /**
  * Created by Punit Chhajer on 17-09-2016.
  */
-public class ProfileActivity extends MainParentActivity {
+public class ProfileActivity extends AppCompatActivity implements ConnectivityReceiver.ConnectivityReceiverListener,RemoteCallHandler {
     private ImageView profilePic;
     private TextView userName, userEmail, userDob, userCountry, userState, userCity, userPnumber, userSchool;
     private ProgressBar mLoading;
@@ -46,21 +54,15 @@ public class ProfileActivity extends MainParentActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        ViewStub view_Stub=(ViewStub)findViewById(R.id.viewstub);
-        view_Stub.setLayoutResource(R.layout.normal_app_bar);
-        view_Stub.inflate();
+        setContentView(R.layout.normal_app_bar);
         ViewStub viewStub = (ViewStub) findViewById(R.id.view_stub_bar);
         viewStub.setLayoutResource(R.layout.activity_profile);
         viewStub.inflate();
 
-        toolbar = (Toolbar)findViewById(R.id.toolbar);
+        Toolbar toolbar = (Toolbar)findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         // code repeted in all activity
-        toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawer.setDrawerListener(toggle);
-        toggle.syncState();
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setVisibility(View.VISIBLE);
@@ -75,8 +77,17 @@ public class ProfileActivity extends MainParentActivity {
         });
 
         mLoading = (ProgressBar) findViewById(R.id.progress);
-        SharedPrefrence sharedPrefrence = new SharedPrefrence();
+        final SharedPrefrence sharedPrefrence = new SharedPrefrence();
         profilePic = (ImageView) findViewById(R.id.profile_pic);
+        profilePic.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(ProfileActivity.this, ImageDisplayActivity.class);
+                intent.putExtra("path",sharedPrefrence.getUserPic(getApplicationContext()));
+                intent.putExtra("title","Profile Image");
+                startActivity(intent);
+            }
+        });
         Picasso.with(this)
                 .load(sharedPrefrence.getUserPic(getApplicationContext()))
                 .placeholder(R.drawable.ic_account_circle_white_48dp)
@@ -108,12 +119,12 @@ public class ProfileActivity extends MainParentActivity {
 
     protected void onResume() {
         super.onResume();
+            VolleyController.getInstance().setConnectivityListener(this);
         new RemoteHelper(getApplicationContext()).getUserDetails(this, RemoteCalls.GET_USER_DETAILS,new SharedPrefrence().getAccessToken(this));
     }
 
     @Override
     public void HandleRemoteCall(boolean isSuccessful, RemoteCalls callFor, JSONObject response, Exception exception) {
-        super.HandleRemoteCall(isSuccessful, callFor, response, exception);
         if(!isSuccessful)
         {
             mLoading.setVisibility(View.GONE);
@@ -234,5 +245,31 @@ public class ProfileActivity extends MainParentActivity {
             userEmail.setVisibility(View.VISIBLE);
             cardView1.setVisibility(View.VISIBLE);
         }
+    }
+    @Override
+    public void onNetworkConnectionChanged(boolean isConnected) {
+        showSnack(isConnected);
+    }
+
+    protected void showSnack(boolean isConnected) {
+        String message;
+        int color;
+        Snackbar snackbar;
+        if (isConnected) {
+            message = "Good! Connected to Internet";
+            color = Color.WHITE;
+            snackbar = Snackbar
+                    .make(findViewById(R.id.coordinatorLayout), message, Snackbar.LENGTH_LONG);
+        } else {
+            message = "Sorry! Not connected to internet";
+            color = Color.RED;
+            snackbar = Snackbar
+                    .make(findViewById(R.id.coordinatorLayout), message, Snackbar.LENGTH_INDEFINITE);
+        }
+
+        View sbView = snackbar.getView();
+        TextView textView = (TextView) sbView.findViewById(android.support.design.R.id.snackbar_text);
+        textView.setTextColor(color);
+        snackbar.show();
     }
 }

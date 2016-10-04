@@ -126,11 +126,15 @@
             android:name=".Profile.ProfileActivity"
             android:theme="@style/AppTheme.NoActionBar"
             android:label="@string/title_activity_profile"
-            />
+            >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".Main_Activity" />
+        </activity>
         <activity
             android:name=".Profile.ProfileEditActivity"
-            android:theme="@style/AppTheme.NoActionBar"
-            android:label="@string/title_activity_profile"
+            android:theme="@style/AppTheme.BlackText"
+            android:label="@string/title_activity_profile_edit"
             >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
@@ -151,17 +155,20 @@
             android:launchMode="singleTask"
             android:theme="@style/AppTheme.NoActionBar">
         </activity>
+        <activity
+            android:name=".Content.ImageDisplayActivity"
+            android:label="@string/title_activity_display_image"
+            android:theme="@style/AppThemeExam" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".Profile.ProfileActivity" />
+        </activity>
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         <activity
             android:name=".MainActivity"
             android:label="@string/title_activity_module1"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity
-            android:name=".Content.ImageDisplayActivity"
-            android:label="@string/title_activity_display_image"
-            android:screenOrientation="sensorLandscape"
-            android:theme="@android:style/Theme.NoTitleBar.Fullscreen" />
 
         <activity
             android:name=".Content.Test.TestActivity"
