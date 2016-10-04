@@ -7,13 +7,10 @@
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.WRITE_SYNC_SETTINGS" />
-    <uses-permission android:name="android.permission.READ_SYNC_STATS" />
-    <uses-permission android:name="android.permission.WRITE_CALENDAR" />
-    <uses-permission android:name="android.permission.READ_CALENDAR" />
+
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
-    <uses-permission android:name="android.permission.WAKE_LOCK" />
+
 
     <permission
         android:name="com.organization.sjhg.e_school.permission.C2D_MESSAGE"
@@ -106,11 +103,14 @@
             android:label="TestAnswer"/>
 
         <activity android:name=".Content.NewTest.TestSummaryActivity"
-            android:theme="@style/AppThemeExam.NoActionBar"
+            android:theme="@style/AppThemeExam"
+            android:parentActivityName=".ExaminationParent"
             android:launchMode="singleTask"/>
 
         <activity android:name=".Content.NewTest.TestActivity"
-            android:label="Test"/>
+            android:label="Test"
+            android:theme="@style/AppThemeExam.NoActionBar"
+            />
 
         <activity android:name=".SearchActivity"
             android:theme="@style/AppTheme.NoActionBar"

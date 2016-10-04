@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -57,7 +58,7 @@ import me.relex.circleindicator.CircleIndicator;
 /**
  * Created by arpan on 9/13/2016.
  */
-public class TestSummaryActivity  extends MainParentActivity implements RemoteCallHandler {
+public class TestSummaryActivity extends AppCompatActivity implements RemoteCallHandler {
     private View mDashboardView;
     private View mProgressView;
     private ProgressBarActivity progressBarActivity=new ProgressBarActivity();
@@ -67,41 +68,53 @@ public class TestSummaryActivity  extends MainParentActivity implements RemoteCa
     private String id;
     private String access_token;
     private String title;
+    private String parent_id;
+    private String parent_title;
+    private String activity_name;
     private List<ChapterList> chapterListList=new ArrayList<>();
     Context mContext;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        setContentView(R.layout.test_summary);
         Intent intent=getIntent();
         id=intent.getStringExtra("Id");
         tag = intent.getStringExtra("Tag");
         title=intent.getStringExtra("Title");
-        ViewStub view_Stub=(ViewStub)findViewById(R.id.viewstub);
-        view_Stub.setLayoutResource(R.layout.normal_app_bar);
-        view_Stub.inflate();
+        parent_id=intent.getStringExtra("Parent_id");
+        parent_title=intent.getStringExtra("Parent_title");
+        activity_name=intent.getStringExtra("Activity_Name");
+        if(title!=null)
+            getSupportActionBar().setTitle(title);
+        else
+            getSupportActionBar().setTitle("TestSummary");
 
-        ViewStub viewStub = (ViewStub) findViewById(R.id.view_stub_bar);
-        viewStub.setLayoutResource(R.layout.content_main);
-        viewStub.inflate();
+
+//        ViewStub view_Stub=(ViewStub)findViewById(R.id.viewstub);
+//        view_Stub.setLayoutResource(R.layout.normal_app_bar);
+//        view_Stub.inflate();
+//
+//        ViewStub viewStub = (ViewStub) findViewById(R.id.view_stub_bar);
+//        viewStub.setLayoutResource(R.layout.content_main);
+//        viewStub.inflate();
 
         mDashboardView=findViewById(R.id.dashboard_form);
         mProgressView=findViewById(R.id.dashboard_progress);
 
 
-        toolbar = (Toolbar)findViewById(R.id.toolbar);
-        toolbar.setTitle(title);
-        setSupportActionBar(toolbar);
+//        toolbar = (Toolbar)findViewById(R.id.toolbar);
+//        toolbar.setTitle(title);
+//        setSupportActionBar(toolbar);
 
 
         // code repeted in all activity
-        toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawer.setDrawerListener(toggle);
-        toggle.syncState();
+//        toggle = new ActionBarDrawerToggle(
+//                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+//        drawer.setDrawerListener(toggle);
+//        toggle.syncState();
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+//        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
 //        collapsingToolbar = (CollapsingToolbarLayout) findViewById(R.id.collapse_toolbar);
 //        collapsingToolbar.setTitle(getString(R.string.TestSummary));
 //        AutoScrollViewPager viewPager = (AutoScrollViewPager) findViewById(R.id.viewpager);
@@ -135,6 +148,25 @@ public class TestSummaryActivity  extends MainParentActivity implements RemoteCa
         }
 
     }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                if(parent_id!=null) {
+                    Intent intent = new Intent(this, TestSummaryActivity.class);
+                    intent.putExtra(getString(R.string.jsonid), parent_id);
+                    intent.putExtra(getString(R.string.jsontitle),parent_title);
+                    startActivity(intent);
+                    finish();
+                }else
+                {
+                    finish();
+                }
+                return  true;
+
+        }
+        return true;
+    }
 
     @Override
     protected void onResume() {
@@ -152,37 +184,9 @@ public class TestSummaryActivity  extends MainParentActivity implements RemoteCa
         }
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.main, menu);
-        SearchManager searchManager =
-                (SearchManager) getSystemService(Context.SEARCH_SERVICE);
-        SearchView searchView =
-                (SearchView) menu.findItem(R.id.menu_search).getActionView();
-        searchView.setSearchableInfo(searchManager.getSearchableInfo(new ComponentName(this,SearchActivity.class)));
-
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-
-        int id = item.getItemId();
 
 
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        } else if (id == R.id.menu_search) {
-            return true;
-        }
 
-        return super.onOptionsItemSelected(item);
-    }
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
@@ -204,9 +208,9 @@ public class TestSummaryActivity  extends MainParentActivity implements RemoteCa
                 Date date = new Date(Integer.parseInt(time)*1000L);
                 SimpleDateFormat localDateFormat = new SimpleDateFormat("HH:mm:ss");
                 String times = localDateFormat.format(date);
-                DateFormat outputFormatter = new SimpleDateFormat("dd/MMMM/yyyy");
+                DateFormat outputFormatter = new SimpleDateFormat("EEE, d MMM yyyy");
                 String output = outputFormatter.format(date);
-                chapterListList.add(new ChapterList(id,"Attempted on "+output+" At "+times));
+                chapterListList.add(new ChapterList(id,"Attempted on "+output+" at "+times));
             }
 
         }catch (Exception e)
@@ -221,7 +225,7 @@ public class TestSummaryActivity  extends MainParentActivity implements RemoteCa
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recycler);
         recyclerView.setHasFixedSize(true);
 
-        TestPaperAttemptAdapter testPaperAttemptAdapter=new TestPaperAttemptAdapter(this,chapterListList,id,tag,title);
+        TestPaperAttemptAdapter testPaperAttemptAdapter=new TestPaperAttemptAdapter(this,chapterListList,id,tag,title,activity_name);
         recyclerView.setAdapter(testPaperAttemptAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
@@ -235,7 +239,6 @@ public class TestSummaryActivity  extends MainParentActivity implements RemoteCa
 
     @Override
     public void HandleRemoteCall(boolean isSuccessful, RemoteCalls callFor, JSONObject response, Exception exception) {
-        super.HandleRemoteCall(isSuccessful,callFor,response,exception);
         progressBarActivity.showProgress(mDashboardView,mProgressView,false,getApplicationContext());
         if(!isSuccessful)
         {

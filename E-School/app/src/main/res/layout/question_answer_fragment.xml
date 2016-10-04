@@ -42,6 +42,7 @@
                         android:id="@+id/question_text"
                         android:textSize="17sp"
                         android:paddingRight="@dimen/list_top_padding"
+                        android:textColor="@color/darkest_gray"
                         android:layout_below="@+id/question_image"/>
 
                 </android.support.v7.widget.CardView>
@@ -60,6 +61,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:paddingRight="@dimen/list_top_padding"
+
                             android:text="@string/correctanswer"/>
                     <TextView
                         android:layout_width="match_parent"
@@ -67,6 +69,7 @@
                         android:layout_marginStart="2dp"
                         android:textSize="14sp"
                         android:id="@+id/answer_text"
+                        android:textColor="@color/darkest_gray"
                         android:paddingRight="@dimen/list_top_padding"
                         />
                     </LinearLayout>
@@ -86,6 +89,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:paddingRight="@dimen/list_top_padding"
+
                         android:text="@string/useroption"/>
                     <TextView
                         android:layout_width="match_parent"
@@ -93,6 +97,7 @@
                         android:layout_marginStart="2dp"
                         android:textSize="14sp"
                         android:paddingRight="@dimen/list_top_padding"
+                        android:textColor="@color/darkest_gray"
                         android:id="@+id/user_option_text" />
                     </LinearLayout>
                 </android.support.v7.widget.CardView>

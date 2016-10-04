@@ -1,5 +1,6 @@
 package com.organization.sjhg.e_school.Fragments;
 
+import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.LevelListDrawable;
 import android.os.Bundle;
@@ -63,13 +64,19 @@ public class Question_Answer_Fragment extends Fragment {
 
         String code=questionAnswerLists.get(0).question_text;
         textLoader(code,question_text);
+        Typeface face= Typeface.createFromAsset(getActivity().getAssets(), "latin-modern-sans/lmsans8-regular.otf");
+        question_text.setTypeface(face);
        String  code1=questionAnswerLists.get(0).correctoption.get(0).name;
         textLoader(code1,answer_text);
+        answer_text.setTypeface(face);
         if(!questionAnswerLists.get(0).response.equals("empty"))
         {
-            String code2=questionAnswerLists.get(0).useroption.get(0).name;
-            textLoader(code2,user_option_text);
+             code=questionAnswerLists.get(0).useroption.get(0).name;
+            textLoader(code,user_option_text);
+            user_option_text.setTypeface(face);
         }
+
+
 
         return rootView;
     }
