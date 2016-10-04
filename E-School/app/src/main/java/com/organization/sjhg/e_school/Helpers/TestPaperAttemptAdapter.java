@@ -6,10 +6,13 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.organization.sjhg.e_school.Content.NewTest.TestAnswerActivity;
 import com.organization.sjhg.e_school.Content.NewTest.TestReportActivity;
 import com.organization.sjhg.e_school.Content.NewTest.TestSummaryActivity;
 import com.organization.sjhg.e_school.Fragments.SamplePaperListFragment;
@@ -45,7 +48,7 @@ public class TestPaperAttemptAdapter extends RecyclerView.Adapter<TestPaperAttem
 
     @Override
     public TestPaperAttemptAdapter.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
-        View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.grid_row, viewGroup, false);
+        View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.test_attempt_layout, viewGroup, false);
         return new ViewHolder(view);
     }
 
@@ -54,7 +57,7 @@ public class TestPaperAttemptAdapter extends RecyclerView.Adapter<TestPaperAttem
 
 
         viewHolder.tv_android.setText((String) chapterLists.get(position).name);
-        viewHolder.relativeLayout.setOnClickListener(new View.OnClickListener() {
+        viewHolder.linearLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent=new Intent(context, TestReportActivity.class);
@@ -70,6 +73,18 @@ public class TestPaperAttemptAdapter extends RecyclerView.Adapter<TestPaperAttem
             }
         });
 
+        viewHolder.testAnserBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent1=new Intent(context,TestAnswerActivity.class);
+                intent1.putExtra("Id",chapterLists.get(position).id);
+                intent1.putExtra("parent_id",parent_id);
+                intent1.putExtra("parent_tag",parent_tag);
+                intent1.putExtra("parent_title",parent_title);
+                context.startActivity(intent1);
+            }
+        });
+
     }
 
 
@@ -81,13 +96,15 @@ public class TestPaperAttemptAdapter extends RecyclerView.Adapter<TestPaperAttem
     public class ViewHolder extends RecyclerView.ViewHolder{
         private TextView tv_android;
         private ImageView img_android;
-        public RelativeLayout relativeLayout;
+        public LinearLayout linearLayout;
+        public Button testAnserBtn;
+
         public ViewHolder(View view) {
             super(view);
-            relativeLayout=(RelativeLayout)view.findViewById(R.id.relativeLayout);
+            linearLayout=(LinearLayout)view.findViewById(R.id.relativeLayout);
             tv_android = (TextView)view.findViewById(R.id.tv_android);
             img_android = (ImageView) view.findViewById(R.id.img_android);
-            img_android.setImageResource(R.drawable.sample_icon);
+            testAnserBtn=(Button)view.findViewById(R.id.btn);
         }
     }
 
