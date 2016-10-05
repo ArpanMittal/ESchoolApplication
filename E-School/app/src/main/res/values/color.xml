@@ -16,5 +16,8 @@
     <color name="bright_green">#02D8B0</color>
     <color name="button_green">#10a54a</color>
 
+    <color name="darkest_gray">#404040</color>
+    <color name="dim_foreground_light_inverse">#bebebe</color>
+
     </resources>
 

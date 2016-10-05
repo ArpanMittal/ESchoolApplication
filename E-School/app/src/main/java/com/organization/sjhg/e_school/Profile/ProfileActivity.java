@@ -90,7 +90,7 @@ public class ProfileActivity extends AppCompatActivity implements ConnectivityRe
         });
         Picasso.with(this)
                 .load(sharedPrefrence.getUserPic(getApplicationContext()))
-                .placeholder(R.drawable.ic_account_circle_white_24dp)
+                .placeholder(R.drawable.ic_account_circle_white_48dp)
                 .memoryPolicy(MemoryPolicy.NO_CACHE, MemoryPolicy.NO_STORE)
                 .into(profilePic);
         userName = (TextView) findViewById(R.id.user_name);

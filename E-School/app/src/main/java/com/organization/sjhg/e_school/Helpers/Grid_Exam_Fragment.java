@@ -28,10 +28,12 @@ public class Grid_Exam_Fragment extends FragmentStatePagerAdapter {
     List<DashBoardList> list;
     List<ChapterList> chapterLists;
     Context context;
+    String parent_title;
+    String parent_id;
     List<ExamPrepareList> examPrepareLists=new ArrayList<>();
 
 
-    public Grid_Exam_Fragment(FragmentManager fm, List<DashBoardList> list,Context context,String id) {
+    public Grid_Exam_Fragment(FragmentManager fm, List<DashBoardList> list,Context context,String id,String title,String parent_id) {
         super(fm);
         this.list=list;
         this.chapterLists=list.get(0).chapterLists;
@@ -59,6 +61,8 @@ public class Grid_Exam_Fragment extends FragmentStatePagerAdapter {
         {
             Bundle bundle=new Bundle();
             bundle.putSerializable(context.getString(R.string.sendlist),(Serializable)chapterLists);
+            bundle.putString("PARENT_TITLE",parent_title);
+            bundle.putString("PARENT_ID",parent_id);
             SamplePaperListFragment samplePaperListFragment=new SamplePaperListFragment();
             samplePaperListFragment.setArguments(bundle);
             return samplePaperListFragment;
@@ -83,7 +87,7 @@ public class Grid_Exam_Fragment extends FragmentStatePagerAdapter {
         if(position==1)
         return context.getString(R.string.prepare);
         else if(position==2)
-            return  context.getString(R.string.jsonsamplepaper);
+            return  context.getString(R.string.samplepaper);
         else if(position==0)
             return context.getString(R.string.practcice);
         else

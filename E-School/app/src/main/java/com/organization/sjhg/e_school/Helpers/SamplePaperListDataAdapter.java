@@ -34,10 +34,14 @@ import java.util.List;
 public class SamplePaperListDataAdapter extends RecyclerView.Adapter<SamplePaperListDataAdapter.ViewHolder> {
     private List<ChapterList> chapterLists;
     private Context context;
+    private String parent_title;
+    private String parent_id;
 
-    public SamplePaperListDataAdapter(Context context,List<ChapterList> android) {
+    public SamplePaperListDataAdapter(Context context,List<ChapterList> android,String parent_title,String parent_id) {
         this.chapterLists = android;
         this.context = context;
+        this.parent_title=parent_title;
+        this.parent_id=parent_id;
     }
 
 
@@ -77,6 +81,9 @@ public class SamplePaperListDataAdapter extends RecyclerView.Adapter<SamplePaper
                 intent.putExtra("Tag", GlobalConstants.SamplePaperTag);
                 intent.putExtra("Id",chapterLists.get(position).id);
                 intent.putExtra("Title",chapterLists.get(position).name);
+                //intent.putExtra("Parent_id",parent_id);
+                //intent.putExtra("Parent_title",parent_title);
+                //intent.putExtra("Activity_Name",chapterLists.get(position).name);
                 context.startActivity(intent);
             }
         });
@@ -95,6 +102,7 @@ public class SamplePaperListDataAdapter extends RecyclerView.Adapter<SamplePaper
                         Intent intent=new Intent(context, TestActivity.class);
                         intent.putExtra("Tag", GlobalConstants.SamplePaperTag);
                         intent.putExtra("Id",chapterLists.get(position).id);
+                        intent.putExtra("Title",chapterLists.get(position).name);
                         context.startActivity(intent);
                         // positive button logic
                        // new RemoteHelper(getApplicationContext()).sendQuestionResponse(TestActivity.this, RemoteCalls.SEND_QUESTION_RESPONSE,tag,id, access_token,makeResponseList());

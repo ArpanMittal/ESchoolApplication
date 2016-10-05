@@ -1,6 +1,7 @@
 package com.organization.sjhg.e_school.Fragments;
 
 import android.content.Context;
+import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.LevelListDrawable;
 import android.os.Bundle;
@@ -63,13 +64,12 @@ public class Question_Fragment extends Fragment {
         // use a linear layout manager
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
-
+        Typeface face= Typeface.createFromAsset(getActivity().getAssets(), "latin-modern-sans/lmsans8-regular.otf");
         QuestionOptionAdapter questionOptionAdapter=new QuestionOptionAdapter(getContext(),questionLists.get(0).chapterLists,questionLists.get(0).id,questionLists.get(0).answer);
         recyclerView.setAdapter(questionOptionAdapter);
         String url= ServerAddress.getServerAddress(getContext())+questionLists.get(0).question_image_path;
         Picasso.with(getContext())
                 .load(url)
-                .resize(200,200)
                 .into(imageView);
 
         String code=questionLists.get(0).question_text;
@@ -87,6 +87,7 @@ public class Question_Fragment extends Fragment {
         }, null);
 
         textView.setText(spanned);
+        textView.setTypeface(face);
 
         return rootView;
     }

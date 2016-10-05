@@ -30,5 +30,12 @@
     <dimen name="list_top_padding">4dp</dimen>
     <dimen name="list_top_parent_padding">8dp</dimen>
     <dimen name="button_margin">24dp</dimen>
+    <dimen name="progress_bar_height">10dp</dimen>
+    <dimen name="optionPadding">5dp</dimen>
+
+
+    <dimen name="paddingLeft">8dp</dimen>
+    <dimen name="paddingTop">8dp</dimen>
+
 
 </resources>
