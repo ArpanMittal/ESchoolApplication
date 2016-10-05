@@ -90,49 +90,9 @@ public class TestSummaryActivity extends AppCompatActivity implements RemoteCall
         else
             getSupportActionBar().setTitle("TestSummary");
 
-
-//        ViewStub view_Stub=(ViewStub)findViewById(R.id.viewstub);
-//        view_Stub.setLayoutResource(R.layout.normal_app_bar);
-//        view_Stub.inflate();
-//
-//        ViewStub viewStub = (ViewStub) findViewById(R.id.view_stub_bar);
-//        viewStub.setLayoutResource(R.layout.content_main);
-//        viewStub.inflate();
-
         mDashboardView=findViewById(R.id.dashboard_form);
         mProgressView=findViewById(R.id.dashboard_progress);
 
-
-//        toolbar = (Toolbar)findViewById(R.id.toolbar);
-//        toolbar.setTitle(title);
-//        setSupportActionBar(toolbar);
-
-
-        // code repeted in all activity
-//        toggle = new ActionBarDrawerToggle(
-//                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-//        drawer.setDrawerListener(toggle);
-//        toggle.syncState();
-
-//        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-//        collapsingToolbar = (CollapsingToolbarLayout) findViewById(R.id.collapse_toolbar);
-//        collapsingToolbar.setTitle(getString(R.string.TestSummary));
-//        AutoScrollViewPager viewPager = (AutoScrollViewPager) findViewById(R.id.viewpager);
-//        viewPager.setAdapter(new Custom_Pager_Adapter(getSupportFragmentManager()));
-//        viewPager.setInterval(5000);
-//        viewPager.startAutoScroll();
-//        indicator = (CircleIndicator) findViewById(R.id.indicator);
-//        indicator.setViewPager(viewPager);
-
-//        fab.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-////                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-////                        .setAction("Action", null).show();
-//                Intent intent=new Intent(getApplicationContext(), Notes_Listing_Fragment.class);
-//                startActivity(intent);
-//            }
-//        });
         access_token=sharedPrefrence.getAccessToken(getApplicationContext());
         if(access_token==null)
         {

@@ -95,11 +95,11 @@ public class TestAnswerActivity extends AppCompatActivity implements RemoteCallH
         switch (item.getItemId()) {
             case android.R.id.home:
                 if(parent_id!=null) {
-                    Intent intent = new Intent(this, TestReportActivity.class);
-                    intent.putExtra("Id", id);
-                    intent.putExtra("parent_id",parent_id);
-                    intent.putExtra("parent_tag",parent_tag);
-                    intent.putExtra("parent_title",parent_title);
+                    Intent intent = new Intent(this, TestSummaryActivity.class);
+                    //intent.putExtra("Id", id);
+                    intent.putExtra("Id",parent_id);
+                    intent.putExtra("Tag",parent_tag);
+                    intent.putExtra("Title",parent_title);
                     startActivity(intent);
                     finish();
                 }else

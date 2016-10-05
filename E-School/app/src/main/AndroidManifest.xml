@@ -98,7 +98,7 @@
         <activity android:name=".Content.NewTest.TestReportActivity"
             android:parentActivityName=".Content.NewTest.TestSummaryActivity"
             android:theme="@style/AppThemeExam"
-            android:label="TestReport"/>
+            android:label="Test Report"/>
         <activity android:name=".Content.NewTest.TestAnswerActivity"
             android:parentActivityName=".Content.NewTest.TestSummaryActivity"
             android:theme="@style/AppThemeExam.NoActionBar"
