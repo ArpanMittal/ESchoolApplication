@@ -71,7 +71,9 @@
         <activity
             android:name=".Content.AudioVideoPlayerActivity"
             android:label="@string/title_activity_audio_video_player"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:configChanges="screenSize|orientation|keyboardHidden"
+            android:theme="@style/AppTheme.NoActionBar" >
+            </activity>
         <receiver
             android:name=".Helpers.ConnectivityReceiver"
             android:enabled="true">

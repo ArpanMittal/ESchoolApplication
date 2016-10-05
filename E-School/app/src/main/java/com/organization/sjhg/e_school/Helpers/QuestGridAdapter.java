@@ -17,6 +17,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.organization.sjhg.e_school.Content.AudioVideoPlayerActivity;
@@ -47,10 +48,11 @@ public class QuestGridAdapter extends RecyclerView.Adapter<QuestGridAdapter.Ques
     }
 
     public class QuestListViewHolder extends RecyclerView.ViewHolder {
-        public TextView name, progress;
+        public TextView name;
         public Button video,doc,analytics,worksheet;
         public ImageView image;
         public View view;
+        public RatingBar progress;
         public QuestListViewHolder(View itemView) {
             super(itemView);
             name = (TextView) itemView.findViewById(R.id.name);
@@ -59,7 +61,7 @@ public class QuestGridAdapter extends RecyclerView.Adapter<QuestGridAdapter.Ques
             analytics = (Button) itemView.findViewById(R.id.analytics);
             worksheet = (Button) itemView.findViewById(R.id.worksheet);
             image = (ImageView) itemView.findViewById(R.id.background);
-            progress = (TextView) itemView.findViewById(R.id.progress);
+            progress = (RatingBar) itemView.findViewById(R.id.progress);
             view = itemView.findViewById(R.id.lockButton);
         }
     }
@@ -74,7 +76,8 @@ public class QuestGridAdapter extends RecyclerView.Adapter<QuestGridAdapter.Ques
     public void onBindViewHolder(QuestListViewHolder holder, int position) {
         final Topic detail = list.topics.get(position);
         holder.name.setText( detail.name);
-        holder.progress.setText("Progress: "+detail.getProgress()+"%");
+        double rating = (detail.getProgress()*3.0)/100;
+        holder.progress.setRating((float) rating);
         final Boolean[] isRead = {false};
         if (detail.getProgress()>0){
             isRead[0] = true;
@@ -95,6 +98,7 @@ public class QuestGridAdapter extends RecyclerView.Adapter<QuestGridAdapter.Ques
                             isRead[0] = true;
                             Intent intent = new Intent(context, AudioVideoPlayerActivity.class);
                             intent.putExtra("path",detail.video_path);
+                            intent.putExtra("title",detail.name);
                             context.startActivity(intent);
                         }
                     }
