@@ -170,7 +170,7 @@ public class TestSummaryActivity extends AppCompatActivity implements RemoteCall
                 String times = localDateFormat.format(date);
                 DateFormat outputFormatter = new SimpleDateFormat("EEE, d MMM yyyy");
                 String output = outputFormatter.format(date);
-                chapterListList.add(new ChapterList(id,"Attempted on "+output+" at "+times));
+                chapterListList.add(new ChapterList(id,output+" "+times));
             }
 
         }catch (Exception e)

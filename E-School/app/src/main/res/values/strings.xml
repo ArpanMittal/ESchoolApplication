@@ -282,6 +282,7 @@
     <string name="correct">Accuracy</string>
     <string name="performance">performance</string>
     <string name="time">time</string>
+    <string name="attempt_number">Attempt Number</string>
 
 
 </resources>

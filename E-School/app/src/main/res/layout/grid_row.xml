@@ -29,10 +29,18 @@
             android:layout_margin="10dp"
             android:id="@+id/tv_android"
             android:textAlignment="center"
+
             android:textSize="15sp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 
+        <View
+            android:layout_below="@+id/tv_android"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:visibility="gone"
+            android:id="@+id/horizontalLine"
+            android:background="@color/dim_foreground_light_inverse" />
 
 
     </RelativeLayout>
@@ -44,7 +52,7 @@
         android:visibility="gone"
         android:contentDescription="@string/view_attempts"
         android:id="@+id/btn"
-        android:src="@drawable/answers_icon"
+        android:src="@drawable/attempts_icon"
         android:layout_gravity="bottom|end"
         android:layout_alignParentBottom="true"
         android:layout_alignParentEnd="true"

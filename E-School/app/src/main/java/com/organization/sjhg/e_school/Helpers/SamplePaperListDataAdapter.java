@@ -59,6 +59,7 @@ public class SamplePaperListDataAdapter extends RecyclerView.Adapter<SamplePaper
         if(sharedPrefrence.getAccessToken(context)!=null)
         {
             viewHolder.button.setVisibility(View.VISIBLE);
+            viewHolder.horizontal_line.setVisibility(View.VISIBLE);
         }
         viewHolder.tv_android.setText((String) chapterLists.get(position).name);
 //        viewHolder.tv_android.setOnClickListener(new View.OnClickListener() {
@@ -136,6 +137,7 @@ public class SamplePaperListDataAdapter extends RecyclerView.Adapter<SamplePaper
         private ImageView img_android;
         public ImageView button;
         public RelativeLayout view;
+        public View horizontal_line;
         public ViewHolder(View view) {
             super(view);
             this.view=(RelativeLayout)view.findViewById(R.id.relativeLayout);
@@ -143,6 +145,7 @@ public class SamplePaperListDataAdapter extends RecyclerView.Adapter<SamplePaper
             img_android = (ImageView) view.findViewById(R.id.img_android);
             img_android.setImageResource(R.drawable.sample_icon);
             button=(ImageView) view.findViewById(R.id.btn);
+            horizontal_line=view.findViewById(R.id.horizontalLine);
         }
     }
 
