@@ -18,6 +18,7 @@ import com.organization.sjhg.e_school.Content.NewTest.TestActivity;
 import com.organization.sjhg.e_school.Content.NewTest.TestSummaryActivity;
 import com.organization.sjhg.e_school.Fragments.SamplePaperListFragment;
 import com.organization.sjhg.e_school.ListStructure.ChapterList;
+import com.organization.sjhg.e_school.LoginActivity;
 import com.organization.sjhg.e_school.Main_Activity;
 import com.organization.sjhg.e_school.R;
 import com.organization.sjhg.e_school.Remote.RemoteCalls;
@@ -55,7 +56,7 @@ public class SamplePaperListDataAdapter extends RecyclerView.Adapter<SamplePaper
     @Override
     public void onBindViewHolder(SamplePaperListDataAdapter.ViewHolder viewHolder, final int position) {
 
-        SharedPrefrence sharedPrefrence=new SharedPrefrence();
+        final SharedPrefrence sharedPrefrence=new SharedPrefrence();
         if(sharedPrefrence.getAccessToken(context)!=null)
         {
             viewHolder.button.setVisibility(View.VISIBLE);
@@ -71,7 +72,12 @@ public class SamplePaperListDataAdapter extends RecyclerView.Adapter<SamplePaper
         viewHolder.view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showLocationDialog(position);
+                if(sharedPrefrence.getAccessToken(context)==null)
+                {
+                    showLocationDialog(position);
+                }
+                else
+                    showLocationDialog(position);
             }
         });
 
@@ -89,6 +95,42 @@ public class SamplePaperListDataAdapter extends RecyclerView.Adapter<SamplePaper
                 context.startActivity(intent);
             }
         });
+    }
+
+    private void showLginDialog(final int position)
+    {
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        builder.setTitle(context.getString(R.string.ask_login));
+        //builder.setMessage(context.getString(R.string.test_submit_message));
+
+        String positiveText = context.getString(R.string.login);
+        builder.setPositiveButton(positiveText,
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Intent intent=new Intent(context, LoginActivity.class);
+                        intent.putExtra("Tag", GlobalConstants.SamplePaperTag);
+                        intent.putExtra("Id",chapterLists.get(position).id);
+                        intent.putExtra("Title",chapterLists.get(position).name);
+                        context.startActivity(intent);
+                        // positive button logic
+                        // new RemoteHelper(getApplicationContext()).sendQuestionResponse(TestActivity.this, RemoteCalls.SEND_QUESTION_RESPONSE,tag,id, access_token,makeResponseList());
+                        // progressBarActivity.showProgress(mViewPagerView,mProgressView,true,getApplicationContext());
+                    }
+                });
+
+        String negativeText = context.getString(android.R.string.cancel);
+        builder.setNegativeButton(negativeText,
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        // negative button logic
+                    }
+                });
+
+        AlertDialog dialog = builder.create();
+        // display dialog
+        dialog.show();
     }
 
     private void showLocationDialog(final int position) {

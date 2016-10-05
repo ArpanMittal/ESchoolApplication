@@ -283,8 +283,9 @@
     <string name="performance">performance</string>
     <string name="time">time</string>
     <string name="attempt_number">Attempt Number</string>
-    <string name="empty_message">Dont Be Afraid,Go For It</string>
-    <string name="empty_description">once you attempt test list will show here</string>
+    <string name="empty_message">Don\'t Be Afraid, Go For It</string>
+    <string name="empty_description">No test has been attempted yet. Attempts will shown here</string>
+    <string name="ask_login">You Need To Login First</string>
 
 
 </resources>
