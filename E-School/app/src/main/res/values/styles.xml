@@ -139,6 +139,10 @@
         <item name="android:maxLines">2</item>
         <item name="android:ellipsize">end</item>
     </style>
+    <style name="MenuLabelsStyleWhite" parent="@style/MenuLabelsStyle">
+        <item name="android:background">@drawable/fab_label_background_white</item>
+        <item name="android:ellipsize">end</item>
+    </style>
     <style name="AppTheme.AlertDialog" parent="Theme.AppCompat.Light.Dialog.Alert">
         <!-- Used for the buttons -->
         <item name="colorPrimary">@color/colorPrimary</item>
@@ -157,4 +161,8 @@
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
     <item name="spinBars">true</item></style>
+    <style name="RatingBar" parent="Theme.AppCompat">
+        <item name="colorControlNormal">#ffc300</item>
+        <item name="colorControlActivated">@android:color/darker_gray</item>
+    </style>
 </resources>
