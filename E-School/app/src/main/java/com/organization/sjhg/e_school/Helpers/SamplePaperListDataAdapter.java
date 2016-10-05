@@ -48,7 +48,7 @@ public class SamplePaperListDataAdapter extends RecyclerView.Adapter<SamplePaper
 
     @Override
     public SamplePaperListDataAdapter.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
-        View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.grid_row, viewGroup, false);
+        View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.grid_sample_row, viewGroup, false);
         return new ViewHolder(view);
     }
 
