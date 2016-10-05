@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -133,7 +134,7 @@ public class SamplePaperListDataAdapter extends RecyclerView.Adapter<SamplePaper
     public class ViewHolder extends RecyclerView.ViewHolder{
         private TextView tv_android;
         private ImageView img_android;
-        public Button button;
+        public ImageView button;
         public RelativeLayout view;
         public ViewHolder(View view) {
             super(view);
@@ -141,7 +142,7 @@ public class SamplePaperListDataAdapter extends RecyclerView.Adapter<SamplePaper
             tv_android = (TextView)view.findViewById(R.id.tv_android);
             img_android = (ImageView) view.findViewById(R.id.img_android);
             img_android.setImageResource(R.drawable.sample_icon);
-            button=(Button) view.findViewById(R.id.btn);
+            button=(ImageView) view.findViewById(R.id.btn);
         }
     }
 

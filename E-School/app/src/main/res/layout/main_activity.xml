@@ -83,7 +83,7 @@
                     android:layout_marginStart="@dimen/activity_left_padding"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/home"
+                    android:src="@drawable/logout"
                     android:layout_gravity="start|center_vertical" />
 
             </FrameLayout>
