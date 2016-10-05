@@ -17,6 +17,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ExpandableListAdapter;
 import android.widget.ExpandableListView;
+import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import com.organization.sjhg.e_school.Helpers.ConnectivityReceiver;
@@ -197,7 +198,7 @@ public class MainParentActivity extends AppCompatActivity implements NavigationV
             }
         });
 
-        Button logout =(Button) navigationView.findViewById(R.id.logout);
+        FrameLayout logout =(FrameLayout) navigationView.findViewById(R.id.logout);
         logout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

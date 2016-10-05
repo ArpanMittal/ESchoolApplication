@@ -263,6 +263,7 @@
     <string name="jsonText">text</string>
     <string name="home">Home</string>
     <string name="view_attempts">VIEW ATTEMPTS</string>
+    <string name="view_answers">VIEW ANSWERS</string>
 
     <string name="question">Question:</string>
     <string name="correctanswer">Correct Answer:</string>
@@ -275,7 +276,12 @@
     <string name="samplepaper">Sample Paper</string>
 
     <string name="title_activity_profile_edit">Profile Edit</string>
-
+    <string name="replay">Replay</string>
+    <string name="close">Close</string>
+    <string name="summary">Summary</string>
+    <string name="correct">Accuracy</string>
+    <string name="performance">performance</string>
+    <string name="time">time</string>
 
 
 </resources>

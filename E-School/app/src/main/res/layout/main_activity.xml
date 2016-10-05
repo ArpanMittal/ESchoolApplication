@@ -60,16 +60,34 @@
                 android:layout_above="@+id/logout"
                 android:background="@android:color/white">
             </ExpandableListView>
-            <Button
+            <FrameLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="40dp"
+                android:layout_marginTop="170dp"
+                android:background="@drawable/border"
                 android:layout_alignParentBottom="true"
-                android:background="@drawable/button_background"
-                android:textSize="16sp"
-                android:fontFamily="sans-serif"
                 android:id="@+id/logout"
-                android:textColor="#DB000000"
-                android:text="@string/logout"/>
+                >
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/transparent"
+                    android:textColor="#DB000000"
+                    android:layout_gravity="center_vertical"
+                    android:text="@string/logout"
+                    android:textSize="16sp"
+                    android:fontFamily="sans-serif"
+                    android:layout_marginStart="@dimen/activity_left_margin"/>
+                <ImageView
+                    android:layout_marginStart="@dimen/activity_left_padding"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/logout"
+                    android:layout_gravity="start|center_vertical" />
+
+            </FrameLayout>
+
         </RelativeLayout>
 
 

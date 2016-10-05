@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
@@ -16,6 +15,8 @@ import android.view.View;
 import android.view.ViewStub;
 import android.widget.ProgressBar;
 
+import com.github.clans.fab.FloatingActionButton;
+import com.github.clans.fab.FloatingActionMenu;
 import com.organization.sjhg.e_school.Content.NewTest.TestActivity;
 import com.organization.sjhg.e_school.Fragments.Notes_Listing_Fragment;
 import com.organization.sjhg.e_school.Helpers.ConnectivityReceiver;
@@ -29,6 +30,8 @@ import com.organization.sjhg.e_school.R;
 import com.organization.sjhg.e_school.Remote.RemoteCalls;
 import com.organization.sjhg.e_school.Remote.RemoteHelper;
 import com.organization.sjhg.e_school.Structure.GlobalConstants;
+import com.organization.sjhg.e_school.TakeNotes.AddSmallNotesActivity;
+import com.organization.sjhg.e_school.TakeNotes.whiteboard.WhiteBoardActivity;
 import com.organization.sjhg.e_school.Utils.SharedPrefrence;
 import com.organization.sjhg.e_school.Utils.ToastActivity;
 
@@ -42,7 +45,7 @@ import java.util.List;
 /**
  * Created by Punit Chhajer on 24-08-2016.
  */
-public class QuestListActivity extends MainParentActivity {
+public class QuestListActivity extends MainParentActivity implements View.OnClickListener{
 
     private String id, name;
     public TopicList list;
@@ -66,17 +69,12 @@ public class QuestListActivity extends MainParentActivity {
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.setDrawerListener(toggle);
         toggle.syncState();
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-//                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-//                        .setAction("Action", null).show();
-                Intent intent=new Intent(getApplicationContext(), Notes_Listing_Fragment.class);
-                startActivity(intent);
-            }
-        });
+        FloatingActionButton fab1 = (FloatingActionButton)findViewById(R.id.fabSimpleNote);
+        FloatingActionButton fab2 = (FloatingActionButton)findViewById(R.id.fabWhiteBoard);
+        FloatingActionButton fab3 = (FloatingActionButton)findViewById(R.id.fablist);
+        fab1.setOnClickListener(this);
+        fab2.setOnClickListener(this);
+        fab3.setOnClickListener(this);
 
         findViewById(R.id.test).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -95,7 +93,9 @@ public class QuestListActivity extends MainParentActivity {
         getSupportActionBar().setTitle(name);
         if (savedInstanceState != null) {
             list = (TopicList) savedInstanceState.getSerializable("INTERNAL LIST");
-            showView();
+            if (list!=null){
+                showView();
+            }
         }
 
     }
@@ -292,5 +292,28 @@ public class QuestListActivity extends MainParentActivity {
     }
     public void dismissDialog(){
         mProgressDialog.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void onClick(View v) {
+        int id = v.getId();
+        switch (id){
+            case R.id.fab:
+
+
+                break;
+            case R.id.fabSimpleNote:
+                Intent intent=new Intent(getApplicationContext(), AddSmallNotesActivity.class);
+                startActivity(intent);
+                break;
+            case R.id.fabWhiteBoard:
+                intent=new Intent(getApplicationContext(), WhiteBoardActivity.class);
+                startActivity(intent);
+                break;
+            case R.id.fablist:
+                intent=new Intent(getApplicationContext(), Notes_Listing_Fragment.class);
+                startActivity(intent);
+                break;
+        }
     }
 }

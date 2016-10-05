@@ -71,7 +71,9 @@
         <activity
             android:name=".Content.AudioVideoPlayerActivity"
             android:label="@string/title_activity_audio_video_player"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:configChanges="screenSize|orientation|keyboardHidden"
+            android:theme="@style/AppTheme.NoActionBar" >
+            </activity>
         <receiver
             android:name=".Helpers.ConnectivityReceiver"
             android:enabled="true">
@@ -96,7 +98,7 @@
         <activity android:name=".Content.NewTest.TestReportActivity"
             android:parentActivityName=".Content.NewTest.TestSummaryActivity"
             android:theme="@style/AppThemeExam"
-            android:label="TestReport"/>
+            android:label="Test Report"/>
         <activity android:name=".Content.NewTest.TestAnswerActivity"
             android:parentActivityName=".Content.NewTest.TestSummaryActivity"
             android:theme="@style/AppThemeExam.NoActionBar"

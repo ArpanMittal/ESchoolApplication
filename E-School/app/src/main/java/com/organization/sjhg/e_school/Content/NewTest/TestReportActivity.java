@@ -100,31 +100,35 @@ public class TestReportActivity extends AppCompatActivity implements RemoteCallH
             }
         });
         access_token=sharedPrefrence.getAccessToken(getApplicationContext());
-        if(savedInstanceState==null)
-        {
-            progressBarActivity.showProgress(mDashboardView,mProgressView,true,this);
-           //showView();
-           new RemoteHelper(getApplicationContext()).getTestSummary(this, RemoteCalls.GET_TEST_RESPONSE,"1" , "Test_Detail", id, access_token);
-        }
-        else
+       if(savedInstanceState!=null)
         {
             barGraphLists=(List<BarGraphList>)savedInstanceState.getSerializable("LIST");
             stackGraphLists=(List<StackGraphList>)savedInstanceState.getSerializable("Ser_List");
             timeGraphLists=(List<TimeGraphList>)savedInstanceState.getSerializable("Tim_List");
             showView();
-//            stackBarChart.setVisibility(View.VISIBLE);
+
         }
 
         ConnectivityReceiver.isConnected();
     }
 
-//    @Override
-//    protected void onResume() {
-//        super.onResume();
-//        progressBarActivity.showProgress(mDashboardView,mProgressView,true,this);
-//        //showView();
-//        new RemoteHelper(getApplicationContext()).getTestSummary(this, RemoteCalls.GET_TEST_RESPONSE,"1" , "Test_Detail", id, access_token);
-//    }
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if(barGraphLists.isEmpty())
+        {
+            access_token=sharedPrefrence.getAccessToken(getApplicationContext());
+            progressBarActivity.showProgress(mDashboardView,mProgressView,true,this);
+            //showView();
+            new RemoteHelper(getApplicationContext()).getTestSummary(this, RemoteCalls.GET_TEST_RESPONSE,"1" , "Test_Detail", id, access_token);
+        }
+        else
+        {
+            // chapterListList = (List<ChapterList>) savedInstanceState.getSerializable("INTERNAL LIST");
+            showView();
+        }
+
+    }
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
@@ -168,17 +172,20 @@ public class TestReportActivity extends AppCompatActivity implements RemoteCallH
         ArrayList<String> label=new ArrayList<>();
         label.add("Correct");
         label.add("Wrong");
-        label.add("unattempted");
-        PieDataSet pieDataSet=new PieDataSet(entries,"Test_result");
-        int[] color={Color.BLUE,Color.RED,Color.GREEN};
+        label.add("Not Attempted");
+        PieDataSet pieDataSet=new PieDataSet(entries,"");
+        int[] color={Color.rgb(76,175,80),Color.rgb(255,82,82),Color.rgb(158,158,158)};
         pieDataSet.setColors(color);
         PieData data = new PieData(label, pieDataSet);
+        data.setValueTextSize(12f);
+        data.setValueTextColor(Color.WHITE);
         pieChart.setData(data);
         pieChart.animateY(2000);
         pieChart.animateX(2000);
+
         data.setValueFormatter(new ValueFormatter());
         pieChart.setDrawSliceText(false);
-        pieChart.setDescription("pie chart");
+        pieChart.setDescription("");
     }
     private void loadStackGraph()
     {
@@ -189,18 +196,23 @@ public class TestReportActivity extends AppCompatActivity implements RemoteCallH
             valueSet1.add(new BarEntry(stackGraphLists.get(i).getArray(), i));
         }
 
-        int[] color={Color.BLUE,Color.RED,Color.GREEN};
-        dataSets.add(new BarDataSet(valueSet1,"questions"));
+        int[] color={Color.rgb(79, 195,246),Color.rgb(57 ,169,244),Color.rgb(16,87,155)};
+        dataSets.add(new BarDataSet(valueSet1,""));
         dataSets.get(0).setColors(color);
         dataSets.get(0).setStackLabels(new String[]{"Easy", "Medium", "Hard"});
 
         BarChart barChart=(BarChart)findViewById(R.id.chart);
 
-        String[] str={"paper","correct","wrong","unattempted"};
+        String[] str={"All","Correct","Wrong","Not Attempted"};
         BarData data = new BarData(str,dataSets);
         barChart.setData(data);
-        barChart.setDescription("Question paper division");
+        barChart.setDescription("");
         barChart.animateXY(2000, 2000);
+//        barChart.setGridBackgroundColor(Color.TRANSPARENT);
+        barChart.setDrawGridBackground(false);
+        barChart.getAxisLeft().setEnabled(false);
+        barChart.getAxisRight().setEnabled(false);
+        //barChart.getXAxis().setDrawAxisLine(false);
         data.setValueFormatter(new ValueFormatter());
         barChart.invalidate();
     }
@@ -215,38 +227,32 @@ public class TestReportActivity extends AppCompatActivity implements RemoteCallH
             valueSet11.add(new BarEntry((float)timeGraphLists.get(i).total_avg/1000,i));
             valueSet21.add(new BarEntry((float)timeGraphLists.get(i).user_avg/1000,i));
         }
-        BarDataSet barDataSet1 = new BarDataSet(valueSet11, "total_avg(in sec))");
-        barDataSet1.setColor(Color.rgb(0, 155, 0));
-        BarDataSet barDataSet2 = new BarDataSet(valueSet21, "user_avg(in sec)");
-        barDataSet2.setColor(Color.rgb(255 ,0,0));
+        BarDataSet barDataSet1 = new BarDataSet(valueSet11, "Total Avg(in sec))");
+        barDataSet1.setColor(Color.rgb(250 ,137,0));
+        BarDataSet barDataSet2 = new BarDataSet(valueSet21, "User Avg(in sec)");
+        barDataSet2.setColor(Color.rgb(0,167,250));
         dataSets2.add(barDataSet1);
         dataSets2.add(barDataSet2);
-        String[] str1={"total","easy","medium","hard"};
+        String[] str1={"Total","Easy","Medium","Hard"};
         HorizontalBarChart horizontalBarChart=(HorizontalBarChart)findViewById(R.id.horizontalchart);
         BarData data1 = new BarData(str1,dataSets2);
         horizontalBarChart.setData(data1);
-        horizontalBarChart.setDescription("My Chart");
+        horizontalBarChart.setDescription("");
         horizontalBarChart.animateXY(2000, 2000);
+        horizontalBarChart.setDrawGridBackground(false);
+        horizontalBarChart.getAxisLeft().setEnabled(false);
+        horizontalBarChart.getAxisRight().setEnabled(false);
         horizontalBarChart.invalidate();
 
     }
 
     private void showView()
     {
-
+        //for summary
         loadPieChart();
-        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recycler);
-        recyclerView.setHasFixedSize(true);
 
-        BarGraphAdapter barGraphAdapter=new BarGraphAdapter(barGraphLists,this);
-        recyclerView.setAdapter(barGraphAdapter);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-
-        // for animation in listview
-        RecyclerView.ItemAnimator itemAnimator = new DefaultItemAnimator();
-        itemAnimator.setAddDuration(1000);
-        itemAnimator.setRemoveDuration(1000);
-        recyclerView.setItemAnimator(itemAnimator);
+        //for accuracy graph
+        loadBarGraph();
 
 
         // for stack graph
@@ -258,6 +264,57 @@ public class TestReportActivity extends AppCompatActivity implements RemoteCallH
        loadHorizontalGraph();
 
 
+    }
+
+    private void loadBarGraph()
+    {
+        BarChart barChart=(BarChart)findViewById(R.id.barchart);
+        BarData data = new BarData(getXAxisValues(), getDataSet(barGraphLists));
+        barChart.setData(data);
+        barChart.setDescription("");
+        barChart.animateXY(2000, 2000);
+        data.setValueFormatter(new ValueFormatter());
+        barChart.invalidate();
+        barChart.setDrawGridBackground(false);
+        barChart.getAxisLeft().setEnabled(false);
+        barChart.getAxisRight().setEnabled(false);
+    }
+
+    private ArrayList<BarDataSet> getDataSet(List<BarGraphList> dataList) {
+        ArrayList<BarDataSet> dataSets = null;
+
+        ArrayList<BarEntry> valueSet1 = new ArrayList<>();
+        ArrayList<BarEntry> valueSet2 = new ArrayList<>();
+        ArrayList<BarEntry> valueSet3 = new ArrayList<>();
+        for (int i=0;i<dataList.size();i++){
+            BarEntry v1e1 = new BarEntry((dataList.get(i).correct_attempt), i); // Jan
+            valueSet1.add(v1e1);
+            BarEntry v1e2 = new BarEntry((dataList.get(i).attempt_question), i); // Jan
+            valueSet2.add(v1e2);
+            BarEntry v1e3 = new BarEntry(new float[]{(dataList.get(i).total_question)}, i); // Jan
+            valueSet3.add(v1e3);
+        }
+
+        BarDataSet barDataSet1 = new BarDataSet(valueSet1, "Correct");
+        barDataSet1.setColor(Color.rgb(79, 195,246));
+        BarDataSet barDataSet2 = new BarDataSet(valueSet2, "Attempted");
+        barDataSet2.setColor(Color.rgb(57 ,169,244));
+        BarDataSet barDataSet3 = new BarDataSet(valueSet3, "All");
+        barDataSet3.setColor(Color.rgb(16,87,155));
+        dataSets = new ArrayList<>();
+        dataSets.add(barDataSet1);
+        dataSets.add(barDataSet2);
+        dataSets.add(barDataSet3);
+        return dataSets;
+    }
+    private ArrayList<String> getXAxisValues()
+    {
+        String[] str1={"Easy","Medium","Hard","Total"};
+        ArrayList<String> xAxis = new ArrayList<>();
+        for(int i=0;i<4;i++) {
+            xAxis.add(str1[i]);
+        }
+        return xAxis;
     }
 
 
