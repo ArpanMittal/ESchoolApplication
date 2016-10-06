@@ -19,18 +19,18 @@ class AuthGoogleIdToken extends Controller
 
         $url = 'https://www.googleapis.com/oauth2/v3/tokeninfo?id_token='.$id;
         $ch = curl_init();
-//        curl_setopt($ch, CURLOPT_URL, $url);
-//        curl_setopt($ch, CURLOPT_POST, false);
-//        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-//        curl_setopt ($ch, CURLOPT_SSL_VERIFYHOST, 0);
-//        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_POST, false);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt ($ch, CURLOPT_SSL_VERIFYHOST, 0);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
 
-        curl_setopt($ch, CURLOPT_HEADER, 1);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-        curl_setopt($ch, CURLOPT_HTTPGET, 1);
-        curl_setopt($ch, CURLOPT_URL,$url );
-        curl_setopt($ch, CURLOPT_DNS_USE_GLOBAL_CACHE, false );
-        curl_setopt($ch, CURLOPT_DNS_CACHE_TIMEOUT, 2 );
+//        curl_setopt($ch, CURLOPT_HEADER, 1);
+//        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+//        curl_setopt($ch, CURLOPT_HTTPGET, 1);
+//        curl_setopt($ch, CURLOPT_URL,$url );
+//        curl_setopt($ch, CURLOPT_DNS_USE_GLOBAL_CACHE, false );
+//        curl_setopt($ch, CURLOPT_DNS_CACHE_TIMEOUT, 2 );
 
 
         $result = curl_exec($ch);
