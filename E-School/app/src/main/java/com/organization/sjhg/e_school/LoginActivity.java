@@ -1,26 +1,13 @@
 package com.organization.sjhg.e_school;
 
-import android.accounts.AccountManager;
-import android.animation.Animator;
-import android.animation.AnimatorListenerAdapter;
-import android.annotation.TargetApi;
 import android.content.Intent;
 import com.google.android.gms.auth.api.Auth;
-import android.content.pm.PackageManager;
-import android.support.annotation.NonNull;
-import android.support.design.widget.Snackbar;
+
 import android.support.v7.app.AppCompatActivity;
-import android.app.LoaderManager.LoaderCallbacks;
 
-import android.content.CursorLoader;
-import android.content.Loader;
-import android.database.Cursor;
 import android.net.Uri;
-import android.os.AsyncTask;
 
-import android.os.Build;
 import android.os.Bundle;
-import android.provider.ContactsContract;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -28,8 +15,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.inputmethod.EditorInfo;
-import android.widget.ArrayAdapter;
-import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -37,18 +22,14 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
-import com.organization.sjhg.e_school.Content.NewTest.TestSummaryActivity;
 import com.organization.sjhg.e_school.Helpers.LogHelper;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.auth.api.signin.GoogleSignInResult;
 import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.OptionalPendingResult;
 import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
-import com.organization.sjhg.e_school.R;
-import com.organization.sjhg.e_school.Remote.ExceptionHandler;
 import com.organization.sjhg.e_school.Remote.RemoteCallHandler;
 import com.organization.sjhg.e_school.Remote.RemoteCalls;
 import com.organization.sjhg.e_school.Remote.RemoteHelper;
@@ -58,15 +39,10 @@ import com.organization.sjhg.e_school.Utils.ShaGenrate;
 import com.organization.sjhg.e_school.Utils.SharedPrefrence;
 import com.organization.sjhg.e_school.Utils.ToastActivity;
 
-import org.json.JSONArray;
 import org.json.JSONObject;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-import static android.Manifest.permission.READ_CONTACTS;
 
 /**
  * A login screen that offers login via email/password.
@@ -159,7 +135,7 @@ public class LoginActivity extends AppCompatActivity implements RemoteCallHandle
                 .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
                 .build();
         // [END build_client]
-        SignInButton signInButton = (SignInButton) findViewById(R.id.sign_in_button);
+        ImageView signInButton = (ImageView) findViewById(R.id.sign_in_button);
         signInButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -322,10 +298,14 @@ public class LoginActivity extends AppCompatActivity implements RemoteCallHandle
                     //updateUI(true);
                 }
                 else {
-                    signOut();
+
+                    Status status=result.getStatus();
+                    if(status.getStatusCode()!=12501) {
+                        signOut();
 //                    Intent intent =new Intent(this,Main_Activity.class);
 //                    startActivity(intent);
-                    Toast.makeText(getApplicationContext(),R.string.TAG_LOGIN_FAILURE,Toast.LENGTH_LONG).show();
+                        Toast.makeText(getApplicationContext(), R.string.TAG_LOGIN_FAILURE, Toast.LENGTH_LONG).show();
+                    }
 
                 }
             }
