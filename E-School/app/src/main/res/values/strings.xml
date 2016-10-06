@@ -94,7 +94,7 @@
     <string name="moved_out_of_test_submit_message">Test has been submitted.</string>
     <string name="moved_out_of_test_message">WARNING! This may lead to auto-submission</string>
     <string name="on_destroy_test_message">You have closed the application. Answers will be submitted automatically.</string>
-    <string name="cloud_base_address">http://14.192.17.104/</string>
+    <string name="cloud_base_address">http://14.192.16.145/</string>
     <string name="local_database_address">http://localhost:8000/</string>
     <string name="cloud_content_relative_path">contentfile/</string>
     <string name="local_base_address">http://192.168.5.5/eschool</string>
@@ -218,7 +218,7 @@
     <string name="jsonanswer">answer</string>
     <string name="jsonoption">option</string>
     <string name="jsonquestiontext">question_text</string>
-    <string name="action_submit">submit test</string>
+    <string name="action_submit">Submit Test</string>
     <string name="sendQuestionId">question_id</string>
     <string name="sendIsCorrect">is_correct</string>
     <string name="sendOptionId">option_id</string>
@@ -236,7 +236,7 @@
     <string name="jsontotalquestion">total_question</string>
     <string name="logout">Logout</string>
     <string name="login">Login</string>
-    <string name="seeanswer">answers</string>
+    <string name="seeanswer">View Answers</string>
     <string name="show_attempts">Show Attempts</string>
     <string name="jsontimetaken">time_taken</string>
     <string name="jsonresponse">response</string>
@@ -282,6 +282,13 @@
     <string name="correct">Accuracy</string>
     <string name="performance">performance</string>
     <string name="time">time</string>
+    <string name="attempt_number">Attempt Number</string>
+    <string name="empty_message">Don\'t Be Afraid, Go For It</string>
+    <string name="empty_description">No test has been attempted yet. Attempts will shown here</string>
+    <string name="ask_login">You Need To Login First</string>
+    <string name="timeTaken">Time Taken</string>
+    <string name="question_text">Question</string>
+    <string name="solution_text">Solution</string>
 
 
 </resources>

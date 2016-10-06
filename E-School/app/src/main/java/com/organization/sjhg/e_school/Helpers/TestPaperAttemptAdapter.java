@@ -57,6 +57,8 @@ public class TestPaperAttemptAdapter extends RecyclerView.Adapter<TestPaperAttem
 
 
         viewHolder.tv_android.setText((String) chapterLists.get(position).name);
+        String title=context.getString(R.string.attempt_number)+(position+1);
+        viewHolder.title.setText(title);
         viewHolder.linearLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -95,16 +97,18 @@ public class TestPaperAttemptAdapter extends RecyclerView.Adapter<TestPaperAttem
 
     public class ViewHolder extends RecyclerView.ViewHolder{
         private TextView tv_android;
+        private TextView title;
         private ImageView img_android;
-        public LinearLayout linearLayout;
-        public Button testAnserBtn;
+        public RelativeLayout linearLayout;
+        public ImageView testAnserBtn;
 
         public ViewHolder(View view) {
             super(view);
-            linearLayout=(LinearLayout)view.findViewById(R.id.relativeLayout);
+            linearLayout=(RelativeLayout)view.findViewById(R.id.relativeLayout);
             tv_android = (TextView)view.findViewById(R.id.tv_android);
             img_android = (ImageView) view.findViewById(R.id.img_android);
-            testAnserBtn=(Button)view.findViewById(R.id.btn);
+            testAnserBtn=(ImageView) view.findViewById(R.id.btn);
+            title=(TextView)view.findViewById(R.id.tv_title);
         }
     }
 

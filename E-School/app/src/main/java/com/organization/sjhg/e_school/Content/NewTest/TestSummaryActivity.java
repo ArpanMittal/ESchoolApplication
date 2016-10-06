@@ -18,6 +18,9 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewStub;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.organization.sjhg.e_school.Fragments.Notes_Listing_Fragment;
@@ -72,6 +75,8 @@ public class TestSummaryActivity extends AppCompatActivity implements RemoteCall
     private String parent_title;
     private String activity_name;
     private List<ChapterList> chapterListList=new ArrayList<>();
+    private ImageView empty_state;
+    private RelativeLayout empty_state_layout;
     Context mContext;
 
     @Override
@@ -85,6 +90,8 @@ public class TestSummaryActivity extends AppCompatActivity implements RemoteCall
         parent_id=intent.getStringExtra("Parent_id");
         parent_title=intent.getStringExtra("Parent_title");
         activity_name=intent.getStringExtra("Activity_Name");
+        empty_state=(ImageView)findViewById(R.id.emptyState);
+        empty_state_layout=(RelativeLayout) findViewById(R.id.emptyStateLayout);
         if(title!=null)
             getSupportActionBar().setTitle(title);
         else
@@ -94,18 +101,13 @@ public class TestSummaryActivity extends AppCompatActivity implements RemoteCall
         mProgressView=findViewById(R.id.dashboard_progress);
 
         access_token=sharedPrefrence.getAccessToken(getApplicationContext());
-        if(access_token==null)
-        {
-            Toast.makeText(TestSummaryActivity.this, "no attempt found", Toast.LENGTH_SHORT).show();
-            finish();
-        }
-        else {
+
             if (savedInstanceState != null) {
 
                 chapterListList = (List<ChapterList>) savedInstanceState.getSerializable("INTERNAL LIST");
                 showView();
             }
-        }
+
 
     }
     @Override
@@ -170,7 +172,7 @@ public class TestSummaryActivity extends AppCompatActivity implements RemoteCall
                 String times = localDateFormat.format(date);
                 DateFormat outputFormatter = new SimpleDateFormat("EEE, d MMM yyyy");
                 String output = outputFormatter.format(date);
-                chapterListList.add(new ChapterList(id,"Attempted on "+output+" at "+times));
+                chapterListList.add(new ChapterList(id,output+" "+times));
             }
 
         }catch (Exception e)
@@ -183,6 +185,8 @@ public class TestSummaryActivity extends AppCompatActivity implements RemoteCall
     private void showView()
     {
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recycler);
+        recyclerView.setVisibility(View.VISIBLE);
+        empty_state_layout.setVisibility(View.GONE);
         recyclerView.setHasFixedSize(true);
 
         TestPaperAttemptAdapter testPaperAttemptAdapter=new TestPaperAttemptAdapter(this,chapterListList,id,tag,title,activity_name);
@@ -230,8 +234,10 @@ public class TestSummaryActivity extends AppCompatActivity implements RemoteCall
                         {
                             if(response.get("code").toString().equals("401"))
                             {
-                                Toast.makeText(TestSummaryActivity.this, "no attempt found", Toast.LENGTH_SHORT).show();
-                                finish();
+
+                               // Toast.makeText(TestSummaryActivity.this, "no attempt found", Toast.LENGTH_SHORT).show();
+
+                                //finish();
                             }
 
                             else {
@@ -272,6 +278,13 @@ public class TestSummaryActivity extends AppCompatActivity implements RemoteCall
         }
     }
 
+    private void showEmptyView() {
+        mDashboardView.setVisibility(View.GONE);
+        ImageView imageView=(ImageView)findViewById(R.id.emptyState);
+        imageView.setVisibility(View.VISIBLE);
+        imageView.setImageResource(R.drawable.test_empty_state);
+
+    }
 
 
 }

@@ -196,7 +196,7 @@ public class TestReportActivity extends AppCompatActivity implements RemoteCallH
             valueSet1.add(new BarEntry(stackGraphLists.get(i).getArray(), i));
         }
 
-        int[] color={Color.rgb(79, 195,246),Color.rgb(57 ,169,244),Color.rgb(16,87,155)};
+        int[] color={Color.rgb(120, 211,244),Color.rgb(57 ,169,244),Color.rgb(16,87,155)};
         dataSets.add(new BarDataSet(valueSet1,""));
         dataSets.get(0).setColors(color);
         dataSets.get(0).setStackLabels(new String[]{"Easy", "Medium", "Hard"});
@@ -227,7 +227,7 @@ public class TestReportActivity extends AppCompatActivity implements RemoteCallH
             valueSet11.add(new BarEntry((float)timeGraphLists.get(i).total_avg/1000,i));
             valueSet21.add(new BarEntry((float)timeGraphLists.get(i).user_avg/1000,i));
         }
-        BarDataSet barDataSet1 = new BarDataSet(valueSet11, "Total Avg(in sec))");
+        BarDataSet barDataSet1 = new BarDataSet(valueSet11, "Total Avg(in sec)");
         barDataSet1.setColor(Color.rgb(250 ,137,0));
         BarDataSet barDataSet2 = new BarDataSet(valueSet21, "User Avg(in sec)");
         barDataSet2.setColor(Color.rgb(0,167,250));
@@ -296,7 +296,7 @@ public class TestReportActivity extends AppCompatActivity implements RemoteCallH
         }
 
         BarDataSet barDataSet1 = new BarDataSet(valueSet1, "Correct");
-        barDataSet1.setColor(Color.rgb(79, 195,246));
+        barDataSet1.setColor(Color.rgb(120, 211,244));
         BarDataSet barDataSet2 = new BarDataSet(valueSet2, "Attempted");
         barDataSet2.setColor(Color.rgb(57 ,169,244));
         BarDataSet barDataSet3 = new BarDataSet(valueSet3, "All");

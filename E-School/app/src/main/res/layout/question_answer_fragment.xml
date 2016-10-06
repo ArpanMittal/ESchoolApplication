@@ -1,21 +1,55 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textStyle="bold"
-        android:paddingRight="@dimen/list_top_padding"
-        android:id="@+id/time_taken"/>
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@+id/time_taken"
         android:scrollbars="horizontal|vertical">
-        <RelativeLayout
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/timeTaken"
+            android:layout_gravity="center_horizontal"
+            android:textAllCaps="true"
+            android:textStyle="bold"
+            android:layout_marginBottom="@dimen/activity_vertical_margin"
+            android:textSize="@dimen/labels_text_size"/>
+        <android.support.v7.widget.CardView
+            android:id="@+id/cardView_time"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/activity_vertical_margin">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:gravity="center"
+                android:textStyle="bold"
+                android:background="@drawable/timer"
+                android:id="@+id/time_taken"/>
+        </android.support.v7.widget.CardView>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/question_text"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="@dimen/activity_vertical_margin"
+            android:textAllCaps="true"
+            android:textStyle="bold"
+            android:textSize="@dimen/labels_text_size"/>
+        <android.support.v7.widget.CardView
+            android:id="@+id/cardView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+
+            android:layout_marginBottom="@dimen/activity_vertical_margin">
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -23,29 +57,56 @@
                 android:orientation="vertical">
 
                 <com.organization.sjhg.e_school.Utils.ImageViewHelper
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center"
                     android:id="@+id/question_image"
-                    android:scaleType="matrix"
-                    />
-                <android.support.v7.widget.CardView
-                    android:id="@+id/cardView"
+                    android:layout_marginBottom="@dimen/activity_vertical_margin"
+                    android:scaleType="matrix" />
+
+                <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="@dimen/activity_vertical_margin">
+                    android:id="@+id/question_text"
+                    android:textSize="17sp"
+                    android:layout_marginBottom="@dimen/activity_vertical_margin"
+                    android:textColor="@color/darkest_gray" />
 
-
-
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+                    <TextView
+                        android:textStyle="bold"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingRight="@dimen/list_top_padding"
+                        android:text="@string/useroption"/>
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:id="@+id/question_text"
-                        android:textSize="17sp"
-                        android:paddingRight="@dimen/list_top_padding"
+                        android:layout_marginStart="2dp"
+                        android:textSize="14sp"
+                        android:id="@+id/user_option_text"
                         android:textColor="@color/darkest_gray"
-                        android:layout_below="@+id/question_image"/>
+                        android:paddingRight="@dimen/list_top_padding"
+                        />
 
-                </android.support.v7.widget.CardView>
+                </LinearLayout>
+
+
+
+            </LinearLayout>
+        </android.support.v7.widget.CardView>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/solution_text"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="@dimen/activity_vertical_margin"
+            android:textAllCaps="true"
+            android:textStyle="bold"
+            android:textSize="@dimen/labels_text_size"/>
 
                 <android.support.v7.widget.CardView
                     android:id="@+id/cardView_answer"
@@ -53,66 +114,55 @@
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="@dimen/activity_vertical_margin">
                     <LinearLayout
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal">
+                        android:orientation="vertical">
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
                         <TextView
                             android:textStyle="bold"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:paddingRight="@dimen/list_top_padding"
-
                             android:text="@string/correctanswer"/>
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="2dp"
-                        android:textSize="14sp"
-                        android:id="@+id/answer_text"
-                        android:textColor="@color/darkest_gray"
-                        android:paddingRight="@dimen/list_top_padding"
-                        />
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="2dp"
+                            android:textSize="14sp"
+                            android:id="@+id/answer_text"
+                            android:textColor="@color/darkest_gray"
+                            android:paddingRight="@dimen/list_top_padding"
+                            />
+
+                        </LinearLayout>
+                        <com.organization.sjhg.e_school.Utils.ImageViewHelper
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:id="@+id/solution_image"
+                            android:scaleType="matrix"
+                            />
                     </LinearLayout>
                 </android.support.v7.widget.CardView>
 
-                <android.support.v7.widget.CardView
-                    android:id="@+id/cardView_user_option"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="@dimen/activity_vertical_margin">
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal">
-                    <TextView
-                        android:textStyle="bold"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:paddingRight="@dimen/list_top_padding"
 
-                        android:text="@string/useroption"/>
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="2dp"
-                        android:textSize="14sp"
-                        android:paddingRight="@dimen/list_top_padding"
-                        android:textColor="@color/darkest_gray"
-                        android:id="@+id/user_option_text" />
-                    </LinearLayout>
-                </android.support.v7.widget.CardView>
+                <!--<android.support.v7.widget.CardView-->
+                    <!--android:id="@+id/cardView_user_option"-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:layout_marginBottom="@dimen/activity_vertical_margin">-->
+                   <!---->
+                <!--</android.support.v7.widget.CardView>-->
 
-                <com.organization.sjhg.e_school.Utils.ImageViewHelper
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/solution_image"
-                    android:scaleType="matrix"
-                    />
-            </LinearLayout>
+                <!---->
+            <!--</LinearLayout>-->
 
 
 
-        </RelativeLayout>
+        </LinearLayout>
     </ScrollView>
 
-</RelativeLayout>
+</LinearLayout>

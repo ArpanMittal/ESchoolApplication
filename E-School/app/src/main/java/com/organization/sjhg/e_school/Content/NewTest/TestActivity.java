@@ -11,6 +11,7 @@ import android.graphics.Color;
 import android.graphics.PorterDuff;
 
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
@@ -51,6 +52,7 @@ import org.json.JSONObject;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Created by arpan on 9/7/2016.
@@ -68,11 +70,13 @@ public class TestActivity extends AppCompatActivity implements RemoteCallHandler
     double startTime=System.currentTimeMillis();
     double endTime ;
     int lastPageposition=0;
+    long countDownTime=720000;
     int pageOffset;
     ProgressBar progress;
     private TabLayout tabLayout;
     private String title;
     private Toolbar toolbar;
+    private TextView countDown;
 
 
     private TextView submit_btn;
@@ -97,6 +101,7 @@ public class TestActivity extends AppCompatActivity implements RemoteCallHandler
 
         toolbar=(Toolbar)findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        countDown=(TextView)toolbar.findViewById(R.id.countDown);
         submit_btn=(TextView)toolbar.findViewById(R.id.submitButton);
         submit_btn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -194,6 +199,7 @@ public class TestActivity extends AppCompatActivity implements RemoteCallHandler
         else
         {
             questionLists=(List<QuestionList>)saveInstances.getSerializable("Question List");
+            countDownTime=saveInstances.getLong("CountDown");
             showView(questionLists);
         }
     }
@@ -203,6 +209,7 @@ public class TestActivity extends AppCompatActivity implements RemoteCallHandler
         super.onSaveInstanceState(outState);
         if(questionLists!=null) {
             outState.putSerializable("Question List", (Serializable) questionLists);
+           outState.putLong("CountDown",countDownTime);
         }
 
     }
@@ -229,6 +236,34 @@ public class TestActivity extends AppCompatActivity implements RemoteCallHandler
         mViewPagerView.setAdapter(questionAdapter);
         tabLayout = (TabLayout) findViewById(R.id.id_tabs);
         tabLayout.setupWithViewPager(mViewPagerView);
+        if(countDownTime<30000)
+        {
+
+            countDown.setTextColor(Color.parseColor("#c60000"));
+        }
+        new CountDownTimer(countDownTime, 1000) {
+
+            public void onTick(long millisUntilFinished) {
+                countDownTime=millisUntilFinished;
+                countDown.setText(""+String.format("%d min, %d sec",
+                        TimeUnit.MILLISECONDS.toMinutes( millisUntilFinished),
+                        TimeUnit.MILLISECONDS.toSeconds(millisUntilFinished) -
+                                TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(millisUntilFinished))));
+                //countDown.setText(""+ (millisUntilFinished / 1000));
+
+                //here you can have your logic to set text to edittext
+            }
+
+
+            public void onFinish() {
+                access_token=sharedPrefrence.getAccessToken(getApplicationContext());
+                new RemoteHelper(getApplicationContext()).sendQuestionResponse(TestActivity.this, RemoteCalls.SEND_QUESTION_RESPONSE,tag,id, access_token,makeResponseList());
+                progressBarActivity.showProgress(mViewPagerView,mProgressView,true,getApplicationContext());
+                //countDown.setText("done!");
+
+            }
+
+        }.start();
         mViewPagerView.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
 
             @Override

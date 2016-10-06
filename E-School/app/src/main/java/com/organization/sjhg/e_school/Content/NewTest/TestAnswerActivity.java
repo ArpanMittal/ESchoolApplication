@@ -1,6 +1,7 @@
 package com.organization.sjhg.e_school.Content.NewTest;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.PersistableBundle;
 import android.support.annotation.Nullable;
@@ -141,13 +142,48 @@ public class TestAnswerActivity extends AppCompatActivity implements RemoteCallH
         outState.putSerializable("Question List",(Serializable)questionAnswerLists);
     }
 
-    private void showView(List<QuestionAnswerList>questionAnswerLists)
+    private void showView(final List<QuestionAnswerList>questionAnswerLists)
     {
    ;
         QuestionAnswerAdapter questionAnswerAdapter=new QuestionAnswerAdapter(getSupportFragmentManager(),questionAnswerLists,getApplicationContext());
         mViewPagerView.setAdapter(questionAnswerAdapter);
         tabLayout = (TabLayout) findViewById(R.id.id_tabs);
         tabLayout.setupWithViewPager(mViewPagerView);
+        setColors(questionAnswerLists.get(0).response);
+        mViewPagerView.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                String response=questionAnswerLists.get(position).response;
+                setColors(response);
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
+    }
+
+    private void setColors(String response) {
+        if(response.equals("empty")) {
+            tabLayout.setBackgroundColor(Color.GRAY);
+            toolbar.setBackgroundColor(Color.GRAY);
+        }
+        else if (response.equals("true"))
+        {
+            tabLayout.setBackgroundColor(Color.parseColor("#4caf50"));
+            toolbar.setBackgroundColor(Color.parseColor("#4caf50"));
+        }
+        else
+        {
+            tabLayout.setBackgroundColor(Color.parseColor("#d50000"));
+            toolbar.setBackgroundColor(Color.parseColor("#d50000"));
+        }
     }
 
     private List<QuestionAnswerList> getList(JSONObject response)
