@@ -73,9 +73,7 @@ public class SamplePaperListDataAdapter extends RecyclerView.Adapter<SamplePaper
             @Override
             public void onClick(View v) {
                 if(sharedPrefrence.getAccessToken(context)==null)
-                {
-                    showLocationDialog(position);
-                }
+                    showLginDialog(position);
                 else
                     showLocationDialog(position);
             }
