@@ -62,7 +62,7 @@ public class Question_Answer_Fragment extends Fragment {
         String url1=ServerAddress.getServerAddress(getContext())+questionAnswerLists.get(0).solution_path;
         imageLoader(url1,imageView1);
         long millisUntilFinished=Integer.parseInt(questionAnswerLists.get(0).time_taken);
-        time_taken.setText(""+String.format("%d min, %d sec",
+        time_taken.setText(""+String.format("%02d:%02d",
                 TimeUnit.MILLISECONDS.toMinutes( millisUntilFinished),
                 TimeUnit.MILLISECONDS.toSeconds(millisUntilFinished) -
                         TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(millisUntilFinished))));
@@ -100,7 +100,7 @@ public class Question_Answer_Fragment extends Fragment {
             @Override
             public Drawable getDrawable(String source) {
                 LevelListDrawable d = new LevelListDrawable();
-                Drawable empty = getContext().getResources().getDrawable(R.drawable.ic_launcher);
+                Drawable empty = getContext().getResources().getDrawable(R.drawable.animate_rotate);
                 d.addLevel(0, 0, empty);
                 d.setBounds(0, 0, empty.getIntrinsicWidth(), empty.getIntrinsicHeight());
                 new Latex_Image_Loader().execute(source, d,textView);

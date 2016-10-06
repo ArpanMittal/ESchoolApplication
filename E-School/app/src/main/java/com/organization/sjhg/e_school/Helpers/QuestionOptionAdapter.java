@@ -139,7 +139,7 @@ public class QuestionOptionAdapter extends RecyclerView.Adapter<QuestionOptionAd
             @Override
             public Drawable getDrawable(String source) {
                 LevelListDrawable d = new LevelListDrawable();
-                Drawable empty = context.getResources().getDrawable(R.drawable.ic_launcher);
+                Drawable empty = context.getResources().getDrawable(R.drawable.animate_rotate);
                 d.addLevel(0, 0, empty);
                 d.setBounds(0, 0, empty.getIntrinsicWidth(), empty.getIntrinsicHeight());
                 new Latex_Image_Loader().execute(source, d,holder.option_text);
