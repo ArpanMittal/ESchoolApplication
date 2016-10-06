@@ -24,6 +24,7 @@ import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Created by arpan on 9/17/2016.
@@ -60,8 +61,11 @@ public class Question_Answer_Fragment extends Fragment {
         imageLoader(url,imageView);
         String url1=ServerAddress.getServerAddress(getContext())+questionAnswerLists.get(0).solution_path;
         imageLoader(url1,imageView1);
-        time_taken.setText("Time Taken : "+questionAnswerLists.get(0).time_taken);
-
+        long millisUntilFinished=Integer.parseInt(questionAnswerLists.get(0).time_taken);
+        time_taken.setText(""+String.format("%02d:%02d",
+                TimeUnit.MILLISECONDS.toMinutes( millisUntilFinished),
+                TimeUnit.MILLISECONDS.toSeconds(millisUntilFinished) -
+                        TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(millisUntilFinished))));
         String code=questionAnswerLists.get(0).question_text;
         textLoader(code,question_text);
         Typeface face= Typeface.createFromAsset(getActivity().getAssets(), "latin-modern-sans/lmsans8-regular.otf");
@@ -96,7 +100,7 @@ public class Question_Answer_Fragment extends Fragment {
             @Override
             public Drawable getDrawable(String source) {
                 LevelListDrawable d = new LevelListDrawable();
-                Drawable empty = getContext().getResources().getDrawable(R.drawable.ic_launcher);
+                Drawable empty = getContext().getResources().getDrawable(R.drawable.animate_rotate);
                 d.addLevel(0, 0, empty);
                 d.setBounds(0, 0, empty.getIntrinsicWidth(), empty.getIntrinsicHeight());
                 new Latex_Image_Loader().execute(source, d,textView);

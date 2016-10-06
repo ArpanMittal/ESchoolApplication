@@ -22,13 +22,23 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:elevation="4dp" >
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/paddingLeft"
+                android:textStyle="bold"
+                android:id="@+id/countDown"
+                android:textSize="12sp"
+                android:layout_gravity="center_horizontal"
+                android:textColor="@android:color/white"/>
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/lin"
                 android:orientation="horizontal"
                 android:layout_gravity="end"
-                android:gravity="center_vertical">
+                android:gravity="center_vertical"
+                >
 
 
 

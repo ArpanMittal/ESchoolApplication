@@ -17,14 +17,19 @@
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="8dp"
         android:visibility="gone" />
+
     <LinearLayout
         android:id="@+id/dashboard_form"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="#fafafa"
         android:orientation="vertical">
+       <include layout="@layout/activity_empty_layout">
+
+       </include>
         <android.support.v7.widget.RecyclerView
             android:id="@+id/recycler"
+            android:visibility="gone"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:fitsSystemWindows="true"
