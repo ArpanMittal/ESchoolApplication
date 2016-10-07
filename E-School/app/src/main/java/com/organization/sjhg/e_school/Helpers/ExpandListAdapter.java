@@ -160,7 +160,8 @@ public class ExpandListAdapter extends BaseExpandableListAdapter {
             imageView.setImageResource(R.drawable.book);
         else if(headerTitle.equals("Exams"))
             imageView.setImageResource(R.drawable.exam);
-
+        else if(headerTitle.equals("Chapters"))
+            imageView.setImageResource(R.drawable.chapter_icon);
 
         return convertView;
     }

@@ -7,8 +7,7 @@
     android:id="@+id/option">
 
     <CheckBox
-        android:enabled="false"
-        android:clickable="false"
+        android:theme="@style/MyCheckBox"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/checkbox"/>

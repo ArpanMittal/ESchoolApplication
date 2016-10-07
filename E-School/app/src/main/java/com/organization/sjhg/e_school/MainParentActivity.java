@@ -219,9 +219,10 @@ public class MainParentActivity extends AppCompatActivity implements NavigationV
         };
 
         SharedPrefrence sharedPrefrence = new SharedPrefrence();
+        String token = sharedPrefrence.getAccessToken(this);
         View headerLayout = navigationView.getHeaderView(0);
         TextView username = (TextView)headerLayout.findViewById(R.id.userName);
-        if (username!=null){
+        if (username!=null && token!=null){
             username.setVisibility(View.VISIBLE);
             String user = sharedPrefrence.getUserName(getApplicationContext());
             username.setText(user);
@@ -231,18 +232,18 @@ public class MainParentActivity extends AppCompatActivity implements NavigationV
 
         TextView email = (TextView)headerLayout.findViewById(R.id.eMail);
         Button login = (Button)headerLayout.findViewById(R.id.login);
-        if (email!=null){
+        if (email!=null && token!=null){
             email.setVisibility(View.VISIBLE);
             logout.setVisibility(View.VISIBLE);
         }
         CircleImageView profile_pic = (CircleImageView) headerLayout.findViewById(R.id.profile_image);
-        if (sharedPrefrence.getUserEmail(getApplicationContext()) != null && email!=null){
+        if (sharedPrefrence.getUserEmail(getApplicationContext()) != null && email!=null && token!=null){
             email.setText(sharedPrefrence.getUserEmail(getApplicationContext()));
             login.setVisibility(View.GONE);
             if (!sharedPrefrence.getUserPic(getApplicationContext()).equals("")){
                 Picasso.with(this)
                         .load(sharedPrefrence.getUserPic(getApplicationContext()))
-                        .placeholder(R.drawable.ic_account_circle_white_24dp)
+                        .placeholder(R.drawable.ic_account_circle_white_48dp)
                         .memoryPolicy(MemoryPolicy.NO_CACHE, MemoryPolicy.NO_STORE)
                         .into(profile_pic);
             }

@@ -21,6 +21,7 @@
     <ProgressBar
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_gravity="center"
         android:id="@+id/progress"
         />
 
@@ -31,12 +32,7 @@
         app:layout_behavior="@string/appbar_scrolling_view_behavior" />
     <!--<include layout="@layout/content_main" />-->
 
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/fab"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|end"
-        android:layout_margin="@dimen/fab_margin"
-        android:src="@android:drawable/ic_dialog_email" />
+    <include layout="@layout/activity_empty_layout">
 
+    </include>
 </android.support.design.widget.CoordinatorLayout>

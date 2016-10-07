@@ -209,13 +209,6 @@
             android:label="Application Settings"
             android:screenOrientation="sensorLandscape"
             android:theme="@style/SettingTheme"/>
-        <activity android:name=".Helpers.SearchActivity" >
-            <intent-filter>
-                <action android:name="android.intent.action.SEARCH" />
-            </intent-filter>
-            <meta-data android:name="android.app.searchable"
-                android:resource="@xml/searchable"/>
-        </activity>
 
         <service
             android:name=".ClassSession.SyncService"
