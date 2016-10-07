@@ -8,57 +8,77 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentTop="true"
+        android:minLines="2"
+        android:maxLines="3"
+        android:layout_margin="8dp"
         android:id="@+id/name"
+        android:textColor="@color/white"
         android:text="name"/>
 
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:layout_alignTop="@+id/lockButton"
-        android:layout_alignBottom="@+id/lockButton"
-        android:id="@+id/background"
-        android:src="@drawable/ic_launcher"/>
-    <RelativeLayout
+            <ImageView
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:adjustViewBounds="true"
+                android:layout_marginRight="-16dp"
+                android:layout_marginLeft="24dp"
+                android:layout_below="@+id/name"
+                android:src="@drawable/video"
+                android:background="@android:color/transparent"
+                android:contentDescription="@string/video"
+                android:id="@+id/video"/>
+            <ImageView
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_toRightOf="@+id/background"
+                android:layout_marginLeft="-32dp"
+                android:layout_below="@+id/name"
+                android:adjustViewBounds="true"
+                android:src="@drawable/pdf"
+                android:background="@android:color/transparent"
+                android:contentDescription="@string/title_activity_pdf"
+                android:id="@+id/pdf" />
+            <ImageView
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:layout_below="@+id/video"
+                android:layout_toRightOf="@+id/video"
+                android:layout_centerHorizontal="true"
+                android:adjustViewBounds="true"
+                android:layout_margin="8dp"
+                android:id="@+id/background"
+                android:src="@drawable/qicon_1"/>
+            <ImageView
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_toRightOf="@+id/background"
+                android:layout_above="@+id/analytics"
+                android:adjustViewBounds="true"
+                android:src="@drawable/worksheet"
+                android:background="@android:color/transparent"
+                android:contentDescription="@string/worksheet"
+                android:id="@+id/worksheet"/>
+        <ImageView
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:src="@drawable/analytics"
+            android:layout_toLeftOf="@+id/background"
+            android:layout_below="@+id/background"
+            android:adjustViewBounds="true"
+            android:background="@android:color/transparent"
+            android:contentDescription="@string/analytics"
+            android:id="@+id/analytics"/>
+    <android.support.v7.widget.AppCompatRatingBar
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/name"
-        android:id="@+id/lockButton">
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Video"
-            android:id="@+id/video"/>
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/video"
-            android:text="Doc"
-            android:id="@+id/pdf" />
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/pdf"
-            android:text="Work Sheet"
-            android:id="@+id/worksheet"/>
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/worksheet"
-            android:text="Analytics"
-            android:id="@+id/analytics"/>
-        <RatingBar
-            android:theme="@style/RatingBar"
-            android:rating="1.5"
-            android:stepSize="0.375"
-            android:numStars="3"
-            android:contextClickable="false"
-            android:clickable="false"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/analytics"
-            android:id="@+id/progress"/>
-    </RelativeLayout>
-
-
+        android:layout_below="@+id/analytics"
+        android:layout_centerHorizontal="true"
+        android:id="@+id/progress"
+        android:theme="@style/RatingBar"
+        android:rating="1.5"
+        android:stepSize="0.01"
+        android:numStars="3"
+        android:isIndicator="true"/>
 
 </RelativeLayout>

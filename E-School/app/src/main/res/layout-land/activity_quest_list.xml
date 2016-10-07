@@ -7,36 +7,45 @@
     android:fitsSystemWindows="true"
     android:background="@color/black"
     android:id="@+id/coordinatorLayout">
-
-        <android.support.design.widget.AppBarLayout
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/appBarLayout"
-            android:theme="@style/QuestTheme">
-
-                <android.support.v7.widget.Toolbar
-                    android:id="@+id/toolbar"
+            android:background="@drawable/quest_background"
+            android:layout_height="match_parent">
+                <android.support.design.widget.AppBarLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:id="@+id/appBarLayout"
+                    android:theme="@style/QuestTheme">
+
+                        <android.support.v7.widget.Toolbar
+                            android:id="@+id/toolbar"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content" />
+                </android.support.design.widget.AppBarLayout>
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/completeProgress"
-                    android:layout_gravity="left"
-                    android:src="@drawable/quest_progress"/>
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentBottom="true"
+                    android:src="@drawable/quest_progress_vertical"/>
 
                 <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="100dp"
-                    android:orientation="horizontal">
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_below="@+id/appBarLayout"
+                    android:id="@+id/testAttemptsBlock"
+                    android:layout_toRightOf="@+id/completeProgress"
+                    android:orientation="vertical">
                         <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
                             android:layout_weight="1"
+                            android:gravity="center"
                             android:orientation="vertical">
                                 <ImageView
-                                    android:layout_width="match_parent"
-                                    android:layout_height="50dp"
+                                    android:layout_width="50dp"
+                                    android:layout_height="wrap_content"
                                     android:background="@android:color/transparent"
                                     android:id="@+id/test"
                                     android:src="@drawable/chapter_test_icon"/>
@@ -48,13 +57,14 @@
                                     android:text="Test"/>
                         </LinearLayout>
                         <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
                             android:layout_weight="1"
+                            android:gravity="center"
                             android:orientation="vertical">
                                 <ImageView
-                                    android:layout_width="match_parent"
-                                    android:layout_height="50dp"
+                                    android:layout_width="50dp"
+                                    android:layout_height="wrap_content"
                                     android:background="@android:color/transparent"
                                     android:id="@+id/attempt"
                                     android:src="@drawable/chapter_attempts_icon"
@@ -68,13 +78,30 @@
                         </LinearLayout>
                 </LinearLayout>
                 <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="50dp"
-                    android:src="@drawable/quest_divider"
-                    />
+                    android:layout_width="50dp"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/appBarLayout"
+                    android:layout_toRightOf="@+id/testAttemptsBlock"
+                    android:id="@+id/divider"
+                    android:src="@drawable/quest_divider_vertical" />
 
-        </android.support.design.widget.AppBarLayout>
 
+                <android.support.v4.widget.NestedScrollView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_below="@+id/appBarLayout"
+                    android:layout_toRightOf="@+id/divider"
+                    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+                    >
+                        <android.support.v7.widget.RecyclerView
+                            android:id="@+id/recycler"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+                </android.support.v4.widget.NestedScrollView>
+
+        </RelativeLayout>
 
         <ProgressBar
             android:layout_width="wrap_content"
@@ -82,20 +109,6 @@
             android:layout_gravity="center"
             android:id="@+id/progress"
             />
-        <android.support.v4.widget.NestedScrollView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@drawable/quest_background"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior"
-            >
-                <android.support.v7.widget.RecyclerView
-                    android:id="@+id/recycler"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    app:layout_behavior="@string/appbar_scrolling_view_behavior" />
-        </android.support.v4.widget.NestedScrollView>
-
 
         <RelativeLayout
             android:layout_width="match_parent"
