@@ -225,7 +225,7 @@
     <string name="sendIsCorrect">is_correct</string>
     <string name="sendOptionId">option_id</string>
     <string name="sendTimeTaken">time_taken</string>
-    <string name="test_submit_title">submit test</string>
+    <string name="test_submit_title">Submit Test</string>
     <string name="test_submit_message">Are you sure?</string>
     <string name="TestSummary">TestSummary</string>
     <string name="get_test_summary">api/v1/getTestSummary</string>
@@ -299,7 +299,7 @@
     <string name="option_login_text">Or login using kwiklearn account</string>
 
     <string name="searchError">We could not find any result</string>
-
+    <string name="signupconfirm">Your account has been successfully created</string>
 
 
 </resources>

@@ -192,10 +192,11 @@ public class SignupActivity extends AppCompatActivity implements RemoteCallHandl
                     toastActivity.makeToastMessage(response,this);
                 }
                 else {
-                    ToastActivity toastActivity=new ToastActivity();
-                    toastActivity.makeToastMessage(response,this);
+
                     Intent intent = new Intent(this, LoginActivity.class);
                     startActivity(intent);
+                   Toast.makeText(getApplicationContext(),getString(R.string.signupconfirm),Toast.LENGTH_LONG).show();
+                    finish();
                 }
             }catch (Exception e)
             {

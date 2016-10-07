@@ -34,7 +34,7 @@ public class GridParentDataAdapter extends RecyclerView.Adapter<Grid_View_Holder
     public Grid_View_Holder onCreateViewHolder(ViewGroup parent, int viewType) {
         //Inflate the layout, initialize the View Holder
         View itemView = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.list_view_helper_exam, parent, false);
+                .inflate(R.layout.list_view_helper, parent, false);
 
         return new Grid_View_Holder(mContext,itemView);
 
@@ -42,8 +42,8 @@ public class GridParentDataAdapter extends RecyclerView.Adapter<Grid_View_Holder
 
     @Override
     public void onBindViewHolder(Grid_View_Holder holder, int position) {
-       // holder.title.setText(list.get(position).name);
-        holder.title.setVisibility(View.GONE);
+        holder.title.setText(list.get(position).name);
+        //holder.title.setVisibility(View.GONE);
         holder.addList(list.get(position).chapterLists);
     }
 
