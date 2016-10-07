@@ -282,6 +282,9 @@
     <string name="correct">Accuracy</string>
     <string name="performance">performance</string>
     <string name="time">time</string>
+    <string name="video">Video</string>
+    <string name="worksheet">Worksheet</string>
+    <string name="analytics">Analytics</string>
     <string name="attempt_number">Attempt Number</string>
     <string name="empty_message">Don\'t Be Afraid, Go For It</string>
     <string name="empty_description">No test has been attempted yet. Attempts will shown here</string>

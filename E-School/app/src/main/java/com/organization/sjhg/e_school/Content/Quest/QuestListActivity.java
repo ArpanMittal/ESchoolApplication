@@ -1,10 +1,12 @@
 package com.organization.sjhg.e_school.Content.Quest;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -18,6 +20,7 @@ import android.widget.ProgressBar;
 import com.github.clans.fab.FloatingActionButton;
 import com.github.clans.fab.FloatingActionMenu;
 import com.organization.sjhg.e_school.Content.NewTest.TestActivity;
+import com.organization.sjhg.e_school.Content.NewTest.TestSummaryActivity;
 import com.organization.sjhg.e_school.Fragments.Notes_Listing_Fragment;
 import com.organization.sjhg.e_school.Helpers.ConnectivityReceiver;
 import com.organization.sjhg.e_school.Helpers.LogHelper;
@@ -79,11 +82,48 @@ public class QuestListActivity extends MainParentActivity implements View.OnClic
         findViewById(R.id.test).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                list = null;
-                Intent intent=new Intent(QuestListActivity.this, TestActivity.class);
-                intent.putExtra("Tag", GlobalConstants.ChapterTag);
-                intent.putExtra("Id",id);
-                startActivity(intent);
+                String token = new SharedPrefrence().getAccessToken(QuestListActivity.this);
+                if (token==null){
+                    Intent intent = new Intent(QuestListActivity.this, LoginActivity.class);
+                    startActivity(intent);
+                }else{
+                    new AlertDialog.Builder(QuestListActivity.this,R.style.AppTheme_AlertDialog)
+                            .setTitle("Test")
+                            .setMessage("Are you sure you want to attempt this Test?")
+                            .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int which) {
+                                    list = null;
+                                    Intent intent=new Intent(QuestListActivity.this, TestActivity.class);
+                                    intent.putExtra("Tag", GlobalConstants.ChapterTag);
+                                    intent.putExtra("Id",id);
+                                    startActivity(intent);
+                                }
+                            })
+                            .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int which) {
+                                    // do nothing
+                                }
+                            })
+                            .setIcon(android.R.drawable.ic_dialog_alert)
+                            .show();
+
+                }
+            }
+        });
+
+        findViewById(R.id.attempt).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String token = new SharedPrefrence().getRefreshToken(QuestListActivity.this);
+                if (token==null){
+                    Intent intent = new Intent(QuestListActivity.this, LoginActivity.class);
+                    startActivity(intent);
+                }else{
+                    Intent intent = new Intent(QuestListActivity.this, TestSummaryActivity.class);
+                    intent.putExtra("Tag", GlobalConstants.ChapterTag);
+                    intent.putExtra("Id",id);
+                    startActivity(intent);
+                }
             }
         });
 
@@ -131,11 +171,21 @@ public class QuestListActivity extends MainParentActivity implements View.OnClic
 
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recycler);
         recyclerView.setHasFixedSize(true);
-        if(this.getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT){
+        if ((getResources().getConfiguration().screenLayout & Configuration.SCREENLAYOUT_SIZE_MASK) == Configuration.SCREENLAYOUT_SIZE_LARGE) {
             recyclerView.setLayoutManager(new GridLayoutManager(this,2));
         }
-        else{
+        else if ((getResources().getConfiguration().screenLayout & Configuration.SCREENLAYOUT_SIZE_MASK) == Configuration.SCREENLAYOUT_SIZE_XLARGE) {
             recyclerView.setLayoutManager(new GridLayoutManager(this,4));
+        }
+        else if ((getResources().getConfiguration().screenLayout & Configuration.SCREENLAYOUT_SIZE_MASK) == Configuration.SCREENLAYOUT_SIZE_NORMAL) {
+            recyclerView.setLayoutManager(new GridLayoutManager(this,2));
+        }
+        else if ((getResources().getConfiguration().screenLayout & Configuration.SCREENLAYOUT_SIZE_MASK) == Configuration.SCREENLAYOUT_SIZE_SMALL) {
+            recyclerView.setLayoutManager(new GridLayoutManager(this,1));
+        }
+        else {
+            recyclerView.setLayoutManager(new GridLayoutManager(this,1));
+
         }
 
         QuestGridAdapter adapter = new QuestGridAdapter(this,list);
