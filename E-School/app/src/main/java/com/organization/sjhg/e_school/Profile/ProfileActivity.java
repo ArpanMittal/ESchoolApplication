@@ -41,6 +41,11 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.Serializable;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
 
 /**
  * Created by Punit Chhajer on 17-09-2016.
@@ -185,10 +190,17 @@ public class ProfileActivity extends AppCompatActivity implements ConnectivityRe
         mLoading.setVisibility(View.GONE);
         JSONObject data = response.getJSONObject("data");
         String dob = data.getString("date_of_birth");
+        try {
         if (!dob.equals("null") && !dob.equals("")){
-            userDob.setText(dob);
+            DateFormat inputFormat = new SimpleDateFormat("yyyy-MM-dd");
+            DateFormat outputFormat = new SimpleDateFormat("dd MMMM yyyy");
+            Date date = inputFormat.parse(dob);
+            userDob.setText("Date of birth: "+outputFormat.format(date));
             cardView2.setVisibility(View.VISIBLE);
             userDob.setVisibility(View.VISIBLE);
+        }
+        } catch (ParseException e) {
+            e.printStackTrace();
         }
         String country = data.getString("country");
         if (!country.equals("null") &&!country.equals("")){

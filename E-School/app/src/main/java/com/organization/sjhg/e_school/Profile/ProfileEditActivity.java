@@ -63,10 +63,13 @@ import org.json.JSONObject;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.Serializable;
+import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
@@ -140,10 +143,10 @@ public class ProfileEditActivity extends AppCompatActivity implements Connectivi
                 DatePickerDialog dialog = new DatePickerDialog(ProfileEditActivity.this ,new DatePickerDialog.OnDateSetListener() {
 
                     public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-                        SimpleDateFormat parser = new SimpleDateFormat("yyyy-MM-dd");
+                        DateFormat outputFormat = new SimpleDateFormat("dd MMMM yyyy");
                         Calendar newDate = Calendar.getInstance();
                         newDate.set(year, monthOfYear, dayOfMonth);
-                        userDob.setText(parser.format(newDate.getTime()));
+                        userDob.setText(outputFormat.format(newDate.getTime()));
                     }
 
                 }, newCalendar.get(Calendar.YEAR), newCalendar.get(Calendar.MONTH), newCalendar.get(Calendar.DAY_OF_MONTH));
@@ -157,10 +160,10 @@ public class ProfileEditActivity extends AppCompatActivity implements Connectivi
                 DatePickerDialog dialog = new DatePickerDialog(ProfileEditActivity.this, new DatePickerDialog.OnDateSetListener() {
 
                     public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-                        SimpleDateFormat parser = new SimpleDateFormat("yyyy-MM-dd");
+                        DateFormat outputFormat = new SimpleDateFormat("dd MMMM yyyy");
                         Calendar newDate = Calendar.getInstance();
                         newDate.set(year, monthOfYear, dayOfMonth);
-                        userDob.setText(parser.format(newDate.getTime()));
+                        userDob.setText(outputFormat.format(newDate.getTime()));
                     }
 
                 }, newCalendar.get(Calendar.YEAR), newCalendar.get(Calendar.MONTH), newCalendar.get(Calendar.DAY_OF_MONTH));
@@ -187,7 +190,14 @@ public class ProfileEditActivity extends AppCompatActivity implements Connectivi
                 String profile_pic = Base64.encodeToString(bitmapdata, Base64.DEFAULT);
                 params.put("profile_pic",profile_pic);
                 params.put("name", String.valueOf(userName.getText()));
-                params.put("date_of_birth", String.valueOf(userDob.getText()));
+                try {
+                    DateFormat inputFormat = new SimpleDateFormat("yyyy-MM-dd");
+                    DateFormat outputFormat = new SimpleDateFormat("dd MMMM yyyy");
+                    Date date =  outputFormat.parse(String.valueOf(userDob.getText()));
+                    params.put("date_of_birth", inputFormat.format(date));
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
                 String c = country.get(userCountry.getSelectedItemPosition());
                 if (!c.equals("Chose Country")){
                     params.put("country",c);
@@ -530,7 +540,14 @@ public class ProfileEditActivity extends AppCompatActivity implements Connectivi
             userPnumber.setText(data.get("phone_number"));
         }
         if (!data.get("date_of_birth").equals("null")) {
-            userDob.setText(data.get("date_of_birth"));
+            try {
+            DateFormat inputFormat = new SimpleDateFormat("yyyy-MM-dd");
+            DateFormat outputFormat = new SimpleDateFormat("dd MMMM yyyy");
+            Date date = inputFormat.parse(data.get("date_of_birth"));
+            userDob.setText(outputFormat.format(date));
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
         }
 
         editProPic.setOnClickListener(new View.OnClickListener() {
