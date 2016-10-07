@@ -63,7 +63,7 @@
     <string name="title_activity_test1">Test1</string>
     <string name="title_activity_test_match_the_column">TestMatchTheColumn</string>
     <string name="title_activity_subject_content">SubjectContent</string>
-    <string name="title_activity_login">login</string>
+    <string name="title_activity_login">Login</string>
     <string name="title_activity_profile">Profile</string>
     <string name="title_activity_module1">Dashboard</string>
     <string name="title_activity_display_image">DisplayImage</string>
@@ -155,22 +155,24 @@
     <string name="Version">Version v3.2.1</string>
     <string name="chathead">Enable Chathead</string>
     <string name="enableService">true</string>
-    <string name="action_sign_in">signin</string>
-    <string name="prompt_password">enter password</string>
-    <string name="username">enter username</string>
-    <string name="name">enter fullname</string>
-    <string name="prompt_confirm_password">confirm password</string>
-    <string name="prompt_email">enter email</string>
-    <string name="prompt_phno">enter phonenumber</string>
-    <string name="signup">signup</string>
-    <string name="action_sign_in_short">enter password</string>
-    <string name="error_invalid_password">password atleast 6 letter long and alphanumeric</string>
-    <string name="error_field_required">field required</string>
-    <string name="error_invalid_email">invalid email format</string>
-    <string name="error_incorrect_password">incorrect password</string>
-    <string name="error_invalid_password_Password">incorrect pattern</string>
-    <string name="error_confirm_password">not matches password</string>
-    <string name="newuser">new user?</string>
+    <string name="action_sign_in">Log In</string>
+    <string name="prompt_password">Password</string>
+    <string name="username">Username</string>
+    <string name="name">Full Name</string>
+    <string name="prompt_confirm_password">Confirm Password</string>
+    <string name="prompt_email">email</string>
+    <string name="prompt_phno">Phone Number</string>
+    <string name="signup">Sign Up</string>
+    <string name="action_sign_in_short">Password</string>
+    <string name="error_invalid_password">Password must have at least 6 characters.
+        Must have at least one number.
+        No special characters</string>
+    <string name="error_field_required">Field Required</string>
+    <string name="error_invalid_email">Invalid email Format</string>
+    <string name="error_incorrect_password">Incorrect Password</string>
+    <string name="error_invalid_password_Password">Incorrect Pattern</string>
+    <string name="error_confirm_password">Passwords do not match</string>
+    <string name="newuser">New User?</string>
     <string name="navigation_drawer_open">open navigation drawer</string>
     <string name="navigation_drawer_close">close navigation drawer</string>
     <string name="expand">DashBoard</string>
@@ -274,6 +276,7 @@
     <string name="phone_number">Enter Phone Number</string>
 
     <string name="samplepaper">Sample Paper</string>
+    <string name="samplepaper_tag">SamplePaper</string>
 
     <string name="title_activity_profile_edit">Profile Edit</string>
     <string name="replay">Replay</string>
@@ -289,6 +292,7 @@
     <string name="timeTaken">Time Taken</string>
     <string name="question_text">Question</string>
     <string name="solution_text">Solution</string>
+    <string name="option_login_text">Or login using kwiklearn account</string>
 
 
 </resources>

@@ -22,6 +22,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.android.gms.common.SignInButton;
 import com.organization.sjhg.e_school.Helpers.LogHelper;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.auth.api.signin.GoogleSignInResult;
@@ -135,7 +136,7 @@ public class LoginActivity extends AppCompatActivity implements RemoteCallHandle
                 .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
                 .build();
         // [END build_client]
-        ImageView signInButton = (ImageView) findViewById(R.id.sign_in_button);
+        SignInButton signInButton = (SignInButton) findViewById(R.id.sign_in_button);
         signInButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -337,6 +338,7 @@ public class LoginActivity extends AppCompatActivity implements RemoteCallHandle
             progressBarActivity.showProgress(mLoginFormView,mProgressView,false,getApplicationContext());
             new LogHelper(exception);
             exception.printStackTrace();
+            Toast.makeText(getApplicationContext(),getString(R.string.login_failure),Toast.LENGTH_LONG).show();
         }
         else
         {

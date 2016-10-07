@@ -43,7 +43,7 @@ public class SamplePaperListFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.list_view_helper, container, false);
+        View rootView = inflater.inflate(R.layout.list_view_helper_exam, container, false);
         RecyclerView rv = (RecyclerView) rootView.findViewById(R.id.recycler);
         TextView textView=(TextView)rootView.findViewById(R.id.title);
         textView.setVisibility(View.GONE);

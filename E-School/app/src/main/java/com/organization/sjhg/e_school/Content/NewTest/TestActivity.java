@@ -199,7 +199,10 @@ public class TestActivity extends AppCompatActivity implements RemoteCallHandler
         else
         {
             questionLists=(List<QuestionList>)saveInstances.getSerializable("Question List");
-            countDownTime=saveInstances.getLong("CountDown");
+            if(tag.equals(getString(R.string.samplepaper_tag)))
+                countDownTime=saveInstances.getLong("CountDown");
+            else
+                countDown.setVisibility(View.GONE);
             showView(questionLists);
         }
     }
@@ -236,34 +239,38 @@ public class TestActivity extends AppCompatActivity implements RemoteCallHandler
         mViewPagerView.setAdapter(questionAdapter);
         tabLayout = (TabLayout) findViewById(R.id.id_tabs);
         tabLayout.setupWithViewPager(mViewPagerView);
-        if(countDownTime<30000)
-        {
+       //for sample paper tag show timer
+        //TODO: change for practice test
+        if(tag.equals(getString(R.string.samplepaper_tag))) {
+            if(countDownTime<30000)
+                countDown.setTextColor(Color.parseColor("#c60000"));
 
-            countDown.setTextColor(Color.parseColor("#c60000"));
+            new CountDownTimer(countDownTime, 1000) {
+
+                public void onTick(long millisUntilFinished) {
+                    countDownTime = millisUntilFinished;
+                    countDown.setText("" + String.format("%d min, %d sec",
+                            TimeUnit.MILLISECONDS.toMinutes(millisUntilFinished),
+                            TimeUnit.MILLISECONDS.toSeconds(millisUntilFinished) -
+                                    TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(millisUntilFinished))));
+                    //countDown.setText(""+ (millisUntilFinished / 1000));
+
+                    //here you can have your logic to set text to edittext
+                }
+
+
+                public void onFinish() {
+
+                    access_token = sharedPrefrence.getAccessToken(getApplicationContext());
+                    new RemoteHelper(getApplicationContext()).sendQuestionResponse(TestActivity.this, RemoteCalls.SEND_QUESTION_RESPONSE, tag, id, access_token, makeResponseList());
+                    progressBarActivity.showProgress(mViewPagerView, mProgressView, true, getApplicationContext());
+
+                    //countDown.setText("done!");
+
+                }
+
+            }.start();
         }
-        new CountDownTimer(countDownTime, 1000) {
-
-            public void onTick(long millisUntilFinished) {
-                countDownTime=millisUntilFinished;
-                countDown.setText(""+String.format("%d min, %d sec",
-                        TimeUnit.MILLISECONDS.toMinutes( millisUntilFinished),
-                        TimeUnit.MILLISECONDS.toSeconds(millisUntilFinished) -
-                                TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(millisUntilFinished))));
-                //countDown.setText(""+ (millisUntilFinished / 1000));
-
-                //here you can have your logic to set text to edittext
-            }
-
-
-            public void onFinish() {
-                access_token=sharedPrefrence.getAccessToken(getApplicationContext());
-                new RemoteHelper(getApplicationContext()).sendQuestionResponse(TestActivity.this, RemoteCalls.SEND_QUESTION_RESPONSE,tag,id, access_token,makeResponseList());
-                progressBarActivity.showProgress(mViewPagerView,mProgressView,true,getApplicationContext());
-                //countDown.setText("done!");
-
-            }
-
-        }.start();
         mViewPagerView.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
 
             @Override

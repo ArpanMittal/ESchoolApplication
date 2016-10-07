@@ -54,6 +54,7 @@ public class TestAnswerActivity extends AppCompatActivity implements RemoteCallH
     double endTime ;
     int lastPageposition=0;
     int pageOffset;
+    static String response;
     ProgressBar progress;
     private ViewPager mViewPagerView;
     private TabLayout tabLayout;
@@ -132,6 +133,7 @@ public class TestAnswerActivity extends AppCompatActivity implements RemoteCallH
         else
         {
             questionAnswerLists=(List<QuestionAnswerList>)saveInstances.getSerializable("Question List");
+            TestAnswerActivity.response=(String)saveInstances.getSerializable("Response");
             showView(questionAnswerLists);
         }
     }
@@ -140,6 +142,8 @@ public class TestAnswerActivity extends AppCompatActivity implements RemoteCallH
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putSerializable("Question List",(Serializable)questionAnswerLists);
+        outState.putString("Response",TestAnswerActivity.response);
+
     }
 
     private void showView(final List<QuestionAnswerList>questionAnswerLists)
@@ -147,9 +151,11 @@ public class TestAnswerActivity extends AppCompatActivity implements RemoteCallH
    ;
         QuestionAnswerAdapter questionAnswerAdapter=new QuestionAnswerAdapter(getSupportFragmentManager(),questionAnswerLists,getApplicationContext());
         mViewPagerView.setAdapter(questionAnswerAdapter);
+        mViewPagerView.setOffscreenPageLimit(1);
         tabLayout = (TabLayout) findViewById(R.id.id_tabs);
         tabLayout.setupWithViewPager(mViewPagerView);
         setColors(questionAnswerLists.get(0).response);
+        TestAnswerActivity.response=questionAnswerLists.get(0).response;
         mViewPagerView.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
@@ -158,7 +164,7 @@ public class TestAnswerActivity extends AppCompatActivity implements RemoteCallH
 
             @Override
             public void onPageSelected(int position) {
-                String response=questionAnswerLists.get(position).response;
+                TestAnswerActivity.response=questionAnswerLists.get(position).response;
                 setColors(response);
             }
 
