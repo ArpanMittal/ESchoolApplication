@@ -1,20 +1,28 @@
 package com.organization.sjhg.e_school.Content.Quest;
 
+import android.app.SearchManager;
+import android.content.ComponentName;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.graphics.Point;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
+import android.view.Display;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewStub;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 
 import com.github.clans.fab.FloatingActionButton;
@@ -32,6 +40,7 @@ import com.organization.sjhg.e_school.MainParentActivity;
 import com.organization.sjhg.e_school.R;
 import com.organization.sjhg.e_school.Remote.RemoteCalls;
 import com.organization.sjhg.e_school.Remote.RemoteHelper;
+import com.organization.sjhg.e_school.SearchActivity;
 import com.organization.sjhg.e_school.Structure.GlobalConstants;
 import com.organization.sjhg.e_school.TakeNotes.AddSmallNotesActivity;
 import com.organization.sjhg.e_school.TakeNotes.whiteboard.WhiteBoardActivity;
@@ -52,8 +61,9 @@ public class QuestListActivity extends MainParentActivity implements View.OnClic
 
     private String id, name;
     public TopicList list;
-    private ProgressBar mLoading,mProgress;
+    private ProgressBar mLoading;
     private View mProgressDialog;
+    private ImageView mProgress;
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -128,7 +138,7 @@ public class QuestListActivity extends MainParentActivity implements View.OnClic
         });
 
         mLoading = (ProgressBar) findViewById(R.id.progress);
-        mProgress = (ProgressBar) findViewById(R.id.completeProgress);
+        mProgress = (ImageView) findViewById(R.id.completeProgress);
         mProgressDialog = findViewById(R.id.progressDialog);
         getSupportActionBar().setTitle(name);
         if (savedInstanceState != null) {
@@ -145,6 +155,12 @@ public class QuestListActivity extends MainParentActivity implements View.OnClic
 
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main, menu);
+        SearchManager searchManager =
+                (SearchManager) getSystemService(Context.SEARCH_SERVICE);
+        SearchView searchView =
+                (SearchView) menu.findItem(R.id.menu_search).getActionView();
+        searchView.setSearchableInfo(searchManager.getSearchableInfo(new ComponentName(this,SearchActivity.class)));
+
         return true;
     }
 
@@ -169,24 +185,38 @@ public class QuestListActivity extends MainParentActivity implements View.OnClic
     {
         mLoading.setVisibility(View.GONE);
 
+        int total = list.topics.size();
+        int cmp = -1;
+        for (int i=0;i<total;i++){
+            if (!list.topics.get(i).islock()){
+                cmp++;
+            }
+        }
+        Display display = getWindowManager().getDefaultDisplay();
+        Point size = new Point();
+        display.getSize(size);
+        if(getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT){
+            int width = (cmp*size.x)/total;
+            if (width!=0){
+                mProgress.getLayoutParams().width = width;
+                mProgress.setScaleType(ImageView.ScaleType.FIT_XY);
+            }
+        }
+        else{
+            int height = (cmp*(size.y-100))/total;
+            if (height!=0){
+                mProgress.getLayoutParams().height = height;
+                mProgress.setScaleType(ImageView.ScaleType.FIT_XY);
+            }
+        }
+
+
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recycler);
         recyclerView.setHasFixedSize(true);
-        if ((getResources().getConfiguration().screenLayout & Configuration.SCREENLAYOUT_SIZE_MASK) == Configuration.SCREENLAYOUT_SIZE_LARGE) {
-            recyclerView.setLayoutManager(new GridLayoutManager(this,2));
-        }
-        else if ((getResources().getConfiguration().screenLayout & Configuration.SCREENLAYOUT_SIZE_MASK) == Configuration.SCREENLAYOUT_SIZE_XLARGE) {
-            recyclerView.setLayoutManager(new GridLayoutManager(this,4));
-        }
-        else if ((getResources().getConfiguration().screenLayout & Configuration.SCREENLAYOUT_SIZE_MASK) == Configuration.SCREENLAYOUT_SIZE_NORMAL) {
-            recyclerView.setLayoutManager(new GridLayoutManager(this,2));
-        }
-        else if ((getResources().getConfiguration().screenLayout & Configuration.SCREENLAYOUT_SIZE_MASK) == Configuration.SCREENLAYOUT_SIZE_SMALL) {
-            recyclerView.setLayoutManager(new GridLayoutManager(this,1));
-        }
-        else {
-            recyclerView.setLayoutManager(new GridLayoutManager(this,1));
+        LinearLayoutManager layoutManager
+                = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
 
-        }
+        recyclerView.setLayoutManager(layoutManager);
 
         QuestGridAdapter adapter = new QuestGridAdapter(this,list);
         recyclerView.setAdapter(adapter);
@@ -296,14 +326,7 @@ public class QuestListActivity extends MainParentActivity implements View.OnClic
                         if(list!=null){
                             showView();
                         }
-                        int total = list.topics.size();
-                        int cmp = -1;
-                        for (int i=0;i<total;i++){
-                            if (!list.topics.get(i).islock()){
-                                cmp++;
-                            }
-                        }
-                        mProgress.setProgress((cmp*100)/total);
+
                     }
                 }catch (Exception e){
                     e.printStackTrace();

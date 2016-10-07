@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -20,7 +21,10 @@ import android.view.ViewStub;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.ExpandableListView;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.organization.sjhg.e_school.Fragments.Notes_Listing_Fragment;
 import com.organization.sjhg.e_school.Helpers.ExpandListAdapter;
@@ -28,6 +32,7 @@ import com.organization.sjhg.e_school.Helpers.LogHelper;
 import com.organization.sjhg.e_school.Helpers.SearchAdapter;
 import com.organization.sjhg.e_school.ListStructure.Topic;
 import com.organization.sjhg.e_school.ListStructure.TopicList;
+import com.organization.sjhg.e_school.Remote.RemoteCallHandler;
 import com.organization.sjhg.e_school.Remote.RemoteCalls;
 import com.organization.sjhg.e_school.Remote.RemoteHelper;
 import com.organization.sjhg.e_school.Utils.SharedPrefrence;
@@ -44,46 +49,41 @@ import java.util.List;
 /**
  * Created by Punit Chhajer on 10-09-2016.
  */
-public class SearchActivity extends MainParentActivity {
+public class SearchActivity extends AppCompatActivity implements RemoteCallHandler {
 
     private ProgressBar mProgressView;
     private List<TopicList> list;
     private HashMap<String,Boolean> check;
     private List<String> DataHeader;
     private HashMap<String , List<String>> DataChild;
+    private View empty_state_layout;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        ViewStub view_Stub=(ViewStub)findViewById(R.id.viewstub);
-        view_Stub.setLayoutResource(R.layout.activity_search);
-        view_Stub.inflate();
+        setContentView(R.layout.activity_search);
 
-        toolbar = (Toolbar)findViewById(R.id.toolbar);
+        Toolbar toolbar = (Toolbar)findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        // code repeated in all activity
-        toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawer.setDrawerListener(toggle);
-        toggle.syncState();
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        empty_state_layout=(RelativeLayout) findViewById(R.id.emptyStateLayout);
+        empty_state_layout.setVisibility(View.GONE);
+        ((ImageView)findViewById(R.id.emptyState)).setImageResource(R.drawable.search_empty_state);
+        ((TextView)findViewById(R.id.emptyTextDescription)).setText(this.getResources().getText(R.string.searchError)
+                +" for \""+getIntent().getStringExtra(SearchManager.QUERY)+"\"");
+        ((TextView)findViewById(R.id.emptyTextState)).setText(R.string.no_content);
 
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-//                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-//                        .setAction("Action", null).show();
-                Intent intent=new Intent(getApplicationContext(), Notes_Listing_Fragment.class);
-                startActivity(intent);
-            }
-        });
         mProgressView = (ProgressBar) findViewById(R.id.progress);
         if (savedInstanceState!=null){
             list = (List<TopicList>) savedInstanceState.getSerializable("INTERNAL LIST");
             check = (HashMap<String,Boolean>) savedInstanceState.getSerializable("CHECK LIST");
-            showView();
+            if (list!=null){
+                showView();
+            }else{
+                empty_state_layout.setVisibility(View.VISIBLE);
+            }
         }else{
             handleIntent(getIntent());
         }
@@ -199,7 +199,10 @@ public class SearchActivity extends MainParentActivity {
 
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+        if (id == android.R.id.home) {
+            finish();
+            return true;
+        }else if (id == R.id.action_settings) {
             return true;
         } else if (id == R.id.menu_search) {
             return true;
@@ -240,7 +243,7 @@ public class SearchActivity extends MainParentActivity {
             dialog.setContentView(R.layout.search_filter);
 
             ExpandableListView expListView = (ExpandableListView) dialog.findViewById(R.id.lvExp);
-
+            expListView.setGroupIndicator(null);
             final ExpandListAdapter adapter = new ExpandListAdapter(this,DataHeader,DataChild,R.layout.question_option,R.id.option_text, check);
             expListView.setAdapter(adapter);
 
@@ -253,6 +256,13 @@ public class SearchActivity extends MainParentActivity {
                     dialog.dismiss();
                 }
             });
+            Button cancel=(Button)dialog.findViewById(R.id.cancel);
+            cancel.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    dialog.dismiss();
+                }
+            });
             dialog.show();
             return true;
         }
@@ -262,11 +272,9 @@ public class SearchActivity extends MainParentActivity {
 
     @Override
     public void HandleRemoteCall(boolean isSuccessful, RemoteCalls callFor, JSONObject response, Exception exception) {
-        super.HandleRemoteCall(isSuccessful, callFor, response, exception);
         if(!isSuccessful)
         {
             new ToastActivity().makeUknownErrorMessage(this);
-            finish();
         }
         else
         {
@@ -274,8 +282,7 @@ public class SearchActivity extends MainParentActivity {
                 case GET_ITEM_DETAILS:
                     try {
                         if (response.get("success").toString().equals("false")) {
-                            new ToastActivity().makeToastMessage(response, this);
-                            finish();
+                            empty_state_layout.setVisibility(View.VISIBLE);
                         } else {
                             list = getList(response);
                             if (list.size() > 0) {

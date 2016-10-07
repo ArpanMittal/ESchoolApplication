@@ -292,6 +292,7 @@
     <string name="timeTaken">Time Taken</string>
     <string name="question_text">Question</string>
     <string name="solution_text">Solution</string>
+    <string name="searchError">We could not find any result</string>
 
 
 </resources>
