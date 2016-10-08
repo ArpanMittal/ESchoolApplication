@@ -2,9 +2,11 @@ package com.organization.sjhg.e_school.Fragments;
 
 
 import android.content.Context;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.CardView;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -49,14 +51,22 @@ public class ExamListFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.list_view_helper, container, false);
 
         RecyclerView rv = (RecyclerView) rootView.findViewById(R.id.recycler);
-        rv.setHasFixedSize(true);
+
         TextView textView=(TextView)rootView.findViewById(R.id.title);
         textView.setVisibility(View.GONE);
         List<InternalListData> internalListDatas=new ArrayList<>();
         for(int i=0;i<list.size();i++)
         internalListDatas.addAll(list.get(i).internalListDatas);
         GridParentDataAdapter adapter = new GridParentDataAdapter(getContext(),internalListDatas);
+
+//        if(getActivity().getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT){
+//            rv.setLayoutManager(new GridLayoutManager(getActivity(),2));
+//        }
+//        else{
+//            rv.setLayoutManager(new GridLayoutManager(getActivity(),4));
+//        }
         rv.setAdapter(adapter);
+        rv.setHasFixedSize(true);
 
 
         LinearLayoutManager llm = new LinearLayoutManager(getActivity());

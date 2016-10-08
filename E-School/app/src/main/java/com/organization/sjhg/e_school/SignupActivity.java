@@ -137,7 +137,7 @@ public class SignupActivity extends AppCompatActivity implements RemoteCallHandl
         if(TextUtils.isEmpty(toMatch))
         {
             view.setError(getString(R.string.error_field_required));
-            focusView=view;
+            focusView=(View)view;
             return true;
         }
         return false;

@@ -24,13 +24,15 @@
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:padding="@dimen/activity_bottom_padding"
             android:id="@+id/btn"
             android:gravity="center"
-            android:background="@drawable/border"
+            android:background="@drawable/sigin_border"
             android:textColor="@color/colorPrimary"
             android:text="@string/seeanswer"
-            android:layout_alignParentTop="true"
-            android:layout_alignStart="@+id/summary_bar" />
+            android:layout_centerHorizontal="true"
+
+             />
 
         <TextView
             android:layout_width="wrap_content"
