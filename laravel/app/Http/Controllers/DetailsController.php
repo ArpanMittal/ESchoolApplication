@@ -17,20 +17,17 @@ class DetailsController extends Controller
         $stream = $this->getSubject();
         $exam = $this->getExam();
 
-        $comming_soon = array(
-            
-        );
-
         $row1['title'] = 'Classes';
-//        $row1['list'] = $class;
-        $row1['list'] = $comming_soon;
+        $row1['list'] = $class;
+        $row1{'isActive'} = "0";
 
         $row2['title'] = 'Subjects';
-//        $row2['list'] = $stream;
-        $row2['list'] = $comming_soon;
+        $row2['list'] = $stream;
+        $row2{'isActive'} = "0";
 
         $row3['title'] = 'Exams';
         $row3['list'] = $exam;
+        $row3{'isActive'} = "1";
 
         if (!$class && !$stream && !$exam){
             return Response::json([
@@ -39,7 +36,7 @@ class DetailsController extends Controller
                 'message' => 'Content is not available'
             ]);
         }
-        $rows = array($row3, $row2, $row1);
+        $rows = array($row3, $row1, $row2);
         return Response::json([
             'success' => true,
             'code' => 200,
@@ -128,7 +125,8 @@ class DetailsController extends Controller
             ->select('class.id as id',
                 DB::raw('CONCAT(\'class \',class.class_name) as name'),
                 DB::raw('CONCAT(\'Subjects: \',count(DISTINCT classsubjectmap.cl_su_id)) as count'),
-                'class.image as image')
+                'class.image as image',
+                DB::raw('"0" as isActive'))
             ->leftjoin('classsubjectmap','class.id','=','classsubjectmap.class_id')
             ->groupBy('class.id')
             ->get();
@@ -138,7 +136,8 @@ class DetailsController extends Controller
     {
         return DB::table('subjectstreammap')
             ->select('subject.id as id', 'subject.subject_name as name', DB::raw('CONCAT(\'Streams: \',count(DISTINCT subjectstreammap.stream_id)) as count'),
-                'subject.image as image')
+                'subject.image as image',
+                DB::raw('"0" as isActive'))
             ->leftjoin('classsubjectmap','subjectstreammap.cl_su_id','=','classsubjectmap.cl_su_id')
             ->leftjoin('subject','classsubjectmap.subject_id','=','subject.id')
             ->groupBy('subject.id')
@@ -154,7 +153,8 @@ class DetailsController extends Controller
             ->select('examtag.id as id',
                 'examtag.exam_name as name',
                 DB::raw('"" as count'),
-                'examtag.image as image')
+                'examtag.image as image',
+                DB::raw('"0" as isActive'))
             ->where('exam_name', 'NOT LIKE', 'CBSE')
             ->get();
     }
