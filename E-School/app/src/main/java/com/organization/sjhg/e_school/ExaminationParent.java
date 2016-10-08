@@ -217,7 +217,7 @@ public class ExaminationParent extends MainParentActivity {
     {
        // Custom_Pager_Adapter custom_pager_adapter=new Custom_Pager_Adapter(getSupportFragmentManager());
        // viewPager.setAdapter(custom_pager_adapter);
-        Grid_Exam_Fragment grid_exam_fragment=new Grid_Exam_Fragment(getSupportFragmentManager(),list,context,id,title,this.id);
+        Grid_Exam_Fragment grid_exam_fragment=new Grid_Exam_Fragment(getSupportFragmentManager(),list,context,id,title,this.id,name);
         viewPager.setAdapter(grid_exam_fragment);
 
         tabLayout = (TabLayout) findViewById(R.id.id_tabs);

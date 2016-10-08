@@ -15,6 +15,7 @@ import android.widget.Button;
 
 import com.organization.sjhg.e_school.Content.NewTest.TestActivity;
 import com.organization.sjhg.e_school.Content.NewTest.TestSummaryActivity;
+import com.organization.sjhg.e_school.Helpers.SamplePaperListDataAdapter;
 import com.organization.sjhg.e_school.LoginActivity;
 import com.organization.sjhg.e_school.R;
 import com.organization.sjhg.e_school.Structure.GlobalConstants;
@@ -25,19 +26,18 @@ import com.organization.sjhg.e_school.Utils.SharedPrefrence;
  */
 public class ExamPracticeFragment extends Fragment{
     private String id;
+    private String title;
     private Button test,attempt;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.exam_prepare_fragment, container, false);
         RecyclerView recyclerView= (RecyclerView) v.findViewById(R.id.recycler);
         recyclerView.setHasFixedSize(true);
-
-
         LinearLayoutManager llm = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(llm);
         Bundle bundle=this.getArguments();
         id=  bundle.getString("Id");
-
+        title=bundle.getString("PARENT_TITLE");
         test = (Button) v.findViewById(R.id.test);
 
         attempt = (Button)v.findViewById(R.id.analytics);
@@ -64,6 +64,7 @@ public class ExamPracticeFragment extends Fragment{
                                     Intent intent=new Intent(getActivity(), TestActivity.class);
                                     intent.putExtra("Tag", GlobalConstants.PracticeTag);
                                     intent.putExtra("Id",id);
+                                    intent.putExtra("Title",title);
                                     startActivity(intent);
                                 }
                             })
@@ -88,6 +89,7 @@ public class ExamPracticeFragment extends Fragment{
                     Intent intent = new Intent(getActivity(), TestSummaryActivity.class);
                     intent.putExtra("Tag", GlobalConstants.PracticeTag);
                     intent.putExtra("Id",id);
+                    intent.putExtra("Title",title);
                     startActivity(intent);
                 }
             }
