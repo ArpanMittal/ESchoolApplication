@@ -63,10 +63,13 @@ import org.json.JSONObject;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.Serializable;
+import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
@@ -77,7 +80,7 @@ import java.util.Map;
  */
 public class ProfileEditActivity extends AppCompatActivity implements ConnectivityReceiver.ConnectivityReceiverListener,RemoteCallHandler {
     private static int RESULT_LOAD_IMAGE = 1;
-    private ProgressBar mLoading;
+    private ProgressBar mLoading, mProfileLoading;
     private ImageView profilePic;
     private EditText userName, userPnumber, userDob;
     private ImageButton editProPic, editDOB;
@@ -91,14 +94,9 @@ public class ProfileEditActivity extends AppCompatActivity implements Connectivi
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == RESULT_LOAD_IMAGE && resultCode == RESULT_OK && null != data) {
             Uri selectedImage = data.getData();
-            this.data.put("photo_path", String.valueOf(selectedImage));
-            Picasso.with(this)
-                    .load(selectedImage)
-                    .resize(MAX_SIZE, MAX_SIZE  )
-                    .placeholder(R.drawable.ic_account_circle_white_24dp)
-                    .memoryPolicy(MemoryPolicy.NO_CACHE, MemoryPolicy.NO_STORE)
-                    .centerInside()
-                    .into(profilePic);
+            loadImage(String.valueOf(selectedImage));
+        }else{
+            mProfileLoading.setVisibility(View.GONE);
         }
     }
 
@@ -115,13 +113,10 @@ public class ProfileEditActivity extends AppCompatActivity implements Connectivi
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         mLoading = (ProgressBar) findViewById(R.id.progress);
+        mProfileLoading = (ProgressBar) findViewById(R.id.profileLoading);
         final SharedPrefrence sharedPrefrence = new SharedPrefrence();
         profilePic = (ImageView) findViewById(R.id.profile_pic);
-        Picasso.with(this)
-                .load(sharedPrefrence.getUserPic(getApplicationContext()))
-                .placeholder(R.drawable.ic_account_circle_white_24dp)
-                .memoryPolicy(MemoryPolicy.NO_CACHE, MemoryPolicy.NO_STORE)
-                .into(profilePic);
+        profilePic.setImageResource(R.drawable.ic_account_circle_white_48dp);
         userName = (EditText) findViewById(R.id.user_name);
         userName.setText(sharedPrefrence.getUserName(getApplicationContext()));
         userDob = (EditText) findViewById(R.id.user_dob);
@@ -140,10 +135,10 @@ public class ProfileEditActivity extends AppCompatActivity implements Connectivi
                 DatePickerDialog dialog = new DatePickerDialog(ProfileEditActivity.this ,new DatePickerDialog.OnDateSetListener() {
 
                     public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-                        SimpleDateFormat parser = new SimpleDateFormat("yyyy-MM-dd");
+                        DateFormat outputFormat = new SimpleDateFormat("dd MMMM yyyy");
                         Calendar newDate = Calendar.getInstance();
                         newDate.set(year, monthOfYear, dayOfMonth);
-                        userDob.setText(parser.format(newDate.getTime()));
+                        userDob.setText(outputFormat.format(newDate.getTime()));
                     }
 
                 }, newCalendar.get(Calendar.YEAR), newCalendar.get(Calendar.MONTH), newCalendar.get(Calendar.DAY_OF_MONTH));
@@ -157,10 +152,10 @@ public class ProfileEditActivity extends AppCompatActivity implements Connectivi
                 DatePickerDialog dialog = new DatePickerDialog(ProfileEditActivity.this, new DatePickerDialog.OnDateSetListener() {
 
                     public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-                        SimpleDateFormat parser = new SimpleDateFormat("yyyy-MM-dd");
+                        DateFormat outputFormat = new SimpleDateFormat("dd MMMM yyyy");
                         Calendar newDate = Calendar.getInstance();
                         newDate.set(year, monthOfYear, dayOfMonth);
-                        userDob.setText(parser.format(newDate.getTime()));
+                        userDob.setText(outputFormat.format(newDate.getTime()));
                     }
 
                 }, newCalendar.get(Calendar.YEAR), newCalendar.get(Calendar.MONTH), newCalendar.get(Calendar.DAY_OF_MONTH));
@@ -187,7 +182,14 @@ public class ProfileEditActivity extends AppCompatActivity implements Connectivi
                 String profile_pic = Base64.encodeToString(bitmapdata, Base64.DEFAULT);
                 params.put("profile_pic",profile_pic);
                 params.put("name", String.valueOf(userName.getText()));
-                params.put("date_of_birth", String.valueOf(userDob.getText()));
+                try {
+                    DateFormat inputFormat = new SimpleDateFormat("yyyy-MM-dd");
+                    DateFormat outputFormat = new SimpleDateFormat("dd MMMM yyyy");
+                    Date date =  outputFormat.parse(String.valueOf(userDob.getText()));
+                    params.put("date_of_birth", inputFormat.format(date));
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
                 String c = country.get(userCountry.getSelectedItemPosition());
                 if (!c.equals("Chose Country")){
                     params.put("country",c);
@@ -516,12 +518,7 @@ public class ProfileEditActivity extends AppCompatActivity implements Connectivi
         });
 
         if (!data.get("photo_path").equals("null")) {
-            Picasso.with(this).invalidate(data.get("photo_path"));
-            Picasso.with(this)
-                    .load(data.get("photo_path"))
-                    .placeholder(R.drawable.ic_account_circle_white_24dp)
-                    .memoryPolicy(MemoryPolicy.NO_CACHE, MemoryPolicy.NO_STORE)
-                    .into(profilePic);
+            loadImage(data.get("photo_path"));
         }
         if (!data.get("name").equals("null")) {
             userName.setText(data.get("name"));
@@ -530,12 +527,20 @@ public class ProfileEditActivity extends AppCompatActivity implements Connectivi
             userPnumber.setText(data.get("phone_number"));
         }
         if (!data.get("date_of_birth").equals("null")) {
-            userDob.setText(data.get("date_of_birth"));
+            try {
+            DateFormat inputFormat = new SimpleDateFormat("yyyy-MM-dd");
+            DateFormat outputFormat = new SimpleDateFormat("dd MMMM yyyy");
+            Date date = inputFormat.parse(data.get("date_of_birth"));
+            userDob.setText(outputFormat.format(date));
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
         }
 
         editProPic.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                mProfileLoading.setVisibility(View.VISIBLE);
                 Intent i = new Intent(
                         Intent.ACTION_PICK,
                         android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
@@ -643,5 +648,33 @@ public class ProfileEditActivity extends AppCompatActivity implements Connectivi
     public static void hideSoftKeyboard(Activity activity) {
         InputMethodManager inputMethodManager = (InputMethodManager)  activity.getSystemService(Activity.INPUT_METHOD_SERVICE);
         inputMethodManager.hideSoftInputFromWindow(activity.getCurrentFocus().getWindowToken(), 0);
+    }
+    private void loadImage(final String path){
+//        Picasso.with(this).invalidate(path);
+        Picasso.with(this)
+                .load(path)
+                .resize(MAX_SIZE, MAX_SIZE  )
+                .onlyScaleDown()
+                .centerInside()
+                .placeholder(R.drawable.ic_account_circle_white_24dp)
+                .memoryPolicy(MemoryPolicy.NO_CACHE, MemoryPolicy.NO_STORE)
+                .into(profilePic, new com.squareup.picasso.Callback() {
+                    @Override
+                    public void onSuccess() {
+                        mProfileLoading.setVisibility(View.GONE);
+                        if (!path.equals(data.get("photo_path"))){
+                            data.put("photo_path", path);
+                        }
+                    }
+
+                    @Override
+                    public void onError() {
+                        if (!path.equals(data.get("photo_path"))){
+                            loadImage(data.get("photo_path"));
+                        }
+                        mProfileLoading.setVisibility(View.GONE);
+                        new ToastActivity().showMessage("Error in loading image",ProfileEditActivity.this);
+                    }
+                });;
     }
 }
