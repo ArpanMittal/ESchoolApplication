@@ -14,6 +14,7 @@
             android:id="@+id/emptyState"
             android:src="@drawable/practice_bg"
             android:layout_gravity="center"
+
             />
     <android.support.v7.widget.RecyclerView
         android:layout_width="match_parent"
@@ -22,14 +23,16 @@
         >
 
     </android.support.v7.widget.RecyclerView>
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center"
-            android:layout_gravity="center_horizontal|center_vertical"
+            android:gravity="center_horizontal"
+            android:layout_marginEnd="@dimen/activity_bottom_padding"
+            android:layout_gravity="center"
             android:orientation="vertical">
             <Button
-                android:layout_width="200dp"
+                android:layout_width="150dp"
                 android:layout_height="wrap_content"
                 android:text="@string/test_start_title"
                 android:maxWidth="200dp"
@@ -40,7 +43,7 @@
 
         <Button
             android:layout_marginTop="@dimen/paddingTop"
-            android:layout_width="200dp"
+            android:layout_width="150dp"
             android:layout_height="wrap_content"
             android:text="@string/show_attempts"
             android:maxWidth="200dp"
