@@ -72,6 +72,7 @@ public class ExaminationParent extends MainParentActivity {
     private String title;
     private String id;
     TabLayout tabLayout;
+    private String name;
     private List<DashBoardList> list = new ArrayList<>();
     private SharedPrefrence sharedPrefrence=new SharedPrefrence();
     private ProgressBarActivity progressBarActivity = new ProgressBarActivity();
@@ -83,6 +84,7 @@ public class ExaminationParent extends MainParentActivity {
         Intent intent = getIntent();
         title = intent.getStringExtra(getString(R.string.jsontitle));
         id = intent.getStringExtra(getString(R.string.jsonid));
+        name=intent.getStringExtra(getString(R.string.jsonname));
         ViewStub view_Stub = (ViewStub) findViewById(R.id.viewstub);
         view_Stub.setLayoutResource(R.layout.exam_app_bar);
         view_Stub.inflate();
@@ -90,6 +92,7 @@ public class ExaminationParent extends MainParentActivity {
         mProgressView = findViewById(R.id.dashboard_progress);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        getSupportActionBar().setTitle(name);
         viewPager = (ViewPager) findViewById(R.id.viewpager_fragment);
         // code repeated in all activity
         toggle = new ActionBarDrawerToggle(this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -214,7 +217,7 @@ public class ExaminationParent extends MainParentActivity {
     {
        // Custom_Pager_Adapter custom_pager_adapter=new Custom_Pager_Adapter(getSupportFragmentManager());
        // viewPager.setAdapter(custom_pager_adapter);
-        Grid_Exam_Fragment grid_exam_fragment=new Grid_Exam_Fragment(getSupportFragmentManager(),list,context,id,title,this.id);
+        Grid_Exam_Fragment grid_exam_fragment=new Grid_Exam_Fragment(getSupportFragmentManager(),list,context,id,title,this.id,name);
         viewPager.setAdapter(grid_exam_fragment);
 
         tabLayout = (TabLayout) findViewById(R.id.id_tabs);

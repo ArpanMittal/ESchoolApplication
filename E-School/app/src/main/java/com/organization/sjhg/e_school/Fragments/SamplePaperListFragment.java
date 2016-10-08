@@ -27,6 +27,8 @@ public class SamplePaperListFragment extends Fragment {
     List<ChapterList> chapterLists =new ArrayList<>();
     String parent_title;
     String parent_id;
+    View rootView;
+    SamplePaperListDataAdapter samplePaperListDataAdapter;
     public SamplePaperListFragment(){
 
     }
@@ -43,12 +45,20 @@ public class SamplePaperListFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.list_view_helper_exam, container, false);
+        rootView = inflater.inflate(R.layout.list_view_helper_exam, container, false);
+
+
+        return rootView;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
         RecyclerView rv = (RecyclerView) rootView.findViewById(R.id.recycler);
         TextView textView=(TextView)rootView.findViewById(R.id.title);
         textView.setVisibility(View.GONE);
         //GridDataAdapter gridDataAdapter=new GridDataAdapter(getContext(),chapterLists);
-        SamplePaperListDataAdapter samplePaperListDataAdapter=new SamplePaperListDataAdapter(getContext(),chapterLists,parent_title,parent_id);
+        samplePaperListDataAdapter=new SamplePaperListDataAdapter(getContext(),chapterLists,parent_title,parent_id);
         if(getActivity().getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT){
             rv.setLayoutManager(new GridLayoutManager(getActivity().getApplicationContext(),2));
         }
@@ -57,10 +67,9 @@ public class SamplePaperListFragment extends Fragment {
         }
         rv.setAdapter(samplePaperListDataAdapter);
         rv.setHasFixedSize(true);
-
-        return rootView;
+//        RecyclerView recyclerView=(RecyclerView) rootView.findViewById(R.id.recycler);
+//        recyclerView.removeViewAt(2);
+//        samplePaperListDataAdapter.notifyItemRemoved(2);
+//        samplePaperListDataAdapter.notifyItemRangeChanged(2, chapterLists.size());
     }
-
-
-
 }

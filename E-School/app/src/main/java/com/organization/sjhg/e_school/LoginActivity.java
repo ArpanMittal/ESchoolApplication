@@ -90,6 +90,7 @@ public class LoginActivity extends AppCompatActivity implements RemoteCallHandle
             public void onClick(View view) {
                 Intent intent=new Intent(getApplicationContext(),SignupActivity.class);
                 startActivity(intent);
+                finish();
             }
         });
         mPasswordView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
