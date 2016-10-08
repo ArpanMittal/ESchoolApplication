@@ -80,7 +80,7 @@ import java.util.Map;
  */
 public class ProfileEditActivity extends AppCompatActivity implements ConnectivityReceiver.ConnectivityReceiverListener,RemoteCallHandler {
     private static int RESULT_LOAD_IMAGE = 1;
-    private ProgressBar mLoading;
+    private ProgressBar mLoading, mProfileLoading;
     private ImageView profilePic;
     private EditText userName, userPnumber, userDob;
     private ImageButton editProPic, editDOB;
@@ -94,14 +94,9 @@ public class ProfileEditActivity extends AppCompatActivity implements Connectivi
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == RESULT_LOAD_IMAGE && resultCode == RESULT_OK && null != data) {
             Uri selectedImage = data.getData();
-            this.data.put("photo_path", String.valueOf(selectedImage));
-            Picasso.with(this)
-                    .load(selectedImage)
-                    .resize(MAX_SIZE, MAX_SIZE  )
-                    .placeholder(R.drawable.ic_account_circle_white_24dp)
-                    .memoryPolicy(MemoryPolicy.NO_CACHE, MemoryPolicy.NO_STORE)
-                    .centerInside()
-                    .into(profilePic);
+            loadImage(String.valueOf(selectedImage));
+        }else{
+            mProfileLoading.setVisibility(View.GONE);
         }
     }
 
@@ -118,13 +113,10 @@ public class ProfileEditActivity extends AppCompatActivity implements Connectivi
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         mLoading = (ProgressBar) findViewById(R.id.progress);
+        mProfileLoading = (ProgressBar) findViewById(R.id.profileLoading);
         final SharedPrefrence sharedPrefrence = new SharedPrefrence();
         profilePic = (ImageView) findViewById(R.id.profile_pic);
-        Picasso.with(this)
-                .load(sharedPrefrence.getUserPic(getApplicationContext()))
-                .placeholder(R.drawable.ic_account_circle_white_24dp)
-                .memoryPolicy(MemoryPolicy.NO_CACHE, MemoryPolicy.NO_STORE)
-                .into(profilePic);
+        profilePic.setImageResource(R.drawable.ic_account_circle_white_48dp);
         userName = (EditText) findViewById(R.id.user_name);
         userName.setText(sharedPrefrence.getUserName(getApplicationContext()));
         userDob = (EditText) findViewById(R.id.user_dob);
@@ -526,12 +518,7 @@ public class ProfileEditActivity extends AppCompatActivity implements Connectivi
         });
 
         if (!data.get("photo_path").equals("null")) {
-            Picasso.with(this).invalidate(data.get("photo_path"));
-            Picasso.with(this)
-                    .load(data.get("photo_path"))
-                    .placeholder(R.drawable.ic_account_circle_white_24dp)
-                    .memoryPolicy(MemoryPolicy.NO_CACHE, MemoryPolicy.NO_STORE)
-                    .into(profilePic);
+            loadImage(data.get("photo_path"));
         }
         if (!data.get("name").equals("null")) {
             userName.setText(data.get("name"));
@@ -553,6 +540,7 @@ public class ProfileEditActivity extends AppCompatActivity implements Connectivi
         editProPic.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                mProfileLoading.setVisibility(View.VISIBLE);
                 Intent i = new Intent(
                         Intent.ACTION_PICK,
                         android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
@@ -660,5 +648,33 @@ public class ProfileEditActivity extends AppCompatActivity implements Connectivi
     public static void hideSoftKeyboard(Activity activity) {
         InputMethodManager inputMethodManager = (InputMethodManager)  activity.getSystemService(Activity.INPUT_METHOD_SERVICE);
         inputMethodManager.hideSoftInputFromWindow(activity.getCurrentFocus().getWindowToken(), 0);
+    }
+    private void loadImage(final String path){
+//        Picasso.with(this).invalidate(path);
+        Picasso.with(this)
+                .load(path)
+                .resize(MAX_SIZE, MAX_SIZE  )
+                .onlyScaleDown()
+                .centerInside()
+                .placeholder(R.drawable.ic_account_circle_white_24dp)
+                .memoryPolicy(MemoryPolicy.NO_CACHE, MemoryPolicy.NO_STORE)
+                .into(profilePic, new com.squareup.picasso.Callback() {
+                    @Override
+                    public void onSuccess() {
+                        mProfileLoading.setVisibility(View.GONE);
+                        if (!path.equals(data.get("photo_path"))){
+                            data.put("photo_path", path);
+                        }
+                    }
+
+                    @Override
+                    public void onError() {
+                        if (!path.equals(data.get("photo_path"))){
+                            loadImage(data.get("photo_path"));
+                        }
+                        mProfileLoading.setVisibility(View.GONE);
+                        new ToastActivity().showMessage("Error in loading image",ProfileEditActivity.this);
+                    }
+                });;
     }
 }
