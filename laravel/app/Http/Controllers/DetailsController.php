@@ -17,11 +17,22 @@ class DetailsController extends Controller
         $stream = $this->getSubject();
         $exam = $this->getExam();
 
+        $comming_soon = array(
+            (object)array(
+                "id" => "",
+                "name" => "Coming Soon",
+                "count" => "",
+                "image" => "http://www.wds.org.in/images/coming_soon_graphic.png"
+            )
+        );
+
         $row1['title'] = 'Classes';
-        $row1['list'] = $class;
+//        $row1['list'] = $class;
+        $row1['list'] = $comming_soon;
 
         $row2['title'] = 'Subjects';
-        $row2['list'] = $stream;
+//        $row2['list'] = $stream;
+        $row2['list'] = $comming_soon;
 
         $row3['title'] = 'Exams';
         $row3['list'] = $exam;
@@ -33,7 +44,7 @@ class DetailsController extends Controller
                 'message' => 'Content is not available'
             ]);
         }
-        $rows = array($row1, $row2, $row3);
+        $rows = array($row3, $row2, $row1);
         return Response::json([
             'success' => true,
             'code' => 200,
