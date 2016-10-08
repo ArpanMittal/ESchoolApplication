@@ -18,12 +18,7 @@ class DetailsController extends Controller
         $exam = $this->getExam();
 
         $comming_soon = array(
-            (object)array(
-                "id" => "",
-                "name" => "Coming Soon",
-                "count" => "",
-                "image" => "http://www.wds.org.in/images/coming_soon_graphic.png"
-            )
+            
         );
 
         $row1['title'] = 'Classes';
