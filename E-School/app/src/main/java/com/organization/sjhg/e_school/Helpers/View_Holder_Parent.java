@@ -23,11 +23,13 @@ public class View_Holder_Parent extends RecyclerView.ViewHolder {
     private Context mContext;
     public TextView title;
     public RecyclerView recyclerChildView;
+    public View comingSoonText;
 
     public View_Holder_Parent(Context mContext,View view) {
         super(view);
         this.mContext = mContext;
         title = (TextView) view.findViewById(R.id.title);
+        comingSoonText = view.findViewById(R.id.comingSoon);
         recyclerView = (RecyclerView) view.findViewById(R.id.recycler);
         recyclerView.setNestedScrollingEnabled(false);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(mContext.getApplicationContext(),LinearLayoutManager.HORIZONTAL,false);
