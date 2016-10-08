@@ -79,7 +79,7 @@
     <string name="title_activity_note_edit">NoteEditActivity</string>
 
     <!-- for notes -->
-    <string name="app_name_note">Note</string>
+    <string name="app_name_note">Notes</string>
     <string name="about">About</string>
     <string name="title">Title</string>
     <string name="menu_delete">Delete note</string>
@@ -113,7 +113,7 @@
     <string name="pref_key_manage_subjects">studentManageSubjects</string>
     <string name="clear_application_data_message">Are you sure you want to clear all application data?</string>
     <string name="offline_manage_subjects_message">Seems like you are offline. Please connect to Internet.</string>
-    <string name="manage_subjects_not_saved">Looks like there is some issue. Your subscription changes coould not be saved. Please try again.</string>
+    <string name="manage_subjects_not_saved">Looks like there is some issue. Your subscription changes could not be saved. Please try again.</string>
     <string name="manage_subjects_summary">Manage your selected subjects</string>
     <string name="success_message">Changes saved</string>
     <string name="content_list_empty_message">Could not fetch content list. Looks like there is an issue with connectivity or there is no content available to sync</string>
@@ -152,7 +152,7 @@
 
     <string name="submitted_test">Test has already been submitted</string>
     <string name="CylenderEvent">Events added to your Calendar</string>
-    <string name="Version">Version v3.2.1</string>
+    <string name="Version">Version 1.0.0</string>
     <string name="chathead">Enable Chathead</string>
     <string name="enableService">true</string>
     <string name="action_sign_in">Log In</string>
@@ -164,9 +164,7 @@
     <string name="prompt_phno">Phone Number</string>
     <string name="signup">Sign Up</string>
     <string name="action_sign_in_short">Password</string>
-    <string name="error_invalid_password">Password must have at least 6 characters.
-        Must have at least one number.
-        No special characters</string>
+    <string name="error_invalid_password">Password must have at least 6 characters, one number and no special characters</string>
     <string name="error_field_required">Field Required</string>
     <string name="error_invalid_email">Invalid email Format</string>
     <string name="error_incorrect_password">Incorrect Password</string>
@@ -180,7 +178,7 @@
     <string name="menu_search">search</string>
     <string name="menu_filter">Filter</string>
     <string name="app_label">vinci</string>
-    <string name="search_hint">search Contents</string>
+    <string name="search_hint">Search Content</string>
     <string name="get_sign_up_page">api/v1/signup</string>
     <string name="getaccesstoken">oauth/token</string>
     <string name="getuserdetail">api/v1/getEmail</string>
@@ -278,7 +276,7 @@
     <string name="samplepaper">Sample Paper</string>
     <string name="samplepaper_tag">SamplePaper</string>
 
-    <string name="title_activity_profile_edit">Profile Edit</string>
+    <string name="title_activity_profile_edit">Edit Profile</string>
     <string name="replay">Replay</string>
     <string name="close">Close</string>
     <string name="summary">Summary</string>
@@ -290,7 +288,7 @@
     <string name="analytics">Analytics</string>
     <string name="attempt_number">Attempt Number</string>
     <string name="empty_message">Don\'t Be Afraid, Go For It</string>
-    <string name="empty_description">No test has been attempted yet. Attempts will shown here</string>
+    <string name="empty_description">You haven\'t taken this test</string>
     <string name="ask_login">You Need To Login First</string>
     <string name="timeTaken">Time Taken</string>
     <string name="question_text">Question</string>
@@ -299,7 +297,13 @@
     <string name="option_login_text">Or login using kwiklearn account</string>
 
     <string name="searchError">We could not find any result</string>
+
     <string name="signupconfirm">Your account has been successfully created</string>
+
+    <string name="app_tagline">Learn the way you should</string>
+    <string name="notesError">You don\'t have any notes</string>
+    <string name="notesErrorTitle">YIKES! SHARPNER ANYONE?</string>
+
 
 
 </resources>

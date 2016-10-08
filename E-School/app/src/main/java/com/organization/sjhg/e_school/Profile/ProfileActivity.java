@@ -1,6 +1,8 @@
 package com.organization.sjhg.e_school.Profile;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
@@ -40,7 +42,15 @@ import com.squareup.picasso.Picasso;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.IOException;
 import java.io.Serializable;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
 
 /**
  * Created by Punit Chhajer on 17-09-2016.
@@ -88,11 +98,7 @@ public class ProfileActivity extends AppCompatActivity implements ConnectivityRe
                 startActivity(intent);
             }
         });
-        Picasso.with(this)
-                .load(sharedPrefrence.getUserPic(getApplicationContext()))
-                .placeholder(R.drawable.ic_account_circle_white_48dp)
-                .memoryPolicy(MemoryPolicy.NO_CACHE, MemoryPolicy.NO_STORE)
-                .into(profilePic);
+        profilePic.setImageResource(R.drawable.ic_account_circle_white_48dp);
         userName = (TextView) findViewById(R.id.user_name);
         userName.setText(sharedPrefrence.getUserName(getApplicationContext()));
         userEmail = (TextView) findViewById(R.id.user_email);
@@ -185,10 +191,17 @@ public class ProfileActivity extends AppCompatActivity implements ConnectivityRe
         mLoading.setVisibility(View.GONE);
         JSONObject data = response.getJSONObject("data");
         String dob = data.getString("date_of_birth");
+        try {
         if (!dob.equals("null") && !dob.equals("")){
-            userDob.setText(dob);
+            DateFormat inputFormat = new SimpleDateFormat("yyyy-MM-dd");
+            DateFormat outputFormat = new SimpleDateFormat("dd MMMM yyyy");
+            Date date = inputFormat.parse(dob);
+            userDob.setText("Date of birth: "+outputFormat.format(date));
             cardView2.setVisibility(View.VISIBLE);
             userDob.setVisibility(View.VISIBLE);
+        }
+        } catch (ParseException e) {
+            e.printStackTrace();
         }
         String country = data.getString("country");
         if (!country.equals("null") &&!country.equals("")){
@@ -224,12 +237,22 @@ public class ProfileActivity extends AppCompatActivity implements ConnectivityRe
 
         String profile_pic = data.getString("photo_path");
         if (!profile_pic.equals("null")){
-            Picasso.with(this).invalidate(profile_pic);
+//            Picasso.with(this).invalidate(profile_pic);
             Picasso.with(this)
                     .load(profile_pic)
                     .placeholder(R.drawable.ic_account_circle_white_24dp)
                     .memoryPolicy(MemoryPolicy.NO_CACHE, MemoryPolicy.NO_STORE)
                     .into(profilePic);
+//            URL url = null;
+//            try {
+//                url = new URL(profile_pic);
+//                Bitmap bmp = BitmapFactory.decodeStream(url.openConnection().getInputStream());
+//                profilePic.setImageBitmap(bmp);
+//            } catch (MalformedURLException e) {
+//                e.printStackTrace();
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//            }
         }
 
         String name = data.getString("name");

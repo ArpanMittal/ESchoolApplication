@@ -21,7 +21,7 @@ public class Splash_Activity extends AppCompatActivity {
                 goToMain();
                 //new LoginBackgroundHelper(this, SplashActivity.this).execute(spUsername, spPassword);
             }
-        }, 2000);
+        }, 3000);
     }
     private void goToMain()
     {

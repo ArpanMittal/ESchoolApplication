@@ -42,22 +42,22 @@ public class Image_View_Fragment extends Fragment {
             if(hour>5&&hour<12)
             {
                 image="img/app_morning.png";
-                text="morning";
+                text="Good Morning";
             }
             else if(hour>=12&&hour<16)
             {
                 image="img/app_afternoon.png";
-                text="afternoon";
+                text="Good Afternoon";
             }
             else if(hour>=16&&hour<22)
             {
                 image="img/app_evening.png";
-                text="Evening";
+                text="Good Evening";
             }
             else
             {
                 image="img/app_midnight.png";
-                text="Night";
+                text="Burning the midnight oil";
             }
         }
         else

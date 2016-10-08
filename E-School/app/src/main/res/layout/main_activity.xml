@@ -28,7 +28,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
                 android:layout_marginTop="170dp"
-                android:background="@drawable/border"
                 android:id="@+id/home">
 
                 <TextView
@@ -48,6 +47,12 @@
                     android:layout_height="wrap_content"
                     android:src="@drawable/home"
                     android:layout_gravity="left|center_vertical" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="#adcecece"
+                    android:layout_gravity="bottom" />
             </FrameLayout>
             <ExpandableListView
                 android:layout_below="@+id/home"
@@ -58,12 +63,11 @@
                 android:maxWidth="320dp"
                 android:layout_height="match_parent"
                 android:layout_above="@+id/logout"
-                android:background="@android:color/white">
+                android:background="@color/transparent">
             </ExpandableListView>
             <FrameLayout
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
-                android:layout_marginTop="170dp"
                 android:background="@drawable/border"
                 android:layout_alignParentBottom="true"
                 android:id="@+id/logout"
