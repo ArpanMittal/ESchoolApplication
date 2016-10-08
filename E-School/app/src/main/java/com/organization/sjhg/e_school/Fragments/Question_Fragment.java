@@ -68,11 +68,15 @@ public class Question_Fragment extends Fragment {
         QuestionOptionAdapter questionOptionAdapter=new QuestionOptionAdapter(getContext(),questionLists.get(0).chapterLists,questionLists.get(0).id,questionLists.get(0).answer);
         recyclerView.setAdapter(questionOptionAdapter);
         String url= ServerAddress.getServerAddress(getContext())+questionLists.get(0).question_image_path;
-        Picasso.with(getContext())
-                .load(url)
-                .into(imageView);
+        if(!(questionLists.get(0).question_image_path==null||questionLists.get(0).question_image_path.isEmpty())) {
+            Picasso.with(getContext())
+                    .load(url)
+                    .into(imageView);
+        }
 
         String code=questionLists.get(0).question_text;
+        code = code.replace("&lt;br /&gt;","");
+        code = code.replace("<br />","");
         Spanned spanned = Html.fromHtml(code, new Html.ImageGetter() {
             // download latex symbol
             @Override

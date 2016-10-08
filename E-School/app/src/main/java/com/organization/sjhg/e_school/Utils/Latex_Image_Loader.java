@@ -21,7 +21,7 @@ public class Latex_Image_Loader extends AsyncTask<Object, Void, Bitmap>
 
     private LevelListDrawable mDrawable;
     private TextView textView;
-
+    private InputStream is;
     @Override
     protected Bitmap doInBackground(Object... params) {
         String source = (String) params[0];
@@ -29,8 +29,10 @@ public class Latex_Image_Loader extends AsyncTask<Object, Void, Bitmap>
         textView=(TextView)params[2];
         // Log.d(TAG, "doInBackground " + source);
         try {
-            InputStream is = new URL(source).openStream();
-            return BitmapFactory.decodeStream(is);
+            is = new URL(source).openStream();
+            Bitmap bitmap= BitmapFactory.decodeStream(is);
+            is.close();
+            return bitmap;
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (MalformedURLException e) {
@@ -38,6 +40,7 @@ public class Latex_Image_Loader extends AsyncTask<Object, Void, Bitmap>
         } catch (IOException e) {
             e.printStackTrace();
         }
+
         return null;
     }
 
@@ -45,15 +48,21 @@ public class Latex_Image_Loader extends AsyncTask<Object, Void, Bitmap>
     protected void onPostExecute(Bitmap bitmap) {
         //Log.d(TAG, "onPostExecute drawable " + mDrawable);
         //Log.d(TAG, "onPostExecute bitmap " + bitmap);
+//        try {
+//            is.close();
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
         if (bitmap != null) {
             BitmapDrawable d = new BitmapDrawable(bitmap);
             mDrawable.addLevel(1, 1, d);
-            mDrawable.setBounds(0, 0, bitmap.getWidth(), bitmap.getHeight());
+            mDrawable.setBounds(0, 0, bitmap.getWidth()+20, bitmap.getHeight()+17);
             mDrawable.setLevel(1);
             // i don't know yet a better way to refresh TextView
             // mTv.invalidate() doesn't work as expected
             CharSequence t = textView.getText();
             textView.setText(t);
         }
+
     }
 }

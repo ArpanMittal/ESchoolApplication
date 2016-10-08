@@ -2,6 +2,7 @@ package com.organization.sjhg.e_school.Content.NewTest;
 
 import android.content.Intent;
 import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.PersistableBundle;
 import android.support.annotation.Nullable;
@@ -12,6 +13,8 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.ProgressBar;
 
 import com.organization.sjhg.e_school.Helpers.LogHelper;
@@ -179,16 +182,31 @@ public class TestAnswerActivity extends AppCompatActivity implements RemoteCallH
         if(response.equals("empty")) {
             tabLayout.setBackgroundColor(Color.GRAY);
             toolbar.setBackgroundColor(Color.GRAY);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                Window window = getWindow();
+                window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+                window.setStatusBarColor(Color.GRAY);
+            }
         }
         else if (response.equals("true"))
         {
             tabLayout.setBackgroundColor(Color.parseColor("#4caf50"));
             toolbar.setBackgroundColor(Color.parseColor("#4caf50"));
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                Window window = getWindow();
+                window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+                window.setStatusBarColor(Color.parseColor("#4caf50"));
+            }
         }
         else
         {
             tabLayout.setBackgroundColor(Color.parseColor("#d50000"));
             toolbar.setBackgroundColor(Color.parseColor("#d50000"));
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                Window window = getWindow();
+                window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+                window.setStatusBarColor(Color.parseColor("#d50000"));
+            }
         }
     }
 

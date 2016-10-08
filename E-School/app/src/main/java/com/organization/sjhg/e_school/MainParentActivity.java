@@ -107,8 +107,10 @@ public class MainParentActivity extends AppCompatActivity implements NavigationV
             @Override
             public void onClick(View v) {
                 Intent intent=new Intent(MainParentActivity.this,Main_Activity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(intent);
-                finish();
+
             }
         });
 
@@ -187,15 +189,19 @@ public class MainParentActivity extends AppCompatActivity implements NavigationV
                     Intent intent = new Intent(getApplicationContext(), ExaminationParent.class);
                     intent.putExtra(getString(R.string.jsontitle), listDataHeader.get(groupPosition));
                     intent.putExtra(getString(R.string.jsonid), internalList.get(childPosition).id);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     startActivity(intent);
-                    finish();
+
                 }
                 else {
                     Intent intent = new Intent(getApplicationContext(), ListActivity.class);
                     intent.putExtra(getString(R.string.title), listDataHeader.get(groupPosition));
                     intent.putExtra(getString(R.string.jsonid), internalList.get(childPosition).id);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     startActivity(intent);
-                    finish();
+
                     }
                 return false;
             }
