@@ -7,6 +7,14 @@
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+        <ImageView
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/emptyState"
+            android:src="@drawable/practice_bg"
+            android:layout_gravity="center"
+            />
     <android.support.v7.widget.RecyclerView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -25,17 +33,18 @@
                 android:layout_height="wrap_content"
                 android:text="@string/test_start_title"
                 android:maxWidth="200dp"
-                android:background="@drawable/sigin_border"
+                android:background="@drawable/attempt_border"
                 android:textAllCaps="true"
                 android:textColor="@color/darkgrey"
                 android:id="@+id/test"/>
+
         <Button
             android:layout_marginTop="@dimen/paddingTop"
             android:layout_width="200dp"
             android:layout_height="wrap_content"
             android:text="@string/show_attempts"
             android:maxWidth="200dp"
-            android:background="@drawable/sigin_border"
+            android:background="@drawable/attempt_border"
             android:textAllCaps="true"
             android:textColor="@color/darkgrey"
             android:id="@+id/analytics"/>
