@@ -38,7 +38,7 @@
             android:id="@+id/view_stub_bar"
             />
     </android.support.v4.widget.NestedScrollView>
-
+        <include layout="@layout/no_internet" />
 
     <!--<include layout="@layout/content_main" />-->
 

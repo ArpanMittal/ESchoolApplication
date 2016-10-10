@@ -10,6 +10,7 @@ import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.ViewStub;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -46,6 +47,7 @@ public class ProfileActivity extends AppCompatActivity implements RemoteCallHand
     private ProgressBar mLoading;
     private JSONObject response;
     private CardView cardView1, cardView2;
+    private View mNoInternet;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -70,7 +72,6 @@ public class ProfileActivity extends AppCompatActivity implements RemoteCallHand
                 startActivity(intent);
             }
         });
-
         mLoading = (ProgressBar) findViewById(R.id.progress);
         final SharedPrefrence sharedPrefrence = new SharedPrefrence();
         profilePic = (ImageView) findViewById(R.id.profile_pic);
@@ -96,7 +97,17 @@ public class ProfileActivity extends AppCompatActivity implements RemoteCallHand
         userSchool= (TextView) findViewById(R.id.user_school);
         cardView1 = (CardView) findViewById(R.id.cardView1);
         cardView2 = (CardView) findViewById(R.id.cardView2);
+        mNoInternet = findViewById(R.id.noInternetScreen);
+        Button retry = (Button) findViewById(R.id.retry);
+        retry.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mNoInternet.setVisibility(View.GONE);
+                mLoading.setVisibility(View.VISIBLE);
+                new RemoteHelper(getApplicationContext()).getUserDetails(ProfileActivity.this, RemoteCalls.GET_USER_DETAILS,new SharedPrefrence().getAccessToken(ProfileActivity.this));
 
+            }
+        });
 
     }
 
@@ -115,11 +126,11 @@ public class ProfileActivity extends AppCompatActivity implements RemoteCallHand
 
     @Override
     public void HandleRemoteCall(boolean isSuccessful, RemoteCalls callFor, JSONObject response, Exception exception) {
+        mNoInternet.setVisibility(View.GONE);
         if(!isSuccessful)
         {
             mLoading.setVisibility(View.GONE);
-            new LogHelper(exception);
-            exception.printStackTrace();
+            mNoInternet.setVisibility(View.VISIBLE);
         }
         else
         {

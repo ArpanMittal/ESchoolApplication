@@ -27,6 +27,7 @@ import android.support.v7.widget.RecyclerView;
 
 import android.view.MenuItem;
 import android.view.ViewStub;
+import android.widget.Button;
 import android.widget.ImageView;
 
 import com.organization.sjhg.e_school.Fragments.Notes_Listing_Fragment;
@@ -64,7 +65,7 @@ public class Main_Activity extends MainParentActivity{
 
 
     private View mDashboardView;
-    private View mProgressView;
+    private View mProgressView,mNoInternet;
 
     private ProgressBarActivity progressBarActivity=new ProgressBarActivity();
     private ToastActivity toastActivity=new ToastActivity();
@@ -86,8 +87,17 @@ public class Main_Activity extends MainParentActivity{
 
         mDashboardView=findViewById(R.id.dashboard_form);
         mProgressView=findViewById(R.id.dashboard_progress);
-
-
+        mNoInternet = findViewById(R.id.noInternetScreen);
+        Button retry = (Button) findViewById(R.id.retry);
+        retry.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mNoInternet.setVisibility(View.GONE);
+                progressBarActivity.showProgress(mDashboardView,mProgressView,true,getApplicationContext());
+                new RemoteHelper(getApplicationContext()).getDashBoardDetails(Main_Activity.this, RemoteCalls.GET_DASHBOARD_LIST);
+                new RemoteHelper(getApplicationContext()).getDashBoardImageDetails(RemoteCalls.GET_DASHBOARD_IMAGE_LIST,Main_Activity.this);
+            }
+        });
         toolbar = (Toolbar)findViewById(R.id.toolbar);
 
         setSupportActionBar(toolbar);
@@ -117,7 +127,12 @@ public class Main_Activity extends MainParentActivity{
         {
             dataList=(List<DashBoardList>) savedInstanceState.getSerializable("LIST");
             imageList=(List<ChapterList>) savedInstanceState.getSerializable("IMAGELIST");
-            showView(dataList,imageList);
+            if (dataList!=null && dataList.size()!=0){
+                showView(dataList,imageList);
+            }else{
+                mNoInternet.setVisibility(View.VISIBLE);
+            }
+
         }
         else {
             progressBarActivity.showProgress(mDashboardView,mProgressView,true,getApplicationContext());
@@ -210,9 +225,11 @@ public class Main_Activity extends MainParentActivity{
     @Override
     public void HandleRemoteCall(boolean isSuccessful, RemoteCalls callFor, JSONObject response, Exception exception) {
         super.HandleRemoteCall(isSuccessful,callFor,response,exception);
+        mNoInternet.setVisibility(View.GONE);
         if(!isSuccessful)
         {
-            toastActivity.makeUknownErrorMessage(this);
+            progressBarActivity.showProgress(mDashboardView,mProgressView,false,getApplicationContext());
+            mNoInternet.setVisibility(View.VISIBLE);
         }
         else
         {

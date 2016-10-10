@@ -74,7 +74,7 @@ public class ProfileEditActivity extends AppCompatActivity implements RemoteCall
     private HashMap<String, String> data;
     private List<String> state, city, school, country;
     private static final int MAX_SIZE = 1024;
-
+    private View mNoInternet;
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -221,11 +221,34 @@ public class ProfileEditActivity extends AppCompatActivity implements RemoteCall
             }
         });
 
+        mNoInternet = findViewById(R.id.noInternetScreen);
+        Button retry = (Button) findViewById(R.id.retry);
+        retry.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mNoInternet.setVisibility(View.GONE);
+                mLoading.setVisibility(View.VISIBLE);
+                new RemoteHelper(getApplicationContext()).getUserDetails(ProfileEditActivity.this, RemoteCalls.GET_USER_DETAILS, sharedPrefrence.getAccessToken(ProfileEditActivity.this));
+                new RemoteHelper(getApplicationContext()).getProfileDetails(ProfileEditActivity.this, RemoteCalls.GET_PROFILE_EDIT_DATA, sharedPrefrence.getAccessToken(ProfileEditActivity.this));
+
+            }
+        });
+        if (savedInstanceState!=null){
+            data = (HashMap<String, String>) savedInstanceState.getSerializable("DATA LIST");
+            country = (List<String>) savedInstanceState.getSerializable("COUNTRY LIST");
+            state = (List<String>) savedInstanceState.getSerializable("STATE LIST");
+            city = (List<String>) savedInstanceState.getSerializable("CITY LIST");
+            school = (List<String>) savedInstanceState.getSerializable("SCHOOL LIST");
+            if (data!=null && data.size()!=0){
+                showView();
+            }else{
+                mNoInternet.setVisibility(View.VISIBLE);
+            }
+
+        }else{
             new RemoteHelper(getApplicationContext()).getUserDetails(this, RemoteCalls.GET_USER_DETAILS, sharedPrefrence.getAccessToken(this));
             new RemoteHelper(getApplicationContext()).getProfileDetails(this, RemoteCalls.GET_PROFILE_EDIT_DATA, sharedPrefrence.getAccessToken(this));
-
-
-
+        }
     }
 
     @Override
@@ -255,10 +278,10 @@ public class ProfileEditActivity extends AppCompatActivity implements RemoteCall
 
     @Override
     public void HandleRemoteCall(boolean isSuccessful, RemoteCalls callFor, JSONObject response, Exception exception) {
+        mNoInternet.setVisibility(View.GONE);
         if (!isSuccessful) {
             mLoading.setVisibility(View.GONE);
-            new LogHelper(exception);
-            exception.printStackTrace();
+            mNoInternet.setVisibility(View.VISIBLE);
         } else {
             SharedPrefrence sharedPrefrence = new SharedPrefrence();
             ToastActivity toastActivity = new ToastActivity();
