@@ -12,14 +12,15 @@ import java.util.List;
  * Created by arpan on 8/19/2016.
  */
 public class DashBoardList implements Serializable {
-    public String title;
+    public String title, isActive;
     public List<InternalList> internalLists=new ArrayList<>();
     public List<ExamPrepareList> examPrepareLists=new ArrayList<>();
     public List<ChapterList> chapterLists=new ArrayList<>();
-    public DashBoardList(String title,List<InternalList> internalLists)
+    public DashBoardList(String title,List<InternalList> internalLists,String isActive)
     {
         this.title=title;
         this.internalLists=internalLists;
+        this.isActive = isActive;
     }
     public DashBoardList(String title,List<ExamPrepareList> examPrepareLists,List<ChapterList> chapterLists) {
         this.title=title;

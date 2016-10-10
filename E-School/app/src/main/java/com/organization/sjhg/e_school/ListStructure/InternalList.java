@@ -9,16 +9,17 @@ public class InternalList implements Serializable {
     public String id;
     public String name;
     public String count;
-    public String image;
+    public String image,isActive;
     public InternalList(String id, String name, String count) {
         this.id= id;
         this.name = name;
         this.count = count;
     }
-    public InternalList(String id, String name, String count,String image) {
+    public InternalList(String id, String name, String count,String image,String isActive) {
         this.id= id;
         this.name = name;
         this.count = count;
         this.image=image;
+        this.isActive = isActive;
     }
 }

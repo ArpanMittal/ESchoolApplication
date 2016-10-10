@@ -303,7 +303,11 @@
     <string name="app_tagline">Learn the way you should</string>
     <string name="notesError">You don\'t have any notes</string>
     <string name="notesErrorTitle">YIKES! SHARPNER ANYONE?</string>
+
     <string name="done">Done</string>
+
+    <string name="jsonIsActive">isActive</string>
+
 
 
 </resources>
