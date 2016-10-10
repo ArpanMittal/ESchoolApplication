@@ -273,6 +273,7 @@ class DetailsController extends Controller
             ->join("year","exam_state_year_map.year_id","=","year.id")
             ->join("exam_state_year_rest_map","exam_state_year_map.id","=","exam_state_year_rest_map.exam_state_year_id")
             ->join("rest_part","exam_state_year_rest_map.rest_id","=","rest_part.id")
+            ->where('exam_state_year_rest_map.is_active',"1")
             ->where('examtag.id',$id)->get();
     }
 

@@ -151,6 +151,7 @@ class fetchQuestionController extends Controller
             ->select('exam_state_year_rest_map.id as id')
             ->join('exam_state_year_map','exam_state_year_rest_map.exam_state_year_id','=','exam_state_year_map.id')
             ->join('exam_state_map','exam_state_year_map.exam_state_id','=','exam_state_map.id')
+            ->where('exam_state_year_rest_map.is_active',"1")
             ->where('exam_state_map.exam_id',$key)
             ->get();
 
@@ -176,7 +177,7 @@ class fetchQuestionController extends Controller
                     'answer.answer as answer')
                 ->join("questiontags","question.id","=","questiontags.question_id")
                 ->join('answer','answer.question_id','=','question.id')
-//                ->where('question.hash',"LIKE",$item->subject_id."%")
+                ->where('question.hash',"LIKE",$item->subject_id."%")
                 ->where(function($query) use ($tags){
                     for ($i=0;$i<count($tags);$i++){
                         $query->orWhere('questiontags.tag_id',$tags[$i]->id);
