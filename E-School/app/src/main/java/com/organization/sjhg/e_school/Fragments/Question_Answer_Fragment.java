@@ -98,7 +98,6 @@ public class Question_Answer_Fragment extends Fragment {
 
             Picasso.with(getContext())
                     .load(url)
-                    .resize(200, 200)
                     .into(imageView);
 
     }

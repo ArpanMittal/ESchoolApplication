@@ -8,7 +8,6 @@ import android.support.v4.view.ViewPager;
 import android.view.ContextThemeWrapper;
 import android.widget.Toast;
 
-import com.astuetz.PagerSlidingTabStrip;
 import com.organization.sjhg.e_school.Content.ContentCollectionPagerAdapter;
 import com.organization.sjhg.e_school.Database.old.DatabaseOperations;
 import com.organization.sjhg.e_school.Helpers.StudentApplicationUserData;
@@ -50,9 +49,7 @@ public class MainActivity extends CommonFragmentTheme {
                             this);
                     mViewPager.setAdapter(mContentCollectionPagerAdapter);
 
-                    // Bind the tabs to the ViewPager
-                    final PagerSlidingTabStrip tabs = (PagerSlidingTabStrip) findViewById(R.id.tabs);
-                    tabs.setViewPager(mViewPager);
+
 
                 }
             } catch (SQLException e) {

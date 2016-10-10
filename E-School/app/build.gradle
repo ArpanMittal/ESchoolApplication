@@ -29,14 +29,16 @@ android {
     buildToolsVersion '23'
     defaultConfig {
         applicationId "com.organization.sjhg.e_school"
-        minSdkVersion 19
+        minSdkVersion 16
         targetSdkVersion 23
         multiDexEnabled true
-        versionCode 9
-        versionName "0.0.1"
+        versionCode 1
+        versionName "1.0"
     }
     buildTypes {
         release {
+            minifyEnabled true
+            shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             signingConfig signingConfigs.config
         }
@@ -63,19 +65,12 @@ dependencies {
     compile 'com.android.support:design:23.4.0'
     compile 'com.squareup.picasso:picasso:2.5.2'
     compile 'de.hdodenhof:circleimageview:2.1.0'
-    compile 'com.astuetz:pagerslidingtabstrip:1.0.1'
     compile 'org.jsoup:jsoup:1.8.3'
     compile 'com.google.android.gms:play-services-gcm:9.0.0'
     compile 'com.google.android.gms:play-services-auth:9.0.0'
     compile 'com.android.support:recyclerview-v7:23.4.0'
     compile 'com.android.support:cardview-v7:23.4.0'
-    compile ('cn.trinea.android.view.autoscrollviewpager:android-auto-scroll-view-pager:1.1.2') {
-        exclude module: 'support-v4'
-    }
     compile 'com.github.PhilJay:MPAndroidChart:v2.0.9'
-
-
-
     compile 'com.google.android.gms:play-services-appindexing:9.0.0'
     compile 'com.github.clans:fab:1.6.4'
 }

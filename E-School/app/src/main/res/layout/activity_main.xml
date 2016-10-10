@@ -71,21 +71,21 @@
     </FrameLayout>
 
 
-    <com.astuetz.PagerSlidingTabStrip
-        android:id="@+id/tabs"
-        android:background="#fff"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_alignLeft="@+id/mainBackground"
-        android:layout_alignRight="@+id/mainBackground"
-        android:visibility="visible"
-        android:layout_below="@+id/frameLayout2"
-        android:textColor="#000"
-        app:pstsIndicatorColor="#000"
-        app:pstsDividerColor="#0010"
-        app:pstsIndicatorHeight="10dp">
+    <!--<com.astuetz.PagerSlidingTabStrip-->
+        <!--android:id="@+id/tabs"-->
+        <!--android:background="#fff"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="50dp"-->
+        <!--android:layout_alignLeft="@+id/mainBackground"-->
+        <!--android:layout_alignRight="@+id/mainBackground"-->
+        <!--android:visibility="visible"-->
+        <!--android:layout_below="@+id/frameLayout2"-->
+        <!--android:textColor="#000"-->
+        <!--app:pstsIndicatorColor="#000"-->
+        <!--app:pstsDividerColor="#0010"-->
+        <!--app:pstsIndicatorHeight="10dp">-->
 
-    </com.astuetz.PagerSlidingTabStrip>
+    <!--</com.astuetz.PagerSlidingTabStrip>-->
 
 
 

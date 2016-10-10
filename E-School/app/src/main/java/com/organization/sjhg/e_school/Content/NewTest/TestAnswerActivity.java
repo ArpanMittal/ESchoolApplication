@@ -82,7 +82,7 @@ public class TestAnswerActivity extends AppCompatActivity implements RemoteCallH
         mViewPagerView=(ViewPager)findViewById(R.id.viewpager_fragment);
         progress = (ProgressBar) findViewById(R.id.progressBar);
         toolbar=(Toolbar)findViewById(R.id.toolbar);
-        toolbar.setTitle("TestAnswer");
+        toolbar.setTitle(getString(R.string.answer_activity));
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         mNoInternet = findViewById(R.id.noInternetScreen);
