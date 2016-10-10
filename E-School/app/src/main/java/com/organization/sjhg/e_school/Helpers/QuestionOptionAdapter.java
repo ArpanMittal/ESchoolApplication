@@ -134,7 +134,8 @@ public class QuestionOptionAdapter extends RecyclerView.Adapter<QuestionOptionAd
     @Override
     public void onBindViewHolder(final QuestionOptionAdapter.ViewHolder holder, final int position) {
         String code=chapterLists.get(position).name;
-
+        code = code.replace("&lt;br /&gt;","");
+        code = code.replace("<br />","");
         Spanned spanned = Html.fromHtml(code, new Html.ImageGetter() {
             @Override
             public Drawable getDrawable(String source) {

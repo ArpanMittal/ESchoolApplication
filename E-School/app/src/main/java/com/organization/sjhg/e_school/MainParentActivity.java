@@ -107,8 +107,10 @@ public class MainParentActivity extends AppCompatActivity implements NavigationV
             @Override
             public void onClick(View v) {
                 Intent intent=new Intent(MainParentActivity.this,Main_Activity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(intent);
-                finish();
+
             }
         });
 
@@ -157,7 +159,8 @@ public class MainParentActivity extends AppCompatActivity implements NavigationV
         });
 
         // Listview Group collasped listener
-        expListView.setOnGroupCollapseListener(new ExpandableListView.OnGroupCollapseListener() {
+        expListView.setOnGroupCollapseListener(new ExpandableListView.OnGroupCollapseListener()
+        {
 
             @Override
             public void onGroupCollapse(int groupPosition) {
@@ -169,10 +172,12 @@ public class MainParentActivity extends AppCompatActivity implements NavigationV
         });
 
         // Listview on child click listener
-        expListView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
+        expListView.setOnChildClickListener(new ExpandableListView.OnChildClickListener()
+        {
 
             @Override
-            public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
+            public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id)
+            {
                 List<InternalList> internalList=dataList.get(groupPosition).internalLists;
 //                String childId= internalList.get(childPosition).id;
 //                // TODO Auto-generated method stub
@@ -188,17 +193,27 @@ public class MainParentActivity extends AppCompatActivity implements NavigationV
                     intent.putExtra(getString(R.string.jsontitle), listDataHeader.get(groupPosition));
                     intent.putExtra(getString(R.string.jsonid), internalList.get(childPosition).id);
                     intent.putExtra(getString(R.string.jsonname), internalList.get(childPosition).name);
+
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     startActivity(intent);
+
+
+                    startActivity(intent);
+
                 }
                 else if (internalList.get(childPosition).isActive!=null && internalList.get(childPosition).isActive.equals("1")){
                     Intent intent = new Intent(getApplicationContext(), ListActivity.class);
                     intent.putExtra(getString(R.string.title), listDataHeader.get(groupPosition));
                     intent.putExtra(getString(R.string.jsonid), internalList.get(childPosition).id);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     startActivity(intent);
-                    }
-                return false;
+
+
             }
-        });
+                return false;
+        }});
 
         FrameLayout logout =(FrameLayout) navigationView.findViewById(R.id.logout);
         logout.setOnClickListener(new View.OnClickListener() {
@@ -251,7 +266,8 @@ public class MainParentActivity extends AppCompatActivity implements NavigationV
             }
             profile_pic.setOnClickListener(listener);
             email.setOnClickListener(listener);
-        }else if (email!= null){
+        }else if (email!= null)
+            {
             username.setVisibility(View.GONE);
             email.setVisibility(View.GONE);
             logout.setVisibility(View.GONE);

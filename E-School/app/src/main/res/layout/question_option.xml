@@ -17,6 +17,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textColor="@color/darkest_gray"
+        android:padding="@dimen/activity_vertical_margin"
 
         android:id="@+id/option_text"/>
 

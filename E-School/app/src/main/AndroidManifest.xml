@@ -101,8 +101,12 @@
             android:label="Test Report"/>
         <activity android:name=".Content.NewTest.TestAnswerActivity"
             android:parentActivityName=".Content.NewTest.TestSummaryActivity"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:label="Answers"/>
+        <activity android:name=".Tour_Guide"
             android:theme="@style/AppThemeExam.NoActionBar"
-            android:label="TestAnswer"/>
+            android:label="Tour Guide">
+        </activity>
 
         <activity android:name=".Content.NewTest.TestSummaryActivity"
             android:theme="@style/AppThemeExam"
