@@ -81,7 +81,8 @@ public class TestActivity extends AppCompatActivity implements RemoteCallHandler
 
     private TextView submit_btn;
     private ViewPager mViewPagerView;
-    static boolean is_submit_active=false;
+    boolean is_submit_active=false;
+    private  CountDownTimer countDownTimer;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -157,6 +158,7 @@ public class TestActivity extends AppCompatActivity implements RemoteCallHandler
                     public void onClick(DialogInterface dialog, int which) {
                         // positive button logic
                         is_submit_active=true;
+                        countDownTimer.cancel();
                         access_token=sharedPrefrence.getAccessToken(getApplicationContext());
                         new RemoteHelper(getApplicationContext()).sendQuestionResponse(TestActivity.this, RemoteCalls.SEND_QUESTION_RESPONSE,tag,id, access_token,makeResponseList());
                         progressBarActivity.showProgress(mViewPagerView,mProgressView,true,getApplicationContext());
@@ -244,12 +246,13 @@ public class TestActivity extends AppCompatActivity implements RemoteCallHandler
         tabLayout = (TabLayout) findViewById(R.id.id_tabs);
         tabLayout.setupWithViewPager(mViewPagerView);
        //for sample paper tag show timer
+
         //TODO: change for practice test
-        if(tag.equals(getString(R.string.samplepaper_tag))) {
+        if(tag.equals(getString(R.string.samplepaper_tag))&&(!is_submit_active)) {
             if(countDownTime<30000)
                 countDown.setTextColor(Color.parseColor("#c60000"));
 
-            new CountDownTimer(countDownTime, 1000) {
+           countDownTimer= new CountDownTimer(countDownTime, 1000) {
 
                 public void onTick(long millisUntilFinished) {
                     countDownTime = millisUntilFinished;
