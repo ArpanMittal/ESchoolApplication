@@ -161,7 +161,6 @@ public class TestAnswerActivity extends AppCompatActivity implements RemoteCallH
 
     private void showView(final List<QuestionAnswerList>questionAnswerLists)
     {
-   ;
         QuestionAnswerAdapter questionAnswerAdapter=new QuestionAnswerAdapter(getSupportFragmentManager(),questionAnswerLists,getApplicationContext());
         mViewPagerView.setAdapter(questionAnswerAdapter);
         mViewPagerView.setOffscreenPageLimit(1);

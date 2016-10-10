@@ -313,5 +313,6 @@
     <string name="skip">Skip</string>
     <string name="next">Next</string>
     <string name="answer_activity">Answers</string>
+    <string name="empty">NA</string>
 
 </resources>

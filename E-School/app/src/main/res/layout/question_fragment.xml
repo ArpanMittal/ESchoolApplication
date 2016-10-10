@@ -27,7 +27,8 @@
             <com.organization.sjhg.e_school.Utils.ImageViewHelper
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="@dimen/activity_bottom_padding"
+                android:layout_marginLeft="@dimen/activity_bottom_padding"
+                android:layout_marginRight="@dimen/activity_bottom_padding"
                 android:background="@drawable/border"
                 android:id="@+id/question_image"
                 android:scaleType="matrix"/>

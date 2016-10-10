@@ -18,13 +18,14 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_toEndOf="@+id/chkSelected">
+            android:layout_toRightOf="@+id/chkSelected">
 
         <TextView
             android:id="@+id/option_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textColor="@color/darkest_gray"
+            android:padding="@dimen/activity_vertical_margin"
             android:textSize="18sp"
             />
         <View

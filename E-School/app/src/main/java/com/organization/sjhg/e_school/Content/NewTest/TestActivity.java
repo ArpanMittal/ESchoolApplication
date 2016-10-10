@@ -210,7 +210,7 @@ public class TestActivity extends AppCompatActivity implements RemoteCallHandler
         else
         {
             questionLists=(List<QuestionList>)saveInstances.getSerializable("Question List");
-            is_submit_active=(boolean)saveInstances.getBoolean("Is_Submit");
+            is_submit_active= saveInstances.getBoolean("Is_Submit");
             if(tag.equals(getString(R.string.samplepaper_tag)))
                 countDownTime=saveInstances.getLong("CountDown");
             else
@@ -510,7 +510,7 @@ public class TestActivity extends AppCompatActivity implements RemoteCallHandler
                             intent.putExtra("parent_tag",tag);
                             intent.putExtra("parent_id",id);
                             intent.putExtra("parent_title",title);
-                            String id=(String)response.get("data").toString();
+                            String id= response.get("data").toString();
                             intent.putExtra("Id",id);
                             startActivity(intent);
                             finish();

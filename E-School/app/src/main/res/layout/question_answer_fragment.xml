@@ -62,7 +62,8 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:id="@+id/question_image"
-                    android:layout_marginRight="@dimen/activity_bottom_padding"
+                    android:layout_margin="@dimen/activity_vertical_margin"
+                    android:background="@drawable/border"
                     android:layout_marginBottom="@dimen/activity_vertical_margin"
                     android:scaleType="matrix" />
 
@@ -147,7 +148,8 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
-                            android:layout_marginRight="@dimen/activity_bottom_padding"
+                            android:layout_margin="@dimen/activity_vertical_margin"
+                            android:background="@drawable/border"
                             android:id="@+id/solution_image"
                             android:scaleType="matrix"
                             />

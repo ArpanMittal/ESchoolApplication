@@ -75,6 +75,7 @@ public class Question_Answer_Fragment extends Fragment {
         Typeface face= Typeface.createFromAsset(getActivity().getAssets(), "latin-modern-sans/lmsans8-regular.otf");
         question_text.setTypeface(face);
        String  code1=questionAnswerLists.get(0).correctoption.get(0).name;
+
         code1 = code1.replace("&lt;br /&gt;","");
         code1 = code1.replace("<br />","");
         textLoader(code1,answer_text);
@@ -86,6 +87,10 @@ public class Question_Answer_Fragment extends Fragment {
             code = code.replace("<br />","");
             textLoader(code,user_option_text);
             user_option_text.setTypeface(face);
+        }
+        else
+        {
+            user_option_text.setText(getString(R.string.empty));
         }
 
 
@@ -99,6 +104,9 @@ public class Question_Answer_Fragment extends Fragment {
             Picasso.with(getContext())
                     .load(url)
                     .into(imageView);
+        final float scale = getContext().getResources().getDisplayMetrics().density;
+        int pixels = (int) (200 * scale + 0.5f);
+        imageView.setMinimumHeight(pixels);
 
     }
 

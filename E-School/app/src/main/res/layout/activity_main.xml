@@ -96,7 +96,6 @@
         android:layout_alignLeft="@+id/mainBackground"
         android:layout_alignRight="@+id/mainBackground"
         android:layout_alignBottom="@+id/mainBackground"
-        android:layout_below="@+id/tabs"
         android:layout_gravity="left|top"
 
         android:scrollbarFadeDuration="60000">
