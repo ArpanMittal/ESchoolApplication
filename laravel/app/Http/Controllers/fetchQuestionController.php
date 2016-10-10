@@ -167,7 +167,8 @@ class fetchQuestionController extends Controller
         }
         foreach ($noq as $item){
             $temp = DB::table('question')
-                ->select('question.id as id',
+                ->select(
+                    DB::raw('DISTINCT(question.id) as id'),
                     'question.hash as hash',
                     'question.question_type_id as type_id',
                     'question.question as question_text',
