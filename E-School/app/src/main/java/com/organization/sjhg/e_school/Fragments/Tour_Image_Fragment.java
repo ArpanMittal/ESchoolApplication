@@ -1,6 +1,7 @@
 package com.organization.sjhg.e_school.Fragments;
 
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -28,7 +29,10 @@ public class Tour_Image_Fragment extends Fragment {
         String text=null;
 
         ImageView imageView=(ImageView) v.findViewById(R.id.imageView);
-
+        int val= getArguments().getInt("Image");
+            imageView.setImageResource(getArguments().getInt("Image"));
+        TextView textView=(TextView)v.findViewById(R.id.text);
+        textView.setText(getArguments().getString("Text"));
 //        Picasso.with(context)
 //                .load(ServerAddress.getServerAddress(getContext())+image)
 //                .into(imageView);
@@ -38,11 +42,13 @@ public class Tour_Image_Fragment extends Fragment {
         return v;
     }
 
-    public static Tour_Image_Fragment newInstance(String image) {
+    public static Tour_Image_Fragment newInstance(int image,String text) {
 
         Tour_Image_Fragment f = new Tour_Image_Fragment();
         Bundle b = new Bundle();
         b.putString("first","true");
+        b.putInt("Image",image);
+        b.putString("Text",text);
         f.setArguments(b);
         return f;
     }

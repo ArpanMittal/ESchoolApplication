@@ -50,16 +50,17 @@ public class Grid_Exam_Fragment extends FragmentStatePagerAdapter {
 
 
 
+//        if(position==1)
+//        {
+//
+//            Bundle bundle=new Bundle();
+//            bundle.putSerializable(context.getString(R.string.sendlist),(Serializable)examPrepareLists);
+//            ExamListFragment examListFragment=new ExamListFragment();
+//            examListFragment.setArguments(bundle);
+//            return examListFragment;
+//        }
+//        else
         if(position==1)
-        {
-
-            Bundle bundle=new Bundle();
-            bundle.putSerializable(context.getString(R.string.sendlist),(Serializable)examPrepareLists);
-            ExamListFragment examListFragment=new ExamListFragment();
-            examListFragment.setArguments(bundle);
-            return examListFragment;
-        }
-        else if(position==2)
         {
             Bundle bundle=new Bundle();
             bundle.putSerializable(context.getString(R.string.sendlist),(Serializable)chapterLists);
@@ -87,9 +88,10 @@ public class Grid_Exam_Fragment extends FragmentStatePagerAdapter {
     @Override
     public CharSequence getPageTitle(int position) {
         // Generate title based on item position
+//        if(position==1)
+//        return context.getString(R.string.prepare);
+//        else
         if(position==1)
-        return context.getString(R.string.prepare);
-        else if(position==2)
             return  context.getString(R.string.samplepaper);
         else if(position==0)
             return context.getString(R.string.practcice);
@@ -100,6 +102,6 @@ public class Grid_Exam_Fragment extends FragmentStatePagerAdapter {
     @Override
     public int getCount() {
 
-        return 3;
+        return 2;
     }
 }
