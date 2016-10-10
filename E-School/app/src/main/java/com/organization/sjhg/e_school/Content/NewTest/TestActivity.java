@@ -17,6 +17,7 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -56,7 +57,7 @@ public class TestActivity extends AppCompatActivity implements RemoteCallHandler
     private List<QuestionList>  questionLists=new ArrayList<>();
     ProgressBarActivity progressBarActivity=new ProgressBarActivity();
     Bundle saveInstances;
-    private View mProgressView;
+    private View mProgressView,mNoInternet;
     double startTime=System.currentTimeMillis();
     double endTime ;
     int lastPageposition=0;
@@ -67,7 +68,7 @@ public class TestActivity extends AppCompatActivity implements RemoteCallHandler
     private String title;
     private Toolbar toolbar;
     private TextView countDown;
-
+    private Boolean isSubmit;
 
     private TextView submit_btn;
     private ViewPager mViewPagerView;
@@ -80,7 +81,7 @@ public class TestActivity extends AppCompatActivity implements RemoteCallHandler
          tag=intent.getStringExtra("Tag");
          id=intent.getStringExtra("Id");
         title=intent.getStringExtra("Title");
-
+        isSubmit=false;
         saveInstances=savedInstanceState;
         setContentView(R.layout.activity_test);
         mProgressView=findViewById(R.id.dashboard_progress);
@@ -102,6 +103,26 @@ public class TestActivity extends AppCompatActivity implements RemoteCallHandler
        progress.getProgressDrawable().setColorFilter(Color.parseColor("#ff5722"), PorterDuff.Mode.SRC_IN);
 
         progress = (ProgressBar) findViewById(R.id.progressBar); progress = (ProgressBar) findViewById(R.id.progressBar);
+        mNoInternet = findViewById(R.id.noInternetScreen);
+        Button retry = (Button) findViewById(R.id.retry);
+        retry.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mNoInternet.setVisibility(View.GONE);
+                progressBarActivity.showProgress(mViewPagerView,mProgressView,true,getApplicationContext());
+                access_token=sharedPrefrence.getAccessToken(getApplicationContext());
+                if(access_token==null)
+                {
+                    Intent intent=new Intent(TestActivity.this,LoginActivity.class);
+                    startActivity(intent);
+                }
+                if (!isSubmit){
+                    new RemoteHelper(getApplicationContext()).getQuestion(TestActivity.this, RemoteCalls.GET_QUESTION, tag, id, access_token);
+                }else{
+                    new RemoteHelper(getApplicationContext()).sendQuestionResponse(TestActivity.this, RemoteCalls.SEND_QUESTION_RESPONSE,tag,id, access_token,makeResponseList());
+                }
+            }
+        });
     }
 
 
@@ -144,6 +165,7 @@ public class TestActivity extends AppCompatActivity implements RemoteCallHandler
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         // positive button logic
+                        isSubmit = true;
                         access_token=sharedPrefrence.getAccessToken(getApplicationContext());
                         new RemoteHelper(getApplicationContext()).sendQuestionResponse(TestActivity.this, RemoteCalls.SEND_QUESTION_RESPONSE,tag,id, access_token,makeResponseList());
                         progressBarActivity.showProgress(mViewPagerView,mProgressView,true,getApplicationContext());
@@ -356,9 +378,10 @@ public class TestActivity extends AppCompatActivity implements RemoteCallHandler
     @Override
     public void HandleRemoteCall(boolean isSuccessful, RemoteCalls callFor, JSONObject response, Exception exception) {
         progressBarActivity.showProgress(mViewPagerView,mProgressView,false,getApplicationContext());
+        mNoInternet.setVisibility(View.GONE);
         if(!isSuccessful)
         {
-            toastActivity.makeUknownErrorMessage(this);
+            mNoInternet.setVisibility(View.VISIBLE);
         }
         else
         {
@@ -396,7 +419,7 @@ public class TestActivity extends AppCompatActivity implements RemoteCallHandler
                             questionLists=getList(response);
                             List<QuestionList>question=questionLists;
                             showView(question);
-
+                            submit_btn.setVisibility(View.VISIBLE);
                         }
                     }catch (Exception e)
                     {

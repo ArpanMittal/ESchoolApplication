@@ -3,6 +3,9 @@ package com.organization.sjhg.e_school;
 import android.content.Intent;
 import com.google.android.gms.auth.api.Auth;
 
+import android.graphics.Color;
+import android.support.design.widget.CoordinatorLayout;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 
 import android.net.Uri;
@@ -42,6 +45,7 @@ import com.organization.sjhg.e_school.Utils.ToastActivity;
 
 import org.json.JSONObject;
 
+import java.net.ConnectException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -300,7 +304,7 @@ public class LoginActivity extends AppCompatActivity implements RemoteCallHandle
                     //updateUI(true);
                 }
                 else {
-
+                    showSnackBar(true);
                     Status status=result.getStatus();
                     if(status.getStatusCode()!=12501) {
                         signOut();
@@ -337,9 +341,19 @@ public class LoginActivity extends AppCompatActivity implements RemoteCallHandle
         if(!isSuccessful)
         {
             progressBarActivity.showProgress(mLoginFormView,mProgressView,false,getApplicationContext());
-            new LogHelper(exception);
-            exception.printStackTrace();
-            Toast.makeText(getApplicationContext(),getString(R.string.login_failure),Toast.LENGTH_LONG).show();
+            switch (callFor){
+                case GET_GOOGLE_USER_DETAILS:
+                    showSnackBar(true);
+                    break;
+                default:
+                    String error = exception.getMessage();
+                    if (error != null && error.matches(".*ConnectException.*")){
+                        showSnackBar(false);
+                    }else {
+                        Toast.makeText(getApplicationContext(),getString(R.string.login_failure),Toast.LENGTH_LONG).show();
+                    }
+                    break;
+            }
         }
         else
         {
@@ -487,5 +501,31 @@ public class LoginActivity extends AppCompatActivity implements RemoteCallHandle
                 }
                 return true;
             }
+    private void showSnackBar(final Boolean isGoogleSignIn){
+        CoordinatorLayout coordinatorLayout = (CoordinatorLayout) findViewById(R.id.coordinatorLayout);
+        Snackbar snackbar = Snackbar
+                .make(coordinatorLayout, getResources().getText(R.string.noInternetError), Snackbar.LENGTH_INDEFINITE)
+                .setAction("RETRY", new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        if (isGoogleSignIn){
+                            signIn();
+                        }else{
+                            attemptLogin();
+                        }
+
+                    }
+                });
+
+        // Changing message text color
+        snackbar.setActionTextColor(Color.parseColor("#ff5722"));
+
+        // Changing action button text color
+        View sbView = snackbar.getView();
+        TextView textView = (TextView) sbView.findViewById(android.support.design.R.id.snackbar_text);
+        textView.setTextColor(Color.WHITE);
+
+        snackbar.show();
+    }
 
 }

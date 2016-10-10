@@ -18,6 +18,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewStub;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -63,7 +64,7 @@ import me.relex.circleindicator.CircleIndicator;
  */
 public class TestSummaryActivity extends AppCompatActivity implements RemoteCallHandler {
     private View mDashboardView;
-    private View mProgressView;
+    private View mProgressView, mNoInternet;
     private ProgressBarActivity progressBarActivity=new ProgressBarActivity();
     private SharedPrefrence sharedPrefrence=new SharedPrefrence();
     private ToastActivity toastActivity=new ToastActivity();
@@ -99,6 +100,16 @@ public class TestSummaryActivity extends AppCompatActivity implements RemoteCall
 
         mDashboardView=findViewById(R.id.dashboard_form);
         mProgressView=findViewById(R.id.dashboard_progress);
+        mNoInternet = findViewById(R.id.noInternetScreen);
+        Button retry = (Button) findViewById(R.id.retry);
+        retry.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mNoInternet.setVisibility(View.GONE);
+                progressBarActivity.showProgress(mDashboardView,mProgressView,true,getApplicationContext());
+                new RemoteHelper(getApplicationContext()).getTestSummary(TestSummaryActivity.this, RemoteCalls.GET_TEST_RESPONSE, tag, "Attempt_Number", id, access_token);
+            }
+        });
 
         access_token=sharedPrefrence.getAccessToken(getApplicationContext());
 
@@ -204,9 +215,10 @@ public class TestSummaryActivity extends AppCompatActivity implements RemoteCall
     @Override
     public void HandleRemoteCall(boolean isSuccessful, RemoteCalls callFor, JSONObject response, Exception exception) {
         progressBarActivity.showProgress(mDashboardView,mProgressView,false,getApplicationContext());
+        mNoInternet.setVisibility(View.GONE);
         if(!isSuccessful)
         {
-            toastActivity.makeUknownErrorMessage(this);
+            mNoInternet.setVisibility(View.VISIBLE);
         }
         else
         {

@@ -5,9 +5,12 @@ import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.PersistableBundle;
+import android.support.design.widget.CoordinatorLayout;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.NavUtils;
 import android.support.v4.app.TaskStackBuilder;
 import android.support.v7.app.AppCompatActivity;
@@ -17,6 +20,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.organization.sjhg.e_school.Helpers.LogHelper;
@@ -177,10 +181,7 @@ public class SignupActivity extends AppCompatActivity implements RemoteCallHandl
         {
 
             progressBarActivity.showProgress(mSignUpFormView,mProgressView,false,getApplicationContext());
-            ToastActivity toastActivity=new ToastActivity();
-            toastActivity.makeUknownErrorMessage(this);
-            new LogHelper(exception);
-            exception.printStackTrace();
+            showSnackBar();
         }
         else
         {
@@ -206,5 +207,26 @@ public class SignupActivity extends AppCompatActivity implements RemoteCallHandl
             }
         }
 
+    }
+    private void showSnackBar(){
+        CoordinatorLayout coordinatorLayout = (CoordinatorLayout) findViewById(R.id.coordinatorLayout);
+        Snackbar snackbar = Snackbar
+                .make(coordinatorLayout, getResources().getText(R.string.noInternetError), Snackbar.LENGTH_INDEFINITE)
+                .setAction("RETRY", new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        attemptSignUp();
+                    }
+                });
+
+        // Changing message text color
+        snackbar.setActionTextColor(Color.parseColor("#ff5722"));
+
+        // Changing action button text color
+        View sbView = snackbar.getView();
+        TextView textView = (TextView) sbView.findViewById(android.support.design.R.id.snackbar_text);
+        textView.setTextColor(Color.WHITE);
+
+        snackbar.show();
     }
 }
