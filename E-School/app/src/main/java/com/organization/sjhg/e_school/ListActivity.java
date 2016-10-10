@@ -48,8 +48,6 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-import cn.trinea.android.view.autoscrollviewpager.AutoScrollViewPager;
-import me.relex.circleindicator.CircleIndicator;
 
 /**
  * Created by arpan on 8/24/2016.

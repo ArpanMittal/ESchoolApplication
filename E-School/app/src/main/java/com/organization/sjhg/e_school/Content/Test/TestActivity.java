@@ -6,7 +6,7 @@ import android.support.v4.view.ViewPager;
 import android.view.View;
 import android.widget.ImageView;
 
-import com.astuetz.PagerSlidingTabStrip;
+
 import com.organization.sjhg.e_school.ClassSession.LiveVoting;
 import com.organization.sjhg.e_school.Database.old.DatabaseOperations;
 import com.organization.sjhg.e_school.MainActivity;
@@ -36,8 +36,7 @@ public class TestActivity extends ParentTestActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         // Bind the tabs to the ViewPager
-            PagerSlidingTabStrip tabs = (PagerSlidingTabStrip) findViewById(R.id.tabs);
-            tabs.setViewPager(mViewPager);
+
 
         btnSubmit = (ImageView) findViewById(R.id.submitButton);
 
@@ -62,7 +61,7 @@ public class TestActivity extends ParentTestActivity {
 
         if (test.status == TestDetail.TestStatus.TEST_NOT_STARTED || test.status == TestDetail.TestStatus.TEST_STARTED) {
 
-            tabs.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            mViewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
                 @Override
                 public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
                     ((QuestionFragment) testCollectionPagerAdapter.getItem(mViewPager.getCurrentItem())).saveAnswer();

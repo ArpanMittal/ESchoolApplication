@@ -24,7 +24,6 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.astuetz.PagerSlidingTabStrip;
 import com.organization.sjhg.e_school.CommonFragmentTheme;
 import com.organization.sjhg.e_school.Content.Content_Type;
 import com.organization.sjhg.e_school.Content.Test.TestCollectionPagerAdapter;
@@ -80,17 +79,17 @@ public class ParentTestActivity extends FragmentActivity {
         params.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
         params.addRule(RelativeLayout.ALIGN_PARENT_LEFT);
         pager.setLayoutParams(params);
-        PagerSlidingTabStrip tabsStrip = (PagerSlidingTabStrip) findViewById(R.id.tabs);
-        params = (RelativeLayout.LayoutParams)tabsStrip.getLayoutParams();
-        params.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
-        params.addRule(RelativeLayout.ALIGN_PARENT_LEFT);
-        tabsStrip.setLayoutParams(params);
-        if(test.contentTypeId==Content_Type.ADAPTIVE_TEST.getValue())
-        {
-            tabsStrip.setVisibility(View.INVISIBLE);
-            ImageView background = (ImageView) findViewById(R.id.mainBackground);
-            background.setVisibility(View.INVISIBLE);
-        }
+//        PagerSlidingTabStrip tabsStrip = (PagerSlidingTabStrip) findViewById(R.id.tabs);
+//        params = (RelativeLayout.LayoutParams)tabsStrip.getLayoutParams();
+//        params.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
+//        params.addRule(RelativeLayout.ALIGN_PARENT_LEFT);
+//        tabsStrip.setLayoutParams(params);
+//        if(test.contentTypeId==Content_Type.ADAPTIVE_TEST.getValue())
+//        {
+//            tabsStrip.setVisibility(View.INVISIBLE);
+//            ImageView background = (ImageView) findViewById(R.id.mainBackground);
+//            background.setVisibility(View.INVISIBLE);
+//        }
         loadFragment();
     }
     protected void loadFragment()

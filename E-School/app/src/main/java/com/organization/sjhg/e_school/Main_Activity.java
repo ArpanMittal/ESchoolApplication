@@ -52,7 +52,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import cn.trinea.android.view.autoscrollviewpager.AutoScrollViewPager;
+
 import me.relex.circleindicator.CircleIndicator;
 
 import java.io.Serializable;

@@ -56,8 +56,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-import cn.trinea.android.view.autoscrollviewpager.AutoScrollViewPager;
-import me.relex.circleindicator.CircleIndicator;
 
 /**
  * Created by arpan on 9/13/2016.

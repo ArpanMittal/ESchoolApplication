@@ -92,6 +92,7 @@ public class TestReportActivity extends AppCompatActivity implements RemoteCallH
                 intent1.putExtra("parent_title",parent_title);
 
                 startActivity(intent1);
+                finish();
             }
         });
         access_token=sharedPrefrence.getAccessToken(getApplicationContext());

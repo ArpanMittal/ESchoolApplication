@@ -29,7 +29,6 @@ import android.widget.ImageView;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
-import com.astuetz.PagerSlidingTabStrip;
 import com.organization.sjhg.e_school.Fragments.Notes_Listing_Fragment;
 import com.organization.sjhg.e_school.Helpers.Custom_Pager_Adapter;
 import com.organization.sjhg.e_school.Helpers.Grid_Exam_Fragment;
@@ -55,7 +54,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-import cn.trinea.android.view.autoscrollviewpager.AutoScrollViewPager;
+
 import me.relex.circleindicator.CircleIndicator;
 
 /**
