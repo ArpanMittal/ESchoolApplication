@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">KwikLearn</string>
+    <string name="app_name">KwikLearnComplete</string>
     <string name="action_settings">Settings</string>
     <string name="login_page">login.php</string>
     <string name="fetch_content_page">fetchfile.php</string>
@@ -303,9 +303,13 @@
     <string name="app_tagline">Learn the way you should</string>
     <string name="notesError">You don\'t have any notes</string>
     <string name="notesErrorTitle">YIKES! SHARPNER ANYONE?</string>
+
+    <string name="done">Done</string>
+
     <string name="jsonIsActive">isActive</string>
     <string name="noInternetError">We can\'t seem to connect you to us</string>
     <string name="retry">Retry</string>
+
 
 
 </resources>

@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
 import com.organization.sjhg.e_school.MainParentActivity;
+import com.organization.sjhg.e_school.Tour_Guide;
 
 /**
  * Created by arpan on 8/16/2016.
@@ -18,6 +19,7 @@ public class SharedPrefrence
     public static final String USER_EMAIL="User_Email";
     public static final String USER_PASSWORD="User_Password";
     public static final String USER_PIC="User_Pic";
+    public static final String SHOW_TOUR_GUIDE="Tour_Guide";
 
     public void saveAccessToken(Context context,String accessToken, String refreshToken)
     {
@@ -27,9 +29,19 @@ public class SharedPrefrence
         editor=settings.edit();
         editor.putString(ACCESS_TOKEN,accessToken);
         editor.putString(REFRESH_TOKEN,refreshToken);
-        editor.commit();
+        editor.apply();
 
     }
+
+    public void saveTour_Guide_Mode(Context context,String tour_guide)
+    {
+        SharedPreferences.Editor editor;
+        SharedPreferences  settings =context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
+        editor=settings.edit();
+        editor.putString(SHOW_TOUR_GUIDE,tour_guide);
+        editor.apply();
+    }
+
     public void saveUserCredentials(Context context,String email,String password,String name,String pic)
     {
         //save user credentials
@@ -40,13 +52,19 @@ public class SharedPrefrence
         editor.putString(USER_EMAIL,email);
         editor.putString(USER_PASSWORD,password);
         editor.putString(USER_PIC,pic);
-        editor.commit();
+        editor.apply();
     }
     public String getUserEmail(Context context)
     {
         //return email
         SharedPreferences  settings =context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
         return settings.getString(USER_EMAIL,null);
+    }
+    public String getShowTourGuide(Context context)
+    {
+        //return email
+        SharedPreferences  settings =context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
+        return settings.getString(SHOW_TOUR_GUIDE,null);
     }
     public String getUserPassword(Context context)
     {
@@ -78,7 +96,7 @@ public class SharedPrefrence
         editor.remove(USER_EMAIL);
         editor.remove(USER_PASSWORD);
         editor.remove(USER_PIC);
-        editor.commit();
+        editor.apply();
 
     }
 

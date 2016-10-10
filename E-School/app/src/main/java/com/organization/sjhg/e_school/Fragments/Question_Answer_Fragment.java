@@ -58,8 +58,10 @@ public class Question_Answer_Fragment extends Fragment {
         ImageView imageView1=(ImageView)rootView.findViewById(R.id.solution_image);
 
         String url= ServerAddress.getServerAddress(getContext())+questionAnswerLists.get(0).question_image;
+        if(!(questionAnswerLists.get(0).question_image==null||questionAnswerLists.get(0).question_image.isEmpty()))
         imageLoader(url,imageView);
         String url1=ServerAddress.getServerAddress(getContext())+questionAnswerLists.get(0).solution_path;
+        if(!(questionAnswerLists.get(0).solution_path==null||questionAnswerLists.get(0).solution_path.isEmpty()))
         imageLoader(url1,imageView1);
         long millisUntilFinished=Integer.parseInt(questionAnswerLists.get(0).time_taken);
         time_taken.setText(""+String.format("%02d:%02d",
@@ -67,15 +69,21 @@ public class Question_Answer_Fragment extends Fragment {
                 TimeUnit.MILLISECONDS.toSeconds(millisUntilFinished) -
                         TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(millisUntilFinished))));
         String code=questionAnswerLists.get(0).question_text;
+        code = code.replace("&lt;br /&gt;","");
+        code = code.replace("<br />","");
         textLoader(code,question_text);
         Typeface face= Typeface.createFromAsset(getActivity().getAssets(), "latin-modern-sans/lmsans8-regular.otf");
         question_text.setTypeface(face);
        String  code1=questionAnswerLists.get(0).correctoption.get(0).name;
+        code1 = code1.replace("&lt;br /&gt;","");
+        code1 = code1.replace("<br />","");
         textLoader(code1,answer_text);
         answer_text.setTypeface(face);
         if(!questionAnswerLists.get(0).response.equals("empty"))
         {
              code=questionAnswerLists.get(0).useroption.get(0).name;
+            code = code.replace("&lt;br /&gt;","");
+            code = code.replace("<br />","");
             textLoader(code,user_option_text);
             user_option_text.setTypeface(face);
         }
@@ -87,10 +95,12 @@ public class Question_Answer_Fragment extends Fragment {
 
     private void imageLoader(String url,ImageView imageView)
     {
-        Picasso.with(getContext())
-                .load(url)
-                .resize(200,200)
-                .into(imageView);
+
+            Picasso.with(getContext())
+                    .load(url)
+                    .resize(200, 200)
+                    .into(imageView);
+
     }
 
     private void textLoader(String code, final TextView textView)
