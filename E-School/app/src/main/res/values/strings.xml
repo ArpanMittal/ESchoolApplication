@@ -307,8 +307,8 @@
     <string name="done">Done</string>
 
     <string name="jsonIsActive">isActive</string>
+
     <string name="skip">Skip</string>
     <string name="next">Next</string>
-
-
+    
 </resources>
