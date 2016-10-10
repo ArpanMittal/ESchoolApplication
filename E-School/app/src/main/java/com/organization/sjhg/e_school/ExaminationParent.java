@@ -25,6 +25,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewStub;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ScrollView;
 import android.widget.TextView;
@@ -68,7 +69,7 @@ public class ExaminationParent extends MainParentActivity {
     ViewPager viewPager;
 
 
-    private View mProgressView;
+    private View mProgressView,mNoInternet;
     private String title;
     private String id;
     TabLayout tabLayout;
@@ -110,7 +111,16 @@ public class ExaminationParent extends MainParentActivity {
 //        });
 
 
-
+        mNoInternet = findViewById(R.id.noInternetScreen);
+        Button retry = (Button) findViewById(R.id.retry);
+        retry.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mNoInternet.setVisibility(View.GONE);
+                progressBarActivity.showProgress(viewPager, mProgressView, true, getApplicationContext());
+                new RemoteHelper(context).getItemDetails(ExaminationParent.this, RemoteCalls.GET_EXAM_PREPARE_LIST, title, id);
+            }
+        });
 
 
         if (savedInstanceState != null) {
@@ -230,9 +240,10 @@ public class ExaminationParent extends MainParentActivity {
     public void HandleRemoteCall(boolean isSuccessful, RemoteCalls callFor, JSONObject response, Exception exception) {
         super.HandleRemoteCall(isSuccessful,callFor,response,exception);
         progressBarActivity.showProgress(viewPager,mProgressView,false,getApplicationContext());
+        mNoInternet.setVisibility(View.GONE);
         if(!isSuccessful)
         {
-            toastActivity.makeUknownErrorMessage(this);
+            mNoInternet.setVisibility(View.VISIBLE);
 
         }
         else
