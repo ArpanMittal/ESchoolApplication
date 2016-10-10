@@ -187,15 +187,14 @@ public class MainParentActivity extends AppCompatActivity implements NavigationV
                     Intent intent = new Intent(getApplicationContext(), ExaminationParent.class);
                     intent.putExtra(getString(R.string.jsontitle), listDataHeader.get(groupPosition));
                     intent.putExtra(getString(R.string.jsonid), internalList.get(childPosition).id);
+                    intent.putExtra(getString(R.string.jsonname), internalList.get(childPosition).name);
                     startActivity(intent);
-                    finish();
                 }
-                else {
+                else if (internalList.get(childPosition).isActive!=null && internalList.get(childPosition).isActive.equals("1")){
                     Intent intent = new Intent(getApplicationContext(), ListActivity.class);
                     intent.putExtra(getString(R.string.title), listDataHeader.get(groupPosition));
                     intent.putExtra(getString(R.string.jsonid), internalList.get(childPosition).id);
                     startActivity(intent);
-                    finish();
                     }
                 return false;
             }
@@ -272,14 +271,16 @@ public class MainParentActivity extends AppCompatActivity implements NavigationV
         listDataChild = new HashMap<String, List<String>>();
         for(int i=0;i<dataList.size();i++)
         {
-            listDataHeader.add(dataList.get(i).title.toString());
-            List<InternalList> internalList=dataList.get(i).internalLists;
-            List<String>dataChild=new ArrayList<String>();
-            for(int j=0;j<internalList.size();j++)
-            {
-                dataChild.add(internalList.get(j).name);
+            if (dataList.get(i).isActive!=null && dataList.get(i).isActive.equals("1")){
+                listDataHeader.add(dataList.get(i).title.toString());
+                List<InternalList> internalList=dataList.get(i).internalLists;
+                List<String>dataChild=new ArrayList<String>();
+                for(int j=0;j<internalList.size();j++)
+                {
+                    dataChild.add(internalList.get(j).name);
+                }
+                listDataChild.put(listDataHeader.get(i),dataChild);
             }
-            listDataChild.put(listDataHeader.get(i),dataChild);
         }
     }
 
@@ -347,11 +348,11 @@ public class MainParentActivity extends AppCompatActivity implements NavigationV
                     JSONObject internalListObject=list.getJSONObject(j);
                     String image=internalListObject.getString(getString(R.string.jsonimage));
 
-                    internalLists.add(new InternalList(internalListObject.getString(getString(R.string.jsonid)),internalListObject.getString(getString(R.string.jsonname)),internalListObject.getString(getString(R.string.jsoncount)),internalListObject.getString(getString(R.string.jsonimage))));
+                    internalLists.add(new InternalList(internalListObject.getString(getString(R.string.jsonid)),internalListObject.getString(getString(R.string.jsonname)),internalListObject.getString(getString(R.string.jsoncount)),internalListObject.getString(getString(R.string.jsonimage)),internalListObject.getString(getString(R.string.jsonIsActive))));
 
                 }
 
-                dashBoardLists.add(new DashBoardList(dashBoardObject.getString(getString(R.string.jsontitle)),internalLists));
+                dashBoardLists.add(new DashBoardList(dashBoardObject.getString(getString(R.string.jsontitle)),internalLists,dashBoardObject.getString(getString(R.string.jsonIsActive))));
             }
 
             //for (int i = 0; i <)

@@ -45,6 +45,10 @@ public class Recycler_View_Adapter extends RecyclerView.Adapter<View_Holder_Pare
 
         holder.title.setText(dataList.get(position).title);
         holder.addList(dataList.get(position).internalLists);
+        String isActive = dataList.get(position).isActive;
+        if (isActive!=null && isActive.equals("0")){
+            holder.comingSoonText.setVisibility(View.VISIBLE);
+        }
     }
 
 
