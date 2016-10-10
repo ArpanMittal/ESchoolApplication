@@ -59,7 +59,7 @@
 
 
 
-    <!--<include layout="@layout/content_main" />-->
+    <include layout="@layout/no_internet" />
 
 
 

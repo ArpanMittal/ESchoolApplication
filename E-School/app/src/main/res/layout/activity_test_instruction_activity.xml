@@ -1,158 +1,163 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:fitsSystemWindows="true">
-    <ProgressBar
-        android:id="@+id/login_progress"
-        style="?android:attr/progressBarStyleLarge"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:layout_centerInParent="true"
-        android:visibility="gone" />
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:scrollbars="horizontal|vertical">
+    android:id="@+id/coordinatorLayout"
+    >
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/dashboard_form">
-
-        <Button
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        android:fitsSystemWindows="true">
+        <ProgressBar
+            android:id="@+id/login_progress"
+            style="?android:attr/progressBarStyleLarge"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:padding="@dimen/activity_bottom_padding"
-            android:id="@+id/btn"
-            android:gravity="center"
-            android:background="@drawable/sigin_border"
-            android:textColor="@color/colorPrimary"
-            android:text="@string/seeanswer"
-            android:layout_centerHorizontal="true"
-
-             />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/summary"
-            android:textSize="@dimen/text_title_size"
-            android:textAllCaps="true"
-            android:id="@+id/summary"
-            android:textColor="@color/darkgrey"
-            android:layout_below="@+id/btn"
-            android:layout_centerHorizontal="true" />
-
-        <android.support.v7.widget.CardView
-            android:id="@+id/piecardView"
-            android:layout_below="@+id/summary"
+            android:layout_marginBottom="8dp"
+            android:layout_centerInParent="true"
+            android:visibility="gone" />
+        <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="5dp"
-            app:cardCornerRadius="2dp">
-
-
-        <com.github.mikephil.charting.charts.PieChart
-            android:id="@+id/piechart"
-            android:layout_below="@+id/btn"
-            android:layout_width="wrap_content"
-            android:layout_height="300dp">
-
-        </com.github.mikephil.charting.charts.PieChart>
-
-        </android.support.v7.widget.CardView>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/correct"
-            android:textSize="@dimen/text_title_size"
-            android:textAllCaps="true"
-            android:id="@+id/summary_bar"
-            android:textColor="@color/darkgrey"
-            android:layout_below="@+id/piecardView"
-            android:layout_centerHorizontal="true" />
-
-        <android.support.v7.widget.CardView
-            android:id="@+id/barView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/summary_bar"
-            android:layout_margin="5dp"
-            app:cardCornerRadius="2dp">
-
-
-            <com.github.mikephil.charting.charts.BarChart
-                android:id="@+id/barchart"
+            android:layout_height="match_parent"
+            android:scrollbars="horizontal|vertical">
+            <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="400dp" />
+                android:layout_height="match_parent"
+                android:id="@+id/dashboard_form">
 
-        </android.support.v7.widget.CardView>
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/activity_bottom_padding"
+                    android:id="@+id/btn"
+                    android:gravity="center"
+                    android:background="@drawable/sigin_border"
+                    android:textColor="@color/colorPrimary"
+                    android:text="@string/seeanswer"
+                    android:layout_centerHorizontal="true"
 
+                    />
 
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/summary"
+                    android:textSize="@dimen/text_title_size"
+                    android:textAllCaps="true"
+                    android:id="@+id/summary"
+                    android:textColor="@color/darkgrey"
+                    android:layout_below="@+id/btn"
+                    android:layout_centerHorizontal="true" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/performance"
-            android:textSize="@dimen/text_title_size"
-            android:textAllCaps="true"
-            android:id="@+id/summary_stack_bar"
-            android:textColor="@color/darkgrey"
-            android:layout_below="@+id/barView"
-            android:layout_centerHorizontal="true" />
-
-
-        <android.support.v7.widget.CardView
-            android:id="@+id/stackbarView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/summary_stack_bar"
-            android:layout_margin="5dp"
-            app:cardCornerRadius="2dp">
-        <com.github.mikephil.charting.charts.BarChart
-            android:id="@+id/chart"
-
-            android:layout_width="match_parent"
-            android:layout_height="400dp" />
-        </android.support.v7.widget.CardView>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/time"
-            android:textSize="@dimen/text_title_size"
-            android:textAllCaps="true"
-            android:id="@+id/summary_horizontal_bar"
-            android:textColor="@color/darkgrey"
-            android:layout_below="@+id/stackbarView"
-            android:layout_centerHorizontal="true" />
-
-        <android.support.v7.widget.CardView
-            android:id="@+id/horizontalBarView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/summary_horizontal_bar"
-            android:layout_margin="5dp"
-            app:cardCornerRadius="2dp">
-
-        <com.github.mikephil.charting.charts.HorizontalBarChart
-            android:layout_width="match_parent"
-            android:layout_height="400dp"
-
-            android:id="@+id/horizontalchart">
-
-        </com.github.mikephil.charting.charts.HorizontalBarChart>
-        </android.support.v7.widget.CardView>
+                <android.support.v7.widget.CardView
+                    android:id="@+id/piecardView"
+                    android:layout_below="@+id/summary"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
+                    app:cardCornerRadius="2dp">
 
 
+                    <com.github.mikephil.charting.charts.PieChart
+                        android:id="@+id/piechart"
+                        android:layout_below="@+id/btn"
+                        android:layout_width="wrap_content"
+                        android:layout_height="300dp">
+
+                    </com.github.mikephil.charting.charts.PieChart>
+
+                </android.support.v7.widget.CardView>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/correct"
+                    android:textSize="@dimen/text_title_size"
+                    android:textAllCaps="true"
+                    android:id="@+id/summary_bar"
+                    android:textColor="@color/darkgrey"
+                    android:layout_below="@+id/piecardView"
+                    android:layout_centerHorizontal="true" />
+
+                <android.support.v7.widget.CardView
+                    android:id="@+id/barView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/summary_bar"
+                    android:layout_margin="5dp"
+                    app:cardCornerRadius="2dp">
 
 
+                    <com.github.mikephil.charting.charts.BarChart
+                        android:id="@+id/barchart"
+                        android:layout_width="match_parent"
+                        android:layout_height="400dp" />
+
+                </android.support.v7.widget.CardView>
+
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/performance"
+                    android:textSize="@dimen/text_title_size"
+                    android:textAllCaps="true"
+                    android:id="@+id/summary_stack_bar"
+                    android:textColor="@color/darkgrey"
+                    android:layout_below="@+id/barView"
+                    android:layout_centerHorizontal="true" />
+
+
+                <android.support.v7.widget.CardView
+                    android:id="@+id/stackbarView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/summary_stack_bar"
+                    android:layout_margin="5dp"
+                    app:cardCornerRadius="2dp">
+                    <com.github.mikephil.charting.charts.BarChart
+                        android:id="@+id/chart"
+
+                        android:layout_width="match_parent"
+                        android:layout_height="400dp" />
+                </android.support.v7.widget.CardView>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/time"
+                    android:textSize="@dimen/text_title_size"
+                    android:textAllCaps="true"
+                    android:id="@+id/summary_horizontal_bar"
+                    android:textColor="@color/darkgrey"
+                    android:layout_below="@+id/stackbarView"
+                    android:layout_centerHorizontal="true" />
+
+                <android.support.v7.widget.CardView
+                    android:id="@+id/horizontalBarView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/summary_horizontal_bar"
+                    android:layout_margin="5dp"
+                    app:cardCornerRadius="2dp">
+
+                    <com.github.mikephil.charting.charts.HorizontalBarChart
+                        android:layout_width="match_parent"
+                        android:layout_height="400dp"
+
+                        android:id="@+id/horizontalchart">
+
+                    </com.github.mikephil.charting.charts.HorizontalBarChart>
+                </android.support.v7.widget.CardView>
+
+
+
+
+            </RelativeLayout>
+        </ScrollView>
     </RelativeLayout>
-    </ScrollView>
-
-
-
-</RelativeLayout>
+    <include layout="@layout/no_internet"/>
+</android.support.design.widget.CoordinatorLayout>

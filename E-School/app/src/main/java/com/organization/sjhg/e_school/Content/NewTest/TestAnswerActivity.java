@@ -15,6 +15,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.ProgressBar;
 
 import com.organization.sjhg.e_school.Helpers.LogHelper;
@@ -52,7 +53,7 @@ public class TestAnswerActivity extends AppCompatActivity implements RemoteCallH
     private List<QuestionAnswerList> questionAnswerLists=new ArrayList<>();
     ProgressBarActivity progressBarActivity=new ProgressBarActivity();
     Bundle saveInstances;
-    private View mProgressView;
+    private View mProgressView,mNoInternet;
     double startTime=System.currentTimeMillis();
     double endTime ;
     int lastPageposition=0;
@@ -84,6 +85,15 @@ public class TestAnswerActivity extends AppCompatActivity implements RemoteCallH
         toolbar.setTitle("TestAnswer");
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        mNoInternet = findViewById(R.id.noInternetScreen);
+        Button retry = (Button) findViewById(R.id.retry);
+        retry.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mNoInternet.setVisibility(View.GONE);
+                TestAnswerActivity.this.onResume();
+            }
+        });
         //getSupportActionBar().setIcon(R.drawable.ic_launcher);
     }
 
@@ -263,9 +273,10 @@ public class TestAnswerActivity extends AppCompatActivity implements RemoteCallH
     @Override
     public void HandleRemoteCall(boolean isSuccessful, RemoteCalls callFor, JSONObject response, Exception exception) {
         progressBarActivity.showProgress(mViewPagerView,mProgressView,false,getApplicationContext());
+        mNoInternet.setVisibility(View.GONE);
         if(!isSuccessful)
         {
-            toastActivity.makeUknownErrorMessage(this);
+            mNoInternet.setVisibility(View.VISIBLE);
         }
         else {
 

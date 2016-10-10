@@ -20,6 +20,7 @@ import com.github.mikephil.charting.data.BarEntry;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
+import com.organization.sjhg.e_school.Content.Test.*;
 import com.organization.sjhg.e_school.Helpers.LogHelper;
 import com.organization.sjhg.e_school.ListStructure.BarGraphList;
 import com.organization.sjhg.e_school.ListStructure.StackGraphList;
@@ -48,7 +49,7 @@ import java.util.List;
 public class TestReportActivity extends AppCompatActivity implements RemoteCallHandler{
 
     private View mDashboardView;
-    private View mProgressView;
+    private View mProgressView,mNoInternet;
     private Button button;
     List<BarGraphList> barGraphLists=new ArrayList<>();
     List<TimeGraphList> timeGraphLists=new ArrayList<>();
@@ -94,6 +95,15 @@ public class TestReportActivity extends AppCompatActivity implements RemoteCallH
             }
         });
         access_token=sharedPrefrence.getAccessToken(getApplicationContext());
+        mNoInternet = findViewById(R.id.noInternetScreen);
+        Button retry = (Button) findViewById(R.id.retry);
+        retry.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mNoInternet.setVisibility(View.GONE);
+                TestReportActivity.this.onResume();
+            }
+        });
        if(savedInstanceState!=null)
         {
             barGraphLists=(List<BarGraphList>)savedInstanceState.getSerializable("LIST");
@@ -364,9 +374,10 @@ public class TestReportActivity extends AppCompatActivity implements RemoteCallH
     @Override
     public void HandleRemoteCall(boolean isSuccessful, RemoteCalls callFor, JSONObject response, Exception exception) {
         progressBarActivity.showProgress(mDashboardView,mProgressView,false,getApplicationContext());
+        mNoInternet.setVisibility(View.GONE);
         if(!isSuccessful)
         {
-            toastActivity.makeUknownErrorMessage(this);
+            mNoInternet.setVisibility(View.VISIBLE);
         }
         else
         {
