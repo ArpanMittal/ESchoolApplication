@@ -2,14 +2,21 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:background="@color/green_dark">
+   >
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_centerHorizontal="true"
+
+      >
 
     <android.support.v4.view.ViewPager
         android:id="@+id/vpPager"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content">
     </android.support.v4.view.ViewPager>
+    </FrameLayout>
     <me.relex.circleindicator.CircleIndicator
         android:id="@+id/indicator"
         android:layout_width="wrap_content"
@@ -25,16 +32,20 @@
         android:layout_gravity="start|bottom"
         android:layout_alignParentStart="true"
         android:layout_alignParentBottom="true"
-        android:text="Skip"
-        android:textColor="@color/black"
+        android:background="@color/transparent"
+        android:text="@string/skip"
+        android:textStyle="bold"
+        android:textColor="@color/white"
         android:id="@+id/skip"/>
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="end|bottom"
+        android:background="@color/transparent"
+        android:textStyle="bold"
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
-        android:text="Next"
-        android:textColor="@color/black"
+        android:text="@string/next"
+        android:textColor="@color/white"
         android:id="@+id/next"/>
 </RelativeLayout>

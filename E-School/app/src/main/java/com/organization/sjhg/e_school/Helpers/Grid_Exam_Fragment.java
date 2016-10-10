@@ -91,7 +91,7 @@ public class Grid_Exam_Fragment extends FragmentStatePagerAdapter {
 //        if(position==1)
 //        return context.getString(R.string.prepare);
 //        else
-        if(position==2)
+        if(position==1)
             return  context.getString(R.string.samplepaper);
         else if(position==0)
             return context.getString(R.string.practcice);

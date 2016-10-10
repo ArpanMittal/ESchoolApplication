@@ -72,6 +72,8 @@ public class TestActivity extends AppCompatActivity implements RemoteCallHandler
 
     private TextView submit_btn;
     private ViewPager mViewPagerView;
+    boolean is_submit_active=false;
+    private  CountDownTimer countDownTimer;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -166,6 +168,8 @@ public class TestActivity extends AppCompatActivity implements RemoteCallHandler
                     public void onClick(DialogInterface dialog, int which) {
                         // positive button logic
                         isSubmit = true;
+                        is_submit_active=true;
+                        countDownTimer.cancel();
                         access_token=sharedPrefrence.getAccessToken(getApplicationContext());
                         new RemoteHelper(getApplicationContext()).sendQuestionResponse(TestActivity.this, RemoteCalls.SEND_QUESTION_RESPONSE,tag,id, access_token,makeResponseList());
                         progressBarActivity.showProgress(mViewPagerView,mProgressView,true,getApplicationContext());
@@ -210,6 +214,7 @@ public class TestActivity extends AppCompatActivity implements RemoteCallHandler
         else
         {
             questionLists=(List<QuestionList>)saveInstances.getSerializable("Question List");
+            is_submit_active=(boolean)saveInstances.getBoolean("Is_Submit");
             if(tag.equals(getString(R.string.samplepaper_tag)))
                 countDownTime=saveInstances.getLong("CountDown");
             else
@@ -224,6 +229,7 @@ public class TestActivity extends AppCompatActivity implements RemoteCallHandler
         if(questionLists!=null) {
             outState.putSerializable("Question List", (Serializable) questionLists);
            outState.putLong("CountDown",countDownTime);
+            outState.putBoolean("Is_Submit",is_submit_active);
         }
 
     }
@@ -251,12 +257,13 @@ public class TestActivity extends AppCompatActivity implements RemoteCallHandler
         tabLayout = (TabLayout) findViewById(R.id.id_tabs);
         tabLayout.setupWithViewPager(mViewPagerView);
        //for sample paper tag show timer
+
         //TODO: change for practice test
-        if(tag.equals(getString(R.string.samplepaper_tag))) {
+        if(tag.equals(getString(R.string.samplepaper_tag))&&(!is_submit_active)) {
             if(countDownTime<30000)
                 countDown.setTextColor(Color.parseColor("#c60000"));
 
-            new CountDownTimer(countDownTime, 1000) {
+           countDownTimer= new CountDownTimer(countDownTime, 1000) {
 
                 public void onTick(long millisUntilFinished) {
                     countDownTime = millisUntilFinished;
@@ -297,39 +304,41 @@ public class TestActivity extends AppCompatActivity implements RemoteCallHandler
                 progress.setMax(questionLists.size()-1);
                 progress.setProgress(position);
                 // to detect left or right scroll
-                if(position!=0||(position+1==1&&lastPageposition==1))
-                {
+                if(position!=0||(position+1==1&&lastPageposition==1)) {
 //                    if(position<lastPageposition)
 //                        pageOffset=-1;
 //                    else
 //                        pageOffset=1;
                     // for timer of each question
-                    double diff=0.0;
-                    Cursor cursor = getApplicationContext().getContentResolver().query(
-                            UserContract.TestDetail.CONTENT_URI, null,
-                            UserContract.TestDetail.COLUMN_QUESTION_ID+" =? ",
-                            new String[]{questionLists.get(lastPageposition).id},
-                            null,
-                            null
-                    );
-                    if(cursor.getCount()>0)
-                        diff = cursor.getColumnIndex(UserContract.TestDetail.COLUMN_TIME_SPEND);
-                    cursor.close();
+                    double diff = 0.0;
+                    if (!is_submit_active)
+                    {
+                        Cursor cursor = getApplicationContext().getContentResolver().query(
+                                UserContract.TestDetail.CONTENT_URI, null,
+                                UserContract.TestDetail.COLUMN_QUESTION_ID + " =? ",
+                                new String[]{questionLists.get(lastPageposition).id},
+                                null,
+                                null
+                        );
+                        if (cursor.getCount() > 0)
+                            diff = cursor.getColumnIndex(UserContract.TestDetail.COLUMN_TIME_SPEND);
+                        cursor.close();
                         endTime = System.currentTimeMillis();
 
                         ContentValues contentValues = new ContentValues();
-                        contentValues.put(UserContract.TestDetail.COLUMN_TIME_SPEND,(endTime - startTime+diff));
-                    // insert time spend on previous question
+                        contentValues.put(UserContract.TestDetail.COLUMN_TIME_SPEND, (endTime - startTime + diff));
+                        // insert time spend on previous question
                         int result = getApplicationContext().getContentResolver().update(UserContract.TestDetail.CONTENT_URI, contentValues,
                                 UserContract.TestDetail.COLUMN_QUESTION_ID + "=?",
                                 new String[]{questionLists.get(lastPageposition).id});
 
+                    }
+
+                    startTime = System.currentTimeMillis();
+
+                    lastPageposition = position;
+
                 }
-
-                startTime=System.currentTimeMillis();
-
-                lastPageposition=position;
-
             }
 
             @Override
