@@ -5,9 +5,7 @@ import android.text.TextUtils;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
-import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.Volley;
-import com.organization.sjhg.e_school.Helpers.ConnectivityReceiver;
 import com.organization.sjhg.e_school.Helpers.FontsOverride;
 
 /**
@@ -62,7 +60,4 @@ public class VolleyController extends Application {
         }
     }
 
-    public void setConnectivityListener(ConnectivityReceiver.ConnectivityReceiverListener listener) {
-        ConnectivityReceiver.connectivityReceiverListener = listener;
-    }
 }

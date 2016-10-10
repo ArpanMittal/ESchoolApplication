@@ -4,23 +4,15 @@ import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.database.Cursor;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
-import android.media.Image;
 import android.net.Uri;
 import android.os.Bundle;
-import android.provider.MediaStore;
-import android.support.design.widget.CoordinatorLayout;
-import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
-import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.text.Editable;
 import android.util.Base64;
 import android.view.MotionEvent;
 import android.view.View;
@@ -34,17 +26,12 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
-import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.organization.sjhg.e_school.Content.ImageDisplayActivity;
-import com.organization.sjhg.e_school.Fragments.Notes_Listing_Fragment;
-import com.organization.sjhg.e_school.Helpers.ConnectivityReceiver;
 import com.organization.sjhg.e_school.Helpers.LogHelper;
 import com.organization.sjhg.e_school.LoginActivity;
-import com.organization.sjhg.e_school.MainParentActivity;
 import com.organization.sjhg.e_school.R;
 import com.organization.sjhg.e_school.Remote.RemoteCallHandler;
 import com.organization.sjhg.e_school.Remote.RemoteCalls;
@@ -61,7 +48,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
-import java.io.File;
 import java.io.Serializable;
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -78,7 +64,7 @@ import java.util.Map;
 /**
  * Created by Punit Chhajer on 21-09-2016.
  */
-public class ProfileEditActivity extends AppCompatActivity implements ConnectivityReceiver.ConnectivityReceiverListener,RemoteCallHandler {
+public class ProfileEditActivity extends AppCompatActivity implements RemoteCallHandler {
     private static int RESULT_LOAD_IMAGE = 1;
     private ProgressBar mLoading, mProfileLoading;
     private ImageView profilePic;
@@ -245,7 +231,6 @@ public class ProfileEditActivity extends AppCompatActivity implements Connectivi
     @Override
     protected void onResume() {
         super.onResume();
-        VolleyController.getInstance().setConnectivityListener(this);
     }
 
     @Override
@@ -616,33 +601,6 @@ public class ProfileEditActivity extends AppCompatActivity implements Connectivi
         d.put("phone_number", data.getString("phone_number"));
         d.put("school_name", data.getString("school_name"));
         return d;
-    }
-
-    @Override
-    public void onNetworkConnectionChanged(boolean isConnected) {
-        showSnack(isConnected);
-    }
-
-    protected void showSnack(boolean isConnected) {
-        String message;
-        int color;
-        Snackbar snackbar;
-        if (isConnected) {
-            message = "Good! Connected to Internet";
-            color = Color.WHITE;
-            snackbar = Snackbar
-                    .make(findViewById(R.id.coordinatorLayout), message, Snackbar.LENGTH_LONG);
-        } else {
-            message = "Sorry! Not connected to internet";
-            color = Color.RED;
-            snackbar = Snackbar
-                    .make(findViewById(R.id.coordinatorLayout), message, Snackbar.LENGTH_INDEFINITE);
-        }
-
-        View sbView = snackbar.getView();
-        TextView textView = (TextView) sbView.findViewById(android.support.design.R.id.snackbar_text);
-        textView.setTextColor(color);
-        snackbar.show();
     }
 
     public static void hideSoftKeyboard(Activity activity) {

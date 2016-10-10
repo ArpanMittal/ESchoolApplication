@@ -74,13 +74,6 @@
             android:configChanges="screenSize|orientation|keyboardHidden"
             android:theme="@style/AppTheme.NoActionBar" >
             </activity>
-        <receiver
-            android:name=".Helpers.ConnectivityReceiver"
-            android:enabled="true">
-            <intent-filter>
-                <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
-            </intent-filter>
-        </receiver>
         <activity android:name=".ListActivity"
             android:theme="@style/AppTheme.NoActionBar"
             android:parentActivityName=".Main_Activity"

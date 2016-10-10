@@ -12,7 +12,6 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.DefaultItemAnimator;
-import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
@@ -26,11 +25,9 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 
 import com.github.clans.fab.FloatingActionButton;
-import com.github.clans.fab.FloatingActionMenu;
 import com.organization.sjhg.e_school.Content.NewTest.TestActivity;
 import com.organization.sjhg.e_school.Content.NewTest.TestSummaryActivity;
 import com.organization.sjhg.e_school.Fragments.Notes_Listing_Fragment;
-import com.organization.sjhg.e_school.Helpers.ConnectivityReceiver;
 import com.organization.sjhg.e_school.Helpers.LogHelper;
 import com.organization.sjhg.e_school.Helpers.QuestGridAdapter;
 import com.organization.sjhg.e_school.ListStructure.Topic;
@@ -174,11 +171,6 @@ public class QuestListActivity extends MainParentActivity implements View.OnClic
             return true;
         }
         return super.onOptionsItemSelected(item);
-    }
-
-    // Method to manually check connection status
-    private void checkConnection() {
-        ConnectivityReceiver.isConnected();
     }
 
     private void showView()

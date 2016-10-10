@@ -1,19 +1,13 @@
 package com.organization.sjhg.e_school.Profile;
 
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.support.design.widget.AppBarLayout;
-import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
-import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewStub;
 import android.widget.ImageView;
@@ -22,12 +16,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.organization.sjhg.e_school.Content.ImageDisplayActivity;
-import com.organization.sjhg.e_school.Fragments.Notes_Listing_Fragment;
-import com.organization.sjhg.e_school.Helpers.ConnectivityReceiver;
 import com.organization.sjhg.e_school.Helpers.LogHelper;
-import com.organization.sjhg.e_school.ListStructure.TopicList;
 import com.organization.sjhg.e_school.LoginActivity;
-import com.organization.sjhg.e_school.MainParentActivity;
 import com.organization.sjhg.e_school.R;
 import com.organization.sjhg.e_school.Remote.RemoteCallHandler;
 import com.organization.sjhg.e_school.Remote.RemoteCalls;
@@ -42,20 +32,15 @@ import com.squareup.picasso.Picasso;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.IOException;
-import java.io.Serializable;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.Locale;
 
 /**
  * Created by Punit Chhajer on 17-09-2016.
  */
-public class ProfileActivity extends AppCompatActivity implements ConnectivityReceiver.ConnectivityReceiverListener,RemoteCallHandler {
+public class ProfileActivity extends AppCompatActivity implements RemoteCallHandler {
     private ImageView profilePic;
     private TextView userName, userEmail, userDob, userCountry, userState, userCity, userPnumber, userSchool;
     private ProgressBar mLoading;
@@ -125,7 +110,6 @@ public class ProfileActivity extends AppCompatActivity implements ConnectivityRe
 
     protected void onResume() {
         super.onResume();
-            VolleyController.getInstance().setConnectivityListener(this);
         new RemoteHelper(getApplicationContext()).getUserDetails(this, RemoteCalls.GET_USER_DETAILS,new SharedPrefrence().getAccessToken(this));
     }
 
@@ -268,31 +252,5 @@ public class ProfileActivity extends AppCompatActivity implements ConnectivityRe
             userEmail.setVisibility(View.VISIBLE);
             cardView1.setVisibility(View.VISIBLE);
         }
-    }
-    @Override
-    public void onNetworkConnectionChanged(boolean isConnected) {
-        showSnack(isConnected);
-    }
-
-    protected void showSnack(boolean isConnected) {
-        String message;
-        int color;
-        Snackbar snackbar;
-        if (isConnected) {
-            message = "Good! Connected to Internet";
-            color = Color.WHITE;
-            snackbar = Snackbar
-                    .make(findViewById(R.id.coordinatorLayout), message, Snackbar.LENGTH_LONG);
-        } else {
-            message = "Sorry! Not connected to internet";
-            color = Color.RED;
-            snackbar = Snackbar
-                    .make(findViewById(R.id.coordinatorLayout), message, Snackbar.LENGTH_INDEFINITE);
-        }
-
-        View sbView = snackbar.getView();
-        TextView textView = (TextView) sbView.findViewById(android.support.design.R.id.snackbar_text);
-        textView.setTextColor(color);
-        snackbar.show();
     }
 }

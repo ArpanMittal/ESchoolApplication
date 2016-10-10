@@ -20,7 +20,6 @@ import android.widget.ExpandableListView;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 
-import com.organization.sjhg.e_school.Helpers.ConnectivityReceiver;
 import com.organization.sjhg.e_school.Helpers.ExpandListAdapter;
 import com.organization.sjhg.e_school.Helpers.LogHelper;
 import com.organization.sjhg.e_school.ListStructure.ChapterList;
@@ -53,8 +52,7 @@ import me.relex.circleindicator.CircleIndicator;
 /**
  * Created by arpan on 8/24/2016.
  */
-public class MainParentActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener,
-        ConnectivityReceiver.ConnectivityReceiverListener,RemoteCallHandler {
+public class MainParentActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener,RemoteCallHandler {
 
     protected CircleIndicator indicator;
 
@@ -112,7 +110,6 @@ public class MainParentActivity extends AppCompatActivity implements NavigationV
             }
         });
 
-        ConnectivityReceiver.isConnected();
     }
 
     @Override
@@ -287,7 +284,6 @@ public class MainParentActivity extends AppCompatActivity implements NavigationV
     @Override
     protected void onResume(){
         super.onResume();
-        VolleyController.getInstance().setConnectivityListener(this);
         if (dataList!=null){
             fillNavigationDrawer(dataList, navigationView);
 
@@ -364,27 +360,7 @@ public class MainParentActivity extends AppCompatActivity implements NavigationV
         return dashBoardLists;
     }
 
-    protected void showSnack(boolean isConnected) {
-        String message;
-        int color;
-        Snackbar snackbar;
-        if (isConnected) {
-            message = "Good! Connected to Internet";
-            color = Color.WHITE;
-            snackbar = Snackbar
-                    .make(findViewById(R.id.coordinatorLayout), message, Snackbar.LENGTH_LONG);
-        } else {
-            message = "Sorry! Not connected to internet";
-            color = Color.RED;
-            snackbar = Snackbar
-                    .make(findViewById(R.id.coordinatorLayout), message, Snackbar.LENGTH_INDEFINITE);
-        }
 
-        View sbView = snackbar.getView();
-        TextView textView = (TextView) sbView.findViewById(android.support.design.R.id.snackbar_text);
-        textView.setTextColor(color);
-        snackbar.show();
-    }
     private void fetchImageData(JSONObject response) {
         try {
             JSONArray data = response.getJSONArray(getString(R.string.data));
@@ -404,10 +380,6 @@ public class MainParentActivity extends AppCompatActivity implements NavigationV
         }
     }
 
-    @Override
-    public void onNetworkConnectionChanged(boolean isConnected) {
-        showSnack(isConnected);
-    }
 
     @Override
     public void HandleRemoteCall(boolean isSuccessful, RemoteCalls callFor, JSONObject response, Exception exception) {
