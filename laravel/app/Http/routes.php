@@ -20,7 +20,10 @@ App::singleton('oauth2', function() {
      */
     $array2=array('dsn'=>'mysql:dbname='.env('DB_DATABASE', 'forge').';host='.env('DB_HOST', 'localhost'),'username'  =>env('DB_USERNAME', 'forge'),'password'=>env('DB_PASSWORD', ''));
     $storage=new App\Http\Controllers\MyPdo($array2);
-    $server = new OAuth2\Server($storage);
+    $config = array(
+        'access_lifetime' => 86400
+    );
+    $server = new OAuth2\Server($storage,$config);
     /*
      * various grant_type our oath server support and gave response according to them
      */
