@@ -124,7 +124,11 @@ public class ExaminationParent extends MainParentActivity {
 
         if (savedInstanceState != null) {
             list = (List<DashBoardList>) savedInstanceState.getSerializable("Exam List");
-            showView(list);
+            if (list!=null && !list.isEmpty()){
+                showView(list);
+            }else{
+                mNoInternet.setVisibility(View.VISIBLE);
+            }
         } else {
             progressBarActivity.showProgress(viewPager, mProgressView, true, getApplicationContext());
             new RemoteHelper(context).getItemDetails(this, RemoteCalls.GET_EXAM_PREPARE_LIST, title, id);

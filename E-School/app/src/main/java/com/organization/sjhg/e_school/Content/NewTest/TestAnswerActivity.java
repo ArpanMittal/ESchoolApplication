@@ -147,7 +147,12 @@ public class TestAnswerActivity extends AppCompatActivity implements RemoteCallH
         {
             questionAnswerLists=(List<QuestionAnswerList>)saveInstances.getSerializable("Question List");
             TestAnswerActivity.response=(String)saveInstances.getSerializable("Response");
-            showView(questionAnswerLists);
+            if (questionAnswerLists!=null &&!questionAnswerLists.isEmpty()){
+                showView(questionAnswerLists);
+            }else{
+                mNoInternet.setVisibility(View.VISIBLE);
+            }
+
         }
     }
 

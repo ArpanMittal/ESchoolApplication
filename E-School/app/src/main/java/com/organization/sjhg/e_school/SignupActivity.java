@@ -211,7 +211,7 @@ public class SignupActivity extends AppCompatActivity implements RemoteCallHandl
     private void showSnackBar(){
         CoordinatorLayout coordinatorLayout = (CoordinatorLayout) findViewById(R.id.coordinatorLayout);
         Snackbar snackbar = Snackbar
-                .make(coordinatorLayout, getResources().getText(R.string.noInternetError), Snackbar.LENGTH_INDEFINITE)
+                .make(coordinatorLayout, getResources().getText(R.string.noInternetError2), Snackbar.LENGTH_INDEFINITE)
                 .setAction("RETRY", new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {

@@ -113,7 +113,7 @@ public class TestActivity extends AppCompatActivity implements RemoteCallHandler
                     Intent intent=new Intent(TestActivity.this,LoginActivity.class);
                     startActivity(intent);
                 }
-                if (!isSubmit){
+                if (!is_submit_active){
                     new RemoteHelper(getApplicationContext()).getQuestion(TestActivity.this, RemoteCalls.GET_QUESTION, tag, id, access_token);
                 }else{
                     new RemoteHelper(getApplicationContext()).sendQuestionResponse(TestActivity.this, RemoteCalls.SEND_QUESTION_RESPONSE,tag,id, access_token,makeResponseList());
@@ -162,10 +162,12 @@ public class TestActivity extends AppCompatActivity implements RemoteCallHandler
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         // positive button logic
-                        isSubmit = true;
+
                         is_submit_active=true;
-                        if(countDownTimer!=null)
+                        if(countDownTimer!=null) {
                             countDownTimer.cancel();
+                            countDown.setVisibility(View.GONE);
+                        }
                         access_token=sharedPrefrence.getAccessToken(getApplicationContext());
                         new RemoteHelper(getApplicationContext()).sendQuestionResponse(TestActivity.this, RemoteCalls.SEND_QUESTION_RESPONSE,tag,id, access_token,makeResponseList());
                         progressBarActivity.showProgress(mViewPagerView,mProgressView,true,getApplicationContext());
@@ -195,7 +197,8 @@ public class TestActivity extends AppCompatActivity implements RemoteCallHandler
     protected void onResume() {
         super.onResume();
         if(saveInstances==null) {
-            if (questionLists.isEmpty()) {
+            if (questionLists.isEmpty())
+            {
                 progressBarActivity.showProgress(mViewPagerView,mProgressView,true,getApplicationContext());
 
                 access_token=sharedPrefrence.getAccessToken(getApplicationContext());
@@ -211,11 +214,19 @@ public class TestActivity extends AppCompatActivity implements RemoteCallHandler
         {
             questionLists=(List<QuestionList>)saveInstances.getSerializable("Question List");
             is_submit_active= saveInstances.getBoolean("Is_Submit");
+            isSubmit=saveInstances.getBoolean("Is_NoInternetState");
+            if(isSubmit)
+                mNoInternet.setVisibility(View.VISIBLE);
+            tag=saveInstances.getString("Tag");
             if(tag.equals(getString(R.string.samplepaper_tag)))
                 countDownTime=saveInstances.getLong("CountDown");
             else
                 countDown.setVisibility(View.GONE);
-            showView(questionLists);
+            if (questionLists!=null&&!questionLists.isEmpty()){
+                showView(questionLists);
+            }else{
+                mNoInternet.setVisibility(View.VISIBLE);
+            }
         }
     }
 
@@ -226,6 +237,8 @@ public class TestActivity extends AppCompatActivity implements RemoteCallHandler
             outState.putSerializable("Question List", (Serializable) questionLists);
            outState.putLong("CountDown",countDownTime);
             outState.putBoolean("Is_Submit",is_submit_active);
+            outState.putBoolean("Is_NoInternetState",isSubmit);
+            outState.putString("Tag",tag);
         }
 
     }
@@ -249,6 +262,7 @@ public class TestActivity extends AppCompatActivity implements RemoteCallHandler
 
         QuestionAdapter questionAdapter=new QuestionAdapter(getSupportFragmentManager(),questions,getApplicationContext());
         insertIntoDatabse(questions);
+        submit_btn.setVisibility(View.VISIBLE);
         mViewPagerView.setAdapter(questionAdapter);
         tabLayout = (TabLayout) findViewById(R.id.id_tabs);
         tabLayout.setupWithViewPager(mViewPagerView);
@@ -415,6 +429,13 @@ public class TestActivity extends AppCompatActivity implements RemoteCallHandler
         if(!isSuccessful)
         {
             mNoInternet.setVisibility(View.VISIBLE);
+            switch (callFor){
+                case SEND_QUESTION_RESPONSE:
+                {
+                    isSubmit=true;
+                    break;
+                }
+            }
         }
         else
         {
@@ -452,7 +473,7 @@ public class TestActivity extends AppCompatActivity implements RemoteCallHandler
                             questionLists=getList(response);
                             List<QuestionList>question=questionLists;
                             showView(question);
-                            submit_btn.setVisibility(View.VISIBLE);
+
                         }
                     }catch (Exception e)
                     {
