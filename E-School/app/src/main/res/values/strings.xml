@@ -152,7 +152,7 @@
 
     <string name="submitted_test">Test has already been submitted</string>
     <string name="CylenderEvent">Events added to your Calendar</string>
-    <string name="Version">Version 1.0</string>
+    <string name="Version">Version 1.0.2</string>
     <string name="chathead">Enable Chathead</string>
     <string name="enableService">true</string>
     <string name="action_sign_in">Log In</string>
