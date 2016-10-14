@@ -316,5 +316,6 @@
     <string name="empty">NA</string>
     <string name="start_test">START</string>
     <string name="noInternetError2">Problem with connection</string>
+    <string name="calenderFutureError">Time travelers are not allowed!</string>
 
 </resources>
