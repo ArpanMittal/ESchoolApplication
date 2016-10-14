@@ -152,7 +152,7 @@
 
     <string name="submitted_test">Test has already been submitted</string>
     <string name="CylenderEvent">Events added to your Calendar</string>
-    <string name="Version">Version 1.0.2</string>
+    <string name="Version">Version 1.1.0</string>
     <string name="chathead">Enable Chathead</string>
     <string name="enableService">true</string>
     <string name="action_sign_in">Log In</string>
@@ -289,7 +289,7 @@
     <string name="attempt_number">Attempt Number</string>
     <string name="empty_message">Don\'t Be Afraid, Go For It</string>
     <string name="empty_description">You haven\'t taken this test</string>
-    <string name="ask_login">You Need To Login First</string>
+    <string name="ask_login">You\'re not logged in </string>
     <string name="timeTaken">Time Taken</string>
     <string name="question_text">Question</string>
     <string name="solution_text">Solution</string>
@@ -317,5 +317,6 @@
     <string name="start_test">START</string>
     <string name="noInternetError2">Problem with connection</string>
     <string name="calenderFutureError">Time travelers are not allowed!</string>
+    <string name="login_message">You need to login to attempt the test</string>
 
 </resources>

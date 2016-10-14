@@ -99,7 +99,8 @@ public class SamplePaperListDataAdapter extends RecyclerView.Adapter<SamplePaper
     {
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
         builder.setTitle(context.getString(R.string.ask_login));
-        //builder.setMessage(context.getString(R.string.test_submit_message));
+
+        builder.setMessage(context.getString(R.string.login_message));
 
         String positiveText = context.getString(R.string.login);
         builder.setPositiveButton(positiveText,
