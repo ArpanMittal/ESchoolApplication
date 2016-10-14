@@ -59,6 +59,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
                 app:layout_collapseMode="pin"
+                app:titleTextAppearance="@style/ToolbarTitle"
                 android:elevation="4dp"
                 android:background="@color/colorPrimary"
                 />
