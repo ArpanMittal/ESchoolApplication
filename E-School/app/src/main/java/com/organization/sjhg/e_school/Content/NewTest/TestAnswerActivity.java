@@ -147,7 +147,12 @@ public class TestAnswerActivity extends AppCompatActivity implements RemoteCallH
         {
             questionAnswerLists=(List<QuestionAnswerList>)saveInstances.getSerializable("Question List");
             TestAnswerActivity.response=(String)saveInstances.getSerializable("Response");
-            showView(questionAnswerLists);
+            if (questionAnswerLists!=null &&!questionAnswerLists.isEmpty()){
+                showView(questionAnswerLists);
+            }else{
+                mNoInternet.setVisibility(View.VISIBLE);
+            }
+
         }
     }
 
@@ -161,13 +166,12 @@ public class TestAnswerActivity extends AppCompatActivity implements RemoteCallH
 
     private void showView(final List<QuestionAnswerList>questionAnswerLists)
     {
-   ;
         QuestionAnswerAdapter questionAnswerAdapter=new QuestionAnswerAdapter(getSupportFragmentManager(),questionAnswerLists,getApplicationContext());
         mViewPagerView.setAdapter(questionAnswerAdapter);
         mViewPagerView.setOffscreenPageLimit(1);
         tabLayout = (TabLayout) findViewById(R.id.id_tabs);
         tabLayout.setupWithViewPager(mViewPagerView);
-        setColors(questionAnswerLists.get(0).response);
+        setColors(questionAnswerLists.get(mViewPagerView.getCurrentItem()).response);
         TestAnswerActivity.response=questionAnswerLists.get(0).response;
         mViewPagerView.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override

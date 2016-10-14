@@ -114,7 +114,12 @@ public class TestSummaryActivity extends AppCompatActivity implements RemoteCall
             if (savedInstanceState != null) {
 
                 chapterListList = (List<ChapterList>) savedInstanceState.getSerializable("INTERNAL LIST");
-                showView();
+                if(chapterListList!=null && !chapterListList.isEmpty()){
+                    showView();
+                }else{
+                    mNoInternet.setVisibility(View.VISIBLE);
+                }
+
             }
 
 

@@ -128,6 +128,7 @@ public class ProfileEditActivity extends AppCompatActivity implements RemoteCall
                     }
 
                 }, newCalendar.get(Calendar.YEAR), newCalendar.get(Calendar.MONTH), newCalendar.get(Calendar.DAY_OF_MONTH));
+                dialog.getDatePicker().setMaxDate(System.currentTimeMillis());
                 dialog.show();
             }
         });

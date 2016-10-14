@@ -136,7 +136,7 @@ public class SamplePaperListDataAdapter extends RecyclerView.Adapter<SamplePaper
         builder.setTitle(context.getString(R.string.test_start_title));
         builder.setMessage(context.getString(R.string.test_submit_message));
 
-        String positiveText = context.getString(android.R.string.ok);
+        String positiveText = context.getString(R.string.start_test);
         builder.setPositiveButton(positiveText,
                 new DialogInterface.OnClickListener() {
                     @Override

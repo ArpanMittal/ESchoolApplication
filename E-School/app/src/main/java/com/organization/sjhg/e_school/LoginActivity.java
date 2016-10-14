@@ -504,7 +504,7 @@ public class LoginActivity extends AppCompatActivity implements RemoteCallHandle
     private void showSnackBar(final Boolean isGoogleSignIn){
         CoordinatorLayout coordinatorLayout = (CoordinatorLayout) findViewById(R.id.coordinatorLayout);
         Snackbar snackbar = Snackbar
-                .make(coordinatorLayout, getResources().getText(R.string.noInternetError), Snackbar.LENGTH_INDEFINITE)
+                .make(coordinatorLayout, getResources().getText(R.string.noInternetError2), Snackbar.LENGTH_INDEFINITE)
                 .setAction("RETRY", new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {

@@ -78,18 +78,26 @@ public class TestActivity extends AppCompatActivity implements RemoteCallHandler
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getApplicationContext().getContentResolver().delete(UserContract.TestDetail.CONTENT_URI, null, null);
+        setContentView(R.layout.activity_test);
+        progress = (ProgressBar) findViewById(R.id.progressBar);
+        mViewPagerView=(ViewPager)findViewById(R.id.viewpager_fragment);
+        if(savedInstanceState==null) {
+            getApplicationContext().getContentResolver().delete(UserContract.TestDetail.CONTENT_URI, null, null);
+
+
+        }
         Intent intent=getIntent();
          tag=intent.getStringExtra("Tag");
          id=intent.getStringExtra("Id");
         title=intent.getStringExtra("Title");
         isSubmit=false;
         saveInstances=savedInstanceState;
-        setContentView(R.layout.activity_test);
+        progress.getProgressDrawable().setColorFilter(Color.parseColor("#ff5722"), PorterDuff.Mode.SRC_IN);
+        progress.setProgress(mViewPagerView.getCurrentItem());
         mProgressView=findViewById(R.id.dashboard_progress);
 
-        mViewPagerView=(ViewPager)findViewById(R.id.viewpager_fragment);
-        progress = (ProgressBar) findViewById(R.id.progressBar);
+
+
         tabLayout=(TabLayout)findViewById(R.id.id_tabs);
 
         toolbar=(Toolbar)findViewById(R.id.toolbar);
@@ -97,9 +105,9 @@ public class TestActivity extends AppCompatActivity implements RemoteCallHandler
         countDown=(TextView)toolbar.findViewById(R.id.countDown);
         submit_btn=(TextView)toolbar.findViewById(R.id.submitButton);
 
-       progress.getProgressDrawable().setColorFilter(Color.parseColor("#ff5722"), PorterDuff.Mode.SRC_IN);
+//       progress.getProgressDrawable().setColorFilter(Color.parseColor("#ff5722"), PorterDuff.Mode.SRC_IN);
 
-        progress = (ProgressBar) findViewById(R.id.progressBar); progress = (ProgressBar) findViewById(R.id.progressBar);
+//        progress = (ProgressBar) findViewById(R.id.progressBar);
         mNoInternet = findViewById(R.id.noInternetScreen);
         Button retry = (Button) findViewById(R.id.retry);
         retry.setOnClickListener(new View.OnClickListener() {
@@ -113,7 +121,7 @@ public class TestActivity extends AppCompatActivity implements RemoteCallHandler
                     Intent intent=new Intent(TestActivity.this,LoginActivity.class);
                     startActivity(intent);
                 }
-                if (!isSubmit){
+                if (!is_submit_active){
                     new RemoteHelper(getApplicationContext()).getQuestion(TestActivity.this, RemoteCalls.GET_QUESTION, tag, id, access_token);
                 }else{
                     new RemoteHelper(getApplicationContext()).sendQuestionResponse(TestActivity.this, RemoteCalls.SEND_QUESTION_RESPONSE,tag,id, access_token,makeResponseList());
@@ -162,10 +170,12 @@ public class TestActivity extends AppCompatActivity implements RemoteCallHandler
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         // positive button logic
-                        isSubmit = true;
+
                         is_submit_active=true;
-                        if(countDownTimer!=null)
+                        if(countDownTimer!=null) {
                             countDownTimer.cancel();
+                            countDown.setVisibility(View.GONE);
+                        }
                         access_token=sharedPrefrence.getAccessToken(getApplicationContext());
                         new RemoteHelper(getApplicationContext()).sendQuestionResponse(TestActivity.this, RemoteCalls.SEND_QUESTION_RESPONSE,tag,id, access_token,makeResponseList());
                         progressBarActivity.showProgress(mViewPagerView,mProgressView,true,getApplicationContext());
@@ -195,7 +205,8 @@ public class TestActivity extends AppCompatActivity implements RemoteCallHandler
     protected void onResume() {
         super.onResume();
         if(saveInstances==null) {
-            if (questionLists.isEmpty()) {
+            if (questionLists.isEmpty())
+            {
                 progressBarActivity.showProgress(mViewPagerView,mProgressView,true,getApplicationContext());
 
                 access_token=sharedPrefrence.getAccessToken(getApplicationContext());
@@ -210,12 +221,20 @@ public class TestActivity extends AppCompatActivity implements RemoteCallHandler
         else
         {
             questionLists=(List<QuestionList>)saveInstances.getSerializable("Question List");
-            is_submit_active=(boolean)saveInstances.getBoolean("Is_Submit");
+            is_submit_active= saveInstances.getBoolean("Is_Submit");
+            isSubmit=saveInstances.getBoolean("Is_NoInternetState");
+            if(isSubmit)
+                mNoInternet.setVisibility(View.VISIBLE);
+            tag=saveInstances.getString("Tag");
             if(tag.equals(getString(R.string.samplepaper_tag)))
                 countDownTime=saveInstances.getLong("CountDown");
             else
                 countDown.setVisibility(View.GONE);
-            showView(questionLists);
+            if (questionLists!=null&&!questionLists.isEmpty()){
+                showView(questionLists,true);
+            }else{
+                mNoInternet.setVisibility(View.VISIBLE);
+            }
         }
     }
 
@@ -226,6 +245,8 @@ public class TestActivity extends AppCompatActivity implements RemoteCallHandler
             outState.putSerializable("Question List", (Serializable) questionLists);
            outState.putLong("CountDown",countDownTime);
             outState.putBoolean("Is_Submit",is_submit_active);
+            outState.putBoolean("Is_NoInternetState",isSubmit);
+            outState.putString("Tag",tag);
         }
 
     }
@@ -243,12 +264,14 @@ public class TestActivity extends AppCompatActivity implements RemoteCallHandler
        int count= getApplicationContext().getContentResolver().bulkInsert(UserContract.TestDetail.CONTENT_URI,contentValues);
     }
 
-    private void showView(final List<QuestionList> questions)
+    private void showView(final List<QuestionList> questions,boolean is_resume)
     {
 
 
         QuestionAdapter questionAdapter=new QuestionAdapter(getSupportFragmentManager(),questions,getApplicationContext());
-        insertIntoDatabse(questions);
+        if(!is_resume)
+            insertIntoDatabse(questions);
+        submit_btn.setVisibility(View.VISIBLE);
         mViewPagerView.setAdapter(questionAdapter);
         tabLayout = (TabLayout) findViewById(R.id.id_tabs);
         tabLayout.setupWithViewPager(mViewPagerView);
@@ -415,6 +438,13 @@ public class TestActivity extends AppCompatActivity implements RemoteCallHandler
         if(!isSuccessful)
         {
             mNoInternet.setVisibility(View.VISIBLE);
+            switch (callFor){
+                case SEND_QUESTION_RESPONSE:
+                {
+                    isSubmit=true;
+                    break;
+                }
+            }
         }
         else
         {
@@ -451,8 +481,8 @@ public class TestActivity extends AppCompatActivity implements RemoteCallHandler
                             toastActivity.makeToastMessage(response,this);
                             questionLists=getList(response);
                             List<QuestionList>question=questionLists;
-                            showView(question);
-                            submit_btn.setVisibility(View.VISIBLE);
+                            showView(question,false);
+
                         }
                     }catch (Exception e)
                     {
@@ -510,7 +540,7 @@ public class TestActivity extends AppCompatActivity implements RemoteCallHandler
                             intent.putExtra("parent_tag",tag);
                             intent.putExtra("parent_id",id);
                             intent.putExtra("parent_title",title);
-                            String id=(String)response.get("data").toString();
+                            String id= response.get("data").toString();
                             intent.putExtra("Id",id);
                             startActivity(intent);
                             finish();

@@ -56,8 +56,8 @@ public class TestPaperAttemptAdapter extends RecyclerView.Adapter<TestPaperAttem
     public void onBindViewHolder(TestPaperAttemptAdapter.ViewHolder viewHolder, final int position) {
 
 
-        viewHolder.tv_android.setText((String) chapterLists.get(position).name);
-        String title=context.getString(R.string.attempt_number)+(position+1);
+        viewHolder.tv_android.setText(chapterLists.get(position).name);
+        String title=context.getString(R.string.attempt_number)+" "+(position+1);
         viewHolder.title.setText(title);
         viewHolder.linearLayout.setOnClickListener(new View.OnClickListener() {
             @Override

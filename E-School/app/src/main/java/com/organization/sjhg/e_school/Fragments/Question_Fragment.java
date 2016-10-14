@@ -72,6 +72,9 @@ public class Question_Fragment extends Fragment {
             Picasso.with(getContext())
                     .load(url)
                     .into(imageView);
+            final float scale = getContext().getResources().getDisplayMetrics().density;
+            int pixels = (int) (200 * scale + 0.5f);
+            imageView.setMinimumHeight(pixels);
         }
 
         String code=questionLists.get(0).question_text;

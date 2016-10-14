@@ -110,8 +110,11 @@ public class TestReportActivity extends AppCompatActivity implements RemoteCallH
             barGraphLists=(List<BarGraphList>)savedInstanceState.getSerializable("LIST");
             stackGraphLists=(List<StackGraphList>)savedInstanceState.getSerializable("Ser_List");
             timeGraphLists=(List<TimeGraphList>)savedInstanceState.getSerializable("Tim_List");
-            showView();
-
+            if (barGraphLists!=null&& !barGraphLists.isEmpty()&&stackGraphLists!=null&& !stackGraphLists.isEmpty()&&timeGraphLists!=null&& !timeGraphLists.isEmpty()){
+                showView();
+            }else{
+                mNoInternet.setVisibility(View.VISIBLE);
+            }
         }
     }
 
