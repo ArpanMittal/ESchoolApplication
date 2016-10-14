@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 
+import android.os.Handler;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
@@ -17,6 +18,7 @@ import android.support.v7.widget.LinearLayoutManager;
 
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 
@@ -53,12 +55,14 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 
+//import cn.trinea.android.view.autoscrollviewpager.AutoScrollViewPager;
 import me.relex.circleindicator.CircleIndicator;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-
+import java.util.Timer;
+import java.util.TimerTask;
 
 
 public class Main_Activity extends MainParentActivity{
@@ -69,6 +73,8 @@ public class Main_Activity extends MainParentActivity{
 
     private ProgressBarActivity progressBarActivity=new ProgressBarActivity();
     private ToastActivity toastActivity=new ToastActivity();
+    private Timer timer;
+    private static int count = 0;
 
     @Override
     public void onCreate(Bundle savedInstanceState)
@@ -80,12 +86,12 @@ public class Main_Activity extends MainParentActivity{
         view_Stub.setLayoutResource(R.layout.app_bar_main);
         view_Stub.inflate();
 
-        ViewStub viewStub=(ViewStub)findViewById(R.id.view_stub_bar);
-        viewStub.setLayoutResource(R.layout.content_main);
-       viewStub.inflate();
+//        ViewStub viewStub=(ViewStub)findViewById(R.id.view_stub_bar);
+//        viewStub.setLayoutResource(R.layout.content_main);
+//       viewStub.inflate();
 
 
-        mDashboardView=findViewById(R.id.dashboard_form);
+        mDashboardView=findViewById(R.id.recycler);
         mProgressView=findViewById(R.id.dashboard_progress);
         mNoInternet = findViewById(R.id.noInternetScreen);
         Button retry = (Button) findViewById(R.id.retry);
@@ -188,13 +194,46 @@ public class Main_Activity extends MainParentActivity{
 
 
 
-    private void showView(List<DashBoardList> dataList, List<ChapterList> imageList)
+    private void showView(List<DashBoardList> dataList, final List<ChapterList> imageList)
     {
+
+
+        final ViewPager viewPager=(ViewPager)findViewById(R.id.viewpager);
+        //viewPager.setAdapter(new Custom_Pager_Adapter(getSupportFragmentManager(),imageList));
+       // AutoScrollViewPager viewPager = (AutoScrollViewPager) findViewById(R.id.viewpager);
+        viewPager.setAdapter(new Custom_Pager_Adapter(getSupportFragmentManager(),imageList));
+       // viewPager.setInterval(5000);
+        //viewPager.startAutoScroll();
+        indicator = (CircleIndicator) findViewById(R.id.indicator);
+        indicator.setViewPager(viewPager);
+
+
+        // Timer for auto sliding
+//        timer  = new Timer();
+//        timer.scheduleAtFixedRate(new TimerTask() {
+//            @Override
+//            public void run() {
+//                runOnUiThread(new Runnable() {
+//                    @Override
+//                    public void run() {
+//                        if(viewPager.getCurrentItem()<imageList.size()){
+//                            viewPager.setCurrentItem(viewPager.getCurrentItem()+1,true);
+//                            //count++;
+//                        }else{
+//                            //count = 0;
+//                            viewPager.setCurrentItem(0,true);
+//                        }
+//                    }
+//                });
+//            }
+//        },1000,3000);
+
         /*
         show recycler view
          */
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recycler);
         recyclerView.setHasFixedSize(true);
+        //recyclerView.setNestedScrollingEnabled(false);
 
         Recycler_View_Adapter adapter = new Recycler_View_Adapter(dataList, this);
         recyclerView.setAdapter(adapter);
@@ -208,16 +247,6 @@ public class Main_Activity extends MainParentActivity{
         itemAnimator.setAddDuration(1000);
         itemAnimator.setRemoveDuration(1000);
         recyclerView.setItemAnimator(itemAnimator);
-
-
-        ViewPager viewPager=(ViewPager)findViewById(R.id.viewpager);
-        viewPager.setAdapter(new Custom_Pager_Adapter(getSupportFragmentManager(),imageList));
-//        AutoScrollViewPager viewPager = (AutoScrollViewPager) findViewById(R.id.viewpager);
-//        viewPager.setAdapter(new Custom_Pager_Adapter(getSupportFragmentManager(),imageList));
-//        viewPager.setInterval(5000);
-//        viewPager.startAutoScroll();
-        indicator = (CircleIndicator) findViewById(R.id.indicator);
-        indicator.setViewPager(viewPager);
 
 
     }
@@ -253,5 +282,9 @@ public class Main_Activity extends MainParentActivity{
         }
     }
 
-
+    @Override
+    protected void onDestroy() {
+    //    timer.cancel();
+        super.onDestroy();
+    }
 }
