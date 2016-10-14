@@ -6,6 +6,7 @@ import com.google.android.gms.auth.api.Auth;
 import android.graphics.Color;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
+import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
 
 import android.net.Uri;
@@ -73,8 +74,8 @@ public class LoginActivity extends AppCompatActivity implements RemoteCallHandle
     //private UserLoginTask mAuthTask = null;
 
     // UI references.
-    private EditText mEmailView;
-    private EditText mPasswordView;
+    private TextInputLayout mEmailView;
+    private TextInputLayout mPasswordView;
     private View mProgressView;
     private View mLoginFormView;
     private Button signup;
@@ -84,10 +85,11 @@ public class LoginActivity extends AppCompatActivity implements RemoteCallHandle
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         // Set up the login form.
-        mEmailView = (EditText) findViewById(R.id.email);
+        mEmailView = (TextInputLayout) findViewById(R.id.email);
+        mEmailView.setErrorEnabled(true);
         //populateAutoComplete();
 
-        mPasswordView = (EditText) findViewById(R.id.password);
+        mPasswordView = (TextInputLayout) findViewById(R.id.password);
         signup=(Button)findViewById(R.id.signupbtn);
         signup.setOnClickListener(new OnClickListener() {
             @Override
@@ -97,7 +99,7 @@ public class LoginActivity extends AppCompatActivity implements RemoteCallHandle
                 finish();
             }
         });
-        mPasswordView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+        mPasswordView.getEditText().setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView textView, int id, KeyEvent keyEvent) {
                 if (id == R.id.login || id == EditorInfo.IME_NULL) {
@@ -167,8 +169,8 @@ public class LoginActivity extends AppCompatActivity implements RemoteCallHandle
         mPasswordView.setError(null);
 
         // Store values at the time of the login attempt.
-        String email = mEmailView.getText().toString();
-        String password = mPasswordView.getText().toString();
+        String email = mEmailView.getEditText().getText().toString();
+        String password = mPasswordView.getEditText().getText().toString();
 
         boolean cancel = false;
         View focusView = null;
