@@ -25,6 +25,7 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -113,8 +114,7 @@ public class ProfileEditActivity extends AppCompatActivity implements RemoteCall
         userSchool = (Spinner) findViewById(R.id.user_school);
         editProPic = (ImageButton) findViewById(R.id.edit_pro_pic);
         Button cancel = (Button) findViewById(R.id.cancel);
-        View view = findViewById(R.id.user_dob_block);
-        view.setOnClickListener(new View.OnClickListener() {
+        userDob.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Calendar newCalendar = Calendar.getInstance();
@@ -124,28 +124,17 @@ public class ProfileEditActivity extends AppCompatActivity implements RemoteCall
                         DateFormat outputFormat = new SimpleDateFormat("dd MMMM yyyy");
                         Calendar newDate = Calendar.getInstance();
                         newDate.set(year, monthOfYear, dayOfMonth);
-                        userDob.setText(outputFormat.format(newDate.getTime()));
+                        Calendar maxDate = Calendar.getInstance();
+                        if (maxDate.getTimeInMillis()>= newDate.getTimeInMillis()){
+                            userDob.setText(outputFormat.format(newDate.getTime()));
+                        }else{
+                            new ToastActivity().showMessage(getResources().getString(R.string.calenderFutureError),ProfileEditActivity.this);
+                        }
+
                     }
 
                 }, newCalendar.get(Calendar.YEAR), newCalendar.get(Calendar.MONTH), newCalendar.get(Calendar.DAY_OF_MONTH));
                 dialog.getDatePicker().setMaxDate(System.currentTimeMillis());
-                dialog.show();
-            }
-        });
-        userDob.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Calendar newCalendar = Calendar.getInstance();
-                DatePickerDialog dialog = new DatePickerDialog(ProfileEditActivity.this, new DatePickerDialog.OnDateSetListener() {
-
-                    public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-                        DateFormat outputFormat = new SimpleDateFormat("dd MMMM yyyy");
-                        Calendar newDate = Calendar.getInstance();
-                        newDate.set(year, monthOfYear, dayOfMonth);
-                        userDob.setText(outputFormat.format(newDate.getTime()));
-                    }
-
-                }, newCalendar.get(Calendar.YEAR), newCalendar.get(Calendar.MONTH), newCalendar.get(Calendar.DAY_OF_MONTH));
                 dialog.show();
             }
         });
@@ -178,27 +167,27 @@ public class ProfileEditActivity extends AppCompatActivity implements RemoteCall
                     e.printStackTrace();
                 }
                 String c = country.get(userCountry.getSelectedItemPosition());
-                if (!c.equals("Chose Country")){
+                if (!c.equals("Choose Country")&& !c.equals("Add")){
                     params.put("country",c);
                 }else{
                     params.put("country","");
                 }
                 String s = state.get(userState.getSelectedItemPosition());
-                if (!s.equals("Chose State")){
+                if (!s.equals("Choose State") && !s.equals("Add")){
                     params.put("state",s);
                 }else{
                     params.put("state","");
                 }
 
                 String cy = city.get(userCity.getSelectedItemPosition());
-                if (!cy.equals("Chose City")){
+                if (!cy.equals("Choose City")&& !cy.equals("Add")){
                     params.put("city",cy);
                 }else{
                     params.put("city","");
                 }
 
                 String sh = school.get(userSchool.getSelectedItemPosition());
-                if (!sh.equals("Chose School")){
+                if (!sh.equals("Choose School") && !sh.equals("Add")){
                     params.put("school",sh);
                 }else{
                     params.put("school","");
@@ -372,8 +361,12 @@ public class ProfileEditActivity extends AppCompatActivity implements RemoteCall
                 if (country.get(position).equals("Add")) {
                     AlertDialog.Builder alert = new AlertDialog.Builder(ProfileEditActivity.this,R.style.AppTheme_AlertDialog);
                     final EditText edittext = new EditText(getApplicationContext());
-                    edittext.setTextColor(Color.parseColor("#7c7c7c"));
-                    edittext.setTextColor(Color.BLACK);
+                    edittext.setTextColor(Color.DKGRAY);
+                    edittext.setTextColor(Color.WHITE);
+                    LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+                    lp.setMargins(50, 10, 50, 10);
+                    edittext.setLayoutParams(lp);
+                    edittext.setHint("Country");
                     alert.setTitle("Enter");
 
                     alert.setView(edittext);
@@ -416,7 +409,12 @@ public class ProfileEditActivity extends AppCompatActivity implements RemoteCall
                 if (state.get(position).equals("Add")) {
                     AlertDialog.Builder alert = new AlertDialog.Builder(ProfileEditActivity.this,R.style.AppTheme_AlertDialog);
                     final EditText edittext = new EditText(getApplicationContext());
-                    edittext.setTextColor(Color.parseColor("#7c7c7c"));
+                    edittext.setTextColor(Color.DKGRAY);
+                    edittext.setBackgroundColor(Color.WHITE);
+                    LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+                    lp.setMargins(50, 10, 50, 10);
+                    edittext.setLayoutParams(lp);
+                    edittext.setHint("State");
                     alert.setTitle("Enter");
 
                     alert.setView(edittext);
@@ -457,7 +455,12 @@ public class ProfileEditActivity extends AppCompatActivity implements RemoteCall
                 if (city.get(position).equals("Add")) {
                     AlertDialog.Builder alert = new AlertDialog.Builder(ProfileEditActivity.this,R.style.AppTheme_AlertDialog);
                     final EditText edittext = new EditText(getApplicationContext());
-                    edittext.setTextColor(Color.parseColor("#7c7c7c"));
+                    edittext.setTextColor(Color.DKGRAY);
+                    edittext.setBackgroundColor(Color.WHITE);
+                    LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+                    lp.setMargins(50, 10, 50, 10);
+                    edittext.setLayoutParams(lp);
+                    edittext.setHint("City");
                     alert.setTitle("Enter");
 
                     alert.setView(edittext);
@@ -498,7 +501,12 @@ public class ProfileEditActivity extends AppCompatActivity implements RemoteCall
                 if (school.get(position).equals("Add")) {
                     AlertDialog.Builder alert = new AlertDialog.Builder(ProfileEditActivity.this,R.style.AppTheme_AlertDialog);
                     final EditText edittext = new EditText(getApplicationContext());
-                    edittext.setTextColor(Color.parseColor("#7c7c7c"));
+                    edittext.setTextColor(Color.DKGRAY);
+                    edittext.setBackgroundColor(Color.WHITE);
+                    LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+                    lp.setMargins(50, 10, 50, 10);
+                    edittext.setLayoutParams(lp);
+                    edittext.setHint("School Name");
                     alert.setTitle("Enter");
 
                     alert.setView(edittext);
@@ -571,12 +579,12 @@ public class ProfileEditActivity extends AppCompatActivity implements RemoteCall
             }
         }
         Collections.sort(countries, String.CASE_INSENSITIVE_ORDER);
-        countries.add(0,"Chose Country");
+        countries.add(0,"Choose Country");
         this.country = countries;
 
         JSONArray arr = data.getJSONArray("state");
         ArrayList<String> list = new ArrayList<>();
-        list.add("Chose State");
+        list.add("Choose State");
         for (int i = 0; i < arr.length(); i++) {
             String temp = arr.getJSONObject(i).getString("state_name");
             if (!temp.equals("null")  && !temp.equals("")) {
@@ -589,7 +597,7 @@ public class ProfileEditActivity extends AppCompatActivity implements RemoteCall
 
         arr = data.getJSONArray("city");
         list = new ArrayList<>();
-        list.add("Chose City");
+        list.add("Choose City");
         for (int i = 0; i < arr.length(); i++) {
             String temp = arr.getJSONObject(i).getString("city_name");
             if (!temp.equals("null")  && !temp.equals("")) {
@@ -601,7 +609,7 @@ public class ProfileEditActivity extends AppCompatActivity implements RemoteCall
 
         arr = data.getJSONArray("school");
         list = new ArrayList<>();
-        list.add("Chose School");
+        list.add("Choose School");
         for (int i = 0; i < arr.length(); i++) {
             String temp = arr.getJSONObject(i).getString("school_name");
             if (!temp.equals("null") && !temp.equals("")) {
