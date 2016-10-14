@@ -78,11 +78,13 @@ public class TestActivity extends AppCompatActivity implements RemoteCallHandler
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_test);
         progress = (ProgressBar) findViewById(R.id.progressBar);
+        mViewPagerView=(ViewPager)findViewById(R.id.viewpager_fragment);
         if(savedInstanceState==null) {
             getApplicationContext().getContentResolver().delete(UserContract.TestDetail.CONTENT_URI, null, null);
 
-            progress.getProgressDrawable().setColorFilter(Color.parseColor("#ff5722"), PorterDuff.Mode.SRC_IN);
+
         }
         Intent intent=getIntent();
          tag=intent.getStringExtra("Tag");
@@ -90,10 +92,11 @@ public class TestActivity extends AppCompatActivity implements RemoteCallHandler
         title=intent.getStringExtra("Title");
         isSubmit=false;
         saveInstances=savedInstanceState;
-        setContentView(R.layout.activity_test);
+        progress.getProgressDrawable().setColorFilter(Color.parseColor("#ff5722"), PorterDuff.Mode.SRC_IN);
+        progress.setProgress(mViewPagerView.getCurrentItem());
         mProgressView=findViewById(R.id.dashboard_progress);
 
-        mViewPagerView=(ViewPager)findViewById(R.id.viewpager_fragment);
+
 
         tabLayout=(TabLayout)findViewById(R.id.id_tabs);
 
