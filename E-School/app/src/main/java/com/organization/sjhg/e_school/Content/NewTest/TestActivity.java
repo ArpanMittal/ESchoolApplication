@@ -63,7 +63,7 @@ public class TestActivity extends AppCompatActivity implements RemoteCallHandler
     int lastPageposition=0;
     long countDownTime=720000;
     int pageOffset;
-    ProgressBar progress;
+    private static ProgressBar progress;
     private TabLayout tabLayout;
     private String title;
     private Toolbar toolbar;
@@ -79,11 +79,13 @@ public class TestActivity extends AppCompatActivity implements RemoteCallHandler
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_test);
-        progress = (ProgressBar) findViewById(R.id.progressBar);
+
         mViewPagerView=(ViewPager)findViewById(R.id.viewpager_fragment);
+        progress = (ProgressBar) findViewById(R.id.progressBar);
+        progress.getProgressDrawable().setColorFilter(Color.parseColor("#ff5722"), PorterDuff.Mode.SRC_IN);
+
         if(savedInstanceState==null) {
             getApplicationContext().getContentResolver().delete(UserContract.TestDetail.CONTENT_URI, null, null);
-
 
         }
         Intent intent=getIntent();
@@ -92,8 +94,8 @@ public class TestActivity extends AppCompatActivity implements RemoteCallHandler
         title=intent.getStringExtra("Title");
         isSubmit=false;
         saveInstances=savedInstanceState;
-        progress.getProgressDrawable().setColorFilter(Color.parseColor("#ff5722"), PorterDuff.Mode.SRC_IN);
-        progress.setProgress(mViewPagerView.getCurrentItem());
+
+
         mProgressView=findViewById(R.id.dashboard_progress);
 
 
@@ -273,6 +275,7 @@ public class TestActivity extends AppCompatActivity implements RemoteCallHandler
             insertIntoDatabse(questions);
         submit_btn.setVisibility(View.VISIBLE);
         mViewPagerView.setAdapter(questionAdapter);
+
         tabLayout = (TabLayout) findViewById(R.id.id_tabs);
         tabLayout.setupWithViewPager(mViewPagerView);
        //for sample paper tag show timer
@@ -306,6 +309,8 @@ public class TestActivity extends AppCompatActivity implements RemoteCallHandler
 
             }.start();
         }
+        progress.setMax(questionLists.size()-1);
+        progress.setProgress(mViewPagerView.getCurrentItem());
         mViewPagerView.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
 
             @Override
@@ -318,7 +323,7 @@ public class TestActivity extends AppCompatActivity implements RemoteCallHandler
             public void onPageSelected(int position) {
 
 
-                progress.setMax(questionLists.size()-1);
+
                 progress.setProgress(position);
                 // to detect left or right scroll
                 if(position!=0||(position+1==1&&lastPageposition==1)) {
