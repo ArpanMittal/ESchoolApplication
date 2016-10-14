@@ -78,8 +78,10 @@ public class TestActivity extends AppCompatActivity implements RemoteCallHandler
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        progress = (ProgressBar) findViewById(R.id.progressBar);
         if(savedInstanceState==null) {
             getApplicationContext().getContentResolver().delete(UserContract.TestDetail.CONTENT_URI, null, null);
+
             progress.getProgressDrawable().setColorFilter(Color.parseColor("#ff5722"), PorterDuff.Mode.SRC_IN);
         }
         Intent intent=getIntent();
@@ -92,7 +94,7 @@ public class TestActivity extends AppCompatActivity implements RemoteCallHandler
         mProgressView=findViewById(R.id.dashboard_progress);
 
         mViewPagerView=(ViewPager)findViewById(R.id.viewpager_fragment);
-        progress = (ProgressBar) findViewById(R.id.progressBar);
+
         tabLayout=(TabLayout)findViewById(R.id.id_tabs);
 
         toolbar=(Toolbar)findViewById(R.id.toolbar);
@@ -100,9 +102,9 @@ public class TestActivity extends AppCompatActivity implements RemoteCallHandler
         countDown=(TextView)toolbar.findViewById(R.id.countDown);
         submit_btn=(TextView)toolbar.findViewById(R.id.submitButton);
 
+//       progress.getProgressDrawable().setColorFilter(Color.parseColor("#ff5722"), PorterDuff.Mode.SRC_IN);
 
-
-        progress = (ProgressBar) findViewById(R.id.progressBar); progress = (ProgressBar) findViewById(R.id.progressBar);
+//        progress = (ProgressBar) findViewById(R.id.progressBar);
         mNoInternet = findViewById(R.id.noInternetScreen);
         Button retry = (Button) findViewById(R.id.retry);
         retry.setOnClickListener(new View.OnClickListener() {
