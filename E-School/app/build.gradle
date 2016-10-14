@@ -13,11 +13,6 @@ android {
 
     signingConfigs {
         config {
-            //TODO: implement security here
-//            keyAlias 'celearn'
-//            keyPassword '!tRQ6%tqC692g&Ec '
-//            storeFile file('celearn.jks')
-//            storePassword 'VmH+n8Nz53v!-R-w'
             keyAlias keystoreProperties['keyAlias']
             keyPassword keystoreProperties['keyPassword']
             storeFile file(keystoreProperties['storeFile'])
@@ -32,8 +27,8 @@ android {
         minSdkVersion 16
         targetSdkVersion 23
         multiDexEnabled true
-        versionCode 1
-        versionName "1.0"
+        versionCode 3
+        versionName "1.0.2"
     }
     buildTypes {
         release {
