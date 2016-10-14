@@ -124,10 +124,12 @@ public class ImageViewHelper extends ImageView {
                     matrix.getValues(matrixValues);
                     matrixX = matrixValues[2];
                     matrixY = matrixValues[5];
-                    width = matrixValues[0] * (((ImageView) this).getDrawable()
-                            .getIntrinsicWidth());
-                    height = matrixValues[4] * (((ImageView) this).getDrawable()
-                            .getIntrinsicHeight());
+                    if(getDrawable()!=null) {
+                        width = matrixValues[0] * (((ImageView) this).getDrawable()
+                                .getIntrinsicWidth());
+                        height = matrixValues[4] * (((ImageView) this).getDrawable()
+                                .getIntrinsicHeight());
+                    }
 
                     dx = event.getX() - start.x;
                     dy = event.getY() - start.y;

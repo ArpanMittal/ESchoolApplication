@@ -171,7 +171,7 @@ public class TestAnswerActivity extends AppCompatActivity implements RemoteCallH
         mViewPagerView.setOffscreenPageLimit(1);
         tabLayout = (TabLayout) findViewById(R.id.id_tabs);
         tabLayout.setupWithViewPager(mViewPagerView);
-        setColors(questionAnswerLists.get(0).response);
+        setColors(questionAnswerLists.get(mViewPagerView.getCurrentItem()).response);
         TestAnswerActivity.response=questionAnswerLists.get(0).response;
         mViewPagerView.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override

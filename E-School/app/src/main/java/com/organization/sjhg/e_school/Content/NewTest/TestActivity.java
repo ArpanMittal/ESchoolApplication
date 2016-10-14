@@ -78,7 +78,10 @@ public class TestActivity extends AppCompatActivity implements RemoteCallHandler
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getApplicationContext().getContentResolver().delete(UserContract.TestDetail.CONTENT_URI, null, null);
+        if(savedInstanceState==null) {
+            getApplicationContext().getContentResolver().delete(UserContract.TestDetail.CONTENT_URI, null, null);
+            progress.getProgressDrawable().setColorFilter(Color.parseColor("#ff5722"), PorterDuff.Mode.SRC_IN);
+        }
         Intent intent=getIntent();
          tag=intent.getStringExtra("Tag");
          id=intent.getStringExtra("Id");
@@ -97,7 +100,7 @@ public class TestActivity extends AppCompatActivity implements RemoteCallHandler
         countDown=(TextView)toolbar.findViewById(R.id.countDown);
         submit_btn=(TextView)toolbar.findViewById(R.id.submitButton);
 
-       progress.getProgressDrawable().setColorFilter(Color.parseColor("#ff5722"), PorterDuff.Mode.SRC_IN);
+
 
         progress = (ProgressBar) findViewById(R.id.progressBar); progress = (ProgressBar) findViewById(R.id.progressBar);
         mNoInternet = findViewById(R.id.noInternetScreen);
@@ -223,7 +226,7 @@ public class TestActivity extends AppCompatActivity implements RemoteCallHandler
             else
                 countDown.setVisibility(View.GONE);
             if (questionLists!=null&&!questionLists.isEmpty()){
-                showView(questionLists);
+                showView(questionLists,true);
             }else{
                 mNoInternet.setVisibility(View.VISIBLE);
             }
@@ -256,12 +259,13 @@ public class TestActivity extends AppCompatActivity implements RemoteCallHandler
        int count= getApplicationContext().getContentResolver().bulkInsert(UserContract.TestDetail.CONTENT_URI,contentValues);
     }
 
-    private void showView(final List<QuestionList> questions)
+    private void showView(final List<QuestionList> questions,boolean is_resume)
     {
 
 
         QuestionAdapter questionAdapter=new QuestionAdapter(getSupportFragmentManager(),questions,getApplicationContext());
-        insertIntoDatabse(questions);
+        if(!is_resume)
+            insertIntoDatabse(questions);
         submit_btn.setVisibility(View.VISIBLE);
         mViewPagerView.setAdapter(questionAdapter);
         tabLayout = (TabLayout) findViewById(R.id.id_tabs);
@@ -472,7 +476,7 @@ public class TestActivity extends AppCompatActivity implements RemoteCallHandler
                             toastActivity.makeToastMessage(response,this);
                             questionLists=getList(response);
                             List<QuestionList>question=questionLists;
-                            showView(question);
+                            showView(question,false);
 
                         }
                     }catch (Exception e)
