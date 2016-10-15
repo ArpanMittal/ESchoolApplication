@@ -296,6 +296,7 @@ public class LoginActivity extends AppCompatActivity implements RemoteCallHandle
                     String personId = acct.getId();
                     Uri personPhoto = acct.getPhotoUrl();
                     String idToken = acct.getIdToken();
+                    progressBarActivity.showProgress(mLoginFormView,mProgressView,true,getApplicationContext());
                     new RemoteHelper(getApplicationContext()).getGoogleAuthDetails(this,RemoteCalls.GET_GOOGLE_USER_DETAILS,idToken);
                     //Intent intent =new Intent(this,Main_Activity.class);
                     //startActivity(intent);
