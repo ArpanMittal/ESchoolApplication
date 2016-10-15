@@ -61,19 +61,19 @@ public class TestActivity extends AppCompatActivity implements RemoteCallHandler
     double startTime=System.currentTimeMillis();
     double endTime ;
     int lastPageposition=0;
-    long countDownTime=720000;
+    static long countDownTime=720000;
     int pageOffset;
     private static ProgressBar progress;
     private TabLayout tabLayout;
     private String title;
     private Toolbar toolbar;
-    private TextView countDown;
+    private static TextView countDown;
     private Boolean isSubmit;
 
     private TextView submit_btn;
     private ViewPager mViewPagerView;
     boolean is_submit_active=false;
-    private  CountDownTimer countDownTimer=null;
+    private static  CountDownTimer countDownTimer=null;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -176,6 +176,7 @@ public class TestActivity extends AppCompatActivity implements RemoteCallHandler
                         is_submit_active=true;
                         if(countDownTimer!=null) {
                             countDownTimer.cancel();
+                            countDownTimer=null;
                             countDown.setVisibility(View.GONE);
                         }
                         access_token=sharedPrefrence.getAccessToken(getApplicationContext());
@@ -282,32 +283,39 @@ public class TestActivity extends AppCompatActivity implements RemoteCallHandler
 
         //TODO: change for practice test
         if(tag.equals(getString(R.string.samplepaper_tag))&&(!is_submit_active)) {
-            if(countDownTime<30000)
-                countDown.setTextColor(Color.parseColor("#c60000"));
+            countDown.setVisibility(View.VISIBLE);
+                if(countDownTimer==null) {
 
-           countDownTimer= new CountDownTimer(countDownTime, 1000) {
+                    countDownTimer = new CountDownTimer(countDownTime, 1000) {
 
-                public void onTick(long millisUntilFinished) {
-                    countDownTime = millisUntilFinished;
-                    countDown.setText("" + String.format("%d min, %d sec",
-                            TimeUnit.MILLISECONDS.toMinutes(millisUntilFinished),
-                            TimeUnit.MILLISECONDS.toSeconds(millisUntilFinished) -
-                                    TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(millisUntilFinished))));
+                        public void onTick(long millisUntilFinished) {
+                            if(TimeUnit.MILLISECONDS.toMinutes(millisUntilFinished)==0&&TimeUnit.MILLISECONDS.toSeconds(millisUntilFinished) -
+                                    TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(millisUntilFinished))<30)
+                                countDown.setTextColor(Color.RED);
+                            else
+                                countDown.setTextColor(Color.WHITE);
 
+                            countDownTime = millisUntilFinished;
+                            countDown.setText("" + String.format("%d min, %d sec",
+                                    TimeUnit.MILLISECONDS.toMinutes(millisUntilFinished),
+                                    TimeUnit.MILLISECONDS.toSeconds(millisUntilFinished) -
+                                            TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(millisUntilFinished))));
+
+                        }
+
+
+                        public void onFinish() {
+
+                            access_token = sharedPrefrence.getAccessToken(getApplicationContext());
+                            new RemoteHelper(getApplicationContext()).sendQuestionResponse(TestActivity.this, RemoteCalls.SEND_QUESTION_RESPONSE, tag, id, access_token, makeResponseList());
+                            progressBarActivity.showProgress(mViewPagerView, mProgressView, true, getApplicationContext());
+
+                            //countDown.setText("done!");
+
+                        }
+
+                    }.start();
                 }
-
-
-                public void onFinish() {
-
-                    access_token = sharedPrefrence.getAccessToken(getApplicationContext());
-                    new RemoteHelper(getApplicationContext()).sendQuestionResponse(TestActivity.this, RemoteCalls.SEND_QUESTION_RESPONSE, tag, id, access_token, makeResponseList());
-                    progressBarActivity.showProgress(mViewPagerView, mProgressView, true, getApplicationContext());
-
-                    //countDown.setText("done!");
-
-                }
-
-            }.start();
         }
         progress.setMax(questionLists.size()-1);
         progress.setProgress(mViewPagerView.getCurrentItem());
