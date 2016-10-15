@@ -3,6 +3,7 @@ package com.organization.sjhg.e_school.Content.NewTest;
 import android.content.ContentValues;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.database.Cursor;
 import android.graphics.Color;
 
@@ -174,6 +175,12 @@ public class TestActivity extends AppCompatActivity implements RemoteCallHandler
     }
 
     private void showLocationDialog() {
+
+        if(getResources().getConfiguration().orientation==ActivityInfo.SCREEN_ORIENTATION_PORTRAIT)
+            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR_PORTRAIT);
+        else
+            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR_LANDSCAPE);
+
         AlertDialog.Builder builder = new AlertDialog.Builder(TestActivity.this);
         builder.setTitle(getString(R.string.test_submit_title));
         builder.setMessage(getString(R.string.test_submit_message));
@@ -184,7 +191,7 @@ public class TestActivity extends AppCompatActivity implements RemoteCallHandler
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         // positive button logic
-
+                        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR);
                         is_submit_active=true;
                         if(countDownTimer!=null) {
                             countDownTimer.cancel();
@@ -203,6 +210,7 @@ public class TestActivity extends AppCompatActivity implements RemoteCallHandler
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         // negative button logic
+                        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR);
                     }
                 });
 

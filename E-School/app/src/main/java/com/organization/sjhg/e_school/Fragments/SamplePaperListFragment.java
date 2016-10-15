@@ -1,5 +1,6 @@
 package com.organization.sjhg.e_school.Fragments;
 
+import android.app.Activity;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -28,6 +29,7 @@ public class SamplePaperListFragment extends Fragment {
     String parent_title;
     String parent_id;
     View rootView;
+    Activity activity;
     SamplePaperListDataAdapter samplePaperListDataAdapter;
     public SamplePaperListFragment(){
 
@@ -47,7 +49,7 @@ public class SamplePaperListFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         rootView = inflater.inflate(R.layout.list_view_helper_exam, container, false);
 
-
+        activity=getActivity();
         return rootView;
     }
 
@@ -58,7 +60,7 @@ public class SamplePaperListFragment extends Fragment {
         TextView textView=(TextView)rootView.findViewById(R.id.title);
         textView.setVisibility(View.GONE);
         //GridDataAdapter gridDataAdapter=new GridDataAdapter(getContext(),chapterLists);
-        samplePaperListDataAdapter=new SamplePaperListDataAdapter(getContext(),chapterLists,parent_title,parent_id);
+        samplePaperListDataAdapter=new SamplePaperListDataAdapter(getContext(),chapterLists,parent_title,parent_id,activity);
         if(getActivity().getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT){
             rv.setLayoutManager(new GridLayoutManager(getActivity().getApplicationContext(),2));
         }
