@@ -65,7 +65,9 @@ public class TestActivity extends AppCompatActivity implements RemoteCallHandler
     double startTime=System.currentTimeMillis();
     double endTime ;
     int lastPageposition=0;
+
     long countDownTime=720000;
+
     int pageOffset;
     private static ProgressBar progress;
     private TabLayout tabLayout;
