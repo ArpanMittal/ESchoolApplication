@@ -17,6 +17,8 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.view.animation.AlphaAnimation;
+import android.view.animation.Animation;
 import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -50,6 +52,8 @@ import java.util.concurrent.TimeUnit;
  */
 public class TestActivity extends AppCompatActivity implements RemoteCallHandler {
     private ToastActivity toastActivity=new ToastActivity();
+    private static Animation fadeIn,fadeOut;
+    private static boolean is_fadeOut=false;
     private SharedPrefrence sharedPrefrence=new SharedPrefrence();
     private String access_token;
     private  String tag="";
@@ -61,7 +65,7 @@ public class TestActivity extends AppCompatActivity implements RemoteCallHandler
     double startTime=System.currentTimeMillis();
     double endTime ;
     int lastPageposition=0;
-    static long countDownTime=720000;
+    long countDownTime=720000;
     int pageOffset;
     private static ProgressBar progress;
     private TabLayout tabLayout;
@@ -79,7 +83,13 @@ public class TestActivity extends AppCompatActivity implements RemoteCallHandler
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_test);
+        fadeIn = new AlphaAnimation(0.0f , 1.0f ) ;
+        fadeIn.setDuration(1000);
+        fadeIn.setFillAfter(true);
 
+        fadeOut = new AlphaAnimation(1.0f , 0.0f);
+        fadeOut.setDuration(1000);
+        fadeOut.setFillAfter(true);
         mViewPagerView=(ViewPager)findViewById(R.id.viewpager_fragment);
         progress = (ProgressBar) findViewById(R.id.progressBar);
         progress.getProgressDrawable().setColorFilter(Color.parseColor("#ff5722"), PorterDuff.Mode.SRC_IN);
@@ -290,10 +300,18 @@ public class TestActivity extends AppCompatActivity implements RemoteCallHandler
 
                         public void onTick(long millisUntilFinished) {
                             if(TimeUnit.MILLISECONDS.toMinutes(millisUntilFinished)==0&&TimeUnit.MILLISECONDS.toSeconds(millisUntilFinished) -
-                                    TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(millisUntilFinished))<30)
-                                countDown.setTextColor(Color.RED);
-                            else
-                                countDown.setTextColor(Color.WHITE);
+                                    TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(millisUntilFinished))<30) {
+                               // countDown.setTextColor(Color.parseColor("#ff5722"));
+                                if(is_fadeOut==true) {
+                                    countDown.startAnimation(fadeIn);
+                                    is_fadeOut=false;
+                                }
+                                else {
+                                    countDown.startAnimation(fadeOut);
+                                    is_fadeOut=true;
+                                }
+                            }
+
 
                             countDownTime = millisUntilFinished;
                             countDown.setText("" + String.format("%d min, %d sec",
@@ -305,7 +323,11 @@ public class TestActivity extends AppCompatActivity implements RemoteCallHandler
 
 
                         public void onFinish() {
-
+                            if(countDownTimer!=null) {
+                                countDownTimer.cancel();
+                                countDownTimer=null;
+                                countDown.setVisibility(View.GONE);
+                            }
                             access_token = sharedPrefrence.getAccessToken(getApplicationContext());
                             new RemoteHelper(getApplicationContext()).sendQuestionResponse(TestActivity.this, RemoteCalls.SEND_QUESTION_RESPONSE, tag, id, access_token, makeResponseList());
                             progressBarActivity.showProgress(mViewPagerView, mProgressView, true, getApplicationContext());
