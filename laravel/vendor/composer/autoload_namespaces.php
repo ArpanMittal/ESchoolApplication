@@ -6,7 +6,6 @@ $vendorDir = dirname(dirname(__FILE__));
 $baseDir = dirname($vendorDir);
 
 return array(
-    'Psr\\Log\\' => array($vendorDir . '/psr/log'),
     'Prophecy\\' => array($vendorDir . '/phpspec/prophecy/src'),
     'OAuth2\\HttpFoundationBridge' => array($vendorDir . '/bshaffer/oauth2-server-httpfoundation-bridge/src'),
     'OAuth2' => array($vendorDir . '/bshaffer/oauth2-server-php/src'),
@@ -19,4 +18,5 @@ return array(
     'Doctrine\\Common\\Collections\\' => array($vendorDir . '/doctrine/collections/lib'),
     'Doctrine\\Common\\Annotations\\' => array($vendorDir . '/doctrine/annotations/lib'),
     'Cron' => array($vendorDir . '/mtdowling/cron-expression/src'),
+    'Bllim\\Laravalid\\' => array($vendorDir . '/bllim/laravalid/src'),
 );
