@@ -3,6 +3,7 @@ package com.organization.sjhg.e_school.Content.NewTest;
 import android.content.ContentValues;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.database.Cursor;
 import android.graphics.Color;
 
@@ -17,6 +18,8 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.view.animation.AlphaAnimation;
+import android.view.animation.Animation;
 import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -50,6 +53,8 @@ import java.util.concurrent.TimeUnit;
  */
 public class TestActivity extends AppCompatActivity implements RemoteCallHandler {
     private ToastActivity toastActivity=new ToastActivity();
+    private static Animation fadeIn,fadeOut;
+    private static boolean is_fadeOut=false;
     private SharedPrefrence sharedPrefrence=new SharedPrefrence();
     private String access_token;
     private  String tag="";
@@ -61,25 +66,33 @@ public class TestActivity extends AppCompatActivity implements RemoteCallHandler
     double startTime=System.currentTimeMillis();
     double endTime ;
     int lastPageposition=0;
+
     long countDownTime=720000;
+
     int pageOffset;
     private static ProgressBar progress;
     private TabLayout tabLayout;
     private String title;
     private Toolbar toolbar;
-    private TextView countDown;
+    private static TextView countDown;
     private Boolean isSubmit;
 
     private TextView submit_btn;
     private ViewPager mViewPagerView;
     boolean is_submit_active=false;
-    private  CountDownTimer countDownTimer=null;
+    private static  CountDownTimer countDownTimer=null;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_test);
+        fadeIn = new AlphaAnimation(0.0f , 1.0f ) ;
+        fadeIn.setDuration(1000);
+        fadeIn.setFillAfter(true);
 
+        fadeOut = new AlphaAnimation(1.0f , 0.0f);
+        fadeOut.setDuration(1000);
+        fadeOut.setFillAfter(true);
         mViewPagerView=(ViewPager)findViewById(R.id.viewpager_fragment);
         progress = (ProgressBar) findViewById(R.id.progressBar);
         progress.getProgressDrawable().setColorFilter(Color.parseColor("#ff5722"), PorterDuff.Mode.SRC_IN);
@@ -162,6 +175,12 @@ public class TestActivity extends AppCompatActivity implements RemoteCallHandler
     }
 
     private void showLocationDialog() {
+
+        if(getResources().getConfiguration().orientation==ActivityInfo.SCREEN_ORIENTATION_PORTRAIT)
+            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR_PORTRAIT);
+        else
+            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR_LANDSCAPE);
+
         AlertDialog.Builder builder = new AlertDialog.Builder(TestActivity.this);
         builder.setTitle(getString(R.string.test_submit_title));
         builder.setMessage(getString(R.string.test_submit_message));
@@ -172,10 +191,11 @@ public class TestActivity extends AppCompatActivity implements RemoteCallHandler
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         // positive button logic
-
+                        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR);
                         is_submit_active=true;
                         if(countDownTimer!=null) {
                             countDownTimer.cancel();
+                            countDownTimer=null;
                             countDown.setVisibility(View.GONE);
                         }
                         access_token=sharedPrefrence.getAccessToken(getApplicationContext());
@@ -190,6 +210,7 @@ public class TestActivity extends AppCompatActivity implements RemoteCallHandler
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         // negative button logic
+                        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR);
                     }
                 });
 
@@ -282,32 +303,51 @@ public class TestActivity extends AppCompatActivity implements RemoteCallHandler
 
         //TODO: change for practice test
         if(tag.equals(getString(R.string.samplepaper_tag))&&(!is_submit_active)) {
-            if(countDownTime<30000)
-                countDown.setTextColor(Color.parseColor("#c60000"));
+            countDown.setVisibility(View.VISIBLE);
+                if(countDownTimer==null) {
 
-           countDownTimer= new CountDownTimer(countDownTime, 1000) {
+                    countDownTimer = new CountDownTimer(countDownTime, 1000) {
 
-                public void onTick(long millisUntilFinished) {
-                    countDownTime = millisUntilFinished;
-                    countDown.setText("" + String.format("%d min, %d sec",
-                            TimeUnit.MILLISECONDS.toMinutes(millisUntilFinished),
-                            TimeUnit.MILLISECONDS.toSeconds(millisUntilFinished) -
-                                    TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(millisUntilFinished))));
+                        public void onTick(long millisUntilFinished) {
+                            if(TimeUnit.MILLISECONDS.toMinutes(millisUntilFinished)==0&&TimeUnit.MILLISECONDS.toSeconds(millisUntilFinished) -
+                                    TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(millisUntilFinished))<30) {
+                               // countDown.setTextColor(Color.parseColor("#ff5722"));
+                                if(is_fadeOut==true) {
+                                    countDown.startAnimation(fadeIn);
+                                    is_fadeOut=false;
+                                }
+                                else {
+                                    countDown.startAnimation(fadeOut);
+                                    is_fadeOut=true;
+                                }
+                            }
 
+
+                            countDownTime = millisUntilFinished;
+                            countDown.setText("" + String.format("%d min, %d sec",
+                                    TimeUnit.MILLISECONDS.toMinutes(millisUntilFinished),
+                                    TimeUnit.MILLISECONDS.toSeconds(millisUntilFinished) -
+                                            TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(millisUntilFinished))));
+
+                        }
+
+
+                        public void onFinish() {
+                            if(countDownTimer!=null) {
+                                countDownTimer.cancel();
+                                countDownTimer=null;
+                                countDown.setVisibility(View.GONE);
+                            }
+                            access_token = sharedPrefrence.getAccessToken(getApplicationContext());
+                            new RemoteHelper(getApplicationContext()).sendQuestionResponse(TestActivity.this, RemoteCalls.SEND_QUESTION_RESPONSE, tag, id, access_token, makeResponseList());
+                            progressBarActivity.showProgress(mViewPagerView, mProgressView, true, getApplicationContext());
+
+                            //countDown.setText("done!");
+
+                        }
+
+                    }.start();
                 }
-
-
-                public void onFinish() {
-
-                    access_token = sharedPrefrence.getAccessToken(getApplicationContext());
-                    new RemoteHelper(getApplicationContext()).sendQuestionResponse(TestActivity.this, RemoteCalls.SEND_QUESTION_RESPONSE, tag, id, access_token, makeResponseList());
-                    progressBarActivity.showProgress(mViewPagerView, mProgressView, true, getApplicationContext());
-
-                    //countDown.setText("done!");
-
-                }
-
-            }.start();
         }
         progress.setMax(questionLists.size()-1);
         progress.setProgress(mViewPagerView.getCurrentItem());

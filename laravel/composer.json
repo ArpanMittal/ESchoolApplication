@@ -13,9 +13,8 @@
         "doctrine/dbal": "^2.5",
         "guzzlehttp/guzzle": "^6.2",
         "backup-manager/laravel": "^1.1",
-        "league/flysystem": "^1.0"
-
-
+        "league/flysystem": "^1.0",
+        "bllim/laravalid": "*"
     },
     "require-dev": {
         "fzaninotto/faker": "^1.6",

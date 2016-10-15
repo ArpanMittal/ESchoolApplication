@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.os.PersistableBundle;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
+import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.NavUtils;
 import android.support.v4.app.TaskStackBuilder;
 import android.support.v7.app.AppCompatActivity;
@@ -45,10 +46,10 @@ import java.util.regex.Pattern;
  */
 //TODO: ADD moving back option Activty feature
 public class SignupActivity extends AppCompatActivity implements RemoteCallHandler {
-    private EditText mEmailView;
-    private EditText mPasswordView;
-    private EditText mConfirmPasswordView;
-    private EditText mNameView;
+    private TextInputLayout mEmailView;
+    private TextInputLayout mPasswordView;
+    private TextInputLayout mConfirmPasswordView;
+    private TextInputLayout mNameView;
     private View focusView;
     private View mProgressView;
     private View mSignUpFormView;
@@ -59,10 +60,10 @@ public class SignupActivity extends AppCompatActivity implements RemoteCallHandl
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.signupactivity);
-        mEmailView=(EditText)findViewById(R.id.email);
-        mPasswordView=(EditText)findViewById(R.id.password);
-        mConfirmPasswordView=(EditText)findViewById(R.id.confirmpassword);
-        mNameView=(EditText)findViewById(R.id.name);
+        mEmailView=(TextInputLayout)findViewById(R.id.email);
+        mPasswordView=(TextInputLayout)findViewById(R.id.password);
+        mConfirmPasswordView=(TextInputLayout)findViewById(R.id.confirmpassword);
+        mNameView=(TextInputLayout) findViewById(R.id.name);
         mSignUpFormView=findViewById(R.id.signup_form);
         mProgressView=findViewById(R.id.signup_progress);
         signup=(Button)findViewById(R.id.sign_up_button);
@@ -77,10 +78,16 @@ public class SignupActivity extends AppCompatActivity implements RemoteCallHandl
 
     private void attemptSignUp()
     {
-        String email=mEmailView.getText().toString();
-        String password = mPasswordView.getText().toString();
-        String confirmPassword=mConfirmPasswordView.getText().toString();
-        String name=mNameView.getText().toString();
+        // Reset errors.
+        mEmailView.setError(null);
+        mPasswordView.setError(null);
+        mConfirmPasswordView.setError(null);
+        mNameView.setError(null);
+
+        String email=mEmailView.getEditText().getText().toString();
+        String password = mPasswordView.getEditText().getText().toString();
+        String confirmPassword=mConfirmPasswordView.getEditText().getText().toString();
+        String name=mNameView.getEditText().getText().toString();
         focusView = null;
         boolean cancel=false;
         // validate email
@@ -136,7 +143,7 @@ public class SignupActivity extends AppCompatActivity implements RemoteCallHandl
     {
         return confirmPassword.equals(Password);
     }
-    private boolean validateEmptyField(EditText view,String toMatch)
+    private boolean validateEmptyField(TextInputLayout view,String toMatch)
     {
         if(TextUtils.isEmpty(toMatch))
         {

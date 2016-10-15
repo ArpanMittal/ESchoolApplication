@@ -16,6 +16,7 @@ class ComposerStaticInit8836c73dcfe524fe66620af95cd9ec65
         '5255c38a0faeba867671b61dfda6d864' => __DIR__ . '/..' . '/paragonie/random_compat/lib/random.php',
         'c964ee0ededf28c96ebd9db5099ef910' => __DIR__ . '/..' . '/guzzlehttp/promises/src/functions_include.php',
         'a0edc8309cc5e1d60e3047b5df6b7052' => __DIR__ . '/..' . '/guzzlehttp/psr7/src/functions_include.php',
+        'f18cc91337d49233e5754e93f3ed9ec3' => __DIR__ . '/..' . '/laravelcollective/html/src/helpers.php',
         '37a3dc5111fe8f707ab4c132ef1dbc62' => __DIR__ . '/..' . '/guzzlehttp/guzzle/src/functions_include.php',
         'f0906e6318348a765ffb6eb24e0d0938' => __DIR__ . '/..' . '/laravel/framework/src/Illuminate/Foundation/helpers.php',
         '58571171fd5812e6e447dce228f52f4d' => __DIR__ . '/..' . '/laravel/framework/src/Illuminate/Support/helpers.php',
@@ -61,6 +62,7 @@ class ComposerStaticInit8836c73dcfe524fe66620af95cd9ec65
         'P' => 
         array (
             'Psy\\' => 4,
+            'Psr\\Log\\' => 8,
             'Psr\\Http\\Message\\' => 17,
             'PhpParser\\' => 10,
         ),
@@ -95,8 +97,14 @@ class ComposerStaticInit8836c73dcfe524fe66620af95cd9ec65
         ),
         'C' => 
         array (
+            'Collective\\Html\\' => 16,
             'ClassPreloader\\' => 15,
             'Carbon\\' => 7,
+        ),
+        'B' => 
+        array (
+            'BackupManager\\Laravel\\' => 22,
+            'BackupManager\\' => 14,
         ),
         'A' => 
         array (
@@ -195,6 +203,10 @@ class ComposerStaticInit8836c73dcfe524fe66620af95cd9ec65
         array (
             0 => __DIR__ . '/..' . '/psy/psysh/src/Psy',
         ),
+        'Psr\\Log\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/psr/log/Psr/Log',
+        ),
         'Psr\\Http\\Message\\' => 
         array (
             0 => __DIR__ . '/..' . '/psr/http-message/src',
@@ -247,6 +259,10 @@ class ComposerStaticInit8836c73dcfe524fe66620af95cd9ec65
         array (
             0 => __DIR__ . '/..' . '/doctrine/common/lib/Doctrine/Common',
         ),
+        'Collective\\Html\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/laravelcollective/html/src',
+        ),
         'ClassPreloader\\' => 
         array (
             0 => __DIR__ . '/..' . '/classpreloader/classpreloader/src',
@@ -254,6 +270,14 @@ class ComposerStaticInit8836c73dcfe524fe66620af95cd9ec65
         'Carbon\\' => 
         array (
             0 => __DIR__ . '/..' . '/nesbot/carbon/src/Carbon',
+        ),
+        'BackupManager\\Laravel\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/backup-manager/laravel/src',
+        ),
+        'BackupManager\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/backup-manager/backup-manager/src',
         ),
         'App\\' => 
         array (
@@ -264,10 +288,6 @@ class ComposerStaticInit8836c73dcfe524fe66620af95cd9ec65
     public static $prefixesPsr0 = array (
         'P' => 
         array (
-            'Psr\\Log\\' => 
-            array (
-                0 => __DIR__ . '/..' . '/psr/log',
-            ),
             'Prophecy\\' => 
             array (
                 0 => __DIR__ . '/..' . '/phpspec/prophecy/src',
@@ -332,12 +352,29 @@ class ComposerStaticInit8836c73dcfe524fe66620af95cd9ec65
                 0 => __DIR__ . '/..' . '/mtdowling/cron-expression/src',
             ),
         ),
+        'B' => 
+        array (
+            'Bllim\\Laravalid\\' => 
+            array (
+                0 => __DIR__ . '/..' . '/bllim/laravalid/src',
+            ),
+        ),
     );
 
     public static $classMap = array (
+        'AddActiveInExamTagTable' => __DIR__ . '/../..' . '/database/migrations/2016_10_10_110436_AddActiveInExamTagTable.php',
+        'AddDashBoardImagePath' => __DIR__ . '/../..' . '/database/migrations/2016_09_23_092759_AddDashBoardImagePath.php',
+        'AddQuestionId' => __DIR__ . '/../..' . '/database/migrations/2016_09_06_075542_addQuestionId.php',
         'Additionaltables' => __DIR__ . '/../..' . '/database/migrations/2016_08_09_045659_additionaltables.php',
+        'Addquestionoption' => __DIR__ . '/../..' . '/database/migrations/2016_09_12_112857_addquestionoption.php',
+        'Analyticsdatabase' => __DIR__ . '/../..' . '/database/migrations/2016_08_29_080355_analyticsdatabase.php',
+        'ChangeTableColType' => __DIR__ . '/../..' . '/database/migrations/2016_09_22_072515_ChangeTableColType.php',
+        'ChangetimeTakenFormat' => __DIR__ . '/../..' . '/database/migrations/2016_09_21_103913_changetime_taken_format.php',
+        'CreateNotesTable' => __DIR__ . '/../..' . '/database/migrations/2016_09_23_105625_CreateNotesTable.php',
+        'DashBoardImage' => __DIR__ . '/../..' . '/database/migrations/2016_09_26_054131_dashBoardImage.php',
         'DatabaseSeeder' => __DIR__ . '/../..' . '/database/seeds/DatabaseSeeder.php',
         'Databsecorrection' => __DIR__ . '/../..' . '/database/migrations/2016_08_11_053249_databsecorrection.php',
+        'ExamQuesNoTable' => __DIR__ . '/../..' . '/database/migrations/2016_09_17_093909_ExamQuesNoTable.php',
         'File_Iterator' => __DIR__ . '/..' . '/phpunit/php-file-iterator/src/Iterator.php',
         'File_Iterator_Facade' => __DIR__ . '/..' . '/phpunit/php-file-iterator/src/Facade.php',
         'File_Iterator_Factory' => __DIR__ . '/..' . '/phpunit/php-file-iterator/src/Factory.php',
@@ -412,6 +449,7 @@ class ComposerStaticInit8836c73dcfe524fe66620af95cd9ec65
         'IlluminateQueueClosure' => __DIR__ . '/..' . '/laravel/framework/src/Illuminate/Queue/IlluminateQueueClosure.php',
         'Initialsetup' => __DIR__ . '/../..' . '/database/migrations/2016_08_04_043739_initialsetup.php',
         'Insertforeignkey' => __DIR__ . '/../..' . '/database/migrations/2016_08_11_084533_insertforeignkey.php',
+        'MakeEmailUnique' => __DIR__ . '/../..' . '/database/migrations/2016_08_13_091552_makeEmailUnique.php',
         'OAuthClientsSeeder' => __DIR__ . '/../..' . '/database/seeds/OAuthClientsSeeder.php',
         'OAuthUsersSeeder' => __DIR__ . '/../..' . '/database/seeds/OAuthUsersSeeder.php',
         'PHPUnit_Exception' => __DIR__ . '/..' . '/phpunit/phpunit/src/Exception.php',
@@ -809,6 +847,11 @@ class ComposerStaticInit8836c73dcfe524fe66620af95cd9ec65
         'PHP_Token_XOR_EQUAL' => __DIR__ . '/..' . '/phpunit/php-token-stream/src/Token.php',
         'PHP_Token_YIELD' => __DIR__ . '/..' . '/phpunit/php-token-stream/src/Token.php',
         'PHP_Token_YIELD_FROM' => __DIR__ . '/..' . '/phpunit/php-token-stream/src/Token.php',
+        'PackageTables' => __DIR__ . '/../..' . '/database/migrations/2016_08_20_091257_packageTables.php',
+        'Packageoptimization' => __DIR__ . '/../..' . '/database/migrations/2016_09_05_045722_packageoptimization.php',
+        'RenameTable' => __DIR__ . '/../..' . '/database/migrations/2016_08_22_042637_rename_table.php',
+        'Samplepaper' => __DIR__ . '/../..' . '/database/migrations/2016_08_29_104650_samplepaper.php',
+        'SchoolTable' => __DIR__ . '/../..' . '/database/migrations/2016_09_16_064258_SchoolTable.php',
         'SebastianBergmann\\Comparator\\ArrayComparator' => __DIR__ . '/..' . '/sebastian/comparator/src/ArrayComparator.php',
         'SebastianBergmann\\Comparator\\Comparator' => __DIR__ . '/..' . '/sebastian/comparator/src/Comparator.php',
         'SebastianBergmann\\Comparator\\ComparisonFailure' => __DIR__ . '/..' . '/sebastian/comparator/src/ComparisonFailure.php',
@@ -846,9 +889,20 @@ class ComposerStaticInit8836c73dcfe524fe66620af95cd9ec65
         'SebastianBergmann\\RecursionContext\\InvalidArgumentException' => __DIR__ . '/..' . '/sebastian/recursion-context/src/InvalidArgumentException.php',
         'SebastianBergmann\\Version' => __DIR__ . '/..' . '/sebastian/version/src/Version.php',
         'SetupOauth' => __DIR__ . '/../..' . '/database/migrations/2016_08_04_105634_setup_oauth.php',
+        'SubscriptionType' => __DIR__ . '/../..' . '/database/seeds/SubscriptionType.php',
         'TestCase' => __DIR__ . '/../..' . '/tests/TestCase.php',
         'Text_Template' => __DIR__ . '/..' . '/phpunit/php-text-template/src/Template.php',
+        'UpdateSubscription' => __DIR__ . '/../..' . '/database/migrations/2016_08_24_102203_update_subscription.php',
         'UserSeeder' => __DIR__ . '/../..' . '/database/seeds/UserSeeder.php',
+        'chapter' => __DIR__ . '/../..' . '/database/seeds/chapter.php',
+        'chaptertopic' => __DIR__ . '/../..' . '/database/seeds/chaptertopic.php',
+        'classs' => __DIR__ . '/../..' . '/database/seeds/classs.php',
+        'classsubject' => __DIR__ . '/../..' . '/database/seeds/classsubject.php',
+        'stream' => __DIR__ . '/../..' . '/database/seeds/stream.php',
+        'streamchapter' => __DIR__ . '/../..' . '/database/seeds/streamchapter.php',
+        'subject' => __DIR__ . '/../..' . '/database/seeds/subject.php',
+        'subjectstream' => __DIR__ . '/../..' . '/database/seeds/subjectstream.php',
+        'topic' => __DIR__ . '/../..' . '/database/seeds/topic.php',
     );
 
     public static function getInitializer(ClassLoader $loader)

@@ -1,8 +1,10 @@
 package com.organization.sjhg.e_school.Helpers;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -38,12 +40,20 @@ public class SamplePaperListDataAdapter extends RecyclerView.Adapter<SamplePaper
     private Context context;
     private String parent_title;
     private String parent_id;
+    private Activity activity;
 
     public SamplePaperListDataAdapter(Context context,List<ChapterList> android,String parent_title,String parent_id) {
         this.chapterLists = android;
         this.context = context;
         this.parent_title=parent_title;
         this.parent_id=parent_id;
+    }
+    public SamplePaperListDataAdapter(Context context,List<ChapterList> android,String parent_title,String parent_id,Activity activity) {
+        this.chapterLists = android;
+        this.context = context;
+        this.parent_title=parent_title;
+        this.parent_id=parent_id;
+        this.activity=activity;
     }
 
 
@@ -72,8 +82,9 @@ public class SamplePaperListDataAdapter extends RecyclerView.Adapter<SamplePaper
         viewHolder.view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(sharedPrefrence.getAccessToken(context)==null)
+                if(sharedPrefrence.getAccessToken(context)==null) {
                     showLginDialog(position);
+                }
                 else
                     showLocationDialog(position);
             }
@@ -97,6 +108,12 @@ public class SamplePaperListDataAdapter extends RecyclerView.Adapter<SamplePaper
 
     private void showLginDialog(final int position)
     {
+        if(context.getResources().getConfiguration().orientation== ActivityInfo.SCREEN_ORIENTATION_PORTRAIT)
+            activity.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR_PORTRAIT);
+        else
+            activity.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR_LANDSCAPE);
+
+
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
         builder.setTitle(context.getString(R.string.ask_login));
 
@@ -107,6 +124,7 @@ public class SamplePaperListDataAdapter extends RecyclerView.Adapter<SamplePaper
                 new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
+                        activity.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR);
                         Intent intent=new Intent(context, LoginActivity.class);
                         intent.putExtra("Tag", GlobalConstants.SamplePaperTag);
                         intent.putExtra("Id",chapterLists.get(position).id);
@@ -124,6 +142,7 @@ public class SamplePaperListDataAdapter extends RecyclerView.Adapter<SamplePaper
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         // negative button logic
+                        activity.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR);
                     }
                 });
 
@@ -133,6 +152,11 @@ public class SamplePaperListDataAdapter extends RecyclerView.Adapter<SamplePaper
     }
 
     private void showLocationDialog(final int position) {
+        if(context.getResources().getConfiguration().orientation== ActivityInfo.SCREEN_ORIENTATION_PORTRAIT)
+            activity.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR_PORTRAIT);
+        else
+            activity.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR_LANDSCAPE);
+
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
         builder.setTitle(context.getString(R.string.test_start_title));
         builder.setMessage(context.getString(R.string.test_submit_message));
@@ -142,6 +166,7 @@ public class SamplePaperListDataAdapter extends RecyclerView.Adapter<SamplePaper
                 new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
+                        activity.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR);
                         Intent intent=new Intent(context, TestActivity.class);
                         intent.putExtra("Tag", GlobalConstants.SamplePaperTag);
                         intent.putExtra("Id",chapterLists.get(position).id);
@@ -159,6 +184,7 @@ public class SamplePaperListDataAdapter extends RecyclerView.Adapter<SamplePaper
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         // negative button logic
+                        activity.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR);
                     }
                 });
 

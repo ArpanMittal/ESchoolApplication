@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
@@ -117,10 +118,15 @@ public class ProfileEditActivity extends AppCompatActivity implements RemoteCall
         userDob.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if(getResources().getConfiguration().orientation== ActivityInfo.SCREEN_ORIENTATION_PORTRAIT)
+                    setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR_PORTRAIT);
+                else
+                    setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR_LANDSCAPE);
                 Calendar newCalendar = Calendar.getInstance();
                 DatePickerDialog dialog = new DatePickerDialog(ProfileEditActivity.this ,new DatePickerDialog.OnDateSetListener() {
 
                     public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+                        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR);
                         DateFormat outputFormat = new SimpleDateFormat("dd MMMM yyyy");
                         Calendar newDate = Calendar.getInstance();
                         newDate.set(year, monthOfYear, dayOfMonth);
@@ -359,6 +365,10 @@ public class ProfileEditActivity extends AppCompatActivity implements RemoteCall
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 if (country.get(position).equals("Add")) {
+                    if(getResources().getConfiguration().orientation==ActivityInfo.SCREEN_ORIENTATION_PORTRAIT)
+                        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR_PORTRAIT);
+                    else
+                        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR_LANDSCAPE);
                     AlertDialog.Builder alert = new AlertDialog.Builder(ProfileEditActivity.this,R.style.AppTheme_AlertDialog);
                     final EditText edittext = new EditText(getApplicationContext());
                     edittext.setTextColor(Color.DKGRAY);
@@ -372,6 +382,7 @@ public class ProfileEditActivity extends AppCompatActivity implements RemoteCall
                     alert.setView(edittext);
                     alert.setPositiveButton("Add", new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int whichButton) {
+                            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR);
                             String value = edittext.getText().toString();
                             if (!value.equals("")) {
                                 country.add(value);
@@ -382,6 +393,7 @@ public class ProfileEditActivity extends AppCompatActivity implements RemoteCall
 
                     alert.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int whichButton) {
+                            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR);
                             userCountry.setSelection(0);
                         }
                     });
@@ -407,6 +419,10 @@ public class ProfileEditActivity extends AppCompatActivity implements RemoteCall
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 if (state.get(position).equals("Add")) {
+                    if(getResources().getConfiguration().orientation==ActivityInfo.SCREEN_ORIENTATION_PORTRAIT)
+                        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR_PORTRAIT);
+                    else
+                        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR_LANDSCAPE);
                     AlertDialog.Builder alert = new AlertDialog.Builder(ProfileEditActivity.this,R.style.AppTheme_AlertDialog);
                     final EditText edittext = new EditText(getApplicationContext());
                     edittext.setTextColor(Color.DKGRAY);
@@ -420,6 +436,7 @@ public class ProfileEditActivity extends AppCompatActivity implements RemoteCall
                     alert.setView(edittext);
                     alert.setPositiveButton("Add", new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int whichButton) {
+                            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR);
                             String value = edittext.getText().toString();
                             if (!value.equals("")) {
                                 state.add(value);
@@ -429,6 +446,7 @@ public class ProfileEditActivity extends AppCompatActivity implements RemoteCall
                     });
                     alert.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int whichButton) {
+                            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR);
                             userState.setSelection(0);
                         }
                     });
@@ -453,6 +471,10 @@ public class ProfileEditActivity extends AppCompatActivity implements RemoteCall
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 if (city.get(position).equals("Add")) {
+                    if(getResources().getConfiguration().orientation==ActivityInfo.SCREEN_ORIENTATION_PORTRAIT)
+                        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR_PORTRAIT);
+                    else
+                        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR_LANDSCAPE);
                     AlertDialog.Builder alert = new AlertDialog.Builder(ProfileEditActivity.this,R.style.AppTheme_AlertDialog);
                     final EditText edittext = new EditText(getApplicationContext());
                     edittext.setTextColor(Color.DKGRAY);
@@ -466,6 +488,7 @@ public class ProfileEditActivity extends AppCompatActivity implements RemoteCall
                     alert.setView(edittext);
                     alert.setPositiveButton("Add", new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int whichButton) {
+                            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR);
                             String value = edittext.getText().toString();
                             if (!value.equals("")) {
                                 city.add(value);
@@ -475,6 +498,7 @@ public class ProfileEditActivity extends AppCompatActivity implements RemoteCall
                     });
                     alert.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int whichButton) {
+                            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR);
                             userCity.setSelection(0);
                         }
                     });
@@ -499,6 +523,10 @@ public class ProfileEditActivity extends AppCompatActivity implements RemoteCall
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 if (school.get(position).equals("Add")) {
+                    if(getResources().getConfiguration().orientation==ActivityInfo.SCREEN_ORIENTATION_PORTRAIT)
+                        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR_PORTRAIT);
+                    else
+                        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR_LANDSCAPE);
                     AlertDialog.Builder alert = new AlertDialog.Builder(ProfileEditActivity.this,R.style.AppTheme_AlertDialog);
                     final EditText edittext = new EditText(getApplicationContext());
                     edittext.setTextColor(Color.DKGRAY);
@@ -512,6 +540,7 @@ public class ProfileEditActivity extends AppCompatActivity implements RemoteCall
                     alert.setView(edittext);
                     alert.setPositiveButton("Add", new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int whichButton) {
+                            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR);
                             String value = edittext.getText().toString();
                             if (!value.equals("")) {
                                 school.add(value);
@@ -521,6 +550,7 @@ public class ProfileEditActivity extends AppCompatActivity implements RemoteCall
                     });
                     alert.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int whichButton) {
+                            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR);
                             userSchool.setSelection(0);
                         }
                     });
