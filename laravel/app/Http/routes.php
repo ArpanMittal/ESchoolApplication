@@ -125,6 +125,8 @@ Route::get('/', function () {
 })->middleware('check.session');
 
 Route::get('home', array('uses' => 'HomeController@goHome'))->middleware('check.session');
+Route::post('result', array('uses' => 'ExamResultController@result'))->middleware('check.session');
+Route::get('result', array('uses' => 'ExamResultController@show'))->middleware('check.session');
 
 // route to show the login form
 Route::get('login', array('uses' => 'HomeController@showLogin'));

@@ -159,7 +159,8 @@ return [
         //Unisharp\Ckeditor\ServiceProvider::class,
 
         BackupManager\Laravel\Laravel5ServiceProvider::class,
-        'Bllim\Laravalid\LaravalidServiceProvider',
+        Bllim\Laravalid\LaravalidServiceProvider::class,
+        Collective\Html\HtmlServiceProvider::class,
     ],
 
     /*
@@ -205,8 +206,10 @@ return [
         'URL' => Illuminate\Support\Facades\URL::class,
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
-        'HTML'      => 'Collective\Html\HtmlFacade::class', // if not exists add for html too
-        'Form'      => 'Bllim\Laravalid\Facade',
+//        'HTML'      => 'Collective\Html\HtmlFacade::class', // if not exists add for html too
+//        'Form'      => 'Bllim\Laravalid\Facade',
+        'Form' => Collective\Html\FormFacade::class,
+        'Html' => Collective\Html\HtmlFacade::class,
     ],
 
 ];

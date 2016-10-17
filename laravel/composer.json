@@ -14,7 +14,8 @@
         "guzzlehttp/guzzle": "^6.2",
         "backup-manager/laravel": "^1.1",
         "league/flysystem": "^1.0",
-        "bllim/laravalid": "*"
+        "bllim/laravalid": "*",
+        "laravelcollective/html": "^5.2.0"
     },
     "require-dev": {
         "fzaninotto/faker": "^1.6",

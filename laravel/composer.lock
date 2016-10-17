@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "4330482f96c50fca23d485efa93bf37a",
-    "content-hash": "a0bfd271caf6bc75a605db1a8f0d0190",
+    "hash": "4174ad0e20067bbe20c304bf6a26ca23",
+    "content-hash": "94f66069d0649c0e0e4409fa4fd22c4c",
     "packages": [
         {
             "name": "backup-manager/backup-manager",
