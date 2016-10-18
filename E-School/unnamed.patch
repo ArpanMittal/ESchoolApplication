@@ -1,0 +1,352 @@
+Index: app/src/main/java/com/organization/sjhg/e_school/BottomActionBar.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/com/organization/sjhg/e_school/BottomActionBar.java	(revision 6463c652c50c4191248099e8a5356cddc98f8268)
++++ app/src/main/java/com/organization/sjhg/e_school/BottomActionBar.java	(revision )
+@@ -38,46 +38,6 @@
+ 
+ public class BottomActionBar extends Fragment implements RemoteCallHandler {
+ 
+-    final Handler updateRaiseHandHandler = new Handler() {
+-        @Override
+-        public void handleMessage(Message raiseHandStatus) {
+-            if (raiseHandStatus.what == 0) {
+-                RaiseHandBtn.setBackground(getResources().getDrawable(R.drawable.raisehandwithname));
+-            } else {
+-                RaiseHandBtn.setBackground(getResources().getDrawable(R.drawable.raise_hand_text_raised));
+-            }
+-            super.handleMessage(raiseHandStatus);
+-        }
+-    };
+-    final Handler updateSessionStatusHandler = new Handler() {
+-        @Override
+-        public void handleMessage(Message currentSessionStatus) {
+-            if (currentSessionStatus.what == 0) {
+-                // Change ConnectBtn image to disconnected.
+-                ConnectBtn.setImageResource(0);
+-                ConnectBtn.setImageResource(R.drawable.connectwithteacherwithname);
+-                // Disable RaiseHandBtn and change image to disconnected.
+-                RaiseHandBtn.setEnabled(false);
+-                RaiseHandBtn.setBackground(getResources().getDrawable(R.drawable.raise_hand_text_disabled));
+-                // Disable ChatBtn and change image to disconnected.
+-                ChatBtn.setEnabled(false);
+-                ChatBtn.setImageResource(0);
+-                ChatBtn.setImageResource(R.drawable.chat_text_disabled);
+-            } else {
+-                // Change ConnectBtn image to connected.
+-                ConnectBtn.setImageResource(0);
+-                ConnectBtn.setImageResource(R.drawable.connect_with_teacher_text_connected);
+-                // Enable RaiseHandBtn and change image to connected.
+-                RaiseHandBtn.setEnabled(true);
+-                RaiseHandBtn.setBackground(getResources().getDrawable(R.drawable.raisehandwithname));
+-                // Enable ChatBtn and change image to connected.
+-                ChatBtn.setEnabled(true);
+-                ChatBtn.setImageResource(0);
+-                ChatBtn.setImageResource(R.drawable.chatwithname);
+-            }
+-            super.handleMessage(currentSessionStatus);
+-        }
+-    };
+     ImageView ConnectBtn;
+     ToggleButton RaiseHandBtn;
+     ImageView ChatBtn;
+@@ -100,6 +60,14 @@
+             @Override
+             public void onClick(View v) {
+                 ConnectBtn.setEnabled(false);
++                // If student is connected to session then disconnect on click and return.
++                if (StudentApplicationUserData.getInstance(getActivity()).isConnectedToSession()) {
++                    StudentApplicationUserData.getInstance(getActivity()).disconnectSession(getActivity());
++                    ConnectBtn.setEnabled(true);
++                    return;
++                }
++
++                // Make the remote call asynchronously; HandleRemoteCall function will be called once the call completes
+                 new RemoteHelper(getActivity()).getActiveSessions(BottomActionBar.this, RemoteCalls.GET_ACTIVE_SESSIONS);
+                 ConnectBtn.setEnabled(true);
+             }
+@@ -182,7 +150,7 @@
+     }
+ 
+ 
+-    private AlertDialog ConnectToClass(final Context ctx, final String[] options, final String[] sessionIDs) {
++    private AlertDialog BuildSessionListDialog(final Context ctx, final String[] options, final String[] sessionIDs) {
+         AlertDialog.Builder builder = new AlertDialog.Builder(ctx);
+ 
+         // Set the dialog title
+@@ -256,22 +224,7 @@
+         return builder.create();
+     }
+ 
+-    private void ConnectToClass(Context ctx, List<TeacherSession> activeSessions) {
+-
+-        // If student is connected to session then disconnect on click and return.
+-        if (StudentApplicationUserData.getInstance(ctx).isConnectedToSession()) {
+-
+-            StudentApplicationUserData.getInstance(ctx).updateRaiseHandStatus(false, ctx);
+-
+-            StudentApplicationUserData.getInstance(ctx).updateSessionStatus(
+-                    !(StudentApplicationUserData.getInstance(ctx).isConnectedToSession()),
+-                    "NULL",
+-                    ctx
+-            );
+-            ConnectBtn.setEnabled(true);
+-            return;
+-        }
+-
++    private void DisplayActiveSessions(Context ctx, List<TeacherSession> activeSessions) {
+         // If student is not connected to session and session list is empty then show alert box and return.
+         if (activeSessions == null || activeSessions.size() <= 0) {
+             AlertDialog.Builder noSession = new AlertDialog.Builder(getActivity());
+@@ -282,10 +235,8 @@
+             return;
+         }
+ 
+-
+         // If student is not connected to session and active sessions are present then show session list alert box.
+         int noOfItems = activeSessions.size();
+-
+         String[] SessionDetailsToDisplay = new String[noOfItems];
+         String[] SessionIDs = new String[noOfItems];
+         int iterator = 0;
+@@ -296,7 +247,7 @@
+             SessionIDs[iterator] = session.sessionId;
+             iterator++;
+         }
+-        AlertDialog dialog = ConnectToClass(ctx, SessionDetailsToDisplay, SessionIDs);
++        AlertDialog dialog = BuildSessionListDialog(ctx, SessionDetailsToDisplay, SessionIDs);
+         dialog.show();
+         dialog.getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(false);
+     }
+@@ -326,17 +277,16 @@
+ 
+ 
+     public void HandleRemoteCall(boolean isSuccessful, RemoteCalls callFor, JSONObject response, Exception exception) {
++        switch (callFor) {
++            case GET_ACTIVE_SESSIONS:
+-        if (!isSuccessful) {
+-            Toast.makeText(getActivity(),
+-                    "Internet Error! Remote Call failed: " + callFor.toString() + " " + exception.getMessage(),
+-                    Toast.LENGTH_SHORT)
+-                    .show();
++                if (!isSuccessful) {
++                    Toast.makeText(getActivity(),
++                            "Internet Error! Remote Call failed: " + callFor.toString() + " " + exception.getMessage(),
++                            Toast.LENGTH_SHORT)
++                            .show();
+-            return;
+-        }
++                }
+-        switch (callFor) {
+-            case GET_ACTIVE_SESSIONS:
+                 try {
+-                    ConnectToClass(getActivity(), ActiveSessions.getSessionList(response));
++                    DisplayActiveSessions(getActivity(), ActiveSessions.getSessionList(response));
+                 } catch (JSONException e) {
+                     e.printStackTrace();
+                     Toast.makeText(getActivity(),
+@@ -354,4 +304,49 @@
+                                 callFor.toString());
+         }
+     }
++
++    // Handler to handle the raise hand status change by teacher
++    final Handler updateRaiseHandHandler = new Handler() {
++        @Override
++        public void handleMessage(Message raiseHandStatus) {
++            if (raiseHandStatus.what == 0) {
++                RaiseHandBtn.setBackground(getResources().getDrawable(R.drawable.raisehandwithname));
++            } else {
++                RaiseHandBtn.setBackground(getResources().getDrawable(R.drawable.raise_hand_text_raised));
++            }
++            super.handleMessage(raiseHandStatus);
++        }
++    };
++
++    // Handler to handle the session status change; Handler responsible of updating the UI
++    final Handler updateSessionStatusHandler = new Handler() {
++        @Override
++        public void handleMessage(Message currentSessionStatus) {
++            if (currentSessionStatus.what == 0) {
++                // Change ConnectBtn image to disconnected.
++                ConnectBtn.setImageResource(0);
++                ConnectBtn.setImageResource(R.drawable.connectwithteacherwithname);
++                // Disable RaiseHandBtn and change image to disconnected.
++                RaiseHandBtn.setEnabled(false);
++                RaiseHandBtn.setBackground(getResources().getDrawable(R.drawable.raise_hand_text_disabled));
++                // Disable ChatBtn and change image to disconnected.
++                ChatBtn.setEnabled(false);
++                ChatBtn.setImageResource(0);
++                ChatBtn.setImageResource(R.drawable.chat_text_disabled);
++            } else {
++                // Change ConnectBtn image to connected.
++                ConnectBtn.setImageResource(0);
++                ConnectBtn.setImageResource(R.drawable.connect_with_teacher_text_connected);
++                // Enable RaiseHandBtn and change image to connected.
++                RaiseHandBtn.setEnabled(true);
++                RaiseHandBtn.setBackground(getResources().getDrawable(R.drawable.raisehandwithname));
++                // Enable ChatBtn and change image to connected.
++                ChatBtn.setEnabled(true);
++                ChatBtn.setImageResource(0);
++                ChatBtn.setImageResource(R.drawable.chatwithname);
++            }
++            super.handleMessage(currentSessionStatus);
++        }
++    };
++
+ }
+\ No newline at end of file
+Index: app/src/main/java/com/organization/sjhg/e_school/Structure/ActiveSessions.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/com/organization/sjhg/e_school/Structure/ActiveSessions.java	(revision 6463c652c50c4191248099e8a5356cddc98f8268)
++++ app/src/main/java/com/organization/sjhg/e_school/Structure/ActiveSessions.java	(revision )
+@@ -34,15 +34,15 @@
+     }
+ 
+     public static TeacherSession getCurrentSession(List<TeacherSession> allSessions, Context context) {
+-
+         TeacherSession currentSession = null;
+ 
++        if(StudentApplicationUserData.getInstance(context).isConnectedToSession()) {
+-        for (TeacherSession session : allSessions) {
+-            if (session.sessionId.equals(StudentApplicationUserData.getInstance(context).getClassSessionId())) {
+-                currentSession = session;
+-            }
+-        }
++            for (TeacherSession session : allSessions) {
++                if (session.sessionId.equals(StudentApplicationUserData.getInstance(context).getClassSessionId())) {
++                    currentSession = session;
++                }
++            }
+-
++        }
+         return currentSession;
+     }
+ }
+Index: app/src/main/java/com/organization/sjhg/e_school/Remote/RemoteCalls.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/com/organization/sjhg/e_school/Remote/RemoteCalls.java	(revision 6463c652c50c4191248099e8a5356cddc98f8268)
++++ app/src/main/java/com/organization/sjhg/e_school/Remote/RemoteCalls.java	(revision )
+@@ -2,6 +2,7 @@
+ 
+ public enum RemoteCalls {
+     GET_ACTIVE_SESSIONS,
++    GET_CURRENT_SESSION,
+     GET_STUDENT_SESSION_STATUS,
+     UPDATE_STUDENT_SESSION_STATUS,
+     UPDATE_RAISE_HAND_STATUS,
+\ No newline at end of file
+Index: app/src/main/java/com/organization/sjhg/e_school/Structure/UserData.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/com/organization/sjhg/e_school/Structure/UserData.java	(revision 6463c652c50c4191248099e8a5356cddc98f8268)
++++ app/src/main/java/com/organization/sjhg/e_school/Structure/UserData.java	(revision )
+@@ -86,24 +86,15 @@
+         if (this.isConnectedToSession() == newStatus)
+             return;
+ 
+-        this.isConnectedToClass = newStatus;
+         this.classSessionId = sessionId;
+-
+-        Message msg = sessionStatusHandler.obtainMessage();
+-        msg.what = this.isConnectedToClass ? 1 : 0;
+-        sessionStatusHandler.sendMessage(msg);
+-
+         (new RemoteHelper(ctx)).updateStudentSessionStatus(this, RemoteCalls.UPDATE_STUDENT_SESSION_STATUS);
+     }
+ 
+ 
+     public void updateRaiseHandStatus(boolean newStatus, Context context) {
+-        this.isHandRaised = newStatus;
++        if (this.isHandRaised() == newStatus)
++            return;
+ 
+-        Message msg = raiseHandHandler.obtainMessage();
+-        msg.what = this.isHandRaised ? 1 : 0;
+-        raiseHandHandler.sendMessage(msg);
+-
+         (new RemoteHelper(context)).updateRaiseHandStatus(this, RemoteCalls.UPDATE_RAISE_HAND_STATUS, newStatus);
+     }
+ 
+@@ -126,9 +117,6 @@
+ 
+ 
+     public void updateBroadcastStatus(Boolean newStatus, String uri, Context context) {
+-
+-        this.isBroadcastEnabled = newStatus;
+-
+         Intent i = new Intent(Intent.ACTION_VIEW);
+         i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+         if (this.isBroadcastEnabled) {
+@@ -139,10 +127,13 @@
+             );
+             context.startActivity(i);
+         } else {
+-            //TODO : Stop VLC
++            if (this.isBroadcastEnabled != newStatus) {
+-            i.setPackage("com.organization.sjhg.e_school");
++                i.setPackage("com.organization.sjhg.e_school");
++                context.startActivity(i);
+-        }
++            }
++        }
+ 
++        this.isBroadcastEnabled = newStatus;
+     }
+ 
+ 
+@@ -164,13 +155,25 @@
+ 
+         if (!isSuccessful) {
+             Toast.makeText(this.context, "Remote Call Failed, Try Again!", Toast.LENGTH_SHORT).show();
+-            return;
+         }
+ 
+         switch (callFor) {
+             case UPDATE_STUDENT_SESSION_STATUS:
++                // The call to this function only when the current status is different as called status
++                if (isSuccessful) {
++                    this.isConnectedToClass = !this.isConnectedToSession();
++                }
++                Message msg = sessionStatusHandler.obtainMessage();
++                msg.what = this.isConnectedToClass ? 1 : 0;
++                sessionStatusHandler.sendMessage(msg);
+                 return;
+             case UPDATE_RAISE_HAND_STATUS:
++                if (isSuccessful) {
++                    this.isHandRaised = !this.isHandRaised();
++                }
++                msg = raiseHandHandler.obtainMessage();
++                msg.what = this.isHandRaised ? 1 : 0;
++                raiseHandHandler.sendMessage(msg);
+                 return;
+             default:
+                 ExceptionHandler.showAlertDialogContent(context,
+\ No newline at end of file
+Index: app/src/main/java/com/organization/sjhg/e_school/Remote/RemoteHelper.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/com/organization/sjhg/e_school/Remote/RemoteHelper.java	(revision 6463c652c50c4191248099e8a5356cddc98f8268)
++++ app/src/main/java/com/organization/sjhg/e_school/Remote/RemoteHelper.java	(revision )
+@@ -162,9 +162,7 @@
+     public void getActiveSessions(RemoteCallHandler caller, RemoteCalls functionCalled) {
+ 
+         String listSessionURL = ServerAddress.getServerAddress(context) + "/" + ACTIVE_SESSIONS;
+-
+         List<NameValuePair> params = ParamHelper.GetParams(context);
+-
+         new JSONParserAsync(listSessionURL, params, caller, functionCalled).execute();
+ 
+     }

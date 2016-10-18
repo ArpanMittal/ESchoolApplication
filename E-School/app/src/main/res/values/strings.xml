@@ -1,0 +1,322 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">KwikLearn</string>
+    <string name="action_settings">Settings</string>
+    <string name="login_page">login.php</string>
+    <string name="fetch_content_page">fetchfile.php</string>
+    <string name="fetch_Adaptive_Question">dummy.php</string>
+    <string name="insert_mac_address">insertmac.php</string>
+    <string name="test_page">TestData.php</string>
+    <string name="test_question_page">QuestionOptionData.php</string>
+    <string name="test_available_page">testAvailable.php</string>
+    <string name="upload_adaptve_answer">saveresponse.php</string>
+    <string name="test_store_answer_page">insert.php</string>
+    <string name="notes_insert_page">api/v1/note/add</string>
+    <string name="TAG_LOGIN_SUCCESS">success</string>
+    <string name="TAG_LOGIN_FAILURE">message</string>
+    <string name="TAG_LOGIN_DATA">data</string>
+    <string name="TAG_DEVICE_MACID">MAC</string>
+    <string name="error_message_login">Re-enter correct login credentials</string>
+    <string name="error_message_internet">Looks like there is an issue with internet connectivity. Please check your internet connection.</string>
+    <string name="error_message_json">The version of your application in not compatible with server. Please contact the IT administrator for more details. </string>
+    <string name="error_message_sql">Oops! Something horrible went wrong. Try restarting / reinstalling the application.</string>
+    <string name="success_message_sync">Your device is Up-to-Date</string>
+    <string name="internet_failure">Internet Connection</string>
+    <string name="login_failure">Login Failure</string>
+    <string name="sync_failure">Sync failed</string>
+    <string name="no_content">OOPS!</string>
+    <string name="no_content_message">No Content Available…ENJOY!</string>
+    <string name="no_test_message">No Test Available…ENJOY!</string>
+    <string name="error_message_test">Something went wrong.Please try again later.</string>
+    <string name="error_saving_answer">Something went wrong.Your answers were not saved.</string>
+    <string name="success_saving_answer">Test submitted</string>
+    <string name="all_questions_not_answered">All Questions Have not Been Answered,Do You Want To Continue?</string>
+    <string name="sorry_for_pdf">Looks like we are still working on this,we will get back to you soon</string>
+    <string name="pdf_title">Sorry for inconvenience caused</string>
+    <string name="submit_test">You Are About To Submit Your Test,Do You Want To Continue?</string>
+    <string name="answer_saved_anyhow">Question Has Not Been Properly Answered,Answer Will Be Saved,Continue?</string>
+    <string name="attention">Attention</string>
+    <string name="do_you_want_to_exit">Are you sure you want to exit?</string>
+    <string name="restore_warning">This will restore all synced notes and delete un-synced changes. Are you sure you want to continue?</string>
+    <string name="home_failure">You need to login at least once to access home</string>
+    <string name="notification_sync">Downloading E-School Files</string>
+    <string name="notification_download">The app is downloading your contents</string>
+    <string name="download_complete">You can now view your files in the app</string>
+    <string name="sync_complete">Download Complete</string>
+    <string name="toast_progress">Download started.</string>
+    <string name="toast_syncing_already">Your previous download is under progress. Please wait till that completes.</string>
+    <string name="sync_failed">Sync Failed</string>
+    <string name="sync_failed_message">Please check your internet connection</string>
+    <string name="exit_laughguru">Are you sure you want to Exit Laugh Guru?</string>
+    <string name="laughguru_url">http://www.laughguru.com/</string>
+
+    <!-- Activity list -->
+    <string name="title_activity_audio_video_player">AudioVideoPlayerActivity</string>
+    <string name="title_activity_test_fillIn_the_blanks">TestFillInTheBlanks</string>
+    <string name="title_activity_pdf_view">PdfView</string>
+    <string name="title_activity_pdf">Pdf</string>
+    <string name="title_activity_test_module">TestModule</string>
+    <string name="title_activity_test_submitted">TestSubmitted</string>
+    <string name="title_activity_test_match">TestMatch</string>
+    <string name="title_activity_test_mcq">TestMCQ</string>
+    <string name="title_activity_test1">Test1</string>
+    <string name="title_activity_test_match_the_column">TestMatchTheColumn</string>
+    <string name="title_activity_subject_content">SubjectContent</string>
+    <string name="title_activity_login">Login</string>
+    <string name="title_activity_profile">Profile</string>
+    <string name="title_activity_module1">Dashboard</string>
+    <string name="title_activity_display_image">DisplayImage</string>
+    <string name="title_activity_books">BooksActivity</string>
+    <string name="title_activity_videos">VideosActivity</string>
+    <string name="title_activity_active_test">ActiveTestActivity</string>
+    <string name="title_activity_test_label_the_diagram">TestLabelTheDiagramActivity</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="title_activity_mcq_and_obj">McqAndObjActivity</string>
+    <string name="title_activity_pdf_display_player">PdfDisplayPlayerActivity</string>
+    <string name="title_activity_splash">SplashActivity</string>
+    <string name="title_activity_note_listing">NoteListingActivity</string>
+    <string name="title_activity_note_edit">NoteEditActivity</string>
+
+    <!-- for notes -->
+    <string name="app_name_note">Notes</string>
+    <string name="about">About</string>
+    <string name="title">Title</string>
+    <string name="menu_delete">Delete note</string>
+    <string name="no_body">No Content</string>
+    <string name="no_title">No Title</string>
+    <string name="edit_note">Edit Note</string>
+    <string name="save_menu_noteedit">Save</string>
+    <string name="delete_menu_noteedit">Delete</string>
+    <string name="title_activity_laugh_guru">LaughGuruActivity</string>
+    <string name="message_test_timeout">Your time is up. Answers will be submitted automatically.</string>
+    <string name="on_back_press_warning_message">Test has started. You cannot leave without submitting your answers.</string>
+    <string name="moved_out_of_test_submit_message">Test has been submitted.</string>
+    <string name="moved_out_of_test_message">WARNING! This may lead to auto-submission</string>
+    <string name="on_destroy_test_message">You have closed the application. Answers will be submitted automatically.</string>
+    <string name="cloud_base_address">http://14.192.16.145/</string>
+    <string name="local_database_address">http://localhost:8000/</string>
+    <string name="cloud_content_relative_path">contentfile/</string>
+    <string name="local_base_address">http://192.168.5.5/eschool</string>
+    <string name="local_content_relative_path">contentfile/</string>
+    <string name="download_failed">Oops! Download failed due to a System error. Please try again later.</string>
+    <string name="no_session_available_message">Currently no sessions are available. Enjoy!</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="test_submit_on_app_kill">An attempt was made to stop the test. You test is submitted automatically</string>
+    <string name="title_activity_file_manager">FileManager</string>
+    <string name="select_all">Select All</string>
+    <string name="no_content_available_string">No content available for your selections!</string>
+    <string name="pref_key_logout">applicationLogout</string>
+    <string name="pref_key_feedback">applicationFeedback</string>
+    <string name="pref_key_clear_data">applicationClearData</string>
+    <string name="pref_key_Sync_Calendar">applicationEventSync</string>
+    <string name="pref_key_manage_subjects">studentManageSubjects</string>
+    <string name="clear_application_data_message">Are you sure you want to clear all application data?</string>
+    <string name="offline_manage_subjects_message">Seems like you are offline. Please connect to Internet.</string>
+    <string name="manage_subjects_not_saved">Looks like there is some issue. Your subscription changes could not be saved. Please try again.</string>
+    <string name="manage_subjects_summary">Manage your selected subjects</string>
+    <string name="success_message">Changes saved</string>
+    <string name="content_list_empty_message">Could not fetch content list. Looks like there is an issue with connectivity or there is no content available to sync</string>
+    <string name="session_expire_message">Session expired, please login again</string>
+    <string name="pref_key_clear_logs">sessionClearLogs</string>
+    <string name="log_cleared_message">Your session logs have been cleared</string>
+    <string name="no_logs_exist_message">No logs to clear</string>
+    <string name="pref_key_log_status">sessionLogsStatus</string>
+    <string-array name="empty_array">
+        <item></item>
+    </string-array>
+    <string name="title_activity_adaptive__content">Adaptive_Content</string>
+    <string name="error_message_test_while_session">Cannot attempt test while connected to session.</string>
+    <string name="error_message_sync_while_session">Cannot open file manger while connected to session.</string>
+    <string name="sync_stop">Download canceled</string>
+    <string name="changeLanguage">ChangeLanguage</string>
+    <string name="deleting_already">Deletion in progress, please wait</string>
+    <string name="deleting_files">Deleting files.</string>
+    <string name="notification_delete">Deleting E-School Files</string>
+    <string name="delete_complete">Delete Complete</string>
+    <string name="network_error">Network error</string>
+    <string name="basic_error">Something went wrong! Please try again</string>
+    <string name="alert_error_title_wrong">Something went wrong!</string>
+
+    <string name="get_single_adaptive_test" translatable="false">getadaptivequestion.php</string>
+    <string name="active_sessions" translatable="false">queryAllClassSessions.php</string>
+    <string name="update_student_status" translatable="false">updateClientInfo.php</string>
+    <string name="update_session_status" translatable="false">updateClassSessionInfo.php</string>
+    <string name="fetch_laughguru_page" translatable="false">laughgurudatafetchfile.php</string>
+    <string name="fetch_notes_page" translatable="false">api/v1/note</string>
+    <string name="get_single_test" translatable="false">TestData.php</string>
+    <string name="get_student_status" translatable="false">queryClientInfo.php</string>
+    <string name="subscription_subjects" translatable="false">querySubscriptionSubjects.php</string>
+    <string name="event_details" translatable="false">fetchcalendardetails.php</string>
+    <string name="adaptive_test_page" translatable="false">fetchAdaptiveTestQuestions.php</string>
+
+    <string name="submitted_test">Test has already been submitted</string>
+    <string name="CylenderEvent">Events added to your Calendar</string>
+    <string name="Version">Version 1.1.0</string>
+    <string name="chathead">Enable Chathead</string>
+    <string name="enableService">true</string>
+    <string name="action_sign_in">Log In</string>
+    <string name="prompt_password">Password</string>
+    <string name="username">Username</string>
+    <string name="name">Full Name</string>
+    <string name="prompt_confirm_password">Confirm Password</string>
+    <string name="prompt_email">email</string>
+    <string name="prompt_phno">Phone Number</string>
+    <string name="signup">Sign Up</string>
+    <string name="action_sign_in_short">Password</string>
+    <string name="error_invalid_password">Password must have at least 6 characters, one number and no special characters</string>
+    <string name="error_field_required">Field Required</string>
+    <string name="error_invalid_email">Invalid email Format</string>
+    <string name="error_incorrect_password">Incorrect Password</string>
+    <string name="error_invalid_password_Password">Incorrect Pattern</string>
+    <string name="error_confirm_password">Passwords do not match</string>
+    <string name="newuser">New User?</string>
+    <string name="navigation_drawer_open">open navigation drawer</string>
+    <string name="navigation_drawer_close">close navigation drawer</string>
+    <string name="expand">DashBoard</string>
+    <string name="paralax">paralex</string>
+    <string name="menu_search">search</string>
+    <string name="menu_filter">Filter</string>
+    <string name="app_label">vinci</string>
+    <string name="search_hint">Search Content</string>
+    <string name="get_sign_up_page">api/v1/signup</string>
+    <string name="getaccesstoken">oauth/token</string>
+    <string name="getuserdetail">api/v1/getEmail</string>
+    <string name="getGoogleAccountDetails">api/v1/doGoogleAuth</string>
+    <string name="server_client_id">964686197695-eh8rvm9dp1m4n6kp5p5ueq61pntbo2as.apps.googleusercontent.com</string>
+    <string name="data">data</string>
+    <string name="jsontitle">title</string>
+    <string name="jsonlist">list</string>
+    <string name="jsoncount">count</string>
+    <string name="jsonname">name</string>
+    <string name="jsonid">id</string>
+    <string name="paint">paint</string>
+    <string name="erase">erase</string>
+    <string name="brush">brush</string>
+    <string name="start_new">start new</string>
+    <string name="save">Save</string>
+    <string name="sml">small</string>
+    <string name="med">medium</string>
+    <string name="lrg">large</string>
+    <string name="json_chapter">chapter</string>
+    <string name="jsonchapter">innerList</string>
+    <string name="jsoncode">code</string>
+    <string name="nocontentcode">401</string>
+    <string name="cost">cost</string>
+    <string name="duration">duration</string>
+    <string name="jsonsubject">subject</string>
+    <string name="ExamContent">ExamSubject</string>
+    <string name="sendlist">SENDLIST</string>
+    <string name="jsonsamplepaper">samplepaper</string>
+    <string name="prepare">prepare</string>
+    <string name="practcice">practice</string>
+    <string name="jsonhash">hash</string>
+    <string name="jsonquestiontype">type_id</string>
+    <string name="jsonsolutonpath">solution_path</string>
+    <string name="jsondifficulty">difficulty</string>
+    <string name="jsonquestionimage">question_image_path</string>
+    <string name="jsonanswer">answer</string>
+    <string name="jsonoption">option</string>
+    <string name="jsonquestiontext">question_text</string>
+    <string name="action_submit">Submit Test</string>
+    <string name="sendQuestionId">question_id</string>
+    <string name="sendIsCorrect">is_correct</string>
+    <string name="sendOptionId">option_id</string>
+    <string name="sendTimeTaken">time_taken</string>
+    <string name="test_submit_title">Submit Test</string>
+    <string name="test_submit_message">Are you sure?</string>
+    <string name="TestSummary">TestSummary</string>
+    <string name="get_test_summary">api/v1/getTestSummary</string>
+    <string name="jsontime">time</string>
+    <string name="test_start_title">Attempt Test</string>
+    <string name="testreport">test report</string>
+    <string name="jsoneasy">easy</string>
+    <string name="jsoncorrectattempt">correct_attempt</string>
+    <string name="jsonattemptquestion">attempt_question</string>
+    <string name="jsontotalquestion">total_question</string>
+    <string name="logout">Logout</string>
+    <string name="login">Login</string>
+    <string name="seeanswer">View Answers</string>
+    <string name="show_attempts">Show Attempts</string>
+    <string name="jsontimetaken">time_taken</string>
+    <string name="jsonresponse">response</string>
+    <string name="jsonQuestionid">question_id</string>
+    <string name="jsonoptionid">option_id</string>
+    <string name="jsonanswerid">answer_id</string>
+    <string name="jsoncorrect">correct_option</string>
+    <string name="jsonuseroption">user_option</string>
+    <string name="jsonquestion_image">question_image</string>
+    <string name="groupdata">groupedbarchart</string>
+    <string name="stackgraphdata">stackgraphdata</string>
+    <string name="jsonhead">head</string>
+    <string name="jsoneasy_count">easy_count</string>
+    <string name="jsontimegraphdata">timegraphdata</string>
+    <string name="jsontotal_avg">total avg</string>
+    <string name="jsonuser_avg">user_avg</string>
+    <string name="menu_add">Add</string>
+    <string name="menu_whiteboard">Whiteboard</string>
+    <string name="menu_restore">Restore</string>
+    <string name="menu_backup">Backup</string>
+    <string name="jsonimage">image</string>
+    <string name="exit">Exit</string>
+    <string name="save_note">Do you want to save this note</string>
+    <string name="jsonText">text</string>
+    <string name="home">Home</string>
+    <string name="view_attempts">VIEW ATTEMPTS</string>
+    <string name="view_answers">VIEW ANSWERS</string>
+
+    <string name="question">Question:</string>
+    <string name="correctanswer">Correct Answer:</string>
+    <string name="useroption">Your Answer:</string>
+
+    <string name="cancel">Cancel</string>
+    <string name="dob">Date of birth</string>
+    <string name="phone_number">Enter Phone Number</string>
+
+    <string name="samplepaper">Sample Paper</string>
+    <string name="samplepaper_tag">SamplePaper</string>
+
+    <string name="title_activity_profile_edit">Edit Profile</string>
+    <string name="replay">Replay</string>
+    <string name="close">Close</string>
+    <string name="summary">Summary</string>
+    <string name="correct">Accuracy</string>
+    <string name="performance">performance</string>
+    <string name="time">time</string>
+    <string name="video">Video</string>
+    <string name="worksheet">Worksheet</string>
+    <string name="analytics">Analytics</string>
+    <string name="attempt_number">Attempt Number</string>
+    <string name="empty_message">Don\'t Be Afraid, Go For It</string>
+    <string name="empty_description">You haven\'t taken this test</string>
+    <string name="ask_login">You\'re not logged in </string>
+    <string name="timeTaken">Time Taken</string>
+    <string name="question_text">Question</string>
+    <string name="solution_text">Solution</string>
+
+    <string name="option_login_text">Or login using kwiklearn account</string>
+
+    <string name="searchError">We could not find any result</string>
+
+    <string name="signupconfirm">Your account has been successfully created</string>
+
+    <string name="app_tagline">Learn the way you should</string>
+    <string name="notesError">You don\'t have any notes</string>
+    <string name="notesErrorTitle">YIKES! SHARPNER ANYONE?</string>
+
+    <string name="done">Done</string>
+
+    <string name="jsonIsActive">isActive</string>
+    <string name="noInternetError">We can\'t seem to connect you to us</string>
+    <string name="retry">Retry</string>
+
+    <string name="skip">Skip</string>
+    <string name="next">Next</string>
+    <string name="answer_activity">Answers</string>
+    <string name="empty">NA</string>
+    <string name="start_test">START</string>
+    <string name="noInternetError2">Problem with connection</string>
+    <string name="calenderFutureError">Time travelers are not allowed!</string>
+    <string name="login_message">You need to login to attempt the test</string>
+
+</resources>

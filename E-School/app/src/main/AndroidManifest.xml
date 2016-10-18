@@ -1,0 +1,259 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.organization.sjhg.e_school">
+
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
+    <permission
+        android:name="com.organization.sjhg.e_school.permission.C2D_MESSAGE"
+        android:protectionLevel="signature" />
+    <uses-permission android:name="com.organization.sjhg.e_school.permission.C2D_MESSAGE" />
+    <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+
+
+
+    <application
+        android:name=".Remote.VolleyController"
+        android:largeHeap="true"
+        android:allowBackup="true"
+        android:icon="@drawable/new_logo"
+        android:label="@string/app_name"
+        android:supportsRtl="true"
+        android:screenOrientation="sensorLandscape"
+        android:theme="@style/AppTheme">
+        <activity android:name=".MainParentActivity"
+            android:theme="@style/AppThemeExam" />
+        <activity android:name=".Fragments.Notes_Listing_Fragment"
+            android:parentActivityName=".Main_Activity"
+            android:label="@string/app_name_note"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".Main_Activity" />
+        </activity>
+        <activity android:name=".TakeNotes.whiteboard.WhiteBoardActivity"
+            android:theme="@style/AppTheme.NoActionBar"/>
+        <activity
+            android:name=".LoginActivity"
+            android:theme="@style/AppThemeExam"
+            android:label="@string/title_activity_login"
+            android:parentActivityName=".Main_Activity"
+             />
+        <activity android:name=".SignupActivity"
+            android:label="@string/signup"
+            android:parentActivityName=".LoginActivity"
+            android:theme="@style/AppThemeExam">
+        </activity>
+
+        <activity
+            android:name=".Main_Activity"
+            android:theme="@style/AppTheme.NoActionBar">
+
+        <meta-data android:name="android.app.default_searchable"
+            android:value=".Main_Activity" />
+        </activity>
+        <activity
+            android:name=".Content.Quest.QuestListActivity"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:label="Quest"
+            />
+        <activity
+            android:name=".Content.AudioVideoPlayerActivity"
+            android:label="@string/title_activity_audio_video_player"
+            android:configChanges="screenSize|orientation|keyboardHidden"
+            android:theme="@style/AppTheme.NoActionBar" >
+            </activity>
+        <activity android:name=".ListActivity"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:parentActivityName=".Main_Activity"
+            android:label="List"
+           />
+        <activity android:name=".ExaminationParent"
+            android:theme="@style/AppThemeExam.NoActionBar"
+            android:parentActivityName=".Main_Activity"
+            android:label="Exam"/>
+        <activity
+            android:name=".Content.PdfDisplayActivity"
+            android:label="@string/title_activity_pdf_view"
+            android:theme="@android:style/Theme.NoTitleBar.Fullscreen" />
+
+        <activity android:name=".Content.NewTest.TestReportActivity"
+            android:parentActivityName=".Content.NewTest.TestSummaryActivity"
+            android:theme="@style/AppThemeExam"
+            android:label="Test Report"/>
+        <activity android:name=".Content.NewTest.TestAnswerActivity"
+            android:parentActivityName=".Content.NewTest.TestSummaryActivity"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:label="Answers"/>
+        <activity android:name=".Tour_Guide"
+            android:theme="@style/AppThemeExam.NoActionBar"
+            android:label="Tour Guide">
+        </activity>
+
+        <activity android:name=".Content.NewTest.TestSummaryActivity"
+            android:theme="@style/AppThemeExam"
+            android:parentActivityName=".ExaminationParent"
+            android:launchMode="singleTask"/>
+
+        <activity android:name=".Content.NewTest.TestActivity"
+            android:label="Test"
+            android:theme="@style/AppThemeExam.NoActionBar"
+            />
+
+        <activity android:name=".SearchActivity"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:label="Search">
+            <intent-filter>
+                <action android:name="android.intent.action.SEARCH"/>
+            </intent-filter>
+            <meta-data
+                android:name="android.app.searchable"
+                android:resource="@xml/searchable"/>
+        </activity>
+        <activity
+            android:name=".Profile.ProfileActivity"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:label="@string/title_activity_profile"
+            >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".Main_Activity" />
+        </activity>
+        <activity
+            android:name=".Profile.ProfileEditActivity"
+            android:theme="@style/AppTheme.BlackText"
+            android:label="@string/title_activity_profile_edit"
+            >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".Profile.ProfileActivity" />
+        </activity>
+
+        <activity
+            android:name=".Splash_Activity"
+            android:label="@string/app_name"
+            android:theme="@style/AppTheme.NoActionBar">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+
+        </activity>
+        <activity android:name=".TakeNotes.AddSmallNotesActivity"
+            android:launchMode="singleTask"
+            android:theme="@style/AppTheme.NoActionBar">
+        </activity>
+        <activity
+            android:name=".Content.ImageDisplayActivity"
+            android:label="@string/title_activity_display_image"
+            android:theme="@style/AppThemeExam" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".Profile.ProfileActivity" />
+        </activity>
+
+        /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        <activity
+            android:name=".MainActivity"
+            android:label="@string/title_activity_module1"
+            android:theme="@style/AppTheme.NoActionBar" />
+
+        <activity
+            android:name=".Content.Test.TestActivity"
+            android:label="@string/title_activity_test_fillIn_the_blanks"
+            android:screenOrientation="sensorLandscape"
+            android:theme="@android:style/Theme.NoTitleBar.Fullscreen"
+            android:windowSoftInputMode="stateHidden" />
+        <activity
+            android:name=".Content.Test.AdaptiveTestActivity"
+            android:label="@string/title_activity_test_fillIn_the_blanks"
+            android:screenOrientation="sensorLandscape"
+            android:theme="@android:style/Theme.NoTitleBar.Fullscreen"
+            android:windowSoftInputMode="stateHidden" />
+
+
+        <activity
+            android:name=".Content.Laughguru.LaughGuruActivity"
+            android:label="@string/title_activity_laugh_guru"
+            android:screenOrientation="sensorLandscape"
+            android:theme="@android:style/Theme.NoTitleBar.Fullscreen" />
+        <activity android:name=".TakeEvents.EventListingActivity"
+            android:label="EventListingActivity"
+            android:launchMode="singleInstance"
+            android:screenOrientation="sensorLandscape"
+            android:theme="@android:style/Theme.NoTitleBar.Fullscreen"/>
+
+        <activity android:name=".TakeEvents.EventDisplayActivity"
+            android:label="EventDisplayActivity"
+            android:screenOrientation="sensorLandscape"
+            android:theme="@android:style/Theme.NoTitleBar.Fullscreen"/>
+        <activity android:name=".Content.Test.TestInstructionActivity"
+            android:label="TestInstructionActivity"
+            android:screenOrientation="sensorLandscape"
+            android:theme="@android:style/Theme.NoTitleBar.Fullscreen"/>
+        <activity android:name=".SettingsFragment"
+            android:label="Application Settings"
+            android:screenOrientation="sensorLandscape"
+            android:theme="@style/SettingTheme"/>
+
+        <service
+            android:name=".ClassSession.SyncService"
+            android:enabled="true"
+            android:exported="false" />
+        <!-- This is for Device Admin stuff -->
+        <receiver
+            android:name=".deviceadmin.AdminReceiver"
+            android:permission="android.permission.BIND_DEVICE_ADMIN">
+            <meta-data
+                android:name="android.app.device_admin"
+                android:resource="@xml/admin" />
+
+            <intent-filter>
+                <action android:name="android.app.action.DEVICE_ADMIN_ENABLED" />
+            </intent-filter>
+        </receiver>
+
+        <activity android:name=".deviceadmin.AdminPromptActivity" />
+        <activity
+            android:name=".ClassSession.LockActivity"
+            android:exported="false"
+            android:screenOrientation="sensorLandscape" />
+        <activity
+            android:name=".Sync.FileManager"
+            android:label="File Manager"
+            android:screenOrientation="sensorLandscape"
+            android:theme="@style/FileManagerTheme" />
+
+        <activity android:name=".Content.Test.AdaptiveContent" />
+
+        <receiver
+            android:name=".GcmBroadcastReceiver"
+            android:permission="com.google.android.c2dm.permission.SEND" >
+            <intent-filter>
+                <action android:name="com.google.android.c2dm.intent.RECEIVE" />
+                <action android:name="com.google.android.c2dm.intent.REGISTRATION" />
+
+                <category android:name="com.organization.sjhg.e_school" />
+            </intent-filter>
+        </receiver>
+
+        <service android:name=".GCMNotificationIntentService" />
+        <service android:name=".TakeNotes.ChatHeadService" />
+
+        <provider
+            android:authorities="com.organization.sjhg.e_school"
+            android:name=".Database.Provider"
+            android:exported="false"
+            android:syncable="true" /><!-- ATTENTION: This was auto-generated to add Google Play services to your project for
+     App Indexing.  See https://g.co/AppIndexing/AndroidStudio for more information. -->
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version" />
+
+    </application>
+
+</manifest>

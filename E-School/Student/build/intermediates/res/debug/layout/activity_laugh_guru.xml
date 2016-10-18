@@ -1,0 +1,96 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+
+    tools:context="com.organization.sjhg.e_school.Content.LaughGuruActivity">
+
+    <FrameLayout
+        android:layout_width="fill_parent"
+        android:layout_height="50px"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:id="@+id/frameLayout">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:layout_marginLeft="20px"
+            android:text="May 11,2015"
+            android:layout_marginTop="10px"
+            android:textSize="20px"
+            android:id="@+id/date"
+            android:layout_gravity="left|top" />
+
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/helloUser"
+            android:layout_gravity="right|top"
+            android:textSize="20px"
+            android:text="Hi,St Joseph Hitech Gurukul"
+            android:layout_marginTop="10px"
+            android:layout_marginRight="20px"
+            android:textStyle="bold"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            />
+
+        <RelativeLayout
+            android:layout_width="500px"
+            android:layout_height="fill_parent"
+            android:layout_marginRight="60px"
+            android:layout_gravity="center">
+
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="30px"
+                android:layout_marginRight="60px"
+                android:src="@drawable/previous"
+                android:id="@+id/btnPrevious"
+                 />
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="60px"
+                android:src="@drawable/reload"
+                android:layout_toRightOf="@+id/btnPrevious"
+                android:id="@+id/btnReload"
+                />
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="120px"
+                android:src="@drawable/next"
+                android:layout_toRightOf="@+id/btnReload"
+                android:id="@+id/btnNext"
+                />
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/close"
+                android:layout_toRightOf="@+id/btnNext"
+                android:id="@+id/btnClose"
+                />
+
+        </RelativeLayout>
+
+
+    </FrameLayout>
+
+    <WebView
+        android:layout_width="wrap_content"
+        android:layout_height="fill_parent"
+        android:id="@+id/laughGuruContent"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_below="@+id/frameLayout" />
+</RelativeLayout>
+<!-- From: file:/F:/TechPartners/Sjhgs/classroom/E-School/Student/src/main/res/layout/activity_laugh_guru.xml -->

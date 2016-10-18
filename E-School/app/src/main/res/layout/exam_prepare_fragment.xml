@@ -1,0 +1,63 @@
+<LinearLayout android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_gravity="center_vertical"
+    android:orientation="vertical"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <ImageView
+
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/emptyState"
+            android:src="@drawable/practice_bg"
+            android:duplicateParentState="true"
+
+
+
+            />
+    <android.support.v7.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/recycler"
+        >
+
+    </android.support.v7.widget.RecyclerView>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:layout_gravity="center"
+            android:orientation="vertical">
+            <Button
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:text="@string/test_start_title"
+                android:maxWidth="200dp"
+                android:background="@drawable/attempt_border"
+                android:textAllCaps="true"
+                android:textColor="@color/darkgrey"
+                android:id="@+id/test"/>
+
+        <Button
+            android:layout_marginTop="@dimen/paddingTop"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:text="@string/show_attempts"
+            android:maxWidth="200dp"
+            android:background="@drawable/attempt_border"
+            android:textAllCaps="true"
+            android:textColor="@color/darkgrey"
+            android:id="@+id/analytics"/>
+
+
+        </LinearLayout>
+    </FrameLayout>
+
+
+
+
+</LinearLayout>

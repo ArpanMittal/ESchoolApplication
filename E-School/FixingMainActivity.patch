@@ -1,0 +1,861 @@
+Index: app/src/main/res/layout/content_list_fragment.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/res/layout/content_list_fragment.xml	(revision )
++++ app/src/main/res/layout/content_list_fragment.xml	(revision )
+@@ -0,0 +1,40 @@
++<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
++    xmlns:tools="http://schemas.android.com/tools"
++    android:id="@+id/contentListDisplay"
++    android:layout_width="match_parent"
++    android:layout_height="match_parent"
++    tools:context="com.organization.sjhg.e_school.Content.ContentListingActivity">
++
++    <TextView
++        android:id="@+id/titleLabel"
++        android:layout_width="match_parent"
++        android:layout_height="wrap_content"
++        android:layout_gravity="center"
++        android:textAppearance="?android:attr/textAppearanceLarge"
++        android:textSize="40sp"
++        android:layout_alignParentTop="true"
++        android:layout_alignParentLeft="false"
++        android:layout_alignParentStart="true"
++        android:layout_alignParentRight="false"
++        android:layout_centerHorizontal="true"
++        android:paddingLeft="20px" />
++
++    <ScrollView
++        android:id="@+id/scrollView"
++        android:layout_width="fill_parent"
++        android:layout_height="280px"
++        android:layout_below="@+id/titleLabel"
++        android:layout_alignParentLeft="true"
++        android:layout_alignParentStart="true">
++
++        <LinearLayout
++            android:id="@+id/linearContentView"
++            android:layout_width="fill_parent"
++            android:layout_height="fill_parent"
++            android:orientation="vertical">
++
++        </LinearLayout>
++
++    </ScrollView>
++
++</RelativeLayout>
+Index: app/src/main/java/com/organization/sjhg/e_school/Content/LaughGuruActivity.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/com/organization/sjhg/e_school/Content/LaughGuruActivity.java	(revision 383e56f0d2dba7354ad8675f9e7e60ecab5fa8a2)
++++ app/src/main/java/com/organization/sjhg/e_school/Content/LaughGuruActivity.java	(revision )
+@@ -129,7 +129,7 @@
+                 builder1.setPositiveButton("Yes",
+                         new DialogInterface.OnClickListener() {
+                             public void onClick(DialogInterface dialog, int id) {
+-                                Intent close = new Intent(LaughGuruActivity.this, SubjectContentActivity.class);
++                                Intent close = new Intent(LaughGuruActivity.this, ContentTypeDisplayActivity.class);
+                                 close.putExtra("subjectName",subjectName);
+                                 close.putExtra("subjectId",id);
+                                 startActivity(close);
+@@ -160,7 +160,7 @@
+             builder1.setPositiveButton("Yes",
+                     new DialogInterface.OnClickListener() {
+                         public void onClick(DialogInterface dialog, int id) {
+-                            Intent close = new Intent(LaughGuruActivity.this, SubjectContentActivity.class);
++                            Intent close = new Intent(LaughGuruActivity.this, ContentTypeDisplayActivity.class);
+                             close.putExtra("subjectName",subjectName);
+                             close.putExtra("subjectId",id);
+                             startActivity(close);
+Index: app/src/main/res/layout/activity_main_new.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/res/layout/activity_main_new.xml	(revision )
++++ app/src/main/res/layout/activity_main_new.xml	(revision )
+@@ -0,0 +1,150 @@
++<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
++    xmlns:tools="http://schemas.android.com/tools"
++    android:id="@+id/dim"
++    android:layout_width="match_parent"
++    android:layout_height="match_parent"
++    android:background="@drawable/background1withlogo"
++    android:theme="@android:style/Theme.WithActionBar"
++    tools:context="com.organization.sjhg.e_school.MainActivity"
++    android:paddingLeft="45px"
++    android:paddingRight="45px">
++
++    <FrameLayout
++        android:id="@+id/frameLayout2"
++        android:layout_width="fill_parent"
++        android:layout_height="40px"
++        android:layout_alignParentRight="true">
++
++        <TextView
++            android:id="@+id/helloUser"
++            android:layout_width="wrap_content"
++            android:layout_height="wrap_content"
++            android:layout_gravity="right|top"
++            android:layout_marginRight="50px"
++            android:layout_marginTop="5px"
++            android:textAppearance="?android:attr/textAppearanceLarge"
++            android:textSize="20sp"
++            android:textStyle="bold"
++            />
++
++        <TextView
++            android:id="@+id/mainLabel"
++            android:layout_width="wrap_content"
++            android:layout_height="wrap_content"
++            android:layout_gravity="center"
++            android:layout_marginTop="5px"
++            android:textAppearance="?android:attr/textAppearanceLarge"
++            android:textSize="20sp" />
++
++        <TextView
++            android:id="@+id/date"
++            android:layout_width="wrap_content"
++            android:layout_height="wrap_content"
++            android:layout_gravity="left|top"
++            android:layout_marginLeft="50px"
++            android:layout_marginTop="5px"
++            android:textAppearance="?android:attr/textAppearanceLarge"
++            android:textSize="20sp" />
++
++
++    </FrameLayout>
++
++    <com.astuetz.PagerSlidingTabStrip
++        android:id="@+id/tabs"
++        android:layout_width="match_parent"
++        android:layout_height="30px"
++        android:layout_below="@+id/frameLayout2"
++        android:layout_alignParentLeft="true"
++        android:layout_alignParentStart="true" >
++
++    </com.astuetz.PagerSlidingTabStrip>
++
++    <android.support.v4.view.ViewPager
++        xmlns:android="http://schemas.android.com/apk/res/android"
++        android:id="@+id/contentList"
++        android:layout_width="match_parent"
++        android:layout_height="match_parent"
++        android:layout_gravity="left|top"
++        android:layout_below="@+id/tabs"
++        android:layout_alignParentLeft="true"
++        android:layout_alignParentStart="true">
++
++        </android.support.v4.view.ViewPager>
++
++    <ImageView
++        android:id="@+id/chalk"
++        android:layout_width="150px"
++        android:layout_height="100px"
++        android:layout_alignParentBottom="true"
++        android:layout_alignParentLeft="true"
++        android:layout_alignParentStart="true"
++        android:layout_gravity="left|bottom"
++        android:paddingLeft="50px"
++        android:src="@drawable/chalk" />
++
++    <ImageView
++        android:id="@+id/duster"
++        android:layout_width="150px"
++        android:layout_height="100px"
++        android:layout_alignParentBottom="true"
++        android:layout_alignParentRight="true"
++        android:layout_gravity="right|bottom"
++        android:paddingRight="40px"
++        android:src="@drawable/duster" />
++
++    <ImageView
++        android:id="@+id/connectwithteacher"
++        android:layout_width="80px"
++        android:layout_height="80px"
++        android:layout_alignTop="@+id/chalk"
++        android:layout_marginBottom="35px"
++        android:layout_marginLeft="110px"
++        android:layout_marginRight="20px"
++        android:layout_toRightOf="@+id/chalk"
++        android:src="@drawable/connectwithteacherwithname" />
++
++    <ToggleButton
++        android:id="@+id/raisehand"
++        android:layout_width="80px"
++        android:layout_height="80px"
++        android:layout_alignTop="@+id/chalk"
++        android:layout_marginBottom="35px"
++        android:layout_marginRight="20px"
++        android:layout_toEndOf="@+id/chalk"
++        android:layout_toRightOf="@+id/connectwithteacher"
++        android:background="@drawable/toggle_raisehand_name"
++        android:focusable="false"
++        android:focusableInTouchMode="false"
++        android:textOff=""
++        android:textOn="" />
++    <ImageView
++        android:id="@+id/chat"
++        android:layout_width="80px"
++        android:layout_height="80px"
++        android:layout_alignTop="@+id/chalk"
++        android:layout_marginBottom="35px"
++        android:layout_marginRight="20px"
++        android:layout_toEndOf="@+id/chalk"
++        android:layout_toRightOf="@+id/raisehand"
++        android:src="@drawable/chat_text_disabled" />
++    <ImageView
++        android:id="@+id/writenotes"
++        android:layout_width="80px"
++        android:layout_height="80px"
++        android:layout_alignTop="@+id/chalk"
++        android:layout_marginBottom="35px"
++        android:layout_marginRight="20px"
++        android:layout_toEndOf="@+id/chalk"
++        android:layout_toRightOf="@+id/chat"
++        android:src="@drawable/writenoteswithname" />
++    <ImageView
++        android:id="@+id/sync"
++        android:layout_width="80px"
++        android:layout_height="80px"
++        android:layout_alignTop="@+id/chalk"
++        android:layout_marginBottom="35px"
++        android:layout_toEndOf="@+id/chalk"
++        android:layout_toRightOf="@+id/writenotes"
++        android:src="@drawable/syncwithname" />
++
++</RelativeLayout>
+Index: app/src/main/java/com/organization/sjhg/e_school/LoginActivity.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/com/organization/sjhg/e_school/LoginActivity.java	(revision 383e56f0d2dba7354ad8675f9e7e60ecab5fa8a2)
++++ app/src/main/java/com/organization/sjhg/e_school/LoginActivity.java	(revision )
+@@ -43,7 +43,7 @@
+     public void HandleLoginStatus(boolean isLoginSuccessful)
+     {
+         if (isLoginSuccessful) {
+-            Intent LoginToMain = new Intent(LoginActivity.this, MainActivity.class);
++            Intent LoginToMain = new Intent(LoginActivity.this, MainActivityNew.class);
+             startActivity(LoginToMain);
+         } else {
+             user.setText(null);
+\ No newline at end of file
+Index: app/src/main/java/com/organization/sjhg/e_school/Subjects.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/com/organization/sjhg/e_school/Subjects.java	(revision 383e56f0d2dba7354ad8675f9e7e60ecab5fa8a2)
++++ app/src/main/java/com/organization/sjhg/e_school/Subjects.java	(revision )
+@@ -14,7 +14,7 @@
+ import android.widget.LinearLayout;
+ import android.widget.TextView;
+ 
+-import com.organization.sjhg.e_school.Content.SubjectContentActivity;
++import com.organization.sjhg.e_school.Content.ContentTypeDisplayActivity;
+ import com.organization.sjhg.e_school.Structure.ContentDetailBase;
+ 
+ import java.util.List;
+@@ -80,7 +80,7 @@
+         button.setOnClickListener(new View.OnClickListener() {
+             @Override
+             public void onClick(View v) {
+-                Intent mainToSubjectContent = new Intent(context, SubjectContentActivity.class);
++                Intent mainToSubjectContent = new Intent(context, ContentTypeDisplayActivity.class);
+                 mainToSubjectContent.putExtra("subjectId", id);
+                 mainToSubjectContent.putExtra("subjectName", name);
+                 context.startActivity(mainToSubjectContent);
+\ No newline at end of file
+Index: app/src/main/java/com/organization/sjhg/e_school/Content/ContentListingActivity.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/com/organization/sjhg/e_school/Content/ContentListingActivity.java	(revision 383e56f0d2dba7354ad8675f9e7e60ecab5fa8a2)
++++ app/src/main/java/com/organization/sjhg/e_school/Content/ContentListingActivity.java	(revision )
+@@ -165,7 +165,7 @@
+ 
+     @Override
+     public void onBackPressed() {
+-        Intent home = new Intent(ContentListingActivity.this, SubjectContentActivity.class);
++        Intent home = new Intent(ContentListingActivity.this, ContentTypeDisplayActivity.class);
+         home.putExtra("subjectId", subjectId);
+         home.putExtra("subjectName", subjectName);
+         startActivity(home);
+Index: app/src/main/AndroidManifest.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/AndroidManifest.xml	(revision 383e56f0d2dba7354ad8675f9e7e60ecab5fa8a2)
++++ app/src/main/AndroidManifest.xml	(revision )
+@@ -27,6 +27,11 @@
+             android:screenOrientation="sensorLandscape"
+             android:theme="@android:style/Theme.NoTitleBar.Fullscreen"></activity>
+         <activity
++        android:name=".MainActivityNew"
++        android:label="@string/title_activity_module1"
++        android:screenOrientation="sensorLandscape">
++        </activity>
++        <activity
+             android:name=".Content.PdfLibraryActivity"
+             android:label="@string/title_activity_pdf"
+             android:screenOrientation="sensorLandscape"
+@@ -47,7 +52,7 @@
+             android:screenOrientation="sensorLandscape"
+             android:theme="@android:style/Theme.NoTitleBar.Fullscreen"></activity>
+         <activity
+-            android:name=".Content.SubjectContentActivity"
++            android:name=".Content.ContentTypeDisplayActivity"
+             android:label="@string/title_activity_subject_content"
+             android:screenOrientation="sensorLandscape"
+             android:theme="@android:style/Theme.NoTitleBar.Fullscreen"></activity>
+Index: app/src/main/java/com/organization/sjhg/e_school/Content/SubjectContentActivity.java
+===================================================================
+--- app/src/main/java/com/organization/sjhg/e_school/Content/SubjectContentActivity.java	(revision 383e56f0d2dba7354ad8675f9e7e60ecab5fa8a2)
++++ app/src/main/java/com/organization/sjhg/e_school/Content/ContentTypeDisplayActivity.java	(revision )
+@@ -36,7 +36,7 @@
+  * Organization: St. Joseph's Hitech Gurukul.
+  */
+ 
+-public class SubjectContentActivity extends Activity {
++public class ContentTypeDisplayActivity extends Activity {
+     public static ProgressDialog pDialog;
+     TextView subjectName;
+     TextView helloUser, DateDisplay;
+@@ -135,7 +135,7 @@
+         WriteNotesBtn.setOnClickListener(new View.OnClickListener() {
+             @Override
+             public void onClick(View v) {
+-                Intent subjectToNoteListing = new Intent(SubjectContentActivity.this, NoteListingActivity.class);
++                Intent subjectToNoteListing = new Intent(ContentTypeDisplayActivity.this, NoteListingActivity.class);
+                 startActivity(subjectToNoteListing);
+             }
+         });
+@@ -143,10 +143,10 @@
+         SyncBtn.setOnClickListener(new View.OnClickListener() {
+             @Override
+             public void onClick(View v) {
+-                if (ServerAddress.isConnectedToInternet(SubjectContentActivity.this)) {
+-                    new SyncManager(SubjectContentActivity.this).execute();
++                if (ServerAddress.isConnectedToInternet(ContentTypeDisplayActivity.this)) {
++                    new SyncManager(ContentTypeDisplayActivity.this).execute();
+                 } else {
+-                    ExceptionHandler.thrownExceptions(SubjectContentActivity.this, getResources().getString(R.string.internet_failure), getResources().getString(R.string.error_message_internet));
++                    ExceptionHandler.thrownExceptions(ContentTypeDisplayActivity.this, getResources().getString(R.string.internet_failure), getResources().getString(R.string.error_message_internet));
+                 }
+             }
+         });
+@@ -203,21 +203,21 @@
+         laughGuru.setOnClickListener(new View.OnClickListener() {
+             @Override
+             public void onClick(View v) {
+-                pDialog = new ProgressDialog(SubjectContentActivity.this);
++                pDialog = new ProgressDialog(ContentTypeDisplayActivity.this);
+                 pDialog.setMessage("Connecting to laugh guru ...");
+                 pDialog.setIndeterminate(false);
+                 pDialog.setCancelable(true);
+                 pDialog.show();
+-                if (ServerAddress.isConnectedToInternet(SubjectContentActivity.this)) {
++                if (ServerAddress.isConnectedToInternet(ContentTypeDisplayActivity.this)) {
+                     pDialog.dismiss();
+-                    Intent connectToLaughGuru = new Intent(SubjectContentActivity.this, LaughGuruActivity.class);
++                    Intent connectToLaughGuru = new Intent(ContentTypeDisplayActivity.this, LaughGuruActivity.class);
+                     connectToLaughGuru.putExtra("subjectId", subjectId);
+                     connectToLaughGuru.putExtra("subjectName", subjectName);
+                     startActivity(connectToLaughGuru);
+ 
+                 } else {
+                     pDialog.dismiss();
+-                    ExceptionHandler.thrownExceptions(SubjectContentActivity.this, getResources().getString(R.string.internet_failure), getResources().getString(R.string.error_message_internet));
++                    ExceptionHandler.thrownExceptions(ContentTypeDisplayActivity.this, getResources().getString(R.string.internet_failure), getResources().getString(R.string.error_message_internet));
+                 }
+             }
+         });
+@@ -225,7 +225,7 @@
+     }
+ 
+     private void SetOnClickListener(int subjectId, String subjectName, InternalContentType filterContentType) {
+-        Intent subjectContentToBooks = new Intent(SubjectContentActivity.this, ContentListingActivity.class);
++        Intent subjectContentToBooks = new Intent(ContentTypeDisplayActivity.this, ContentListingActivity.class);
+         subjectContentToBooks.putExtra("subjectId", subjectId);
+         subjectContentToBooks.putExtra("subjectName", subjectName);
+         subjectContentToBooks.putExtra("filterContentTypeId", filterContentType.contentType);
+@@ -234,7 +234,7 @@
+ 
+     @Override
+     public void onBackPressed() {
+-        Intent home = new Intent(SubjectContentActivity.this, MainActivity.class);
++        Intent home = new Intent(ContentTypeDisplayActivity.this, MainActivity.class);
+         startActivity(home);
+     }
+ }
+Index: app/src/main/java/com/organization/sjhg/e_school/MainActivity.java
+===================================================================
+--- app/src/main/java/com/organization/sjhg/e_school/MainActivity.java	(revision 383e56f0d2dba7354ad8675f9e7e60ecab5fa8a2)
++++ app/src/main/java/com/organization/sjhg/e_school/MainActivityNew.java	(revision )
+@@ -1,6 +1,5 @@
+ package com.organization.sjhg.e_school;
+ 
+-import android.app.Activity;
+ import android.app.ActivityManager;
+ import android.app.AlertDialog;
+ import android.content.BroadcastReceiver;
+@@ -12,9 +11,11 @@
+ import android.graphics.Typeface;
+ import android.os.BatteryManager;
+ import android.os.Bundle;
+-import android.util.Pair;
++import android.support.v4.app.FragmentActivity;
++import android.support.v4.view.ViewPager;
+ import android.view.LayoutInflater;
+ import android.view.View;
++import android.view.Window;
+ import android.widget.CompoundButton;
+ import android.widget.EditText;
+ import android.widget.ImageView;
+@@ -23,8 +24,9 @@
+ import android.widget.Toast;
+ import android.widget.ToggleButton;
+ 
++import com.astuetz.PagerSlidingTabStrip;
+ import com.organization.sjhg.e_school.ClassSession.SyncUtils;
+-import com.organization.sjhg.e_school.Database.DatabaseOperations;
++import com.organization.sjhg.e_school.Content.ContentCollectionPagerAdapter;
+ import com.organization.sjhg.e_school.Helpers.StudentApplicationUserData;
+ import com.organization.sjhg.e_school.Remote.ExceptionHandler;
+ import com.organization.sjhg.e_school.Remote.RemoteHelper;
+@@ -52,9 +54,7 @@
+  * Organization: St. Joseph's Hitech Gurukul.
+  */
+ 
+-public class MainActivity extends Activity implements SessionStatusHandler {
+-
+-
++public class MainActivityNew extends FragmentActivity implements SessionStatusHandler {
+     TextView helloUser, MainLabel, DateDisplay;
+     Typeface font;
+     ImageView Duster;
+@@ -66,11 +66,36 @@
+     ImageView SyncBtn;
+     RelativeLayout Screen;
+ 
++    ContentCollectionPagerAdapter mContentCollectionPagerAdapter;
++    ViewPager mViewPager;
++
+     @Override
+     protected void onCreate(Bundle savedInstanceState) {
++        getWindow().requestFeature(Window.FEATURE_ACTION_BAR);
+         super.onCreate(savedInstanceState);
+-        setContentView(R.layout.activity_main);
++        setContentView(R.layout.activity_main_new);
+ 
++        // Instantiate a ViewPager and a PagerAdapter.
++        mViewPager = (ViewPager) findViewById(R.id.contentList);
++        mContentCollectionPagerAdapter = new ContentCollectionPagerAdapter(
++                getSupportFragmentManager(),
++                this);
++        mViewPager.setAdapter(mContentCollectionPagerAdapter);
++
++/*        mViewPager.setOnPageChangeListener(
++                new ViewPager.SimpleOnPageChangeListener() {
++                    @Override
++                    public void onPageSelected(int position) {
++                        // When swiping between pages, select the
++                        // corresponding tab.
++                        getActionBar().setSelectedNavigationItem(position);
++                    }
++                });*/
++
++        // Bind the tabs to the ViewPager
++        PagerSlidingTabStrip tabs = (PagerSlidingTabStrip) findViewById(R.id.tabs);
++        tabs.setViewPager(mViewPager);
++
+         String studentName = StudentApplicationUserData.getInstance(this).getStudentName();
+         String sectionId = String.valueOf(StudentApplicationUserData.getInstance(this).getSectionId());
+ 
+@@ -79,14 +104,9 @@
+         Screen = (RelativeLayout) findViewById(R.id.dim);
+ 
+         DateDisplay = (TextView) findViewById(R.id.date);
+-        DateDisplay.setTextColor(Color.YELLOW);
+         DateDisplay.setTypeface(font);
+         DateDisplay.setBackgroundResource(R.drawable.stroke);
+ 
+-        MainLabel = (TextView) findViewById(R.id.mainLabel);
+-        MainLabel.setTypeface(font);
+-        MainLabel.setTextColor(Color.WHITE);
+-        MainLabel.setText("Class " + (Integer.parseInt(sectionId) + 3) + " Subjects");
+ 
+         Duster = (ImageView) findViewById(R.id.duster);
+         Duster.setOnClickListener(new View.OnClickListener() {
+@@ -127,17 +147,15 @@
+             }
+         });
+ 
+-        List<Pair<Integer, String>> subjectList = DatabaseOperations.getLocalSubjectDetails(MainActivity.this);
+-        Subjects.subjectDisplay(subjectList, MainActivity.this);
+-
+         helloUser = (TextView) findViewById(R.id.helloUser);
+         helloUser.setTypeface(font);
+-        helloUser.setTextColor(Color.YELLOW);
++        helloUser.setTextColor(Color.BLACK);
+         helloUser.setText("Hi, " + studentName);
+ 
+         long date = System.currentTimeMillis();
+         SimpleDateFormat sdf = new SimpleDateFormat("MMM dd, yyyy ");
+         String dateString = sdf.format(date);
++        DateDisplay.setTextColor(Color.BLACK);
+         DateDisplay.setText(dateString);
+ 
+ 
+@@ -146,7 +164,7 @@
+             @Override
+             public void onClick(View v) {
+                 ConnectBtn.setEnabled(false);
+-                ConnectToClass(MainActivity.this, (new RemoteHelper(getApplicationContext())).getActiveSessions());
++                ConnectToClass(MainActivityNew.this, (new RemoteHelper(getApplicationContext())).getActiveSessions());
+                 /*Sharepxreferences pref = getSharepxreferences(StudentApplicationUserData.PREFS_NAME_USER_CREDENTIAL, MODE_PRIVATE);
+                 Toast.makeText(getApplicationContext(), pref.getString(StudentApplicationUserData.PREF_USERNAME, null), Toast.LENGTH_LONG).show();*/
+             }
+@@ -166,7 +184,7 @@
+         RaiseHandBtn.setOnClickListener(new View.OnClickListener() {
+             @Override
+             public void onClick(View v) {
+-                RaiseHand(MainActivity.this);
++                RaiseHand(MainActivityNew.this);
+             }
+         });
+         ChatBtn = (ImageView) findViewById(R.id.chat);
+@@ -174,14 +192,14 @@
+         ChatBtn.setOnClickListener(new View.OnClickListener() {
+             @Override
+             public void onClick(View v) {
+-                AskQuestion(MainActivity.this).show();
++                AskQuestion(MainActivityNew.this).show();
+             }
+         });
+         WriteNotesBtn = (ImageView) findViewById(R.id.writenotes);
+         WriteNotesBtn.setOnClickListener(new View.OnClickListener() {
+             @Override
+             public void onClick(View v) {
+-                Intent mainToNoteListing = new Intent(MainActivity.this, NoteListingActivity.class);
++                Intent mainToNoteListing = new Intent(MainActivityNew.this, NoteListingActivity.class);
+                 startActivity(mainToNoteListing);
+             }
+         });
+@@ -189,22 +207,22 @@
+         SyncBtn.setOnClickListener(new View.OnClickListener() {
+             @Override
+             public void onClick(View v) {
+-                if (ServerAddress.isConnectedToInternet(MainActivity.this)) {
+-                    new SyncManager(MainActivity.this, true).execute();
++                if (ServerAddress.isConnectedToInternet(MainActivityNew.this)) {
++                    new SyncManager(MainActivityNew.this, true).execute();
+                 } else {
+-                    ExceptionHandler.thrownExceptions(MainActivity.this, getResources().getString(R.string.internet_failure), getResources().getString(R.string.error_message_internet));
++                    ExceptionHandler.thrownExceptions(MainActivityNew.this, getResources().getString(R.string.internet_failure), getResources().getString(R.string.error_message_internet));
+                 }
+             }
+         });
+ 
+         SyncUtils.CreateSyncAccount(this);
+-
+         StudentApplicationUserData.getInstance(this).register(this);
+     }
+ 
++
+     @Override
+     public void onBackPressed() {
+-        AlertDialog.Builder builder1 = new AlertDialog.Builder(MainActivity.this);
++        AlertDialog.Builder builder1 = new AlertDialog.Builder(MainActivityNew.this);
+         builder1.setMessage(getResources().getString(R.string.do_you_want_to_exit));
+         builder1.setTitle(getResources().getString(R.string.attention));
+         builder1.setCancelable(true);
+@@ -435,4 +453,4 @@
+         StudentApplicationUserData.getInstance(this).deregister(this);
+         super.onStop();
+     }
+-}
+\ No newline at end of file
++}
+Index: app/src/main/res/menu/menu_subject_content.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/res/menu/menu_subject_content.xml	(revision 383e56f0d2dba7354ad8675f9e7e60ecab5fa8a2)
++++ app/src/main/res/menu/menu_subject_content.xml	(revision )
+@@ -1,7 +1,7 @@
+ <menu xmlns:android="http://schemas.android.com/apk/res/android"
+     xmlns:app="http://schemas.android.com/apk/res-auto"
+     xmlns:tools="http://schemas.android.com/tools"
+-    tools:context="com.organization.sjhg.e_school.Content.SubjectContentActivity">
++    tools:context="com.organization.sjhg.e_school.Content.ContentTypeDisplayActivity">
+     <item android:id="@+id/action_settings" android:title="@string/action_settings"
+         android:orderInCategory="100" app:showAsAction="never" />
+ </menu>
+Index: app/app.iml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/app.iml	(revision 383e56f0d2dba7354ad8675f9e7e60ecab5fa8a2)
++++ app/app.iml	(revision )
+@@ -85,6 +85,7 @@
+     <orderEntry type="jdk" jdkName="Android API 21 Platform" jdkType="Android SDK" />
+     <orderEntry type="sourceFolder" forTests="false" />
+     <orderEntry type="library" exported="" name="appcompat-v7-21.0.3" level="project" />
++    <orderEntry type="library" exported="" name="pagerslidingtabstrip-1.0.1" level="project" />
+     <orderEntry type="library" exported="" name="android-pdfview-1.0.2" level="project" />
+     <orderEntry type="library" exported="" name="support-v4-21.0.3" level="project" />
+     <orderEntry type="library" exported="" name="support-annotations-21.0.3" level="project" />
+Index: app/src/main/java/com/organization/sjhg/e_school/Content/ContentListPageFragment.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/com/organization/sjhg/e_school/Content/ContentListPageFragment.java	(revision )
++++ app/src/main/java/com/organization/sjhg/e_school/Content/ContentListPageFragment.java	(revision )
+@@ -0,0 +1,97 @@
++package com.organization.sjhg.e_school.Content;
++
++import android.content.Intent;
++import android.graphics.Color;
++import android.os.Bundle;
++import android.support.v4.app.Fragment;
++import android.view.LayoutInflater;
++import android.view.View;
++import android.view.ViewGroup;
++import android.widget.LinearLayout;
++import android.widget.TextView;
++
++import com.organization.sjhg.e_school.Database.DatabaseOperations;
++import com.organization.sjhg.e_school.Helpers.StudentApplicationUserData;
++import com.organization.sjhg.e_school.R;
++import com.organization.sjhg.e_school.Structure.ContentDetailBase;
++
++import java.util.List;
++
++/**
++ * Created by Prateek Tulsyan on 18-03-2015.
++ * Email: prateek.tulsyan13@gmail.com
++ * Organization: St. Joseph's Hitech Gurukul.
++ */
++
++/**
++ * Edited by Gaurav Rawat.
++ * Email: gauravrawat.official@gmail.com
++ * Organization: St. Joseph's Hitech Gurukul.
++ */
++
++public class ContentListPageFragment extends Fragment {
++
++    public static final String SUBJECT_ID_ARG_NAME = "subject_id";
++    public static final String SUBJECT_NAME_ARG_NAME = "subject_name";
++    private TextView MainLabel;
++
++    @Override
++    public ViewGroup onCreateView(LayoutInflater inflater, ViewGroup container,
++                             Bundle savedInstanceState) {
++
++        Bundle args = getArguments();
++        final int subjectId = args.getInt(SUBJECT_ID_ARG_NAME);
++        final String subjectName = args.getString(SUBJECT_NAME_ARG_NAME);
++
++        ViewGroup rootView = (ViewGroup) inflater.inflate(
++                R.layout.content_list_fragment, container, false);
++
++        List<ContentDetailBase> contentDetailList =
++                DatabaseOperations.getLocalContentList(getActivity());
++
++        MainLabel = (TextView) rootView.findViewById(R.id.titleLabel);
++        MainLabel.setTextColor(Color.WHITE);
++        MainLabel.setText(subjectName);
++
++        LinearLayout inLinearContentView = (LinearLayout) rootView.findViewById(R.id.linearContentView);
++        for (final ContentDetailBase contentEntry : contentDetailList) {
++            if (contentEntry.subjectId == subjectId) {
++                LinearLayout.LayoutParams params =
++                        new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,
++                                LinearLayout.LayoutParams.MATCH_PARENT);
++
++                //params.setMargins(50,20,0,0);
++                final TextView textView = new TextView(getActivity());
++                textView.setLayoutParams(params);
++                textView.setHeight(40);
++                textView.setTextColor(Color.WHITE);
++                textView.setBackgroundResource(R.drawable.stroke);
++                textView.setTextSize(20);
++                textView.setPadding(20, 0, 0, 0);
++                textView.setText(" " + contentEntry.contentName);
++
++                textView.setCompoundDrawablesWithIntrinsicBounds(
++                        contentEntry.getInternalContentType().getIconResourceId(), 0, 0, 0);
++                inLinearContentView.addView(textView);
++
++                textView.setOnClickListener(new View.OnClickListener() {
++                    @Override
++                    public void onClick(View v) {
++                        String filePath = contentEntry.localFilePath;
++                        Intent booksToDisplayPdf = new Intent(
++                                getActivity(),
++                                contentEntry.getInternalContentType().getViewerClass());
++                        booksToDisplayPdf.putExtra("localFilePath", filePath);
++                        booksToDisplayPdf.putExtra("protectionData", contentEntry.protectionData);
++                        booksToDisplayPdf.putExtra("subjectId", subjectId);
++                        booksToDisplayPdf.putExtra("subjectName", subjectName);
++                        getActivity().startActivity(booksToDisplayPdf);
++                    }
++                });
++            }
++        }
++
++        return rootView;
++
++    }
++}
+Index: app/manifest-merger-release-report.txt
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/manifest-merger-release-report.txt	(revision 383e56f0d2dba7354ad8675f9e7e60ecab5fa8a2)
++++ app/manifest-merger-release-report.txt	(revision )
+@@ -125,7 +125,7 @@
+ 		ADDED from AndroidManifest.xml:62:13
+ 	android:name
+ 		ADDED from AndroidManifest.xml:59:13
+-activity#com.organization.sjhg.e_school.Content.SubjectContentActivity
++activity#com.organization.sjhg.e_school.Content.ContentTypeDisplayActivity
+ ADDED from AndroidManifest.xml:64:9
+ 	android:screenOrientation
+ 		ADDED from AndroidManifest.xml:67:13
+Index: app/src/main/java/com/organization/sjhg/e_school/SplashActivity.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/com/organization/sjhg/e_school/SplashActivity.java	(revision 383e56f0d2dba7354ad8675f9e7e60ecab5fa8a2)
++++ app/src/main/java/com/organization/sjhg/e_school/SplashActivity.java	(revision )
+@@ -63,7 +63,7 @@
+             new Handler().postDelayed(new Runnable() {
+                 @Override
+                 public void run() {
+-                    Intent splashToMain = new Intent(SplashActivity.this, MainActivity.class);
++                    Intent splashToMain = new Intent(SplashActivity.this, MainActivityNew.class);
+                     startActivity(splashToMain);
+                 }
+             }, waitTime);
+Index: app/src/main/java/com/organization/sjhg/e_school/Content/ContentCollectionPagerAdapter.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/com/organization/sjhg/e_school/Content/ContentCollectionPagerAdapter.java	(revision )
++++ app/src/main/java/com/organization/sjhg/e_school/Content/ContentCollectionPagerAdapter.java	(revision )
+@@ -0,0 +1,54 @@
++package com.organization.sjhg.e_school.Content;
++
++import android.content.Context;
++import android.os.Bundle;
++import android.support.v4.app.Fragment;
++import android.support.v4.app.FragmentManager;
++import android.support.v4.app.FragmentPagerAdapter;
++import android.util.Pair;
++
++import com.organization.sjhg.e_school.Content.ContentListPageFragment;
++import com.organization.sjhg.e_school.Database.DatabaseOperations;
++
++import java.util.List;
++
++/**
++ * Created by Bharat Lodha on 9/9/2015.
++ * Organization : Eurovision Hitech Gurukul
++ */
++public class ContentCollectionPagerAdapter extends FragmentPagerAdapter{
++
++    public List<Pair<Integer, String>> subjectList;
++
++    public ContentCollectionPagerAdapter(FragmentManager fm, Context context) {
++        super(fm);
++        subjectList = DatabaseOperations.getLocalSubjectDetails(context);
++    }
++
++    @Override
++    public Fragment getItem(int position) {
++        Fragment fragment = new ContentListPageFragment();
++        Bundle args = new Bundle();
++
++        args.putInt(ContentListPageFragment.SUBJECT_ID_ARG_NAME, subjectList.get(position).first);
++        args.putString(ContentListPageFragment.SUBJECT_NAME_ARG_NAME, subjectList.get(position).second);
++        fragment.setArguments(args);
++        return fragment;
++    }
++
++    @Override
++    public int getCount() {
++        return subjectList.size();
++    }
++
++    @Override
++    public CharSequence  getPageTitle (int position)
++    {
++        return  subjectList.get(position).second;
++    }
++
++    @Override
++    public float getPageWidth(int position) {
++        return (0.5f);
++    }
++}
+Index: app/src/main/java/com/organization/sjhg/e_school/Remote/ExceptionHandler.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/com/organization/sjhg/e_school/Remote/ExceptionHandler.java	(revision 383e56f0d2dba7354ad8675f9e7e60ecab5fa8a2)
++++ app/src/main/java/com/organization/sjhg/e_school/Remote/ExceptionHandler.java	(revision )
+@@ -4,7 +4,6 @@
+ import android.content.Context;
+ import android.content.DialogInterface;
+ 
+-import com.organization.sjhg.e_school.Content.SubjectContentActivity;
+ import com.organization.sjhg.e_school.R;
+ 
+ /**
+Index: app/build.gradle
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/build.gradle	(revision 383e56f0d2dba7354ad8675f9e7e60ecab5fa8a2)
++++ app/build.gradle	(revision )
+@@ -30,4 +30,5 @@
+     compile files('libs/gson.jar')
+     compile files('libs/android-pdfview-1.0.2.jar')
+     compile 'com.android.support:appcompat-v7:21.0.3'
++    compile 'com.astuetz:pagerslidingtabstrip:1.0.1'
+ }
+Index: .idea/gradle.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- .idea/gradle.xml	(revision 383e56f0d2dba7354ad8675f9e7e60ecab5fa8a2)
++++ .idea/gradle.xml	(revision )
+@@ -3,7 +3,7 @@
+   <component name="GradleSettings">
+     <option name="linkedExternalProjectsSettings">
+       <GradleProjectSettings>
+-        <option name="distributionType" value="LOCAL" />
++        <option name="distributionType" value="DEFAULT_WRAPPED" />
+         <option name="externalProjectPath" value="$PROJECT_DIR$" />
+         <option name="gradleHome" value="$APPLICATION_HOME_DIR$/gradle/gradle-2.4" />
+         <option name="modules">

@@ -1,0 +1,55 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.organization.sjhg.e_school.TakeNotes.NoteListingActivity"
+    android:background="@drawable/notelistimage" >
+
+    <TextView
+        android:id="@+id/textViewTop"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:text="NOTE KEEPER"
+        android:paddingLeft="40px"
+        android:textColor="#FA8000"
+        android:gravity="center"
+        android:layout_centerHorizontal="true"
+        android:textSize="30px"
+        android:paddingBottom="20px" />
+
+    <ListView
+        android:id="@android:id/list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/textViewTop"
+        android:paddingLeft="110px"
+        android:divider="#D3D3D3"
+        android:dividerHeight="2px"
+        android:footerDividersEnabled="true"
+        android:layout_above="@+id/btmLayout" />
+
+    <LinearLayout
+        android:id="@+id/btmLayout"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:layout_alignParentBottom="true"
+        android:layout_marginTop="5px">
+
+        <Button
+            android:id="@+id/addnotebutton"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="CREATE NEW"
+            android:background="#FA8000"
+            android:textColor="#FFFFFF"
+            android:textStyle="bold"
+            android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
+            android:layout_weight="1"/>
+
+    </LinearLayout>
+
+</RelativeLayout>
+<!-- From: file:/F:/TechPartners/Sjhgs/classroom/E-School/Student/src/main/res/layout/activity_note_listing.xml -->

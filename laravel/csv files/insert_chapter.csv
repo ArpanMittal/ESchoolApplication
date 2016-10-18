@@ -1,0 +1,153 @@
+hola,hola,NULL,NULL
+CEC,Chemical Effect of Electric Current,NULL,NULL
+ECI,Electric Current and Its Effects,NULL,NULL
+ELC,Electricity,NULL,NULL
+EAC,Electricity and Circuits,NULL,NULL
+FOR,Force and Laws of Motion,NULL,NULL
+FRP,Force and Pressure,NULL,NULL
+FRN,Friction,NULL,NULL
+FWM,Fun with Magnets,NULL,NULL
+GRV,Gravitation,NULL,NULL
+HET,Heat,NULL,NULL
+HEY,Human Eye,NULL,NULL
+LIT,Light,NULL,NULL
+LRR,Light - Reflection and Refraction,NULL,NULL
+LSR,"Light, Shadows and Refelction",NULL,NULL
+MEC,Magnetic Effect of Electric Current,NULL,NULL
+MOT,Motion,NULL,NULL
+MMD,Motion and Measurements of Distance,NULL,NULL
+REM,Rectilinear Motion,NULL,NULL
+SNP,Some Natural Phenomenon,NULL,NULL
+SND,Sound,NULL,NULL
+SOU,Sound,NULL,NULL
+SOE,Sources of Energy,NULL,NULL
+SAS,Stars and the Solar System,NULL,NULL
+WPE,Work Energy & Power,NULL,NULL
+AEX,Algebraic Expressions,NULL,NULL
+AEI,Algebraic Expressions and Identities,NULL,NULL
+ATP,Area of Triangles and Parallelograms,NULL,NULL
+ARC,Area related to Circle,NULL,NULL
+APR,Arithmetic Progressions,NULL,NULL
+BGI,Basic Geometrical Ideas,NULL,NULL
+CIR,Circle,NULL,NULL
+COM,Comparing Quantities,NULL,NULL
+COT,Congruence of Triangle,NULL,NULL
+CTR,Construction,NULL,NULL
+CGE,Coordinate geometry ,NULL,NULL
+CCR,Cubes and Cube Roots,NULL,NULL
+DHA,Data Handling,NULL,NULL
+DEC,Decimals,NULL,NULL
+DIP,Direct and Inverse Proportions,NULL,NULL
+EGE,Euclid's Geometry,NULL,NULL
+EAP,Exponents and Powers,NULL,NULL
+FAC,Factorisation,NULL,NULL
+FRA,Fractions,NULL,NULL
+FAD,Fractions and Decimals,NULL,NULL
+HFO,Heron's Formula,NULL,NULL
+INT,Integers,NULL,NULL
+ITA,Introduction to Algebra,NULL,NULL
+ITG,Introduction to Graphs,NULL,NULL
+ITT,Introduction to Trigonometry,NULL,NULL
+KTM,Knowing the Numbers,NULL,NULL
+LEO,Linear Equations in One Variable,NULL,NULL
+LET,Linear Equations in Two Variables,NULL,NULL
+LAA,Lines and Angles,NULL,NULL
+MEN,Mensuration ,NULL,NULL
+NSY,Number System,NULL,NULL
+PLE,Pair of Linear Equation in Two Variables,NULL,NULL
+PAA,Perimeter and Area,NULL,NULL
+PWN,Playing with Numbers,NULL,NULL
+POL,Polynomials,NULL,NULL
+PGE,Practical Geometry,NULL,NULL
+PBT,Probability,NULL,NULL
+QEQ,Quadratic Equation,NULL,NULL
+QUA,Quadrilaterals,NULL,NULL
+RAP,Ratio and Proportion,NULL,NULL
+RNU,Rational Numbers,NULL,NULL
+RNB,Real Numbers,NULL,NULL
+SIM,Similarity of Triangles,NULL,NULL
+SEQ,Simple Equations,NULL,NULL
+SSR,Squares and Square Roots,NULL,NULL
+STA,Statistics,NULL,NULL
+SAV,Surface Area and Volume,NULL,NULL
+SYM,Symmetry,NULL,NULL
+TRI,Triangle ,NULL,NULL
+UES,Understanding Elementary Shapes,NULL,NULL
+UQU,Understanding Quadrilateral,NULL,NULL
+VSS,Visualising Solid Shapes,NULL,NULL
+WHN,Whole Numbers,NULL,NULL
+MAT,Motion and Time,NULL,NULL
+LTE,Light,NULL,NULL
+ALP,Alphabet Test,NULL,NULL
+ANR,Analatical reasoning ,NULL,NULL
+ANA,Analogy,NULL,NULL
+ART,Arithmetical Reasoning Test,NULL,NULL
+BOR,Blood Relations,NULL,NULL
+CLS,Classification,NULL,NULL
+CAC,Clocks and Calendars,NULL,NULL
+COD,Coding-Decoading,NULL,NULL
+DRT,Direction Test,NULL,NULL
+IMC,Inserting The Missing Character,NULL,NULL
+LSW,Logical Sequence of words,NULL,NULL
+LVD,Logical Vann Diagram Test,NULL,NULL
+MEO,Mathematical Operation,NULL,NULL
+PDT,Problem on Distance and Time ,NULL,NULL
+PUT,Puzzle Test,NULL,NULL
+SCT,Series Comparison Test,NULL,NULL
+SLM,Syllogism,NULL,NULL
+TES,"Test (Number,Ranking,Time sequence Test)",NULL,NULL
+ATR,Analytical Reasoning,NULL,NULL
+DFS,Dot fixing Situation,NULL,NULL
+EBF,Embedded Figures,NULL,NULL
+FPC,Folding paper Cutting,NULL,NULL
+FFA,Formation of Figure Analysis,NULL,NULL
+ICF,Incomplete Figures,NULL,NULL
+MII,Mirror Images,NULL,NULL
+PCD,Problems on Cubes and Dice,NULL,NULL
+SER,Series,NULL,NULL
+TPF,Transparent Paper Folding,NULL,NULL
+WAI,Water Images,NULL,NULL
+AIN,Ancient India,NULL,NULL
+MIN,Medieval India,NULL,NULL
+MON,Modern India,NULL,NULL
+WHI,World History,NULL,NULL
+GGE,General Geography,NULL,NULL
+IGE,Indian Geography,NULL,NULL
+WGE,World Geography,NULL,NULL
+IEC,Indian Economics,NULL,NULL
+ICD,Indian Constitution and Democracy,NULL,NULL
+GCS,Government at Centre and State,NULL,NULL
+IJU,Indian Judiciary,NULL,NULL
+PRP,Panchayati Raj and Planning Commission,NULL,NULL
+FTF,Fibre to Fabric,NULL,NULL
+MSO,Sorting Materials into Groups,NULL,NULL
+SOS,Separation of Substances,NULL,NULL
+CAS,Changes Around Us,NULL,NULL
+HTO,Water,NULL,NULL
+AAS,Air Around Us,NULL,NULL
+GAR,"Garbage in, Garbage Out",NULL,NULL
+FAF,Fibre to Fabric,NULL,NULL
+ABS,"Acids, Bases and Salts",NULL,NULL
+PCC,Physical & Chemical Changes,NULL,NULL
+WSC,"Wind, Storms and Cyclones",NULL,NULL
+SOL,Soil,NULL,NULL
+WPR,Water: A Precious Resource,NULL,NULL
+FOL,Forests our Lifeline,NULL,NULL
+WWS,Wastewater Story,NULL,NULL
+SFP,Synthetic Fibres and Plastic,NULL,NULL
+MNM,Materials: Metals and Non Metals,NULL,NULL
+CAP,Coal and Petroleum,NULL,NULL
+CAF,Combustion and Flame,NULL,NULL
+PAW,Pollution of Air and Water,NULL,NULL
+MOS,Matter in our Surroundings,NULL,NULL
+MAP,Is Matter around us Pure,NULL,NULL
+AAM,Atoms and Molecules,NULL,NULL
+SOA,Structure of the Atom,NULL,NULL
+NAR,Natural Resources,NULL,NULL
+CRE,Chemical Reactions and Equations,NULL,NULL
+ASB,"Acids, Bases and Salts",NULL,NULL
+MAN,Metals and Non Metals,NULL,NULL
+CAZ,Carbon and its Compounds,NULL,NULL
+PCE,Periodic Classification of Elements,NULL,NULL
+OEV,Our Environment,NULL,NULL
+MNR,Management of Natural Resources,NULL,NULL

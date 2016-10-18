@@ -1,0 +1,52 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/relativeLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/test_page"
+    tools:context="com.organization.sjhg.e_school.Content.Test.SubjectiveQuestionFragment">
+
+    <TextView
+        android:id="@+id/question"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="30dp"
+        android:layout_marginTop="20dp"
+        android:maxHeight="75dp"
+        android:maxWidth="915dp"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textSize="20sp" />
+
+    <EditText
+        android:id="@+id/answer"
+        android:layout_width="910dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="30dp"
+        android:layout_marginTop="20dp"
+        android:hint="Enter answer here..."
+        android:maxHeight="55dp"
+        android:maxWidth="800dp"
+        android:layout_below="@+id/question"
+        android:layout_toLeftOf="@+id/changeLanguageButton"
+        android:layout_toStartOf="@+id/changeLanguageButton" />
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/changeLanguage"
+        android:id="@+id/changeLanguageButton"
+        android:layout_above="@+id/correctAnswer"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
+
+    <TextView
+        android:id="@+id/correctAnswer"
+        android:layout_width="910dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/answer"
+        android:layout_marginLeft="60dp"
+        android:layout_marginTop="20dp"
+        android:maxHeight="55dp"
+        android:maxWidth="800dp"
+        android:textSize="20sp" />
+
+</RelativeLayout>

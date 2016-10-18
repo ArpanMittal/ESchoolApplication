@@ -1,0 +1,55 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/testLabelLayout"
+    android:layout_width="match_parent"
+    android:background="@drawable/test_page"
+    android:layout_height="match_parent"
+    tools:context="com.organization.sjhg.e_school.Content.Test.LabelTheDiagramActivity">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_centerInParent="true"
+            android:id="@+id/focusPoint"/>
+
+        <ImageView
+            android:id="@+id/diagram"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignRight="@+id/focusPoint"/>
+
+        <TextView
+            android:id="@+id/testLabel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/diagram"
+            android:layout_toEndOf="@+id/diagram"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="20dp"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textSize="20sp" />
+
+        <ScrollView
+            android:id="@+id/labelScroll"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_toRightOf="@+id/diagram"
+            android:layout_toEndOf="@+id/diagram"
+            android:layout_below="@+id/testLabel"
+            android:fillViewport="true"
+            android:layout_marginTop="20dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginStart="10dp"
+            android:scrollbarStyle="insideInset"
+            android:scrollbars="horizontal|vertical">
+
+            <TableLayout
+                android:id="@+id/labelOptions"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+            </TableLayout>
+        </ScrollView>
+
+</RelativeLayout>

@@ -1,0 +1,116 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/screen"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#02473E"
+
+    tools:context="com.organization.sjhg.e_school.MainActivity">
+    <ImageView
+        android:id="@+id/mainBackground"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/frameLayout2"
+        android:layout_marginLeft="75dp"
+        android:layout_marginRight="75dp"
+        android:scaleType="fitXY"
+        android:src="@drawable/backgrounddesign" />
+
+    <FrameLayout
+        android:id="@+id/frameLayout2"
+        android:layout_width="fill_parent"
+        android:layout_height="40dp">
+
+        <TextView
+            android:id="@+id/helloUser"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:layout_gravity="right|top"
+            android:layout_marginRight="80dp"
+            android:layout_marginTop="5dp"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textSize="15sp"
+            android:textStyle="bold"
+            />
+
+        <TextView
+            android:id="@+id/date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:layout_gravity="left|top"
+            android:layout_marginLeft="80dp"
+            android:layout_marginTop="5dp"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textSize="15sp" />
+
+        <RelativeLayout
+            android:id="@+id/testBar"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" >
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/submitButton"
+                android:src="@drawable/submit"
+                android:layout_centerHorizontal="true"
+                android:visibility="gone"/>
+
+            <ImageView
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:id="@+id/nextButton"
+                android:src="@drawable/nextbutton"
+                android:layout_alignParentRight="true"
+                android:visibility="gone"
+                />
+        </RelativeLayout>
+
+    </FrameLayout>
+
+
+    <!--<com.astuetz.PagerSlidingTabStrip-->
+        <!--android:id="@+id/tabs"-->
+        <!--android:background="#fff"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="50dp"-->
+        <!--android:layout_alignLeft="@+id/mainBackground"-->
+        <!--android:layout_alignRight="@+id/mainBackground"-->
+        <!--android:visibility="visible"-->
+        <!--android:layout_below="@+id/frameLayout2"-->
+        <!--android:textColor="#000"-->
+        <!--app:pstsIndicatorColor="#000"-->
+        <!--app:pstsDividerColor="#0010"-->
+        <!--app:pstsIndicatorHeight="10dp">-->
+
+    <!--</com.astuetz.PagerSlidingTabStrip>-->
+
+
+
+    <android.support.v4.view.ViewPager xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/contentList"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignLeft="@+id/mainBackground"
+        android:layout_alignRight="@+id/mainBackground"
+        android:layout_alignBottom="@+id/mainBackground"
+        android:layout_gravity="left|top"
+
+        android:scrollbarFadeDuration="60000">
+
+    </android.support.v4.view.ViewPager>
+
+    <RelativeLayout
+        android:id="@+id/bottomBarFragment"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_below="@+id/frameLayout2"
+        android:gravity="bottom"
+        >
+
+    </RelativeLayout>
+
+</RelativeLayout>
+

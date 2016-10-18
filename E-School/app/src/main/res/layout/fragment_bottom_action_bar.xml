@@ -1,0 +1,231 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.organization.sjhg.e_school.BottomActionBar">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:weightSum="3">
+        <ImageView
+            android:id="@+id/connectwithteacher"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:layout_weight="1"
+            android:src="@drawable/sessiondisconnect" />
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:layout_weight="1">
+            <ToggleButton
+                android:id="@+id/raisehand"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
+                android:background="@drawable/toggle_raisehand"
+                android:focusable="false"
+                android:focusableInTouchMode="false"
+                android:textOff=""
+                android:textOn=""
+                android:visibility="invisible"/>
+        </LinearLayout>
+
+
+        <ImageView
+            android:id="@+id/chat"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:layout_weight="1"
+            android:visibility="invisible"
+            android:layout_below="@+id/raisehand"
+            android:src="@drawable/chat_text_disabled" />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:weightSum="4"
+        android:layout_alignParentRight="true">
+
+        <ImageView
+            android:id="@+id/writenotes"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:layout_weight="1"
+            android:src="@drawable/writenoteswithname" />
+
+        <ImageView
+            android:id="@+id/sync"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:layout_weight="1"
+            android:layout_below="@+id/diaryentry"
+            android:src="@drawable/syncwithname" />
+        <ImageView
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:layout_weight="1"
+            android:layout_below="@+id/writenotes"
+            android:id="@+id/diaryentry"
+            android:src="@drawable/diaryentry"/>
+
+        <ImageView
+            android:id="@+id/settings"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:layout_weight="1"
+            android:layout_below="@+id/sync"
+            android:src="@drawable/settings" />
+    </LinearLayout>
+
+
+        <FrameLayout
+            android:layout_width="350dp"
+            android:layout_height="300dp"
+            android:orientation="vertical"
+            android:layout_centerInParent="true">
+
+           <!-- android:layout_toRightOf="@+id/notesSidebar"-->
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/notesfragment"
+                android:background="@drawable/notelisting"
+                android:visibility="invisible"
+                >
+            </RelativeLayout>
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+            <ImageView
+
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:id="@+id/addnotebutton"
+                android:src="@drawable/newnote"
+                android:layout_margin="10dp"
+                android:visibility="invisible"
+                />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/notelist_date">
+            </RelativeLayout>
+
+        </FrameLayout>
+<!--
+        <RelativeLayout
+            android:layout_width="400dp"
+            android:layout_height="400dp"
+            android:layout_marginLeft="250dp"
+
+            android:visibility="invisible"
+            android:id="@+id/notesEdit"
+            tools:context="com.organization.sjhg.e_school.TakeNotes.NoteEditActivity"
+            android:background="#FEFFF1" >
+
+            <RelativeLayout
+                android:id="@+id/toplayout"
+                android:background="@drawable/notetop"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:paddingBottom="15dp"
+                android:paddingLeft="5dp"
+                android:paddingTop="10dp" >
+
+                <TextView android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="18dp"
+                    android:textColor="#FA8000"
+                    android:text="@string/title"
+                    android:id="@+id/title_text1" />
+
+                <EditText android:id="@+id/title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="18sp"
+                    android:hint="@string/no_title"
+                    android:maxWidth="400dp"
+                    android:layout_toRightOf="@+id/title_text1"
+                    android:background="@android:color/transparent"
+                    android:layout_marginLeft="5dp"
+                    android:singleLine="true"
+                    android:imeOptions="actionNext"/>
+
+                <TextView
+                    android:id="@+id/notelist_date1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="#FA8000"
+                    android:layout_alignParentRight="true"
+                    android:paddingRight="10sp"
+                    android:textSize="18sp" />
+
+            </RelativeLayout>
+
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/body"
+                android:layout_above="@+id/btmLayout"
+                android:layout_below="@+id/toplayout"
+                android:background="@android:color/transparent"
+                android:capitalize="sentences"
+                android:textColor="#3C3B3B"
+                android:fadingEdge="vertical"
+                android:gravity="top"
+                android:padding="5dp"
+                android:scrollbars="vertical"
+                android:textSize="22dp"/>
+
+            <LinearLayout
+                android:id="@+id/btmLayout"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:gravity="center"
+                android:layout_alignParentBottom="true"
+                android:weightSum="1">
+
+                <Button
+                    android:id="@+id/save"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="#FA8000"
+                    android:textColor="#FFFFFF"
+                    android:textStyle="bold"
+                    android:text="CLOSE"
+                    android:layout_weight="0.5"
+                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Large" />
+
+                <Button
+                    android:id="@+id/delete"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="#FA8000"
+                    android:textColor="#FFFFFF"
+                    android:textStyle="bold"
+                    android:text="DELETE"
+                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
+                    android:layout_weight="0.5" />
+
+            </LinearLayout>-->
+
+
+</RelativeLayout>
+
+
+
+
+
+
+
+
+<!--</RelativeLayout>-->

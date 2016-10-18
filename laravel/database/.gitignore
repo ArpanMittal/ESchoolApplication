@@ -1,0 +1,3 @@
+*.sqlite
+\vendor\phpunit\phpunit\src\Util\PHP
+.idea/commandlinetools/Tool_based_on_Symfony_Console_8_12_16_4_22_PM_artisan.xml

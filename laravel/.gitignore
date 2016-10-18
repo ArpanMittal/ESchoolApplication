@@ -1,0 +1,13 @@
+/node_modules
+/public/storage
+Homestead.yaml
+Homestead.json
+.env
+/.idea/commandlinetools/Tool_based_on_Symfony_Console_8_8_16_10_21_AM_artisan.xml
+/.idea/vcs.xml
+/.idea/blade.xml
+/.idea/deployment.xml
+/.idea/modules.xml
+/.idea/copyright/profiles_settings.xml
+/.idea/workspace.xml
+/.idea/laravel.xml

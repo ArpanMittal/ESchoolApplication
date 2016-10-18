@@ -1,0 +1,23 @@
+StreamCode,StreamName,NULL,NULL
+EM,Electricity and Magnetism,NULL,NULL
+ME,Mechanics,NULL,NULL
+HE,Heat and Energy,NULL,NULL
+LT,Light,NULL,NULL
+UN,Universe,NULL,NULL
+AL,Algebra,NULL,NULL
+CG,Coordinate Geometry,NULL,NULL
+GE,Geometry ,NULL,NULL
+MN,Mensuration,NULL,NULL
+NS,Number System,NULL,NULL
+ST,Statistics,NULL,NULL
+TR,Trigonometry,NULL,NULL
+VT,Verbal Test,NULL,NULL
+NT,Non-Verbal Test,NULL,NULL
+HS,History,NULL,NULL
+GE,Geography,NULL,NULL
+EC,Economics,NULL,NULL
+PS,Political Science,NULL,NULL
+DC,Everyday Chemistry,NULL,NULL
+IC,Inorganic Chemistry,NULL,NULL
+ES,Environmental Chemistry,NULL,NULL
+PC,Physical Chemistry,NULL,NULL
